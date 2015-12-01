@@ -1,0 +1,28 @@
+﻿@model Tipstaff.Models.AuditEventDataRow
+
+@{  DateTime res1;
+    DateTime res2;
+    string oldValue = "";
+    string newValue = "";
+    if (DateTime.TryParse(Model.Was, out res1) == true)
+    {
+        oldValue = res1.ToShortDateString();
+    }    else
+    {
+        oldValue = Model.Was;
+    }
+    if (DateTime.TryParse(Model.Now, out res2))
+    {
+        newValue = res2.ToShortDateString();
+    }
+    else
+    {
+        newValue = Model.Now;
+    }
+    if (newValue=="deleted"){
+    <dd>@Html.DisplayFor(model => model.ColumnName) was <span class="audit-oldValue">@oldValue</span> prior to deletion</dd>
+        
+    } else { 
+    <dd>@Html.DisplayFor(model => model.ColumnName) was changed from <span class="audit-oldValue">@oldValue</span> to <span class="audit-newValue">@newValue</span></dd>
+    }
+    }

@@ -1,0 +1,72 @@
+﻿@model Tipstaff.Models.DocumentStatusListView
+
+@{
+    ViewBag.Title = "List of Document Statuses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head
+{
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+    <style type="text/css">
+        form {display:inline;}
+    </style>
+}
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> document statuses</h6>
+
+<p>
+
+	@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new document status", "Create new documents tatus", "Create", null, null, null, null, "createButton")
+
+</p>
+
+<table>
+    <tr>
+        <th></th>
+        <th>
+            @Html.LabelFor(model=>model.DocumentStatuses.First().Detail)
+        </th>
+        <th>
+            @Html.LabelFor(model=>model.DocumentStatuses.First().active)
+        </th>
+        <th>
+            @Html.LabelFor(model=>model.DocumentStatuses.First().deactivated)
+        </th>
+        <th>
+            @Html.LabelFor(model=>model.DocumentStatuses.First().deactivatedBy)
+        </th>
+    </tr>
+
+@{   var isAltRow = false;
+	foreach (var item in Model.DocumentStatuses) {
+    <tr class="@(isAltRow ? "altRow" : "")">
+        <td width="80px">
+            @if (item.active)
+            {
+            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "DocumentStatus", new { id = item.DocumentStatusID }, null, null)
+            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "DocumentStatus", new { id = item.DocumentStatusID }, null, null) 
+            }
+            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "DocumentStatus", id = item.DocumentStatusID }, null, null) 
+        </td>
+		
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.Detail, string.Format("Details for {0}", item.Detail), "Details", "DocumentStatus", new { id = item.DocumentStatusID }, null, null, "createButton")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.deactivated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.deactivatedBy)
+        </td>
+    </tr>
+    isAltRow = !isAltRow;
+	}
+}
+</table>
+@Html.SSGPaging("Index", "DocumentStatus", Model, Model.DocumentStatuses)
+

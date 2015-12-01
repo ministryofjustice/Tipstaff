@@ -1,0 +1,30 @@
+﻿@model Tipstaff.Models.Address
+
+@{
+    ViewBag.Title = "Address details";
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> Addresses > Details</h6>
+
+<fieldset>
+    <legend>Address</legend>
+
+    <div class="display-label">Full name and address</div>
+    <div class="display-field" style="min-height: 5em; clear:right;">
+        @Html.Raw(Model.screenAddressMultiLine)
+    </div>
+
+    <div class="display-label">phone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phone)
+    </div>
+
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.addressID })
+</p>

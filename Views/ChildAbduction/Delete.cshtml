@@ -1,0 +1,100 @@
+﻿@model Tipstaff.Models.DeleteChildAbductionViewModel
+
+@{
+    ViewBag.Title = string.Format("Delete {0}", Model.ChildAbduction.UniqueRecordID);
+}
+<h6>
+@Html.ActionLink("Child Abductions", "Index", "ChildAbduction") > 
+@Html.ActionLink(Model.ChildAbduction.UniqueRecordID, "Details", "ChildAbduction", new { id = Model.ChildAbduction.tipstaffRecordID }, null)
+> Delete
+</h6>
+@using (Html.BeginForm())
+{
+
+<fieldset>
+    <legend>Are you sure you want to delete child abduction @Model.ChildAbduction.UniqueRecordID?</legend>
+    <div class="message warning" style="padding:10px;">
+	    <span></span>
+	    <h6>Warning</h6>
+	    <p>This will also delete the following, linked, records</p>
+        <dl>
+        @if (Model.ChildAbduction.children.Count() > 0)
+        {
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.ChildAbduction.children.Count(), "children")</dt>
+            foreach (var child in Model.ChildAbduction.children)
+            {
+                <dd>@Html.DisplayFor(modelItem => child.PoliceDisplayName)</dd>
+            }
+        }
+        @if (Model.ChildAbduction.Respondents.Count() > 0)
+        {
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.ChildAbduction.Respondents.Count(), "respondents")</dt>
+            foreach (var respondent in Model.ChildAbduction.Respondents)
+            {
+                <dd>@Html.DisplayFor(modelItem => respondent.PoliceDisplayName)</dd>
+            }
+        }
+        @if (Model.ChildAbduction.addresses.Count() > 0)
+        {
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.ChildAbduction.addresses.Count(), "addressees")</dt>
+            foreach (var address in Model.ChildAbduction.addresses)
+            {
+                <dd>@Html.DisplayFor(modelItem => address.outputAddressSingleLine)</dd>
+            }
+        }
+        @if (Model.ChildAbduction.AttendanceNotes.Count() > 0)
+        {
+            
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.ChildAbduction.AttendanceNotes.Count(), "attendance notes")</dt>
+            foreach (var item in Model.ChildAbduction.AttendanceNotes)
+            {
+                <dd>@Html.DisplayFor(modelItem => item.callDetails)</dd>
+            }
+
+        }
+        @if (Model.ChildAbduction.Documents.Count() > 0)
+        {
+            
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.ChildAbduction.Documents.Count(), "documents")</dt>
+            foreach (var item in Model.ChildAbduction.Documents)
+            {
+                <dd>        
+                @Html.DisplayFor(modelItem => item.documentType.Detail)
+                @if (item.documentTypeID > 1 && item.fileName != null){
+                    @Html.Raw("&ndash;&nbsp;")@Html.DisplayFor(modelItem => item.fileName)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.documentReference)
+                }
+                </dd>
+            }
+
+        }
+        @if (Model.ChildAbduction.caseReviews.Count() > 0)
+        {
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.ChildAbduction.caseReviews.Count(), "case reviews")</dt>
+            foreach (var item in Model.ChildAbduction.caseReviews)
+            {
+                <dd>@Html.DisplayFor(modelItem => item.reviewDate)@if (item.actionTaken!=null){@Html.Raw("&nbsp; &ndash; &nbsp;")@Html.DisplayFor(modelItem => item.actionTaken)}
+                </dd>
+            }
+        }
+        </dl>
+    </div>
+    @Html.ValidationSummary(true)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.deletedTipstaffRecord.deletedReasonID,true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.deletedTipstaffRecord.deletedReasonID, Model.DeletedReasonList, "Please select a reason for deletion", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.deletedTipstaffRecord.deletedReasonID)
+    </div>
+    @Html.HiddenFor(model => model.ChildAbduction.tipstaffRecordID)
+    @Html.HiddenFor(model => model.deletedTipstaffRecord.TipstaffRecordID)
+    <p>
+        <input type="submit" value="Delete" /> 
+    </p>
+    <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+</fieldset>
+}

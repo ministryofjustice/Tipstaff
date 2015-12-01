@@ -1,0 +1,54 @@
+﻿@model Tipstaff.Models.Contact
+
+@{
+    ViewBag.Title = string.Format("Details of {0}",Model.PoliceDisplayName);
+}
+
+<h6>@Html.ActionLink("Contacts","Index") 
+> @Model.fullName</h6>
+
+<fieldset>
+    <legend>Contact </legend>
+    
+    <div class="display-label">@Html.LabelFor(model => model.contactType.Detail)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.contactType.Detail)
+    </div>
+    <div class="display-label">@Html.LabelFor(model=>model.fullName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.fullName)
+    </div>
+    
+    <div class="display-label">@Html.LabelFor(model=>model.MultiLineAddress)</div>
+    <div class="display-field" style="height:60px;">
+            @Html.Raw(Model.MultiLineAddress)
+    </div>
+    
+    <div class="display-label">@Html.LabelFor(model=>model.DX)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DX)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.phoneHome)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneHome)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.phoneMobile)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneMobile)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.notes)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.notes)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.contactID })
+</p>

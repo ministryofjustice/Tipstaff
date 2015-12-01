@@ -1,0 +1,108 @@
+﻿@model Tipstaff.Models.SolicitorFirmListView
+
+@{
+    ViewBag.Title = "Solicitor firm list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head
+{
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+    <style type="text/css">
+        form {display:inline;}
+    </style>
+}
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> Solicitor firms</h6>
+
+<p>
+
+	@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new Solicitor firm", "Create new Solicitor firm", "Create", null, null, null, null, "createButton")
+
+</p>
+<table>
+    <tr>
+        <th colspan="2" style="text-align:right;vertical-align:middle;">
+        Firm names containing 
+        @using (Html.BeginForm())
+           {    
+            @Html.TextBox("detailContains", null, new { @style = "width: 5em;", AccessKey = "F" })@:&nbsp;
+                            <input alt="Filter Firms" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
+            @Html.HiddenFor(model => model.onlyActive)
+        }
+        </th>
+        <th colspan="5">
+        @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deactivated entries?</label> 
+        @using (Html.BeginForm())
+           {    
+           @Html.HiddenFor(model=>model.detailContains)
+            switch (Model.onlyActive)
+               {
+                   case true:
+                <input name="onlyActive" type="hidden" value="false" />
+                <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="true" checked="checked"/>
+                    break;
+                   case false:
+                <input name="onlyActive" type="hidden" value="true" />
+                <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="false" />
+                    break;
+                   default:
+                       break;
+               }
+        }
+        </th>
+    </tr>
+    <tr>
+        <th></th>
+        @Html.SortHeader(Model, "firmName", "Firm Name")
+        @Html.SortHeader(Model, "firmAddress", "Firms address")
+        <th>
+            @Html.LabelFor(model => model.SolicitorFirms.First().phoneDayTime)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.SolicitorFirms.First().phoneOutofHours)
+        </th>
+        @Html.SortHeader(Model, "solCount", "Linked Solicitors")
+        <th>
+            @Html.LabelFor(model=>model.SolicitorFirms.First().active)
+        </th>
+
+    </tr>
+
+@{  var isAltRow = false;
+	foreach (var item in Model.SolicitorFirms) {
+    <tr class="@(isAltRow ? "altRow" : "")>">
+        <td style="text-align:right;">
+            @if (item.active)
+            {
+            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "SolicitorFirms", new { id = item.solicitorFirmID }, null, null)
+            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "SolicitorFirms", new { id = item.solicitorFirmID }, null, null) 
+            }
+            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "SolicitorFirm", id = item.solicitorFirmID }, null, null) 
+        </td>
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.firmName, string.Format("Details for {0}", item.firmName), "Details", "SolicitorFirms", new { id = item.solicitorFirmID }, null, null, "createButton")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.screenAddressSingleLineExcludeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phoneDayTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phoneOutofHours)
+        </td>
+        <td>
+            @item.Solicitors.Count()
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+    </tr>
+	isAltRow = !isAltRow;
+	}
+}
+</table>
+@Html.SSGPaging("Index", "SolicitorFirmListView", Model, Model.SolicitorFirms)
+

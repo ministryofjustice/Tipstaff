@@ -1,0 +1,102 @@
+﻿@model Tipstaff.Models.SolicitorFirm
+
+@using (Ajax.BeginForm("Create", "SolicitorFirm", new AjaxOptions { UpdateTargetId = "createFirm", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }))
+   {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Solicitor Firm</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.firmName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.firmName)
+            @Html.ValidationMessageFor(model => model.firmName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addressLine1, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addressLine1)
+            @Html.ValidationMessageFor(model => model.addressLine1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addressLine2, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addressLine2)
+            @Html.ValidationMessageFor(model => model.addressLine2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addressLine3, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addressLine3)
+            @Html.ValidationMessageFor(model => model.addressLine3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.town, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.town)
+            @Html.ValidationMessageFor(model => model.town)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.county, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.county)
+            @Html.ValidationMessageFor(model => model.county)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.postcode, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.postcode)
+            @Html.ValidationMessageFor(model => model.postcode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DX, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DX)
+            @Html.ValidationMessageFor(model => model.DX)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.phoneDayTime, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.phoneDayTime)
+            @Html.ValidationMessageFor(model => model.phoneDayTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.phoneOutofHours, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.phoneOutofHours)
+            @Html.ValidationMessageFor(model => model.phoneOutofHours)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.email, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.email)
+            @Html.ValidationMessageFor(model => model.email)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+    </fieldset>
+}

@@ -1,0 +1,49 @@
+﻿@model Tipstaff.Models.SolicitorbyTipstaffRecordViewModel
+
+@{
+    ViewBag.Title = string.Format("Details of {0}", Model.Solicitor.solicitorName);
+}
+
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.TipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> Solicitors > @Model.Solicitor.AddresseeName</h6>
+<fieldset>
+    <legend>Details of @Html.DisplayFor(model => Model.Solicitor.solicitorName)</legend>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Solicitor.solicitorName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Solicitor.solicitorName)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Solicitor.SolicitorFirm.firmName)</div>
+    <div class="display-field">
+        @if (Model.Solicitor.solicitorFirmID != null)
+        {
+            @Html.ActionLink(Model.Solicitor.SolicitorFirm.firmName, "Details", "SolicitorFirm", new { id = Model.Solicitor.solicitorFirmID }, null)
+        }
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Solicitor.phoneDayTime)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Solicitor.phoneDayTime)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Solicitor.phoneOutofHours)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Solicitor.phoneOutofHours)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Solicitor.email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Solicitor.email)
+    </div>
+</fieldset>
+
+<div>
+    @Html.ActionLink("Edit record", "Edit", new { id=Model.Solicitor.solicitorID })
+</div>

@@ -1,0 +1,63 @@
+﻿@model Tipstaff.Models.ChooseAddresseeModel
+
+@{
+    ViewBag.Title = "Choose Addressee";
+}
+
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecord.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecord.tipstaffRecordID},null)
+> @Html.ActionLink("Generate documents", "Select", "Document", new { id = Model.tipstaffRecord.tipstaffRecordID }, null)
+> Choose addressee</h6>
+@using (Html.BeginForm()) 
+{
+        <fieldset>
+            <legend>Generate @Model.template.templateName in case @Model.tipstaffRecord.UniqueRecordID...</legend>
+
+            @foreach (Tipstaff.Models.TipstaffRecordSolicitor sol in Model.SolicitorsOnRecord)
+            {
+               <div>@Html.RouteLink(string.Format("addressed to {0}", sol.solicitor.solicitorName), new
+                                                                {controller = "Template"
+                                                                    , action = "Create4"
+                                                                    , tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
+                                                                    , templateID = Model.template.templateID
+                                                                    , solicitorID = sol.solicitorID
+                                                                })</div>
+            }
+            @if (genericFunctions.isTipstaffRecordChildAbduction(Model.tipstaffRecord))
+            { 
+                foreach (Tipstaff.Models.Applicant app in Model.Applicants)
+                {
+                    <div>@Html.RouteLink(string.Format("addressed to {0}", app.fullname), new
+                    {
+                        controller = "Template"
+                        ,
+                        action = "Create8"
+                        ,
+                        tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
+                        ,
+                        templateID = Model.template.templateID
+                        ,
+                        applicantID = app.ApplicantID
+                    })</div>
+             }
+            }
+
+
+            <div>or with @Html.RouteLink("blank addresss", new
+                    {
+                        controller = "Template"
+                        ,
+                        action = "Create"
+                        ,
+                        tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
+                        ,
+                        templateID = Model.template.templateID
+                    })</div>
+
+        </fieldset>
+}

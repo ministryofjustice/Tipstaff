@@ -1,0 +1,104 @@
+﻿@model Tipstaff.Models.ListDocumentsByTipstaffRecord
+<div id="documents">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "documents",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "documentsLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="documentsLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.Documents == null) || (Model.Documents.Count() == 0))
+{
+      <div>No documents recorded</div>
+}
+else
+{
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+        @if (!Model.TipstaffRecordClosed)
+        {<th style="width:20px;">&nbsp;</th>}
+        <th>
+            @Html.LabelFor(model => model.Documents.First().createdOn)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Documents.First().createdBy) 
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Documents.First().documentReference) 
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Documents.First().documentType.Detail)
+        </th>
+        <th>&nbsp;</th>
+    </tr>
+@{ var isAltRow = false;
+   foreach (var item in Model.Documents.OrderByDescending(x => x.createdOn))
+   {
+        <tr class="@(isAltRow ? "altRow" : "")">
+        @if (!Model.TipstaffRecordClosed)
+        {
+            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Document", new { id = item.documentID }, null, null) 
+            }
+            </td>
+        }
+        <td>
+            @item.createdOn 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createdBy) 
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.documentReference) 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.documentType.Detail) 
+            @if (item.documentTypeID > 1 && item.fileName != null)
+            {
+            @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => item.fileName)
+            }
+        </td>
+        <td>
+            @if (item.binaryFile != null && item.documentStatusID > 1)
+            { 
+                @Html.DisplayFor(modelitem => item.documentStatus.Detail)  @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton") 
+            }
+            else if (item.binaryFile != null && item.documentStatusID == 1)
+            { 
+                @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton") 
+            }
+            else
+            {
+                @Html.DisplayFor(modelitem => item.documentStatus.Detail) 
+            } 
+        </td>
+    </tr>
+            isAltRow = !isAltRow;
+   }
+}
+    </table>
+}
+@Html.AjaxPager(Model.Documents, "ListDocumentsByRecord", "Document"
+                                    , new PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext = true,
+                                        ShowNumericPagerItems = true,
+                                        AlwaysShowFirstLastPageNumber = true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { warrantID = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "documents",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "documentsLoading"
+                                    })
+</div>

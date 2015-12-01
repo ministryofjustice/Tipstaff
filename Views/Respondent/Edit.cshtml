@@ -1,0 +1,174 @@
+﻿@model Tipstaff.Models.RespondentCreationModel
+
+@{
+    ViewBag.Title = string.Format("Amend {0}  record {1}", genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) == "Warrant" ? "Contemnor" : "Respondent", Model.respondent.fullname);
+}
+@{ 
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller) 
+> @Html.ActionLink(Model.respondent.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> @Html.ActionLink(string.Format("({0}) {1}",nameType ,Model.respondent.PoliceDisplayName),"Details","Respondent",new{id=Model.respondent.respondentID},null) 
+> Edit</h6>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+
+        @Html.HiddenFor(model => model.respondent.respondentID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.nameLast, true)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.respondent.nameLast)
+            @Html.ValidationMessageFor(model => model.respondent.nameLast)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.nameFirst, true)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.respondent.nameFirst)
+            @Html.ValidationMessageFor(model => model.respondent.nameFirst)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.nameMiddle, true)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.respondent.nameMiddle)
+            @Html.ValidationMessageFor(model => model.respondent.nameMiddle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.dateOfBirth, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.dateOfBirth)
+            @Html.ValidationMessageFor(model => model.respondent.dateOfBirth)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.genderID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.respondent.genderID, Model.GenderList, "Please select a gender", new { @class = "required" })           
+            @Html.ValidationMessageFor(model => model.respondent.genderID)
+        </div>
+
+        @if (genericFunctions.TypeOfTipstaffRecord(Model.respondent.tipstaffRecordID) == "Warrant")
+        {
+           @Html.HiddenFor(model => model.respondent.childRelationshipID)
+            //Should be set to Warrant-None, an inactive choice, so leave it
+        }
+        else
+        {
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.childRelationshipID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.respondent.childRelationshipID, Model.RelationToChildList, "Please define the relationship", new { @class = "required" })           
+            @Html.ValidationMessageFor(model => model.respondent.childRelationshipID)
+        </div>
+        }
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.hairColour, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.hairColour)
+            @Html.ValidationMessageFor(model => model.respondent.hairColour)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.eyeColour, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.eyeColour)
+            @Html.ValidationMessageFor(model => model.respondent.eyeColour)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.skinColourID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.respondent.skinColourID, Model.SkinColourList, "Select a skin colour", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.respondent.skinColourID)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.height, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.height)
+            @Html.ValidationMessageFor(model => model.respondent.height)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.build, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.build)
+            @Html.ValidationMessageFor(model => model.respondent.build)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.specialfeatures, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.specialfeatures)
+            @Html.ValidationMessageFor(model => model.respondent.specialfeatures)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.countryID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.respondent.countryID, Model.CountryList, "Select a country", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.respondent.countryID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.nationalityID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.respondent.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.respondent.nationalityID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.riskOfViolence, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.riskOfViolence)
+            @Html.ValidationMessageFor(model => model.respondent.riskOfViolence)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.riskOfDrugs, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.riskOfDrugs)
+            @Html.ValidationMessageFor(model => model.respondent.riskOfDrugs)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.PNCID, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.PNCID)
+            @Html.ValidationMessageFor(model => model.respondent.PNCID)
+        </div>
+
+        @Html.HiddenFor(model=>model.respondent.tipstaffRecordID)
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+    </fieldset>
+}

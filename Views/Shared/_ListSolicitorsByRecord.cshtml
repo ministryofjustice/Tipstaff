@@ -1,0 +1,96 @@
+﻿@model Tipstaff.Models.ListTipstaffRecordSolicitorByTipstaffRecord
+<div id="solicitor">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod="POST",
+        UpdateTargetId = "solicitor",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId="solsLoading"
+    })
+
+<img src="../../Images/al_arrows_green.gif" alt="loading..." id="solsLoading" style="display:none"/></span>
+
+@if ((Model.pLinkedSolicitors == null) || (Model.pLinkedSolicitors.Count() == 0))
+{ 
+      <div>No solicitors on record</div>
+}
+else
+{
+
+  <table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+        @if (!Model.TipstaffRecordClosed)
+        {<th style="width:20px;">&nbsp;</th>}
+        <th>
+            @Html.LabelFor(model => model.pLinkedSolicitors.First().solicitor.solicitorName)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.pLinkedSolicitors.First().solicitor.SolicitorFirm.firmName)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.pLinkedSolicitors.First().solicitor.phoneDayTime)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.pLinkedSolicitors.First().solicitor.phoneOutofHours)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.pLinkedSolicitors.First().solicitor.email)
+        </th>
+    </tr>
+@{ var isAltRow = false;
+   foreach (var item in Model.pLinkedSolicitors)
+   {
+    <tr class="@(isAltRow ? "altRow" : "")">
+        @if (!Model.TipstaffRecordClosed)
+        {
+            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "TipstaffRecordSolicitor", new { tipstaffRecordID = item.tipstaffRecordID, solicitorID = item.solicitorID }, null, null) 
+            }
+            </td>
+        }  
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.solicitor.solicitorName, string.Format("View {0}", item.solicitor.solicitorName), "Details", "Solicitor", new { solicitorID = item.solicitorID , tipstaffRecordID=item.tipstaffRecordID}, null, null, "createButton") 
+        </td>
+        <td>
+            @if (item.solicitor.solicitorFirmID != null)
+             {
+                @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.solicitor.SolicitorFirm.firmName, string.Format("View {0}", item.solicitor.SolicitorFirm.firmName), "Details", "SolicitorFirm", new { solicitorFirmID = item.solicitor.solicitorFirmID, tipstaffRecordID = item.tipstaffRecordID }, null, null, "createButton") 
+             }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.solicitor.phoneDayTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.solicitor.phoneOutofHours)
+        </td>
+        <td>
+            <a class="createButton" style="color:#3399ff;" title = "Send mail to @Html.DisplayFor(modelItem => item.solicitor.email)" href="mailto:@Html.DisplayFor(modelItem => item.solicitor.email)?subject=RE:@Html.DisplayFor(modelItem => item.tipstaffRecord.UniqueRecordID)">@Html.DisplayFor(modelItem => item.solicitor.email)</a>
+        </td>
+    </tr>
+	isAltRow = !isAltRow;
+	}
+}
+</table>
+}
+@{ Html.AjaxPager<Tipstaff.Models.TipstaffRecordSolicitor>(Model.pLinkedSolicitors, "ListSolicitorsByRecord", "Warrant"
+                                    , new Tipstaff.PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext=true,
+                                        ShowNumericPagerItems=true,
+                                        AlwaysShowFirstLastPageNumber=true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { warrantID = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "solicitor",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "solsLoading"
+                                    });
+ }
+ </div>

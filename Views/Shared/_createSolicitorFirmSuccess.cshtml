@@ -1,0 +1,7 @@
+﻿@model Tipstaff.Models.SolicitorFirm
+
+@Html.DropDownList("solicitorFirmID", String.Empty )
+@Html.ValidationMessageFor(model => model.solicitorFirmID)
+<script type="text/javascript">
+    document.getElementById('solFirm').style.display = 'none';
+</script>

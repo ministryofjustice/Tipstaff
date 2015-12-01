@@ -1,0 +1,75 @@
+﻿@model Tipstaff.Models.SolicitorFirmByTipstaffRecordViewModel
+
+@{
+    ViewBag.Title = string.Format("Details for Solicitor Firm {0}", Model.SolicitorFirm.firmName);
+}
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.TipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> Solicitor Firm
+> @Model.SolicitorFirm.firmName</h6>
+<fieldset>
+    <legend>@ViewBag.Title</legend>
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.firmName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.firmName)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.addressLine1)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.addressLine1)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.addressLine2)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.addressLine2)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.addressLine3)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.addressLine3)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.town)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.town)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.county)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.county)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.postcode)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.postcode)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.DX)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.DX)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.phoneDayTime)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.phoneDayTime)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.phoneOutofHours)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.phoneOutofHours)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.SolicitorFirm.email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.email)
+    </div>
+</fieldset>
+
+<div>
+    @Html.ActionLink("Edit record", "Edit", new { solicitorFirmID=Model.solicitorFirmID, tipstaffRecordID=Model.tipstaffRecordID })
+</div>

@@ -1,0 +1,181 @@
+﻿@model Tipstaff.Models.ChildAbduction
+
+@{
+    ViewBag.Title = string.Format("Details for record {0}", Model.UniqueRecordID);
+}
+@section head
+{
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+    <script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MicrosoftMvcAjax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+}
+<h6>@Html.ActionLink("Child Abductions", "Index") > @Model.UniqueRecordID</h6>
+
+@if (ViewBag.ErrorMessage != null)
+{ <H2 class='Error'>@ViewBag.ErrorMessage </H2>}
+
+<fieldset>
+    <legend>File: @Model.UniqueRecordID</legend>
+@if (Model.resultID != null)
+{
+    <ul class="recordMenu-tabs">
+        @if (User.IsInRole("Admin"))
+        { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
+    </ul>    
+}
+else if (Model.resultID == null && Model.caseStatus.sequence > 3)
+{ 
+    <ul class="recordMenu-tabs">
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "ChildAbduction", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        @if (User.IsInRole("Admin"))
+        { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
+    </ul>    
+}
+else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
+{
+    <ul class="recordMenu-tabs">
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/phone_add.png"), "Add attendance note", "Add attendance note", "Create", "AttendanceNote", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add solicitor", "Add solictitor", "Select", "Solicitor", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        <li>
+        @if (Model.nextReviewDate >= DateTime.Today)
+        {
+            @Html.ImageAndTextLink(Url.Content("~/Images/child_add.png"), "Add Child", "Add Child", "Create", "Child", new { id = Model.tipstaffRecordID }, null, null, "createButton")
+        }
+        else
+        {
+            <a title="Adding Child records is disabled while review date is overdue" class="spanDisabled createButton"><img src="@Url.Content("~/Images/stop_grey.png")" alt="Disabled"/> Add Child</a>
+        }
+        </li>
+    </ul>
+    <ul class="recordMenu-tabs">
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/page_add.png"), "Generate Documents", "Generate Documents", "Select", "Document", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/page_upload.png"), "Add document reference", "Add document reference", "Upload", "Document", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_add.png"), "Add Respondent", "Add Respondent", "Create", "Respondent", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+    </ul>
+    <ul class="recordMenu-tabs">
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Case Review", "Add Case Review", "Create", "CaseReview", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        <li>
+        @if (Model.nextReviewDate >= DateTime.Today)
+        {
+            @Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend Child Abduction", "Amend Child Abduction", "Edit", "ChildAbduction", new { id = Model.tipstaffRecordID }, null, null, "createButton")
+        }
+        else
+        {
+               <a title="Amend Child Abduction disabled while review date is overdue" class="spanDisabled createButton"><img src="@Url.Content("~/Images/arrow_refresh_grey.png")" alt="Disabled"/> Amend Child Abduction</a>
+        }
+        </li>
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_add.png"), "Add Applicant", "Add Applicant", "Create", "Applicant", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+    </ul>
+    <ul class="recordMenu-tabs">
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/house_add.png"), "Add address", "Add address", "Create", "Address", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "ChildAbduction", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Police Force", "Add Police Force", "Add", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" }, null, null, "createButton")</li>
+    </ul>          
+    <ul class="recordMenu-tabs">
+        @if (User.IsInRole("Admin")){<li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
+        @if (Model.NPO == null)
+        {
+            <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add NPO", "Add NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        }
+        else
+        {
+            <li>@Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend NPO", "Amend NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+        }                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                     
+    </ul>          
+}
+    
+    <div class="display-label">@Html.LabelFor(model=>model.sentSCD26)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.sentSCD26)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.orderReceived)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.orderReceived)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.officerDealing)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.officerDealing)
+    </div>
+
+    @if (Model.resultID == null)
+    {
+    <div class="display-label">            
+        @if (Model.caseReviews.Count() == 0)
+        {
+            <span>Initial review date</span>
+        }
+        else
+        {
+            @Html.LabelFor(model => model.nextReviewDate)
+        }
+    </div>
+    <div class="display-field @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
+        @Html.DisplayFor(model => model.nextReviewDate)
+    </div>
+    }
+
+    <div class="display-label">@Html.LabelFor(model=>model.caOrderTypeID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.caOrderType.Detail)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.caseStatusID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.caseStatus.Detail)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.createdBy)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.ToShortDateString()
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.protectiveMarking)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.protectiveMarking.Detail)
+    </div>
+
+    @if (Model.result!=null)
+    {
+        <div class="display-label">@Html.LabelFor(model=>model.result)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.result.Detail) <strong>on</strong> @(((DateTime)Model.DateExecuted).ToShortDateString())
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model=>model.resultDate)</div>
+        <div class="display-field">@Html.DisplayFor(model => model.resultDate) <strong>by</strong> @Model.resultEnteredBy</div>
+    }
+
+</fieldset>
+<script type="text/javascript">
+    $(function () {
+        $("#tabs").tabs({
+            ajaxOptions: {
+                error: function (xhr, status, index, anchor) {
+                    $(anchor.hash).html(
+						"Couldn't load this tab. Please contact the helpdesk and raise a call, we'll try to fix this as soon as possible.");
+                }
+            }
+        });
+    });
+</script>
+<div id="tabs">
+	<ul>
+		<li><a href="@Url.Action("ListChildrenByRecord", "Child", new { id = Model.tipstaffRecordID })">Children (@Model.children.Count())</a></li>
+		<li><a href="@Url.Action("ListRespondentsByRecord", "Respondent", new { id = Model.tipstaffRecordID })">Respondents (@Model.Respondents.Count())</a></li>
+		<li><a href="@Url.Action("ListAddressesByRecord", "Address", new { id = Model.tipstaffRecordID })">Addresses (@Model.addresses.Count())</a></li>
+		<li><a href="@Url.Action("ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID })">Attendance notes (@Model.AttendanceNotes.Count())</a></li>
+		<li><a href="@Url.Action("ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID })">Documents (@Model.Documents.Count())</a></li>
+		<li><a href="@Url.Action("ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID })">Solicitors (@Model.LinkedSolicitors.Count())</a></li>
+		<li><a href="@Url.Action("ListApplicantsByRecord", "Applicant", new { id = Model.tipstaffRecordID })">Applicants (@Model.Applicants.Count())</a></li>
+		<li><a href="@Url.Action("ListCaseReviewsByRecord", "CaseReview", new { id = Model.tipstaffRecordID })">Case Reviews (@Model.caseReviews.Count())</a></li>
+        <li><a href="@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NPO</a></li>
+        <li><a href="@Url.Action("ListPoliceForcesByRecord", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" })">Police Forces</a></li>
+	</ul>
+</div>
+

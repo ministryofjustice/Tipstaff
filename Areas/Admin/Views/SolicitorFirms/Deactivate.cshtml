@@ -1,0 +1,57 @@
+﻿@model Tipstaff.Models.SolicitorFirm
+
+@{
+    ViewBag.Title = string.Format("Deactivate {0}", Model.firmName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("Solicitor firms", "Index") 
+> @Html.ActionLink(Model.firmName, "Details", "Solicitor firm", new { id = Model.solicitorFirmID }, null)
+> Deactivate</h6>
+
+<fieldset>
+    <legend>Are you sure you want to deactivate @Model.firmName?</legend>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.firmName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.firmName)
+    </div>
+
+    <div class="display-label">Address</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.screenAddressSingleLineExcludeName)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.phoneDayTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneDayTime)
+    </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.phoneOutofHours)
+        </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneOutofHours)
+    </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.email)
+        </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    <p>
+        <input type="submit" value="Deactivate" /> 
+    </p>
+}
+
+

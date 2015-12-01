@@ -1,0 +1,97 @@
+﻿@model Tipstaff.Models.ListRespondentsByTipstaffRecord
+<div id="respondents">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListRespondentsByRecord", "Respondent", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "respondents",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "respondentLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="respondentLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.Respondents==null) || (Model.Respondents.Count() == 0))
+  { 
+      <div>No respondents recorded</div>
+  }
+  else
+  {
+
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+        @if (!Model.TipstaffRecordClosed)
+        {<th style="width:40px;">&nbsp;</th>}
+        <th>
+            @Html.LabelFor(model => model.Respondents.First().fullname)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Respondents.First().nationality)/@Html.LabelFor(model => model.Respondents.First().country)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Respondents.First().dateOfBirth)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Respondents.First().PNCID)
+        </th>
+    </tr>
+
+@{var isAltRow = false;
+    foreach (var item in Model.Respondents)
+    { 
+    <tr class="@(isAltRow ? "altRow" : "")">
+        @if (!Model.TipstaffRecordClosed)
+        {
+            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete respondent", "Delete", "Respondent", new { id = item.respondentID }, null, null) 
+            }
+                @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend respondent", "Edit", "Respondent", new { id = item.respondentID }, null, null)
+            </td>
+        }
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.PoliceDisplayName), "Details", "Respondent", new { id = item.respondentID }, null, null, "createButton") 
+        </td>
+        <td>
+            @if (item.nationality == null)
+            { 
+            @Html.DisplayFor(modelItem => item.country.Detail)
+            }
+            else
+            { 
+            @Html.DisplayFor(modelItem => item.nationality.Detail)
+            } 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PNCID)
+        </td>
+    </tr>
+ 	isAltRow = !isAltRow;
+    } 
+}
+</table>
+}
+@{ Html.AjaxPager<Tipstaff.Models.Respondent>(Model.Respondents, "ListRespondentsByRecord", "Child"
+                                    , new Tipstaff.PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext=true,
+                                        ShowNumericPagerItems=true,
+                                        AlwaysShowFirstLastPageNumber=true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { id = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "respondents",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "respondentLoading"
+                                    });
+
+}
+</div>

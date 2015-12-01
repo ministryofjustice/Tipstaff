@@ -1,0 +1,40 @@
+﻿@model Tipstaff.Models.PoliceForce
+
+@{
+    ViewBag.Title = ViewBag.Title = string.Format("Edit {0}", Model.policeForceName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("PoliceForces","Index") 
+> @Html.ActionLink(Model.policeForceName, "Details", "PoliceForces", new { id = Model.policeForceID}, null)
+> Edit</h6>
+
+	
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+        @Html.HiddenFor(model => model.policeForceID)
+        @Html.HiddenFor(model => model.active)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.policeForceName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.policeForceName)
+            @Html.ValidationMessageFor(model => model.policeForceName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.policeForceEmail, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.policeForceEmail)
+            @Html.ValidationMessageFor(model => model.policeForceEmail)
+        </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+

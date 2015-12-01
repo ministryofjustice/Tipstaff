@@ -1,0 +1,33 @@
+﻿@model Tipstaff.Models.CreateDocumentViewModel
+
+@{
+    ViewBag.Title = string.Format("Documents for {0}", Model.tipstaffRecord.UniqueRecordID);
+}
+@section head
+{
+    <script src="@Url.Content("~/Scripts/MicrosoftAjax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MicrosoftMvcAjax.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+}
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecord.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecord.tipstaffRecordID},null)
+> Generate documents</h6>
+<table>
+    <tr>
+        <th>@Html.LabelFor(model=>model.TemplatesForRecordType.First().templateName)</th>
+    </tr>
+@{
+    var isAltRow = false;
+    foreach (var item in Model.TemplatesForRecordType) {
+    <tr class="@( isAltRow ? "altRow" : "")">
+        <td>@Html.ActionLink(string.Format("{0}", item.templateName), "ChooseAddressee", new { tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID, templateID = item.templateID })</td>
+    </tr>
+    isAltRow = !isAltRow;
+    }
+}
+</table>

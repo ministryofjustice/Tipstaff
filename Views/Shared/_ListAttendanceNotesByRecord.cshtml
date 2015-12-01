@@ -1,0 +1,81 @@
+﻿@model Tipstaff.Models.ListAttendanceNotesByTipstaffRecord
+<div id="AttendanceNotes">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "AttendanceNotes",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "notesLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="notesLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.AttendanceNotes == null) || (Model.AttendanceNotes.Count() == 0))
+{ 
+      <div>No attendance notes recorded</div>
+}
+else
+{
+
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>    
+    @{ if (User.IsInRole("Admin") && !Model.TipstaffRecordClosed)
+       {
+        <th style="width:20px;">&nbsp;</th>
+    }}
+
+        <th width="10%">
+            @Html.LabelFor(model => model.AttendanceNotes.First().callDated)
+        </th>
+        <th width="10%">
+            @Html.LabelFor(model => model.AttendanceNotes.First().AttendanceNoteCode.Detail)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.AttendanceNotes.First().callDetails)
+        </th>
+    </tr>
+
+	@{var isAltRow = false;
+    foreach (var item in Model.AttendanceNotes)
+    { 
+    <tr class="@(isAltRow ? "altRow" : "")">
+        @{ if (User.IsInRole("Admin") && !Model.TipstaffRecordClosed){
+        <td>
+            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "AttendanceNote", new { id = item.AttendanceNoteID }, null, null) 
+        </td>
+        }}
+        <td>
+            @Html.DisplayFor(modelItem => item.callDated) @item.callDated.ToShortTimeString()
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AttendanceNoteCode.Detail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.callDetails)
+        </td>
+    </tr>
+        isAltRow = !isAltRow;
+    }
+    }
+</table>
+}
+@Html.AjaxPager(Model.AttendanceNotes, "ListAttendanceNotesByRecord", "AttendanceNote"
+                                    , new PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext = true,
+                                        ShowNumericPagerItems = true,
+                                        AlwaysShowFirstLastPageNumber = true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { warrantID = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "AttendanceNotes",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "notesLoading"
+                                    })
+
+</div>

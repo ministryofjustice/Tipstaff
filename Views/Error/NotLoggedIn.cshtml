@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Not Logged In";
+}
+<div class="message error" style="padding:10px;margin-top:2em;">
+	<span></span>
+	<h6>Error</h6>
+    <dl>
+        <dt>@ViewBag.Title</dt>
+        <dd>You are not currently logged in.</dd>
+        <dd>Please @Html.ActionLink("Click Here","LogOn", "Account") to log in and try again.</dd>
+    </dl>
+</div>

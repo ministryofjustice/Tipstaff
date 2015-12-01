@@ -1,0 +1,99 @@
+﻿@model Tipstaff.Models.ListChildrenByTipstaffRecord
+<div id="children">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListChildrenByRecord", "Child", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "children",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "childLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="childLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.Children == null) || (Model.Children.Count() == 0))
+{
+      <div>No children recorded</div>
+}
+else
+{
+
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+        @if (!Model.TipstaffRecordClosed)
+        {<th style="width:40px;">&nbsp;</th>}
+
+        <th>
+            @Html.LabelFor(model => model.Children.First().fullname)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Children.First().nationality)/@Html.LabelFor(model => model.Children.First().country)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Children.First().dateOfBirth)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Children.First().PNCID)
+        </th>
+    </tr>
+
+@{var isAltRow = false;
+  foreach (var item in Model.Children.OrderBy(c => c.dateOfBirth).ThenBy(c => c.childID))
+  {
+    <tr class="@(isAltRow ? "altRow" : "")">
+        @if (!Model.TipstaffRecordClosed)
+        {
+            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete child record", "Delete", "Child", new { id = item.childID }, null, null) 
+            }
+                @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend child record", "Edit", "Child", new { id = item.childID }, null, null)
+            </td>
+        }
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.PoliceDisplayName), "Details", "Child", new { id = item.childID }, null, null, "createButton") 
+        </td>
+        <td>
+            @if (item.nationality == null)
+            {
+            @Html.DisplayFor(modelItem => item.country.Detail)
+            }
+            else
+            {
+            @Html.DisplayFor(modelItem => item.nationality.Detail)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateOfBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PNCID)
+        </td>
+    </tr>
+            isAltRow = !isAltRow;
+  }
+}
+</table>
+}
+@{Html.AjaxPager<Tipstaff.Models.Child>(Model.Children, "ListChildrenByRecord", "Child"
+                                    , new Tipstaff.PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext = true,
+                                        ShowNumericPagerItems = true,
+                                        AlwaysShowFirstLastPageNumber = true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { id = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "children",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "childLoading"
+                                    });
+
+}
+</div>
+

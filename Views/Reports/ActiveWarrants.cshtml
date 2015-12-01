@@ -1,0 +1,61 @@
+﻿@model List<Tipstaff.Models.WReportItem>
+@using PagedList.Mvc 
+@{
+    ViewBag.Title = "Active Warrants Report";
+}
+
+<h6>@Html.ActionLink("Reports","Index") > @ViewBag.Title</h6>
+
+@Html.ActionLink("Export to Excel", "WarrantsExcel", "Reports")
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+        <th>URN</th>
+        <th>Date Circulated</th>
+        <th>NPO</th>
+        <th>Respondent</th>
+        <th>Respondent's DOB</th>
+        <th>PNC ID</th>
+    </tr>
+
+@{
+    var isAltRow = false;
+    foreach (var w in Model)
+    {
+        <tr class="@(isAltRow ? "altRow" : "")">
+            <td>
+                @w.UniqueRecordID
+            </td>
+            <td>
+                @if (w.DateCirculated.HasValue)
+                {
+                    @w.DateCirculated.Value.ToShortDateString()
+                }
+                else
+                { 
+                    @Html.Raw("Unknown")    
+                }
+            </td>
+            <td>
+                @w.NPO
+            </td>
+            @if (w.respondents.Count() > 0)
+            { 
+                <td>
+                    @w.respondents.ToList()[0].PoliceDisplayName
+                </td>
+                <td>
+                    @w.respondents.ToList()[0].DateofBirthDisplay
+                </td>
+                <td>
+                    @w.respondents.ToList()[0].PNCID
+                </td>
+            }
+            else
+            { 
+                <td colspan="2"></td>
+            }
+        </tr>
+        isAltRow = !isAltRow;
+    }
+}
+</table>

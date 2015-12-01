@@ -1,0 +1,64 @@
+﻿@model Tipstaff.Models.ListPoliceForcesByTipstaffRecord
+<div id="policeForces">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListPoliceForcesByRecord", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "policeForces",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "policeForcesLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="policeForcesLoading" src="../../../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.PoliceForces == null) || (Model.PoliceForces.Count() == 0))
+{ 
+      <div>No Police Forces entered</div>
+}
+else
+{
+<table>
+    <tr>
+        <th>
+            @Html.LabelFor(model=>model.PoliceForces.First().policeForce.policeForceName)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.PoliceForces.First().policeForce.policeForceEmail)
+        </th>
+    </tr>
+@{ var isAltRow = false;
+   foreach (var item in Model.PoliceForces.OrderBy(p => p.policeForceID))
+   {
+    <tr class="@(isAltRow ? "altRow" : "")">
+        <td>
+            @Html.DisplayFor(modelItem => item.policeForce.policeForceName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.policeForce.policeForceEmail)
+            
+        </td>
+    </tr>
+    isAltRow = !isAltRow;
+	}
+}
+</table>
+}
+@{ Html.AjaxPager<Tipstaff.Models.TipstaffPoliceForce>(Model.PoliceForces, "ListPoliceForcesByRecord", "PoliceForces"
+                                    , new Tipstaff.PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext = true,
+                                        ShowNumericPagerItems = true,
+                                        AlwaysShowFirstLastPageNumber = true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { id = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "policeForces",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "policeForcesLoading"
+                                    });
+}
+</div>

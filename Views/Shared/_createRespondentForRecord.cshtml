@@ -1,0 +1,4 @@
+﻿@using (Ajax.BeginForm("Create", "Respondent", null, new AjaxOptions { UpdateTargetId = "respondentList", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }))
+{
+    Html.Partial("_createRespondentBase");
+}

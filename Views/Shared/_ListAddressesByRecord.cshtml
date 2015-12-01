@@ -1,0 +1,71 @@
+﻿@model Tipstaff.Models.ListAddressesByTipstaffRecord
+<div id="addressList">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListAddressesByRecord", "Address", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "addressList",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "addressLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="addressLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.Addresses == null) || (Model.Addresses.Count() == 0))
+{
+      <div>No addresses entered</div>
+}
+else
+{
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+        @if (!Model.TipstaffRecordClosed)
+        {<th style="width:40px;">&nbsp;</th>}
+        <th>
+            Address
+        </th>
+    </tr>
+
+	@{var isAltRow = false;
+   foreach (var item in Model.Addresses)
+   {
+        <tr class="@(isAltRow ? "altRow" : "")">
+        @if (!Model.TipstaffRecordClosed)
+        {
+            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Address", new { id = item.addressID }, null, null) 
+            }
+                @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend Address", "Edit", "Address", new { id = item.addressID }, null, null)
+            </td>
+        }
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.outputAddressSingleLine, string.Format("View {0}", item.outputAddressSingleLine), "Details", "Address", new { id = item.addressID }, null, null, "createButton") 
+        </td>
+    </tr>
+    isAltRow = !isAltRow;
+   }
+}
+</table>
+}
+@{ Html.AjaxPager<Tipstaff.Models.Address>(Model.Addresses, "ListAddressesByRecord", "Warrant"
+                                    , new Tipstaff.PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext=true,
+                                        ShowNumericPagerItems=true,
+                                        AlwaysShowFirstLastPageNumber=true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { id = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "addressList",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "addressLoading"
+                                    });
+
+}
+</div>

@@ -1,0 +1,27 @@
+﻿@model PagedList.IPagedList<Tipstaff.Models.DeletedTipstaffRecord>
+
+@{
+    ViewBag.Title = "Deleted Tipstaff Records";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") > Deleted Tipstaff Records</h6>
+
+<table>
+    <tr>
+        <th>Record</th>
+        <th>Reason</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>    
+            @Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"),item.UniqueRecordID,string.Format("Audit record for {0}",item.UniqueRecordID),"Audit","Audit",new{area="",auditType=item.discriminator,id = item.TipstaffRecordID},null,null,"createButton")
+        </td>
+        <td>
+            @item.deletedReason.Detail
+        </td>
+    </tr>
+}
+@Html.SSGPaging(Model, "Index", "DeletedTipstaffRecords")
+</table>

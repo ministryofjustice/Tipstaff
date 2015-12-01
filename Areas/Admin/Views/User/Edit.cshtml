@@ -1,0 +1,96 @@
+﻿@model Tipstaff.Models.DetailsViewModel
+
+@{
+    ViewBag.Title = string.Format("User Details: {0}",Model.DisplayName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head {
+<link href="@Url.Content("~/Content/MvcMembership.css")" rel="stylesheet" type="text/css" />
+}
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Users","Index", "User") 
+> @Html.DisplayFor(model=>model.DisplayName) [@Html.DisplayFor(model=>model.Status)]</h6>
+
+<ul class="mvcMembership-tabs">
+	<li>@Html.ActionLink("Password", "Password", "User", new { id = Model.User.ProviderUserKey }, null)</li>
+	<li>@Html.ActionLink("Roles", "Roles", "User", new { id = Model.User.ProviderUserKey }, null)</li>
+</ul>
+<fieldset>
+    <legend>Account</legend>
+<div class="mvcMembership-account">
+	<dl class="mvcMembership">
+		<dt>User Name:</dt>
+			<dd>@Html.DisplayFor(model=>model.User.UserName)</dd>
+		<dt>Email Address:</dt>
+			<dd><a href="mailto:@Html.DisplayFor(model=>model.User.Email) ">@Html.DisplayFor(model=>model.User.Email)</a></dd>
+		@if (Model.User.LastActivityDate == Model.User.CreationDate)
+        { 
+		<dt>Last Active:</dt>
+			<dd><em>Never</em></dd>
+		<dt>Last Login:</dt>
+			<dd><em>Never</em></dd>
+		}
+        else
+        { 
+		<dt>Last Active:</dt>
+			<dd>@Model.User.LastActivityDate.ToString("MMMM dd, yyyy h:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture)</dd>
+		<dt>Last Login:</dt>
+			<dd>@Model.User.LastLoginDate.ToString("MMMM dd, yyyy h:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture) </dd>
+        }
+        <dt>Created:</dt>
+			<dd>@Model.User.CreationDate.ToString("MMMM dd, yyyy h:mm:ss tt",System.Globalization.CultureInfo.InvariantCulture) </dd>
+	</dl>
+        @using(Html.BeginForm("ChangeApproval", "User", new { id = Model.User.ProviderUserKey }))
+        { 
+            @Html.Hidden("isApproved", !Model.User.IsApproved) 
+            <input type="submit" value="@(Model.User.IsApproved?"Dis":"En")able Account" />
+        } 
+</div>
+</fieldset>
+
+<div class="mvcMembership-emailAndComments">
+    @using (Html.BeginForm("Edit", "User", new { id = Model.User.ProviderUserKey }))
+       { 
+	<fieldset>
+        <legend>Email Address & Comments</legend>
+        @if (ViewBag.EmailMessage != null)
+        {
+        switch (ViewBag.EmailMessage as string)
+        {
+            case "Updates saved":
+            <div class="message ok" style="padding:10px;">
+	            <span></span>
+	            <h6>@ViewBag.EmailMessage</h6>
+            </div>
+                   break;
+            default:
+            <div class="message error" style="padding:10px;">
+	            <span></span>
+	            <h6>Error</h6>
+                <dl>
+                    <dt>@ViewBag.EmailMessage</dt>
+                </dl>
+            </div>
+                   break;
+        }
+        }
+        <div class="editor-label">
+            @Html.LabelFor(model => model.User.Email, true)
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("email", Model.User.Email) 
+            @Html.ValidationMessageFor(model => model.User.Email) 
+        </div>		
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.User.Comment, true)
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("comment", Model.User.Comment) 
+            @Html.ValidationMessageFor(model => model.User.Comment) 
+        </div>		
+        <input type="submit" value="Save changes" />
+	</fieldset>
+	
+    } 
+</div>

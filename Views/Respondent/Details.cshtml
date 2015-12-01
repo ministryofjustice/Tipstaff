@@ -1,0 +1,19 @@
+﻿@model Tipstaff.Models.Respondent
+
+@{
+    ViewBag.Title = "Details";
+}
+@{ 
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null)
+> (Respondent) @Model.PoliceDisplayName</h6>
+
+<fieldset>
+    <legend>Details for @nameType record @Model.fullname</legend>
+    @Html.Partial("_ViewRespondentBase", Model)
+</fieldset>
+    @Html.ActionLink("Edit Respondent Record", "Edit", new { id = Model.respondentID })

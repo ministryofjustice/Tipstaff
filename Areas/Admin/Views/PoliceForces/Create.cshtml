@@ -1,0 +1,37 @@
+﻿@model Tipstaff.Models.PoliceForce
+
+@{
+    ViewBag.Title = "Create new Police Force";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("PoliceForces","Index") 
+> Create</h6>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.policeForceName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.policeForceName)
+            @Html.ValidationMessageFor(model => model.policeForceName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.policeForceEmail, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.policeForceEmail)
+            @Html.ValidationMessageFor(model => model.policeForceEmail)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}

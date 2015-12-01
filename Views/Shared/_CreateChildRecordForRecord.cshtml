@@ -1,0 +1,6 @@
+﻿@model Tipstaff.Models.ChildCreationModel
+
+@using (Ajax.BeginForm("Create", "Child", null, new AjaxOptions { UpdateTargetId = "childList", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }))
+{
+    Html.RenderPartial("_createChildRecordBase");
+} 

@@ -1,0 +1,17 @@
+﻿@model Tipstaff.Models.Solicitor
+
+@using (Ajax.BeginForm("CreateSolicitor"
+                        , "Solicitor"
+                        , new RouteValueDictionary(new { warrantID = ViewBag.warrantID })
+                        , new AjaxOptions
+                        {
+                            UpdateTargetId = "newSol",
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "POST",
+                            LoadingElementId = "Refresh"
+                        }))
+{
+       Html.RenderPartial("_createSolicitorBase");
+}
+
+<div id="solFirm"><a name="solFirm"/></div>

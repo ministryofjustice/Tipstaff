@@ -1,0 +1,89 @@
+﻿@model Tipstaff.Models.Child
+
+@{
+    ViewBag.Title = string.Format("Details for {0}",Model.fullname);
+}
+
+<h6>@Html.ActionLink("Child Abductions","Index", "ChildAbduction")
+> @Html.ActionLink(Model.childAbduction.UniqueRecordID,"Details","ChildAbduction", new{id=Model.childAbduction.tipstaffRecordID},null)
+> @Model.PoliceDisplayName</h6>
+
+<fieldset>
+    <legend>@ViewBag.Title</legend>
+
+    <div class="display-label">@Html.LabelFor(model=>model.nameLast)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.nameLast) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.nameFirst)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.nameFirst) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.nameMiddle)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.nameMiddle) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.dateOfBirth)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.dateOfBirth) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.genderID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.gender.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.height)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.height) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.build)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.build) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.hairColour)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.hairColour) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.eyeColour)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.eyeColour) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.skinColourID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SkinColour.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.specialfeatures)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.specialfeatures) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.countryID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.country.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.nationalityID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.nationality.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.nationalityID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.nationality.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.PNCID)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PNCID) 
+    </div>
+</fieldset>
+@Html.ActionLink("Edit Child Record", "Edit", new { id = Model.childID })

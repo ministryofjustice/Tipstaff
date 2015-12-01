@@ -1,0 +1,16 @@
+﻿@model Tipstaff.Models.TipstaffCaseClosedDataModel
+
+
+@if (Model.TipstaffRecords != null && Model.TipstaffRecords.Count() > 0)
+{ 
+    <fieldset class="FieldsetCR" style="width:462px;vertical-align:top;">
+        <legend>Case closure issues</legend>
+        <dl class="table-display">
+            <dt>The following @genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.TipstaffRecords.Count(),"cases","have") been closed but not had a result entered:-</dt>
+            @foreach (var item in Model.TipstaffRecords)
+            { 
+                <dd>@Html.ActionLink(item.UniqueRecordID, "Details", genericFunctions.TypeOfTipstaffRecord(item), new { id = item.tipstaffRecordID },null) @item.GetLastStatusChangeDetails</dd>
+            }
+        </dl>
+    </fieldset>
+}

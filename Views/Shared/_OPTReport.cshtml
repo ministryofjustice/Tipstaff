@@ -1,0 +1,29 @@
+﻿@model Tipstaff.Models.OPTReport
+
+
+<h6>@Model.title</h6>
+
+<table>
+    <tr>
+        <th>Divsion</th>
+        <th>Issued</th>
+        <th>Executed</th>
+        <th>suspendedDischarged</th>
+        <th>expired</th>
+        <th>pending</th>
+        <th>toPrison</th>
+    </tr>
+@foreach (var row in Model.data)
+{
+    <tr>
+        <th>@row.division</th>
+        <td>@row.issued</td>
+        <td>@row.executed</td>
+        <td>@row.suspendedDischarged</td>
+        <td>@row.expired</td>
+        <td>@row.pending</td>
+        <td>@row.toPrison</td>
+    </tr>     
+}
+@Html.Raw(Model.Totals)
+</table>

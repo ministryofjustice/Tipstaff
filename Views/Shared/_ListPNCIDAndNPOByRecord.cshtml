@@ -1,0 +1,111 @@
+﻿@model Tipstaff.Models.ListPNCIDsNPO
+@{
+    var typeOfRecord = genericFunctions.TypeOfTipstaffRecord(Model.npo.tipstaffRecordID);
+ }
+<div id="pncidsNPO">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListPNCIDAndNPOByRecord", "NPO", new { id = Model.npo.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "pncidsNPO",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "pncidsNPOLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="pncidsNPOLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+<br /><br />
+@if (Model.npo.NPO == null)
+{ 
+      <div>No NPO entered</div>
+}
+else
+{
+<table>
+    <tr>
+        <th>
+            @Html.LabelFor(model=>model.npo.NPO)
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.npo.NPO)
+        </td>
+    </tr>
+</table>
+}
+<br />
+@if (Model.children != null && Model.children.Count>0)
+{
+    <table>
+        <tr>
+            <th>
+                @Html.LabelFor(model => model.children.SingleOrDefault().PoliceDisplayName)
+            </th>
+            <th>
+                @Html.LabelFor(model => model.children.SingleOrDefault().PNCID)
+            </th>
+        </tr>
+@{var isAltRow = false;
+  foreach (var item in Model.children.OrderBy(c => c.dateOfBirth).ThenBy(c => c.childID))
+  {
+    <tr class="@(isAltRow ? "altRow" : "")">
+        <td>
+            @Html.DisplayFor(modelItem => item.PoliceDisplayName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PNCID)
+        </td>
+    </tr>
+            isAltRow = !isAltRow;
+  }
+}
+    </table>
+}
+else if (typeOfRecord != "Warrant")
+{ 
+          <div>No PNCID has been entered for any children in this case.</div>
+}
+<br />
+@if (Model.Respondents != null && Model.Respondents.Count>0)
+{
+    <table>
+        <tr>
+            <th>
+                @if (typeOfRecord == "Warrant")
+                {
+                    @Html.Raw("Full name of contemnor");
+                }
+                else
+                { 
+                     @Html.LabelFor(model => model.Respondents.SingleOrDefault().PoliceDisplayName)
+                }
+            </th>
+            <th>
+                @Html.LabelFor(model => model.Respondents.SingleOrDefault().PNCID)
+            </th>
+        </tr>
+@{var isAltRow = false;
+  foreach (var item in Model.Respondents)
+  {
+    <tr class="@(isAltRow ? "altRow" : "")">
+        <td>
+            @Html.DisplayFor(modelItem => item.PoliceDisplayName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PNCID)
+        </td>
+    </tr>
+      isAltRow = !isAltRow;
+  }
+}
+    </table>
+}
+else if (typeOfRecord != "Warrant")
+{ 
+          <div>No PNCID has been entered for any respondent in this case.</div>
+}
+else
+{ 
+              <div>No PNCID has been entered for the contemnor in this case.</div>
+}
+</div>

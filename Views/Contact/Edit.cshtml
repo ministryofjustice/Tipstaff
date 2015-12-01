@@ -1,0 +1,143 @@
+﻿@model Tipstaff.Models.ContactModification
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<h6>@Html.ActionLink("Contacts","Index") 
+> @Html.ActionLink(Model.contact.fullName, "Details", "Contact", new { id = Model.contact.contactID }, null)
+> Edit</h6>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Contact</legend>
+
+        @Html.HiddenFor(model => model.contact.contactID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.salutationID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.contact.salutationID, Model.SalutationList, "Choose a title", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.contact.salutationID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.firstName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.firstName)
+            @Html.ValidationMessageFor(model => model.contact.firstName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.lastName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.lastName)
+            @Html.ValidationMessageFor(model => model.contact.lastName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.addressLine1, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.addressLine1)
+            @Html.ValidationMessageFor(model => model.contact.addressLine1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.addressLine2, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.addressLine2)
+            @Html.ValidationMessageFor(model => model.contact.addressLine2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.addressLine3, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.addressLine3)
+            @Html.ValidationMessageFor(model => model.contact.addressLine3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.town, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.town)
+            @Html.ValidationMessageFor(model => model.contact.town)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.county, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.county)
+            @Html.ValidationMessageFor(model => model.contact.county)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.postcode, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.postcode)
+            @Html.ValidationMessageFor(model => model.contact.postcode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.DX, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.DX)
+            @Html.ValidationMessageFor(model => model.contact.DX)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.phoneHome, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.phoneHome)
+            @Html.ValidationMessageFor(model => model.contact.phoneHome)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.phoneMobile, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.phoneMobile)
+            @Html.ValidationMessageFor(model => model.contact.phoneMobile)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.email, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.email)
+            @Html.ValidationMessageFor(model => model.contact.email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.notes, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.contact.notes)
+            @Html.ValidationMessageFor(model => model.contact.notes)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.contact.contactTypeID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.contact.contactTypeID, Model.ContactTypeList, "Choose a type", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.contact.contactTypeID)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}

@@ -1,0 +1,34 @@
+﻿@model Tipstaff.Models.Applicant
+
+@{
+    ViewBag.Title = "Applicant details";
+}
+
+<h6>@Html.ActionLink("Child Abductions","Index") 
+> @Html.ActionLink(Model.childAbduction.UniqueRecordID,"Details","ChildAbduction", new{id=Model.tipstaffRecordID},null)
+> Applicant</h6>
+
+<fieldset>
+    <legend>Applicant</legend>
+
+    <div class="display-label">@Html.LabelFor(model=>model.fullname)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.fullname)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>model.screenAddressMultiLine)</div>
+    <div class="display-field" style="max-height: 5em; clear:right;">
+        @Html.Raw(Model.screenAddressMultiLine)
+    </div>
+
+    <div class="display-label">phone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phone)
+    </div>
+
+    @Html.HiddenFor(model => model.tipstaffRecordID)
+
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ApplicantID })
+</p>

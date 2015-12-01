@@ -1,0 +1,45 @@
+﻿@model Tipstaff.Models.PoliceForce
+
+@{
+    ViewBag.Title = string.Format("Details of {0}", Model.policeForceName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("PoliceForces", "Index") 
+> @Model.policeForceName</h6>
+<fieldset>
+    <legend>@ViewBag.Title</legend>
+
+    <div class="display-label">@Html.LabelFor(model => model.policeForceName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.policeForceName)
+    </div>
+    <div class="display-label">@Html.LabelFor(model => model.policeForceEmail)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.policeForceEmail)
+    </div>
+    @if (Model.deactivated != null)
+    {
+    <div class="display-label">
+        @Html.LabelFor(model => model.deactivated)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.deactivated)
+    </div>
+    <div class="display-label">
+        @Html.LabelFor(model => model.deactivatedBy)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.deactivatedBy)
+    </div>
+    }
+</fieldset>
+<p>
+    @if (Model.active == true)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id=Model.policeForceID })
+    }
+</p>

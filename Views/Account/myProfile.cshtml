@@ -1,0 +1,23 @@
+﻿@model Tipstaff.Models.ProfileModel
+@{
+    ViewBag.Title = "Profile";
+}
+<h6>Your Profile</h6>
+<dl class="table-display">
+    <dt>User Name: </dt>
+        <dd>@User.Identity.Name</dd>
+    <dt>Days until password expires :</dt>
+        <dd>@Model.passwordAge [ @Html.ActionLink("Change password now", "ChangePassword", "Account") ]</dd>
+    <dt>Roles</dt>
+        @if (Roles.GetRolesForUser().Count() > 0){
+        
+            foreach (var role in Roles.GetRolesForUser())
+            {
+            <dd>@role.ToString()</dd>
+            }
+        }
+        else
+        {
+            <dd>User</dd>
+        }
+</dl>

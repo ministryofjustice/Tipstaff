@@ -1,0 +1,24 @@
+﻿@model Tipstaff.Models.RespondentCreationModel
+
+@{
+    ViewBag.Title = string.Format("Enter {0} Details", genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) == "Warrant" ? "Contemnor" : "Respondent");
+}
+@{ 
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller) 
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> Add @nameType
+</h6>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.ValidationSummary(true) 
+    <fieldset>
+        <legend>Enter @(genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID)=="Warrant"?"Contemnor":"Respondent") details</legend>
+        @Html.Partial("_createRespondentBase")
+    </fieldset>
+}

@@ -1,0 +1,130 @@
+﻿@model Tipstaff.Models.IndexViewModel
+@{
+    ViewBag.Title = "User Administration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head
+{
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+    <style type="text/css">
+        form {display:inline;}
+    </style>
+}
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> Users</h6>
+
+@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create New User", "Create New user", "Register", null, null, null, null, "createButton")
+
+@if (Model.Users.Count() == 0)
+{
+<div class="message warning" style="padding:10px;">
+	<span></span>
+	<h6>Alert</h6>
+	<p>No users match current criteria</p>
+</div>
+}
+else
+{
+<table width="100%" border="0" cellpadding="5" cellspacing="0" style="margin-top:1em;">
+    <tr>
+        <th width="5%">User</th>
+        <th width="20px">Status</th>
+        <th width="10%">Last login date</th>
+        <th width="10%">Password expires in</th>
+        <th>Roles</th>
+    </tr>
+@{var isAltRow = false; }
+@foreach (var user in Model.Users)
+{
+    //Build data
+    string status;
+    if (user.IsOnline)
+    {
+        status = "online";
+    }
+    else
+    {
+        if (!user.IsApproved)
+        {
+            status = "disabled";
+        }
+        else
+        {
+            if (user.IsLockedOut)
+            {
+                status = "locked";
+            }
+            else
+            {
+                status = "offline";
+            }
+        }
+    }
+    TimeSpan offlineSince = (DateTime.Now - user.LastActivityDate);
+    string duration = "";
+    if (offlineSince.TotalSeconds <= 60)
+    {
+        duration = "1 minute ";
+    }
+    else if (offlineSince.TotalMinutes < 60)
+    {
+        duration = Math.Floor(offlineSince.TotalMinutes) + " minutes ";
+    }
+    else if (offlineSince.TotalMinutes < 120)
+    {
+        duration = "1 hour ";
+    }
+    else if (offlineSince.TotalHours < 24)
+    {
+        duration = Math.Floor(offlineSince.TotalHours) + " hours ";
+    }
+    else if (offlineSince.TotalHours < 48)
+    {
+        duration = "1 day ";
+    }
+    else
+    {
+        duration = Math.Floor(offlineSince.TotalDays) + " days ";
+    }
+    //display data
+    <tr class="@(isAltRow ? "normRow" : "altRow")">
+        <td>@Html.ImageAndTextLink(Url.Content("~/Images/edit.png"), user.UserName, string.Format("Edit {0}", user.UserName), "Edit", "User", new { id = user.ProviderUserKey }, null, null, "createButton")</td>
+        <td style="text-align:center;">@Html.Raw(Html.Image(Url.Content("~/Images/status_" + status + ".png"), string.Format("User {0}", status), null))</td>
+        <td>@string.Format("{0} for {1}", (user.IsOnline ? "Online" : "Offline"), duration)</td>
+        <td>
+            @{
+       string ExpiresOn = "";
+       int pwordExpire = Tipstaff.SecurityUtils.daysTillPasswordExpires(user.UserName);
+       if (pwordExpire >= 0)
+       {
+           switch (pwordExpire)
+           {
+               case 1:
+                   ExpiresOn = "Tomorrow";
+                   break;
+               case 0:
+                   ExpiresOn = "Today";
+                   break;
+               default:
+                @string.Format("{0} day(s)", pwordExpire)
+           break;
+           }
+       }
+       else if (pwordExpire < 0)
+       {
+                @string.Format("{0} day(s) ago", pwordExpire * -1)
+       }
+            }
+            @string.Format("{0}", ExpiresOn)
+            </td>
+        <td>@foreach (var role in Roles.GetRolesForUser(user.UserName))
+            {
+                @role.ToString()
+            }&nbsp;</td>
+    </tr>
+    isAltRow = !isAltRow;
+}
+</table>
+}
+@Html.SSGPaging(Model.Users, "Index", "User")

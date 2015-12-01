@@ -1,0 +1,80 @@
+﻿@model Tipstaff.Models.ListCaseReviewsByTipstaffRecord
+<div id="caseReviews">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListCaseReviewsByRecord", "CaseReview", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "caseReviews",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "caseReviewLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="caseReviewLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.CaseReviews == null) || (Model.CaseReviews.Count() == 0))
+{ 
+      <div>No case reviews entered</div>
+}
+else
+{
+<table>
+    <tr>
+@*        @if (!Model.TipstaffRecordClosed)
+        {<th style="width:20px;">&nbsp;</th>} *@
+        <th>
+            @Html.LabelFor(model=>model.CaseReviews.First().reviewDate)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.CaseReviews.First().actionTaken)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.CaseReviews.First().caseReviewStatus.Detail)
+        </th>
+    </tr>
+@{ var isAltRow = false;
+   foreach (var item in Model.CaseReviews.OrderByDescending(x=>x.reviewDate))
+   {
+    <tr class="@(isAltRow ? "altRow" : "")">
+@*        @if (!Model.TipstaffRecordClosed)
+        {
+            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "CaseReview", new { tipstaffRecordID = item.tipstaffRecordID, solicitorID = item.solicitorID }, null, null) 
+            }
+            </td>
+        }  *@
+        <td>
+            @Html.DisplayFor(modelItem => item.reviewDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actionTaken)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.caseReviewStatus.Detail)
+        </td>
+    </tr>
+    isAltRow = !isAltRow;
+	}
+}
+</table>
+}
+@{ Html.AjaxPager<Tipstaff.Models.CaseReview>(Model.CaseReviews, "ListCaseReviewsByRecord", "CaseReview"
+                                    , new Tipstaff.PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext = true,
+                                        ShowNumericPagerItems = true,
+                                        AlwaysShowFirstLastPageNumber = true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { id = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "caseReviews",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "caseReviewLoading"
+                                    });
+}
+</div>

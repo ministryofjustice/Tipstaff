@@ -1,0 +1,11 @@
+﻿@model Tipstaff.Models.ErrorModel
+
+@{
+    ViewBag.Title = string.Format("{0}Error", Model.ErrorCode == -1 ? "Unspecified " : "");
+}
+
+<h6>An @(((string)ViewBag.Title).ToLower()) has occurred</h6>
+
+<div>Please make a note of the function you were trying to access and raise a helpdesk call, quoting the following details: -</div>
+<div class="quote"><blockquote>@Model.ErrorMessage</blockquote></div>
+<div>SSG apologises for the inconvenience</div>

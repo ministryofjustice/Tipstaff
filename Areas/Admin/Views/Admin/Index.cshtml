@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Administration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    System.Security.Principal.IIdentity userIdentity = User.Identity;
+    Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
+    Tipstaff.AccessLevel thisUserLevel = thisUser.AccessLevel;
+}
+@if (User.Identity.IsAuthenticated && (thisUser.IsInRole("Admin") || thisUser.IsInRole("System Admin")))
+{ 
+    <h6>@ViewBag.Title</h6>
+    <fieldset>
+        <legend>User management</legend>
+        @Html.ActionLink("Users", "Index", "Users")
+    </fieldset>
+    <fieldset>
+        <legend>Deleted Records</legend>
+        @Html.ActionLink("Deleted records", "Index", "DeletedTipstaffRecord")
+    </fieldset>
+    @Html.Partial("_LookupAdminList")
+}
+else
+{ 
+    <h6>Tipstaff Database</h6>
+    <p>
+        This application is for use by the Office of the Tipstaff in the Royal Courts of Justice.
+    </p>
+}

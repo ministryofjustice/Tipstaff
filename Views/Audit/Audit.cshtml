@@ -1,0 +1,40 @@
+﻿@model Tipstaff.Models.AuditEventViewModel
+
+@{
+    ViewBag.Title = string.Format("Audit Trail for {0} ID no. {1}", Model.auditType, Model.itemID);
+}
+@section head {
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+    <script type="text/javascript">
+        function showHide(shID) {
+            if (document.getElementById(shID)) {
+                if (document.getElementById(shID + '-show').style.display != 'none') {
+                    document.getElementById(shID + '-show').style.display = 'none';
+                    document.getElementById(shID + '-hide').style.display = 'inline';
+                    document.getElementById(shID).style.display = 'block';
+                }
+                else {
+                    document.getElementById(shID + '-show').style.display = 'inline';
+                    document.getElementById(shID + '-hide').style.display = 'none';
+                    document.getElementById(shID).style.display = 'none';
+                }
+            }
+        }
+    </script>
+}
+
+<h6>@ViewBag.Title</h6>
+@if(Model.AuditEvents.Count()==0)
+{
+    <div>No audit records found for this entry</div>
+}
+@using(Html.BeginForm()){
+    <dl>
+    @foreach (var item in Model.AuditEvents)
+	{
+		 @Html.DisplayFor(modelItem=>item)
+	}
+    </dl>
+    @Html.Paging(Model.AuditEvents,"Audit","Audit",Model.auditType)
+}
+<input class="prevButton" onclick="javascript: history.go(-1)" type="button" value="< Previous page" />

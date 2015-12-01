@@ -1,0 +1,86 @@
+﻿@model Tipstaff.Models.ListApplicantsByTipstaffRecord
+<div id="applicants">
+<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
+  @Ajax.ActionLink("Refresh", "ListApplicantsByRecord", "Applicant", new { id = Model.tipstaffRecordID }, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "applicants",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "applicantLoading"
+    }, new { @style = "" })
+
+<img style="display:none" id="applicantLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
+
+@if ((Model.Applicants == null) || (Model.Applicants.Count() == 0))
+{ 
+      <div>No applicants recorded</div>
+}
+else
+{
+
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+
+        @if (!Model.TipstaffRecordClosed)
+        {<th style="width:40px;">&nbsp;</th>}
+        <th>
+            @Html.LabelFor(model => model.Applicants.First().PoliceDisplayName)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Applicants.First().screenAddressSingleLine)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Applicants.First().phone)
+        </th>
+    </tr>
+
+	@{var isAltRow = false;
+    foreach (var item in Model.Applicants.OrderBy(c => c.ApplicantID))
+    { 
+    <tr class="@(isAltRow ? "altRow" : "")">
+
+        @if (!Model.TipstaffRecordClosed)
+        {
+            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Applicant", new { id = item.ApplicantID }, null, null)  
+            }
+                @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend applicant record", "Edit", "Applicant", new { id = item.ApplicantID }, null, null)
+            </td>
+        }
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.PoliceDisplayName), "Details", "Applicant", new { id = item.ApplicantID }, null, null, "createButton") 
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.screenAddressSingleLine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phone)
+        </td>
+    </tr>
+        isAltRow = !isAltRow;
+    }
+    }
+</table>
+}
+@{ Html.AjaxPager<Tipstaff.Models.Applicant>(Model.Applicants , "ListApplicantsByRecord", "Applicant"
+                                    , new Tipstaff.PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext=true,
+                                        ShowNumericPagerItems=true,
+                                        AlwaysShowFirstLastPageNumber=true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { id = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "applicants",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "applicantLoading"
+                                    }); 
+  }
+</div>

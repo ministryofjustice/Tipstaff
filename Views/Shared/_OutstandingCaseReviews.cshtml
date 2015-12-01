@@ -1,0 +1,84 @@
+﻿@model Tipstaff.Models.OutstandingCaseReviewViewModel
+
+
+<fieldset class="FieldsetCR" style="width:462px; float:left;">
+<legend>Case Reviews</legend>
+    <fieldset class="FieldsetCR" style="border:1px solid green;">
+        <legend style="color:Green;"><img src="@Url.Content("~/Images/accept.png")" style="vertical-align:middle;" alt="Due within a week" /> Due within a week (@Model.DueWithinWeekCaseReviews.Count() records)</legend>
+    @if ((Model.DueWithinWeekCaseReviews.Count() > 0) && (Model.DueWithinWeekCaseReviews != null))
+    {
+        int rowCount = 0;
+        foreach (Tipstaff.Models.TipstaffRecord item in Model.DueWithinWeekCaseReviews)
+        {
+            <div>@Html.ActionLink(item.UniqueRecordID, "Details", Tipstaff.genericFunctions.TypeOfTipstaffRecord(item), new { id = item.tipstaffRecordID }, null) is due for review on <span>@item.nextReviewDate.ToShortDateString()</span></div>
+            if (rowCount++ == 10)
+            { 
+            <div><a href="#" id="ww_data-show" class="showLink" onclick="showHide('ww_data');return false;">Show extra @(Model.DueWithinWeekCaseReviews.Count() - 10) records.</a></div>
+            @:<div id="ww_data" style="display:none">
+            <div><a href="#" class="hideLink" onclick="showHide('ww_data');return false;">Hide additional records.</a></div>
+            }
+        }
+        if (rowCount > 10)
+        {
+            <div><a href="#" class="hideLink" onclick="showHide('ww_data');return false;">Hide additional records.</a></div>
+            @:</div>
+        }
+    }
+    else
+    {
+        <div>None</div>
+    }
+    </fieldset>
+    <fieldset class="FieldsetCR" style="border:1px solid red;">
+        <legend style="color:Orange;"><img src="@Url.Content("~/Images/error.png")" style="vertical-align:middle;" alt="Due today" /> Due Today (@Model.DueTodayCaseReviews.Count() records)</legend>
+    @if ((Model.DueTodayCaseReviews.Count() > 0) && (Model.DueTodayCaseReviews != null))
+    {
+        int rowCount = 0;
+        foreach (Tipstaff.Models.TipstaffRecord item in Model.DueTodayCaseReviews)
+        {
+            <div>@Html.ActionLink(item.UniqueRecordID, "Details", Tipstaff.genericFunctions.TypeOfTipstaffRecord(item), new { id = item.tipstaffRecordID }, null) was due for review on <span>@item.nextReviewDate.ToShortDateString()</span></div>
+            if (rowCount++ == 10)
+            { 
+            <div><a href="#" id="dt_data-show" class="showLink" onclick="showHide('dt_data');return false;">Show extra @(Model.DueTodayCaseReviews.Count() - 10) records.</a></div>
+            @:<div id="dt_data" style="display:none">
+            <div><a href="#" class="hideLink" onclick="showHide('dt_data');return false;">Hide additional records.</a></div>
+            }
+        }
+        if (rowCount > 10)
+        {
+            <div><a href="#" class="hideLink" onclick="showHide('dt_data');return false;">Hide additional records.</a></div>
+            @:</div>
+        }
+    }
+    else
+    {
+        <div>None</div>
+    }
+    </fieldset>
+    <fieldset class="FieldsetCR" style="border:1px solid red;">
+        <legend style="color:Red;"><img src="@Url.Content("~/Images/exclamation.png")" style="vertical-align:middle;" alt="Overdue" /> Overdue (@Model.OverdueCaseReviews.Count() records)</legend>
+    @if ((Model.OverdueCaseReviews.Count() > 0) && (Model.OverdueCaseReviews != null))
+    {
+        int rowCount = 0;
+        foreach (Tipstaff.Models.TipstaffRecord item in Model.OverdueCaseReviews)
+        {
+            <div>@Html.ActionLink(item.UniqueRecordID, "Details", Tipstaff.genericFunctions.TypeOfTipstaffRecord(item), new { id = item.tipstaffRecordID }, null) was due for review on <span>@item.nextReviewDate.ToShortDateString()</span></div>
+            if (rowCount++ == 10)
+            { 
+            <div><a href="#" id="od_data-show" class="showLink" onclick="showHide('od_data');return false;">Show extra @(Model.OverdueCaseReviews.Count() - 10) records.</a></div>
+            @:<div id="od_data" style="display:none">
+            <div><a href="#" class="hideLink" onclick="showHide('od_data');return false;">Hide additional records.</a></div>
+            }
+        }
+        if (rowCount > 10)
+        {
+            <div><a href="#" class="hideLink" onclick="showHide('od_data');return false;">Hide additional records.</a></div>
+            @:</div>
+        }
+    }
+    else
+    {
+        <div>None</div>
+    }
+    </fieldset>
+</fieldset>

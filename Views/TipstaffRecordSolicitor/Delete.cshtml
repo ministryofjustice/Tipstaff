@@ -1,0 +1,40 @@
+﻿@model Tipstaff.Models.DeleteTipstaffRecordSolicitor
+
+@{
+    ViewBag.Title = string.Format("Delete {0} from {1}", Model.TipstaffRecordSolicitor.solicitor.solicitorName, Model.TipstaffRecordSolicitor.tipstaffRecord.UniqueRecordID);
+}
+
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.TipstaffRecordSolicitor.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+    }
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.TipstaffRecordSolicitor.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.TipstaffRecordSolicitor.tipstaffRecordID},null) 
+> Delete Solicitor</h6>
+@using (Html.BeginForm()) {
+<fieldset>
+    <legend>Are you sure you want to delete @Model.TipstaffRecordSolicitor.solicitor.solicitorName from @Model.TipstaffRecordSolicitor.tipstaffRecord.UniqueRecordID?</legend>
+    @Html.HiddenFor(model => model.DeleteModelID)
+    @Html.HiddenFor(model => model.TipstaffRecordSolicitor.solicitorID)
+    @Html.HiddenFor(model => model.TipstaffRecordSolicitor.tipstaffRecordID)
+    <div class="display-label">Solicitor</div>
+    <div class="display-field">
+        @Model.TipstaffRecordSolicitor.solicitor.solicitorName
+    </div>
+    <div class="display-label">case</div>
+    <div class="display-field">
+        @Model.TipstaffRecordSolicitor.tipstaffRecord.UniqueRecordID
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => Model.DeletedReasonID,true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.DeletedReasonID)
+    </div>
+</fieldset>
+    <p>
+        <input type="submit" value="Delete" /> 
+    </p>
+}

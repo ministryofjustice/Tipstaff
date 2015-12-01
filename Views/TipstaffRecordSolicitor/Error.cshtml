@@ -1,0 +1,21 @@
+﻿@model Tipstaff.Models.TipstaffRecordSolicitorErrorViewModel
+@{
+    ViewBag.Title = "Error";
+}
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffrecordsolicitor.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+    }
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.tipstaffrecordsolicitor.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffrecordsolicitor.tipstaffRecordID},null) 
+> Add Solicitor</h6>
+
+<div class="message error" style="padding:10px;margin-top:2em;">
+	<span></span>
+	<h6>Tipstaff Record/Solicitor Error</h6>
+    <dl>
+        <dt>An error occurred while trying to add @Model.tipstaffrecordsolicitor.solicitor.solicitorName to record @Model.tipstaffrecordsolicitor.tipstaffRecord.UniqueRecordID</dt>
+        <dd>The error message returned was:<div class="quote"><blockquote>@Model.ErrorMessage</blockquote></div></dd>
+    </dl>
+</div>

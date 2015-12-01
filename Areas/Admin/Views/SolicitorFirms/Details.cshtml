@@ -1,0 +1,76 @@
+﻿@model Tipstaff.Models.SolicitorFirm
+
+@{
+    ViewBag.Title = string.Format("Details of {0}", Model.firmName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("Solicitor firms", "Index") 
+> @Model.firmName</h6>
+<fieldset>
+    <legend>@ViewBag.Title</legend>
+
+    <div class="display-label">@Html.LabelFor(model => model.firmName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.firmName)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.addressLine1)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.addressLine1)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.addressLine2)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.addressLine2)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.addressLine3)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.addressLine3)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.town)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.town)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.county)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.county)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.postcode)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.postcode)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.DX)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DX)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.phoneDayTime)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneDayTime)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.phoneOutofHours)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneOutofHours)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.email)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+</fieldset>
+<p>
+    @if (Model.active == true)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id=Model.solicitorFirmID })
+    }
+</p>

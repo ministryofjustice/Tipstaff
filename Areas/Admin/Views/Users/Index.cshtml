@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Tipstaff.Models.User>
+@{
+    ViewBag.Title = "User Administration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head
+{
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+    <style type="text/css">
+        form {display:inline;}
+    </style>
+}
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> Users</h6>
+
+@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create New User", "Create New user", "Create", "Users", null, null, null, "createButton")
+
+@if (Model.Count() == 0)
+{
+<div class="message warning" style="padding:10px;">
+	<span></span>
+	<h6>Alert</h6>
+	<p>No users match current criteria</p>
+</div>
+}
+else
+{
+<table width="100%" border="0" cellpadding="5" cellspacing="0" style="margin-top:1em;">
+    <tr>
+        <th width="15%">User</th>
+        <th width="10%">Last login date</th>
+        <th>Role</th>
+    </tr>
+@{var isAltRow = false; }
+@foreach (var user in Model.OrderBy(x=>x.DisplayName))
+{
+    <tr class="@(isAltRow ? "normRow" : "altRow")">
+        <td>@Html.ImageAndTextLink(Url.Content("~/Images/edit.png"), user.DisplayName, string.Format("Edit {0}", user.DisplayName), "Edit", "Users", new { id = user.UserID }, null, null, "createButton")</td>
+        <td>
+            @if (user.LastActive.HasValue)
+            { 
+                @user.LastActive.Value
+            }    
+        </td>
+        <td>@Html.Raw(((AccessLevel)user.RoleStrength).ToString())</td>
+    </tr>
+    isAltRow = !isAltRow;
+}
+</table>
+}
