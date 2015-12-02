@@ -541,6 +541,8 @@
     <Content Include="ConnectionStrings.config" />
     <Content Include="ConnectionStringsDebug.config" />
     <Content Include="ConnectionStringsRelease.config" />
+    <Content Include=".gitignore" />
+    <Content Include=".gitattributes" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
