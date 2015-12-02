@@ -68,7 +68,9 @@ namespace Tipstaff.Models
         {
             //int result = -1;
             DateTime eventDateTime = DateTime.Now;
-            string eventUser = HttpContext.Current.User.Identity.Name;
+            //string eventUser = HttpContext.Current.User.Identity.Name;
+            User u = GetUserByLoginName(HttpContext.Current.User.Identity.Name.Split('\\').Last(), false);
+            string eventUser = u.DisplayName;
             ChangeTracker.DetectChanges(); // Important!
 
             ObjectContext ctx = ((IObjectContextAdapter)this).ObjectContext;
@@ -307,7 +309,7 @@ namespace Tipstaff.Models
             return base.SaveChanges();
         }
 
-        public User GetUserByLoginName(string loginName)
+        public User GetUserByLoginName(string loginName, bool save = true)
         {
             var users = Users.Where(x => x.Name == loginName);
             switch (users.Count())
@@ -317,7 +319,8 @@ namespace Tipstaff.Models
                 case 1:
                     User usr = users.SingleOrDefault();
                     usr.LastActive = DateTime.Now;
-                    SaveChanges();
+                    if (save)
+                       SaveChanges();
                     return usr;
                 default:
                     throw new Exception(string.Format("There are {0} users matching {1}", users.Count(), loginName));
