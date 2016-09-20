@@ -8,6 +8,7 @@ using PagedList;
 using System.Collections;
 using System.Security;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tipstaff.Models
 {

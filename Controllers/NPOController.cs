@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Data;
+using System.Data.Entity;
+
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]

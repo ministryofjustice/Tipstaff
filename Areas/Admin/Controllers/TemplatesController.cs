@@ -7,6 +7,7 @@ using Tipstaff.Models;
 using System.Data;
 using System.IO;
 using System.Xml;
+using System.Data.Entity;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {

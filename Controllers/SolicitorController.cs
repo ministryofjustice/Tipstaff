@@ -8,6 +8,7 @@ using PagedList;
 using System.Configuration;
 using System.Data;
 using System.Web.UI;
+using System.Data.Entity;
 
 namespace Tipstaff.Controllers
 {

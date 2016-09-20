@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using PagedList;
 using Tipstaff.Models;
 using System.Data;
+using System.Data.Entity;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {

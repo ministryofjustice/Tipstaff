@@ -8,6 +8,8 @@ using System.Data.Entity.Infrastructure;
 using System.Data;
 using System.Web.UI;
 using PagedList;
+using System.Data.Entity;
+
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]

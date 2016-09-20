@@ -7,6 +7,7 @@ using Tipstaff.Models;
 using System.Web.UI;
 using System.Data.Entity.Infrastructure;
 using System.Data;
+using System.Data.Entity;
 
 namespace Tipstaff.Controllers
 {

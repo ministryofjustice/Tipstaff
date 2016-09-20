@@ -5,6 +5,8 @@ using System.Data;
 using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
+using System.Data.Entity;
+
 namespace Tipstaff.Controllers
 {
     public class FAQController : Controller

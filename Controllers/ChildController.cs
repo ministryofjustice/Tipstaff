@@ -9,6 +9,7 @@ using System.Data;
 using System.Web.UI;
 using System.Data.Entity.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace Tipstaff.Controllers
 {
