@@ -13,6 +13,7 @@ using Tipstaff.Models;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class SolicitorFirmController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

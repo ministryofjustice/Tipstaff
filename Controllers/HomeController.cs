@@ -14,6 +14,7 @@ using System.Web.Security;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class HomeController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

@@ -12,6 +12,8 @@ using System.Data.Entity;
 namespace Tipstaff.Areas.Admin.Controllers
 {
     
+    [Authorize]
+    
     public class PoliceForcesController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

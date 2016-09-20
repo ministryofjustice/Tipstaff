@@ -8,6 +8,7 @@ using Tipstaff.Models;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class CaseReviewController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

@@ -10,6 +10,7 @@ using System.Data.Entity;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class NPOController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

@@ -13,6 +13,7 @@ using Tipstaff.Models;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class ContactController : Controller
     {
         private TipstaffDB db = new TipstaffDB();

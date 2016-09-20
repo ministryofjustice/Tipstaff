@@ -7,6 +7,7 @@ using System.Configuration;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
+    [Authorize]
     public class AuditController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

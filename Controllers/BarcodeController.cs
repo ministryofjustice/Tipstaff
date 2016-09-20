@@ -11,6 +11,7 @@ using System.Drawing.Text;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class BarcodeController : Controller
     {
         //

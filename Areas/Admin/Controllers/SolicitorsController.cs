@@ -12,6 +12,7 @@ using System.Data;
 namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
+    [Authorize]
     public class SolicitorsController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

@@ -13,6 +13,7 @@ using System.Data.Entity.Validation;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class TemplateController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

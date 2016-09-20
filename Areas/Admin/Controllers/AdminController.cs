@@ -7,6 +7,7 @@ using System.Web.Mvc;
 namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
+    [Authorize]
     public class AdminController : Controller
     {
         //

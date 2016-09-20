@@ -9,6 +9,7 @@ using System.Data.Entity;
 
 namespace Tipstaff.Controllers
 {
+    [Authorize]
     public class FAQController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

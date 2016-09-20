@@ -13,6 +13,7 @@ using Tipstaff.Models;
 namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
+    [Authorize]
     public class CountryController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

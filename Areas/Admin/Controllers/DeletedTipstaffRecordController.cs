@@ -9,6 +9,7 @@ using Tipstaff.Models;
 namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
+    [Authorize]
     public class DeletedTipstaffRecordController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

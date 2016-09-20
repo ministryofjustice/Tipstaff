@@ -11,6 +11,7 @@ using System.Data.Entity;
 namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
+    [Authorize]
     public class DeletedReasonController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

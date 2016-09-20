@@ -12,6 +12,7 @@ using System.Data.Entity;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class ApplicantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

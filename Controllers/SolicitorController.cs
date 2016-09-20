@@ -13,6 +13,7 @@ using System.Data.Entity;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class SolicitorController : Controller
     {
 

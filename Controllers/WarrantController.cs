@@ -15,6 +15,7 @@ using System.IO;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class WarrantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

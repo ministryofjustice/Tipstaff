@@ -14,6 +14,7 @@ using System.Data.Entity.Infrastructure;
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
     public class TipstaffRecordSolicitorController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
