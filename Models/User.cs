@@ -19,7 +19,7 @@ namespace Tipstaff.Models
     {
         [Key]
         public int UserID { get; set; }
-        [Required, MaxLength(15), Display(Name = "Login name")]
+        [Required, MaxLength(150), Display(Name = "Login name")]
         public string Name { get; set; }
         [Required, MaxLength(30), Display(Name = "Display name")]
         public string DisplayName { get; set; }
