@@ -2,11 +2,14 @@
 
 @{
     ViewBag.Title = "Frequently Asked Questions";
+ 
+    System.Security.Principal.IIdentity userIdentity = User.Identity;
+    Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
 }
 <h6>@ViewBag.Title</h6>
 @if (Request.IsAuthenticated)
 {
-    if (User.IsInRole("Admin"))
+    if (thisUser.IsInRole("Admin"))
     {
             @Html.ActionLink("Add New FAQ", "Create")
     }
@@ -16,7 +19,7 @@
     <dl>
         <dt>@if (Request.IsAuthenticated) 
             {
-                if (User.IsInRole("Admin"))
+                if (thisUser.IsInRole("Admin"))
                 {
                 @Html.Raw(Html.Image(Url.Content("~/Images/status_" + (item.loggedInUser ? "online" : "locked") + ".png"), string.Format("{0} FAQ" , (item.loggedInUser ? "Online" : "Offline")), null))
                 }
@@ -24,7 +27,7 @@
             @Html.DisplayFor(modelItem => item.question)
             @if (Request.IsAuthenticated)
             {
-                if (User.IsInRole("Admin"))
+                if (thisUser.IsInRole("Admin"))
                 {
                    @Html.ImageLink(Url.Content("~/Images/arrow_refresh_small.png"), "Amend FAQ", "Edit", "FAQ", new { id = item.faqID }, null, null)  
                 }

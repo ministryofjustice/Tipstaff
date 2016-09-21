@@ -591,6 +591,7 @@
     <Content Include="Service References\AzureAD\ConnectedService.json" />
     <None Include="Properties\PublishProfiles\Chaps-Azure - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Tipstaff - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Tipstaff-T - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

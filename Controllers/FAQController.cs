@@ -17,7 +17,9 @@ namespace Tipstaff.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            if (User.IsInRole("Admin"))
+            System.Security.Principal.IIdentity userIdentity = User.Identity;
+            Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
+            if (thisUser.IsInRole("Admin"))
             {
                 var faqs = db.FAQs;
                 return View(faqs.ToList());
