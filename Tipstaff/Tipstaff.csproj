@@ -4,6 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputPath>bin\</OutputPath>
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
@@ -104,14 +105,14 @@
     </Reference>
     <Reference Include="PagedList, Version=1.15.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PagedList.1.15.0.0\lib\net40\PagedList.dll</HintPath>
+      <HintPath>packages\PagedList.1.15.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\PagedList.Mvc.4.0.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <HintPath>packages\PagedList.Mvc.4.0.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="RouteDebugger">
-      <HintPath>..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+      <HintPath>packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity.Design" />
@@ -243,8 +244,17 @@
     <Compile Include="Classes\SecurityUtils.cs" />
     <Compile Include="Classes\ServiceLayer.cs" />
     <Compile Include="Startup.cs" />
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
     <Content Include="App_Data\BarcodeLib.dll" />
     <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\RouteDebugger.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.Owin.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\Utils.dll" />
     <Content Include="Content\form.css" />
     <Content Include="Images\icon_word.png" />
     <Content Include="Content\img\error-sprite.gif" />
@@ -582,10 +592,6 @@
     <Content Include="Areas\Admin\Views\Users\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
     <Content Include="ConnectionStrings.config" />
-    <Content Include="ConnectionStringsDebug.config" />
-    <Content Include="ConnectionStringsRelease.config" />
-    <Content Include=".gitignore" />
-    <Content Include=".gitattributes" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Service References\AzureAD\ConnectedService.json" />
@@ -593,14 +599,11 @@
     <None Include="Properties\PublishProfiles\Tipstaff - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Tipstaff-T - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Tipstaff-T-Development - Web Deploy.pubxml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="Web.Live.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </Content>
+    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %285%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy.pubxml" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -615,6 +618,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\Release\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
