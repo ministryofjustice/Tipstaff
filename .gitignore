@@ -218,3 +218,4 @@ ConnectionStringsDebug.config
 ConnectionStringsRelease.config
 /Database1/Data/Users.data.sql
 /Database1/Data/Roles.data.sql
+/Tipstaff_Database/Tipstaff_Database.jfm

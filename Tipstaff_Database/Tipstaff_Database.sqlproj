@@ -113,6 +113,7 @@
     <None Include="Tipstaff_Database.publish.xml" />
     <None Include="Data\Roles.data.sql" />
     <None Include="Data\Users.data.sql" />
+    <None Include="Tipstaff_Database.jfm" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />
