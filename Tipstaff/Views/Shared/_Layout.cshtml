@@ -37,14 +37,13 @@
                 string logo = "";
                 switch (System.Configuration.ConfigurationManager.AppSettings["CurServer"].ToUpper())
 	            {
-                    case "SOLSRV2K":
-                        logo = "dev";
-                        break;
-                    case "CSX2KN8Z516M":
-                        logo = "train";
+                    case "PRODUCTION":
+                        logo = "";
                         break;
                     default:
+                        logo = "train";
                         break;
+
 	            }  
             }
             <div class="logo">

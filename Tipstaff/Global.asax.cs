@@ -179,7 +179,7 @@ namespace Tipstaff
             if (DateTime.Now.Year.ToString() != appYear.ToString()) {
                 ConfigurationManager.AppSettings["AppYear"] = appYear += " - " + DateTime.Now.Year.ToString();
             }
-            ConfigurationManager.AppSettings["CurServer"] = ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString.Split(';').First().Split('=').Last();
+            //ConfigurationManager.AppSettings["CurServer"] = ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString.Split(';').First().Split('=').Last();
         }
         protected void Application_AuthenticateRequest()
         {
