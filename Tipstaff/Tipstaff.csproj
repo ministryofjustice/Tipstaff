@@ -653,7 +653,6 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Release\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
