@@ -284,13 +284,6 @@
     <Content Include=".gitignore" />
     <Content Include="App_Data\BarcodeLib.dll" />
     <Content Include="Areas\Admin\Views\Web.config" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\RouteDebugger.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\System.Web.Http.dll" />
-    <Content Include="bin\System.Web.Http.Owin.dll" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\Utils.dll" />
     <Content Include="Content\form.css" />
     <Content Include="Images\icon_word.png" />
     <Content Include="Content\img\error-sprite.gif" />
