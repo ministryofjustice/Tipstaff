@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputPath>bin\</OutputPath>
     <ProductVersion>
@@ -37,7 +37,7 @@
     <ApplicationInsightsResourceId>/subscriptions/19e16877-fef7-4ea0-bfe1-798ce99b1dc9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Tipstaff</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/19e16877-fef7-4ea0-bfe1-798ce99b1dc9/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Tipstaff</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
