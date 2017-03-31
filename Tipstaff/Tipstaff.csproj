@@ -133,9 +133,11 @@
       <HintPath>..\packages\Microsoft.Owin.Security.OpenIdConnect.3.0.1\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure">
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -206,7 +208,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Utils">
-      <HintPath>..\..\Utils\Utils\obj\Debug\Utils.dll</HintPath>
+      <HintPath>App_Data\Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +313,7 @@
     <Content Include=".gitignore" />
     <Content Include="App_Data\BarcodeLib.dll" />
     <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="bin\ApplicationInsights.config" />
     <Content Include="bin\BarcodeLib.dll" />
     <Content Include="bin\EntityFramework.dll" />
     <Content Include="bin\EntityFramework.SqlServer.dll" />
@@ -343,20 +346,16 @@
     <Content Include="bin\Microsoft.Owin.Security.xml" />
     <Content Include="bin\Microsoft.Owin.xml" />
     <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.xml" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
     <Content Include="bin\Owin.dll" />
     <Content Include="bin\PagedList.dll" />
     <Content Include="bin\PagedList.Mvc.dll" />
     <Content Include="bin\RouteDebugger.dll" />
     <Content Include="bin\System.IdentityModel.Tokens.Jwt.dll" />
     <Content Include="bin\System.IdentityModel.Tokens.Jwt.xml" />
-    <Content Include="bin\System.Net.Http.Formatting.dll" />
     <Content Include="bin\System.Web.Helpers.dll" />
     <Content Include="bin\System.Web.Helpers.xml" />
-    <Content Include="bin\System.Web.Http.dll" />
-    <Content Include="bin\System.Web.Http.Owin.dll" />
     <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
     <Content Include="bin\System.Web.Razor.dll" />
     <Content Include="bin\System.Web.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.Deployment.dll" />
@@ -366,9 +365,9 @@
     <Content Include="bin\System.Web.WebPages.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\Tipstaff.dll" />
+    <Content Include="bin\Tipstaff.dll.config" />
     <Content Include="bin\Tipstaff.pdb" />
     <Content Include="bin\Utils.dll" />
-    <Content Include="bin\Utils.pdb" />
     <Content Include="Content\form.css" />
     <Content Include="Images\icon_word.png" />
     <Content Include="Content\img\error-sprite.gif" />
@@ -705,15 +704,12 @@
     <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
-    <Content Include="ConnectionStrings.config" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Service References\AzureAD\ConnectedService.json" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="bin\ApplicationInsights.config" />
-    <Content Include="bin\Tipstaff.dll.config" />
     <None Include="Properties\PublishProfiles\Chaps-Azure - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Tipstaff - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Tipstaff-T - Web Deploy.pubxml" />
@@ -740,7 +736,6 @@
     <Content Include="Service References\Application Insights\ConnectedService.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Release\" />
     <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
