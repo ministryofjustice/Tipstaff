@@ -41,7 +41,8 @@
         <th style="text-align:right;vertical-align:middle;">
         Solicitors containing: 
         @using (Html.BeginForm())
-        {    
+        {
+            @Html.AntiForgeryToken();
             @Html.TextBox("searchString", null, new { @style = "width: 3em;", AccessKey = "n" })
                             <input alt="Filter Solicitor names" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
             @Html.HiddenFor(model => model.searchFirm)
@@ -50,7 +51,8 @@
         <th style="text-align:right;vertical-align:middle;">
         Solicitor firms containing: 
         @using (Html.BeginForm())
-        {   
+        {
+            @Html.AntiForgeryToken();
             @Html.TextBox("searchFirm", null, new { @style = "width: 3em;", AccessKey = "f" })
                             <input alt="Filter Solicitor firms" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
             @Html.HiddenFor(model => model.searchString)
@@ -104,7 +106,15 @@ else
 	} 
 }
 </table>
-@Html.SSGPaging("Select", "Solicitor",Model,Model.pSolicitors)
+@{
+    var token = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex = token.IndexOf("value=\"") + 7;
+    var endIndex = token.IndexOf("\"", beginIndex);
+    token = token.Substring(beginIndex, endIndex - beginIndex);
+
+}
+@Html.SSGPaging("Select", "Solicitor",Model,Model.pSolicitors, token)
 <h2 style="clear:both;">Create a new solicitor?</h2>
 
    @Ajax.ImageActionLink(Url.Content("~/Images/add.png")
