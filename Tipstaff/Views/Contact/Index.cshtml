@@ -13,13 +13,14 @@
 }
 
 <h6>Contacts</h6>
-<p>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new Contact", "Create new Contact", "Create", null, null, null,null,"createButton")</p>
+<p>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new Contact", "Create new Contact", "Create", null, null, null, null, "createButton")</p>
 <table style="width:100%;">
     <tr>
         <th>Filters</th>
         <th style="white-space:nowrap">
             @using (Html.BeginForm())
-            {     
+            {
+                @Html.AntiForgeryToken();
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.ContactTypeID)
@@ -30,7 +31,8 @@
         <th colspan="6">&nbsp;</th>
         <th style="white-space:nowrap;">
             @using (Html.BeginForm())
-            { 
+            {
+                @Html.AntiForgeryToken();
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.NameContains)
@@ -41,7 +43,7 @@
     <tr>
         <th style="min-width:20px;width:20px;"></th>
         <th>
-            @Html.LabelFor(model=>model.Contacts.First().fullName)
+            @Html.LabelFor(model => model.Contacts.First().fullName)
         </th>
         <th>
             @Html.LabelFor(model => model.Contacts.First().MultiLineAddress)
@@ -67,11 +69,11 @@
     </tr>
 
 @{var isAltRow = false;
-   foreach (var item in Model.Contacts) {
+    foreach (var item in Model.Contacts) {
     <tr class="@(isAltRow ? "altRow" : "")">
         <td style="min-width:40px;">
             @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "Contact", new { id = item.contactID }, null, null)
-            @if (User.IsInRole("Admin")){ @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { auditType="Contact", id = item.contactID }, null, null)}
+            @if (User.IsInRole("Admin")) { @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { auditType = "Contact", id = item.contactID }, null, null)}
         </td>
         <td>
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.fullName), "Details", "Contact", new { id = item.contactID }, null, null, "createButton")
@@ -101,9 +103,18 @@
             @Html.DisplayFor(modelItem => item.contactType.Detail)
         </td>
     </tr>
-       isAltRow = !isAltRow;
-   }
+        isAltRow = !isAltRow;
+    }
 }
 </table>
 
-@Html.SSGPaging("Index", "Contact", Model, Model.Contacts)
+@{ 
+    var token = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex = token.IndexOf("value=\"") + 7;
+    var endIndex = token.IndexOf("\"", beginIndex);
+    token = token.Substring(beginIndex, endIndex - beginIndex);
+
+}
+
+@Html.SSGPaging("Index", "Contact", Model, Model.Contacts, token)

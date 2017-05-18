@@ -13,8 +13,9 @@
 > @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
 > Addresses > Add address</h6>
 
-@using(Html.BeginForm())
+@using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken();
 <fieldset>
         <legend>Address details</legend>
 

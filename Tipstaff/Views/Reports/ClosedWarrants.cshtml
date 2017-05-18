@@ -9,6 +9,7 @@
 
 @using (Html.BeginForm("ClosedWarrants", "Reports", FormMethod.Post, new { autocomplete = "false", @class = "form", style = "width:575px;" }))
 {
+    @Html.AntiForgeryToken();
     <ul>
         <li class="legend">@ViewBag.Title</li>
         <li>

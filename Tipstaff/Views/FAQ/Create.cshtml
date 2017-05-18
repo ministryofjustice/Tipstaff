@@ -43,6 +43,7 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <legend>FAQ</legend>
 

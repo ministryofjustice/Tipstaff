@@ -25,14 +25,16 @@
         @if (role.Value)
         {
             using (Html.BeginForm("RemoveFromRole", "User", new { id = Model.User.ProviderUserKey, role = role.Key }))
-            { 
+            {
+                @Html.AntiForgeryToken();
                 <input type="submit" value="Remove from" />
             }
         }
         else
         {
             using (Html.BeginForm("AddtoRole", "User", new { id = Model.User.ProviderUserKey, role = role.Key }))
-            { 
+            {
+                @Html.AntiForgeryToken();
                 <input type="submit" value="Add to" />
             }
 

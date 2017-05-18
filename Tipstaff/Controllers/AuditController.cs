@@ -8,6 +8,7 @@ namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class AuditController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

@@ -9,6 +9,7 @@ using System.Web.UI;
 namespace Tipstaff.Controllers
 {
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class ErrorController : Controller
     {
         public ActionResult Index()

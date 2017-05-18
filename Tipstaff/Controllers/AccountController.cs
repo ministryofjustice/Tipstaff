@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 
 namespace Tipstaff.Controllers
 {
+
     public class AccountController : Controller
     {
         public void SignIn()

@@ -14,6 +14,7 @@ namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class ChildRelationshipController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

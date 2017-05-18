@@ -11,6 +11,7 @@ namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class UsersController : Controller
     {
         TipstaffDB db = new TipstaffDB();
