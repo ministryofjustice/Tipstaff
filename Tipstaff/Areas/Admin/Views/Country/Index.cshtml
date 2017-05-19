@@ -27,6 +27,7 @@
         Countries containing 
         @using (Html.BeginForm())
            {    
+            @Html.AntiForgeryToken()
             @Html.TextBox("detailContains", null, new { @style = "width: 3em;", AccessKey = "F" })
                             <input alt="Filter Country" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
             @Html.HiddenFor(model => model.onlyActive)
@@ -36,6 +37,7 @@
         @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deactivated entries?</label> 
         @using (Html.BeginForm())
         {    
+            @Html.AntiForgeryToken()
             @Html.HiddenFor(model=>model.detailContains)
             switch (Model.onlyActive)
             {
@@ -99,5 +101,13 @@
 	}
 }
 </table>
-@Html.SSGPaging("Index", "Country", Model, Model.Countries)
+@{
+    var token = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex = token.IndexOf("value=\"") + 7;
+    var endIndex = token.IndexOf("\"", beginIndex);
+    token = token.Substring(beginIndex, endIndex - beginIndex);
+
+}
+@Html.SSGPaging("Index", "Country", Model, Model.Countries, token)
 

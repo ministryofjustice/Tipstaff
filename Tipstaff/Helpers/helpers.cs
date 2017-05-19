@@ -602,13 +602,25 @@ namespace Tipstaff.Helpers
             //var propertyName = ExpressionHelper.GetExpressionText(primary);
             return MvcHtmlString.Create(string.Format("<script type=\"text/javascript\">document.getElementById('{0}').focus()</script>", propertyName));
         }
-        public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, AdminListView Model, string sortValue, string sortButtonText)
+        public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, AdminListView Model, string sortValue, string sortButtonText, string token="")
         {
             TagBuilder headerCell = new TagBuilder("th");
             TagBuilder form = new TagBuilder("form");
             //action="/Warrant/IndexNew" method="post"//
             form.Attributes.Add("method", "post");
             form.Attributes.Add("action", HttpContext.Current.Request.CurrentExecutionFilePath);
+
+            //Add CSRF token
+            if (token != "")
+            {
+                TagBuilder csrfToken = new TagBuilder("input");
+                csrfToken.Attributes.Add("id", "__RequestVerificationToken");
+                csrfToken.Attributes.Add("name", "__RequestVerificationToken");
+                csrfToken.MergeAttribute("type", "hidden");
+                csrfToken.MergeAttribute("value", token);
+                form.InnerHtml += csrfToken;
+            }
+
             TagBuilder button = new TagBuilder("input");
             button.MergeAttribute("type", "Submit");
             button.MergeAttribute("value", sortButtonText);
@@ -1020,7 +1032,7 @@ namespace Tipstaff.Helpers
         /// <param name="model">A ListViewModel containing sort and filter criteria</param>
         /// <param name="pagedList">A paged list of objects</param>
         /// <returns></returns>
-        public static MvcHtmlString SSGPaging(this HtmlHelper htmlHelper, string actionName, string controllerName, AdminListView model, IPagedList pagedList)
+        public static MvcHtmlString SSGPaging(this HtmlHelper htmlHelper, string actionName, string controllerName, AdminListView model, IPagedList pagedList, string token = "")
         {
             if (pagedList.PageCount > 1)
             {
@@ -1038,6 +1050,16 @@ namespace Tipstaff.Helpers
                 form.MergeAttribute("controllerName", controllerName);
                 form.MergeAttribute("Method", FormMethod.Post.ToString());
 
+                //Add CSRF token
+                if (token != "")
+                {
+                    TagBuilder csrfToken = new TagBuilder("input");
+                    csrfToken.Attributes.Add("id", "__RequestVerificationToken");
+                    csrfToken.Attributes.Add("name", "__RequestVerificationToken");
+                    csrfToken.MergeAttribute("type", "hidden");
+                    csrfToken.MergeAttribute("value", token);
+                    form.InnerHtml += csrfToken;
+                }
                 string pageText = string.Format("Page {0} of {1}", pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber, pagedList.PageCount);
                 pageBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton text\" disabled=\"disabled\" style=\"width:100px !important;\">{0}</button>", pageText));
                 if (pagedList.HasPreviousPage)

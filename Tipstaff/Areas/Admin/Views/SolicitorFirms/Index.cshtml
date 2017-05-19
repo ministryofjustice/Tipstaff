@@ -27,6 +27,7 @@
         Firm names containing 
         @using (Html.BeginForm())
            {    
+            @Html.AntiForgeryToken()
             @Html.TextBox("detailContains", null, new { @style = "width: 5em;", AccessKey = "F" })@:&nbsp;
                             <input alt="Filter Firms" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
             @Html.HiddenFor(model => model.onlyActive)
@@ -36,6 +37,7 @@
         @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deactivated entries?</label> 
         @using (Html.BeginForm())
            {    
+            @Html.AntiForgeryToken()
            @Html.HiddenFor(model=>model.detailContains)
             switch (Model.onlyActive)
                {
@@ -55,15 +57,23 @@
     </tr>
     <tr>
         <th></th>
-        @Html.SortHeader(Model, "firmName", "Firm Name")
-        @Html.SortHeader(Model, "firmAddress", "Firms address")
+        @{
+            var token = @Html.AntiForgeryToken().ToHtmlString();
+
+            var beginIndex = token.IndexOf("value=\"") + 7;
+            var endIndex = token.IndexOf("\"", beginIndex);
+            token = token.Substring(beginIndex, endIndex - beginIndex);
+
+        }
+        @Html.SortHeader(Model, "firmName", "Firm Name", token)
+        @Html.SortHeader(Model, "firmAddress", "Firms address", token)
         <th>
             @Html.LabelFor(model => model.SolicitorFirms.First().phoneDayTime)
         </th>
         <th>
             @Html.LabelFor(model => model.SolicitorFirms.First().phoneOutofHours)
         </th>
-        @Html.SortHeader(Model, "solCount", "Linked Solicitors")
+        @Html.SortHeader(Model, "solCount", "Linked Solicitors", token)
         <th>
             @Html.LabelFor(model=>model.SolicitorFirms.First().active)
         </th>
@@ -104,5 +114,13 @@
 	}
 }
 </table>
-@Html.SSGPaging("Index", "SolicitorFirmListView", Model, Model.SolicitorFirms)
+@{
+    var token2 = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex2 = token2.IndexOf("value=\"") + 7;
+    var endIndex2 = token2.IndexOf("\"", beginIndex2);
+    token2 = token2.Substring(beginIndex2, endIndex2 - beginIndex2);
+
+}
+@Html.SSGPaging("Index", "SolicitorFirmListView", Model, Model.SolicitorFirms, token2)
 

@@ -68,5 +68,13 @@
 	}
 }
 </table>
-@Html.SSGPaging("Index", "DocumentStatus", Model, Model.DocumentStatuses)
+@{
+    var token = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex = token.IndexOf("value=\"") + 7;
+    var endIndex = token.IndexOf("\"", beginIndex);
+    token = token.Substring(beginIndex, endIndex - beginIndex);
+
+}
+@Html.SSGPaging("Index", "DocumentStatus", Model, Model.DocumentStatuses, token)
 

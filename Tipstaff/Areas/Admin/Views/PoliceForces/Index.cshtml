@@ -71,6 +71,14 @@
 	}
 }
 </table>
-@Html.SSGPaging("Index", "PoliceForces", Model, Model.PoliceForces)
+@{
+            var token = @Html.AntiForgeryToken().ToHtmlString();
+
+            var beginIndex = token.IndexOf("value=\"") + 7;
+            var endIndex = token.IndexOf("\"", beginIndex);
+            token = token.Substring(beginIndex, endIndex - beginIndex);
+
+}
+@Html.SSGPaging("Index", "PoliceForces", Model, Model.PoliceForces, token)
 
 

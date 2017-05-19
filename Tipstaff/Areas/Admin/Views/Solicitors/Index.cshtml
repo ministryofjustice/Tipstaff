@@ -28,6 +28,7 @@
         Solicitors containing 
         @using (Html.BeginForm())
            {    
+            @Html.AntiForgeryToken()
             @Html.TextBox("detailContains", null, new { @style = "width: 5em;", AccessKey = "F" })@:&nbsp;
                             <input alt="Filter Country" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
             @Html.HiddenFor(model => model.onlyActive)
@@ -37,6 +38,7 @@
         @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deactivated entries?</label> 
         @using (Html.BeginForm())
            {    
+            @Html.AntiForgeryToken()
            @Html.HiddenFor(model=>model.detailContains)
             switch (Model.onlyActive)
                {
@@ -56,12 +58,20 @@
     </tr>
     <tr>
         <th></th>
-        @Html.SortHeader(Model, "solicitorName", "Solicitor Name")
-        @Html.SortHeader(Model, "solicitorFirm", "Solicitor Firm")
+        @{
+            var token = @Html.AntiForgeryToken().ToHtmlString();
+
+            var beginIndex = token.IndexOf("value=\"") + 7;
+            var endIndex = token.IndexOf("\"", beginIndex);
+            token = token.Substring(beginIndex, endIndex - beginIndex);
+
+        }
+        @Html.SortHeader(Model, "solicitorName", "Solicitor Name", token)
+        @Html.SortHeader(Model, "solicitorFirm", "Solicitor Firm", token)
         <th>
             @Html.LabelFor(model=>model.Solicitors.First().active)
         </th>
-         @Html.SortHeader(Model, "activeCount", "Active records")
+         @Html.SortHeader(Model, "activeCount", "Active records", token)
     </tr>
 
 @{  var isAltRow = false;
@@ -92,4 +102,12 @@
 	}
 }
 </table>
-@Html.SSGPaging("Index", "Solicitor", Model, Model.Solicitors)
+@{
+    var token2 = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex2 = token2.IndexOf("value=\"") + 7;
+    var endIndex2 = token2.IndexOf("\"", beginIndex2);
+    token2 = token2.Substring(beginIndex2, endIndex2 - beginIndex2);
+
+}
+@Html.SSGPaging("Index", "Solicitor", Model, Model.Solicitors, token2)
