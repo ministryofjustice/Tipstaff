@@ -62,6 +62,8 @@ namespace Tipstaff
         public string RedirectUnAuthUrl = "~/Error/Unauthorised";
         public string RedirectWrongTeam = "~/Error/WrongTeam";
         public AccessLevel MinimumRequiredAccessLevel { get; set; }
+
+
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
 
