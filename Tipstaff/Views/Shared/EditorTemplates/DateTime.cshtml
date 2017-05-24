@@ -11,9 +11,12 @@
     } 
     string name = ViewData.TemplateInfo.HtmlFieldPrefix; 
     string id = name.Replace( ".", "_" ); 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#@id").datepicker
+
+    <script type="text/javascript">
+      
+        $(document).ready(function () {
+            
+            $("#@id").datepicker
             ({
                 dateFormat: 'dd/mm/yy',
                 showStatus: true,
@@ -28,7 +31,20 @@
                 showOn: 'button',
                 yearRange: '-90:+3',
                 showOptions: { origin: ["top", "right"] }
-            });
-    });
-</script>
+                });
+        });
+
+
+        jQuery.validator.methods["date"] = function (value, element){
+            var shortDateFormat = "dd/mm/yy";
+            var res = true;
+            try {
+                $.datepicker.parseDate(shortDateFormat, value);
+            } catch (error) {
+                res = false;
+            }
+            return res;
+        }
+
+    </script>
 }
