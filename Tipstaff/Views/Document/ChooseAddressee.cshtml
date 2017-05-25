@@ -13,8 +13,9 @@
 > @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecord.tipstaffRecordID},null)
 > @Html.ActionLink("Generate documents", "Select", "Document", new { id = Model.tipstaffRecord.tipstaffRecordID }, null)
 > Choose addressee</h6>
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken();
         <fieldset>
             <legend>Generate @Model.template.templateName in case @Model.tipstaffRecord.UniqueRecordID...</legend>
 

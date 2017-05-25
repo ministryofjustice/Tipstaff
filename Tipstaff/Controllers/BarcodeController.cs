@@ -12,6 +12,7 @@ namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class BarcodeController : Controller
     {
         //

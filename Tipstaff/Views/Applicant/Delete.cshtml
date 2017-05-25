@@ -8,7 +8,9 @@
 > @Html.ActionLink(Model.Applicant.childAbduction.UniqueRecordID,"Details","ChildAbduction", new{id=Model.Applicant.childAbduction.tipstaffRecordID},null)
 > @Html.ActionLink(string.Format("(Applicant) {0}", Model.Applicant.PoliceDisplayName), "Details", "Applicant", new { id = Model.Applicant.ApplicantID }, null)
 > Delete</h6>
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
 <fieldset>
     <legend>Are you sure you want to delete @Model.Applicant.fullname?</legend>
 

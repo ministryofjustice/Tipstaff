@@ -5,6 +5,7 @@
 <h2>Add a user</h2>
 @using (Html.BeginForm()){
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <div class="editor-label">User name</div>
         <div class="editor-field">

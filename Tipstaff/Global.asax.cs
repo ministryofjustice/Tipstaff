@@ -8,6 +8,8 @@ using System.Data.Entity;
 using Tipstaff.Models;
 using System.Web.Security;
 using System.Configuration;
+using System.Web.Helpers;
+using System.Security.Claims;
 
 namespace Tipstaff
 {
@@ -163,6 +165,7 @@ namespace Tipstaff
         }
         protected void Application_Start(object sender, EventArgs e)
         {
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
             AreaRegistration.RegisterAllAreas();
 
             ViewEngines.Engines.Clear();

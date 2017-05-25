@@ -234,6 +234,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\TipstaffFunctions.cs" />
+    <Compile Include="Classes\ValidateAntiForgeryTokenOnPost.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\ApplicantController.cs" />

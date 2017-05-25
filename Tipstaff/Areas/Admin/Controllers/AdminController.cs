@@ -8,6 +8,7 @@ namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class AdminController : Controller
     {
         //

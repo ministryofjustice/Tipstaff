@@ -13,6 +13,7 @@ namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class GenderController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

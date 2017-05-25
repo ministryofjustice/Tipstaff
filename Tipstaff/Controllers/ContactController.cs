@@ -14,6 +14,7 @@ namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class ContactController : Controller
     {
         private TipstaffDB db = new TipstaffDB();

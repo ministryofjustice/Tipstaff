@@ -12,7 +12,9 @@
 <h6>@Html.ActionLink(display,"Index",controller)
 > @Html.ActionLink(Model.TipstaffRecordSolicitor.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.TipstaffRecordSolicitor.tipstaffRecordID},null) 
 > Delete Solicitor</h6>
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
 <fieldset>
     <legend>Are you sure you want to delete @Model.TipstaffRecordSolicitor.solicitor.solicitorName from @Model.TipstaffRecordSolicitor.tipstaffRecord.UniqueRecordID?</legend>
     @Html.HiddenFor(model => model.DeleteModelID)

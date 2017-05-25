@@ -12,6 +12,7 @@ namespace Tipstaff.Areas.Admin.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class DeletedReasonController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
