@@ -9,6 +9,7 @@
 @using (Html.BeginForm()){
 
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     @Html.HiddenFor(model => model.User.UserID)
 
     <fieldset class="inner-block">

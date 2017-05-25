@@ -12,7 +12,9 @@
 > @Html.ActionLink(Model.Respondent.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.Respondent.tipstaffRecordID},null) 
 > @Html.ActionLink(string.Format("(Respondent) {0}", Model.Respondent.PoliceDisplayName),"Details",new{id=Model.Respondent.respondentID}) > Delete
 </h6>
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
 <fieldset>
     <legend>Are you sure you want to delete this respondent record from @Model.Respondent.tipstaffRecord.UniqueRecordID?</legend>
     @Html.HiddenFor(model => model.DeleteModelID)

@@ -15,6 +15,7 @@
 @using (Html.BeginForm("Upload", "Document", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <legend>Upload details</legend>
         

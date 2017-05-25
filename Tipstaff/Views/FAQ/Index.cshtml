@@ -9,7 +9,7 @@
 <h6>@ViewBag.Title</h6>
 @if (Request.IsAuthenticated)
 {
-    if (thisUser.IsInRole("Admin"))
+    if ((thisUser.IsInRole("Admin")) || (thisUser.IsInRole("System Admin")))
     {
             @Html.ActionLink("Add New FAQ", "Create")
     }

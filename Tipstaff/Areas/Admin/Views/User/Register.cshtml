@@ -17,7 +17,8 @@
     </ul>
 
     @using (Html.BeginForm()) { 
-        @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.") 
+        @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+        @Html.AntiForgeryToken();
         <div>
             <fieldset>
                 <legend>Account Information</legend>

@@ -12,7 +12,9 @@
 <h6>@Html.ActionLink(display,"Index",controller)
 > @Html.ActionLink(Model.AttendanceNote.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.AttendanceNote.tipstaffRecordID},null) 
 > Delete Attendance Note</h6>
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
 <fieldset>
     <legend>Are you sure you want to delete this Attendance Note?</legend>
     @Html.HiddenFor(model => model.DeleteModelID)

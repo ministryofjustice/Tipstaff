@@ -22,6 +22,7 @@
 </fieldset>
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken();
     <p>
         <input type="submit" value="Deactivate" /> 
     </p>

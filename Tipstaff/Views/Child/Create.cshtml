@@ -11,5 +11,6 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken();
     Html.RenderPartial("_createChildRecordBase");
 }

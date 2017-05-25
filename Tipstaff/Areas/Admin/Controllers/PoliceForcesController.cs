@@ -13,7 +13,8 @@ namespace Tipstaff.Areas.Admin.Controllers
 {
     
     [Authorize]
-    
+    [ValidateAntiForgeryTokenOnAllPosts]
+
     public class PoliceForcesController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

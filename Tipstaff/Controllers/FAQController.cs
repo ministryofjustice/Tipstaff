@@ -10,6 +10,7 @@ using System.Data.Entity;
 namespace Tipstaff.Controllers
 {
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class FAQController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

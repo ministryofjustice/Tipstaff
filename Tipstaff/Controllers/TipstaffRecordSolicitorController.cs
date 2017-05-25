@@ -15,6 +15,7 @@ namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
     [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class TipstaffRecordSolicitorController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;

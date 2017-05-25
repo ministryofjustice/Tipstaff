@@ -16,7 +16,8 @@
 
 @using (Html.BeginForm()) 
 {
-    @Html.ValidationSummary(true) 
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <legend>Enter @(genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID)=="Warrant"?"Contemnor":"Respondent") details</legend>
         @Html.Partial("_createRespondentBase")
