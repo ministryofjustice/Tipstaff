@@ -13,7 +13,8 @@
 > Add case review</h6>
 
 @using (Html.BeginForm()) { 
-    @Html.ValidationSummary(true) 
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <legend>Case Review details</legend>
 

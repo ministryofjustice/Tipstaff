@@ -14,6 +14,7 @@
 > Documents > Delete</h6>
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken();
 <fieldset>
     <legend>Are you sure you want to delete this document?</legend>
     @Html.HiddenFor(model => model.DeleteModelID)

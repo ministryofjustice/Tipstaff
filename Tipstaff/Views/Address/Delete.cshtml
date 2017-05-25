@@ -12,8 +12,9 @@
 <h6>@Html.ActionLink(display,"Index",controller)
 > @Html.ActionLink(Model.Address.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.Address.tipstaffRecordID},null) 
 > Addresses > Delete</h6>
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken();
 <fieldset>
     <legend>Are you sure you want to delete @Model.Address.addressLine1?</legend>
     @Html.HiddenFor(model => model.DeleteModelID)

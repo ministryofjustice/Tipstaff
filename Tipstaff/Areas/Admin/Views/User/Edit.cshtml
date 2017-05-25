@@ -50,7 +50,8 @@
 
 <div class="mvcMembership-emailAndComments">
     @using (Html.BeginForm("Edit", "User", new { id = Model.User.ProviderUserKey }))
-       { 
+    {
+        @Html.AntiForgeryToken();
 	<fieldset>
         <legend>Email Address & Comments</legend>
         @if (ViewBag.EmailMessage != null)

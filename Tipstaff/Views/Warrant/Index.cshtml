@@ -17,7 +17,8 @@
         <th @if (User.IsInRole("Admin")) {@Html.Raw("colspan=\"2\"")}>Filters</th>
         <th style="white-space:nowrap">        
             @using (Html.BeginForm())
-            {     
+            {
+                @Html.AntiForgeryToken();
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.caseStatusID)
@@ -29,7 +30,8 @@
         </th>
         <th style="white-space:nowrap;width:14em;">        
             @using (Html.BeginForm())
-            {     
+            {
+                @Html.AntiForgeryToken(); 
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.caseStatusID)
@@ -42,7 +44,8 @@
         <th colspan="2">&nbsp;</th> @* Empty columns *@
         <th style="white-space:nowrap;">
             @using (Html.BeginForm())
-            { 
+            {
+                @Html.AntiForgeryToken();
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.respondentNameContains)
@@ -54,7 +57,8 @@
         <th colspan="2">&nbsp;</th> @* Empty columns *@
         <th style="white-space:nowrap;">
             @using (Html.BeginForm())
-            { 
+            {
+                @Html.AntiForgeryToken();
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.respondentNameContains)
@@ -66,6 +70,7 @@
         <th>
         @using (Html.BeginForm())
         {
+            @Html.AntiForgeryToken();
             @Html.HiddenFor(model => model.sortOrder)
             @Html.HiddenFor(model => model.respondentNameContains)
             @Html.HiddenFor(model => model.caseStatusID)
@@ -93,18 +98,26 @@
     <tr> @* HeaderRow *@
         @if (User.IsInRole("Admin"))
         {<th style="width:20px;">&nbsp;</th>}
-        @Html.SortHeader(Model, "uniqueid", "Unique record ID")
-        @Html.SortHeader(Model, "casenumber", "Case Number")
+        @{
+            var token = @Html.AntiForgeryToken().ToHtmlString();
+
+            var beginIndex = token.IndexOf("value=\"") + 7;
+            var endIndex = token.IndexOf("\"", beginIndex);
+            token = token.Substring(beginIndex, endIndex - beginIndex);
+
+        }
+        @Html.SortHeader(Model, "uniqueid", "Unique record ID", token)
+        @Html.SortHeader(Model, "casenumber", "Case Number", token)
         @*<th>Full name of respondent</th>*@
-        @Html.SortHeader(Model, "displayName", "Full name of respondent", "14em")
-        @Html.SortHeader(Model, "reviewDate", "Next review date")
-        @Html.SortHeader(Model, "expiryDate", "Expiry Date ")
-        @Html.SortHeader(Model, "division", "Division")
-        @Html.SortHeader(Model, "created", "Created")
-        @Html.SortHeader(Model, "protMark", "Protective Marking")
-        @Html.SortHeader(Model, "caseStatus", "Current case status")
-        @Html.SortHeader(Model, "result", "Result")
-        @Html.SortHeader(Model, "resultEnter", "Result entered by")
+        @Html.SortHeader(Model, "displayName", "Full name of respondent", "14em", token)
+        @Html.SortHeader(Model, "reviewDate", "Next review date", token)
+        @Html.SortHeader(Model, "expiryDate", "Expiry Date ", token)
+        @Html.SortHeader(Model, "division", "Division", token)
+        @Html.SortHeader(Model, "created", "Created", token)
+        @Html.SortHeader(Model, "protMark", "Protective Marking", token)
+        @Html.SortHeader(Model, "caseStatus", "Current case status", token)
+        @Html.SortHeader(Model, "result", "Result", token)
+        @Html.SortHeader(Model, "resultEnter", "Result entered by", token)
         @if (User.IsInRole("Admin"))
         {<th style="width:20px;">&nbsp;</th>}
     </tr>@* End HeaderRow *@
@@ -158,8 +171,13 @@
 </table>
 <div style="clear:both;float:left;display:block">
 
-@using (Html.BeginForm())
-{ 
-    @Html.SSGPaging("Index", "Warrants", Model, Model.Warrants)
-} 
+@{
+    var token2 = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex2 = token2.IndexOf("value=\"") + 7;
+    var endIndex2 = token2.IndexOf("\"", beginIndex2);
+    token2 = token2.Substring(beginIndex2, endIndex2 - beginIndex2);
+
+}
+    @Html.SSGPaging("Index", "Warrants", Model, Model.Warrants, token2)
 </div>

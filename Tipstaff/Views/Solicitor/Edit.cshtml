@@ -22,6 +22,7 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <legend>@ViewBag.Title</legend>
         @Html.HiddenFor(model => model.solicitorID)

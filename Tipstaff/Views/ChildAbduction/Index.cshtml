@@ -18,6 +18,7 @@
         <th style="white-space:nowrap;">
         @using (Html.BeginForm())
         { 
+            @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.sortOrder)
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caseStatusID)
@@ -27,7 +28,8 @@
         </th>
         <th style="white-space:nowrap;">
         @using (Html.BeginForm())
-        {     
+        {
+            @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.sortOrder)
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caseStatusID)
@@ -39,7 +41,8 @@
         <th colspan="2">&nbsp;</th>
         <th style="white-space:nowrap;">
             @using (Html.BeginForm())
-            { 
+            {
+                @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.caOrderTypeID)
@@ -52,20 +55,28 @@
     <tr> @* HeaderRow *@
         @if (User.IsInRole("Admin"))
         {<th style="width:20px;">&nbsp;</th>}
-        @Html.SortHeader(Model, "uniqueid", "Unique record ID")
-        @Html.SortHeader(Model, "reviewDate", "Next review date")
-        @Html.SortHeader(Model, "sentSCD", "Date to SCD26")
-        @Html.SortHeader(Model, "orderDated", "Date Order made")
-        @Html.SortHeader(Model, "orderRecd", "Date Order received")
-        @Html.SortHeader(Model, "officer", "Officer Dealing")
-        @Html.SortHeader(Model, "orderType", "Order Type")
-        @Html.SortHeader(Model, "eldestChild", "Surname of eldest child")
-        @Html.SortHeader(Model, "respCount", "Respondents")
+        @{
+            var token = @Html.AntiForgeryToken().ToHtmlString();
+
+            var beginIndex = token.IndexOf("value=\"") + 7;
+            var endIndex = token.IndexOf("\"", beginIndex);
+            token = token.Substring(beginIndex, endIndex - beginIndex);
+
+        }
+        @Html.SortHeader(Model, "uniqueid", "Unique record ID", token)
+        @Html.SortHeader(Model, "reviewDate", "Next review date", token)
+        @Html.SortHeader(Model, "sentSCD", "Date to SCD26", token)
+        @Html.SortHeader(Model, "orderDated", "Date Order made", token)
+        @Html.SortHeader(Model, "orderRecd", "Date Order received", token)
+        @Html.SortHeader(Model, "officer", "Officer Dealing", token)
+        @Html.SortHeader(Model, "orderType", "Order Type", token)
+        @Html.SortHeader(Model, "eldestChild", "Surname of eldest child", token)
+        @Html.SortHeader(Model, "respCount", "Respondents", token)
         @*@Html.SortHeader(Model, "created", "Created")*@ 
-        @Html.SortHeader(Model, "protMark", "Protective Marking")
-        @Html.SortHeader(Model, "caseStatus", "Current case status")
-        @Html.SortHeader(Model, "result", "Result")
-        @Html.SortHeader(Model, "resultEnter", "Result entered by")
+        @Html.SortHeader(Model, "protMark", "Protective Marking", token)
+        @Html.SortHeader(Model, "caseStatus", "Current case status", token)
+        @Html.SortHeader(Model, "result", "Result", token)
+        @Html.SortHeader(Model, "resultEnter", "Result entered by", token)
         @if (User.IsInRole("Admin"))
         {<th style="width:20px;">&nbsp;</th>}
     </tr>@* End HeaderRow *@
@@ -128,8 +139,14 @@
 </table>
 <div style="clear:both;float:left;display:block">
 
-@using (Html.BeginForm())
-{ 
-    @Html.SSGPaging("Index", "Children", Model, Model.ChildAbductions)
-} 
+    @{
+        var token2 = @Html.AntiForgeryToken().ToHtmlString();
+
+        var beginIndex2 = token2.IndexOf("value=\"") + 7;
+        var endIndex2 = token2.IndexOf("\"", beginIndex2);
+        token2 = token2.Substring(beginIndex2, endIndex2 - beginIndex2);
+
+    }
+    @Html.SSGPaging("Index", "Children", Model, Model.ChildAbductions, token2)
+
 </div>

@@ -11,6 +11,7 @@
 > Create</h6>
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <legend>@ViewBag.Title</legend>
 
