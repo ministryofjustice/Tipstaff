@@ -1,0 +1,85 @@
+﻿@model Tipstaff.Models.DeleteRespondent
+
+@{
+    ViewBag.Title = string.Format("Delete respondent record from {0}", Model.Respondent.tipstaffRecord.UniqueRecordID);
+}
+@{ 
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.Respondent.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller) 
+> @Html.ActionLink(Model.Respondent.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.Respondent.tipstaffRecordID},null) 
+> @Html.ActionLink(string.Format("(Respondent) {0}", Model.Respondent.PoliceDisplayName),"Details",new{id=Model.Respondent.respondentID}) > Delete
+</h6>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+<fieldset>
+    <legend>Are you sure you want to delete this respondent record from @Model.Respondent.tipstaffRecord.UniqueRecordID?</legend>
+    @Html.HiddenFor(model => model.DeleteModelID)
+    @Html.HiddenFor(model => model.Respondent.respondentID)
+    <div class="display-label">@Html.LabelFor(m=>Model.Respondent.PoliceDisplayName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(m=>Model.Respondent.PoliceDisplayName)
+    </div>
+    <div class="display-label">@Html.LabelFor(m=>Model.Respondent.DateofBirthDisplay)</div>
+    <div class="display-field">
+        @Html.DisplayFor(m=>Model.Respondent.DateofBirthDisplay)
+    </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.genderID) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.gender.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.height) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.height) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.build) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.build) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.hairColour) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.hairColour) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.eyeColour) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.eyeColour) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.skinColourID) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.SkinColour.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.specialfeatures) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.specialfeatures) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.countryID) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.country.Detail) 
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.nationalityID) </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => Model.Respondent.nationality.Detail) 
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.DeletedReasonID,true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.DeletedReasonID)
+    </div>
+</fieldset>
+    <p>
+        <input type="submit" value="Delete" /> 
+    </p>
+}

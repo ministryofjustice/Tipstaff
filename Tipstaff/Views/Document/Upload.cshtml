@@ -1,0 +1,70 @@
+﻿@model Tipstaff.Models.DocumentUploadModel
+
+@{
+    ViewBag.Title = string.Format("Upload a document for {0}", Model.tipstaffRecord.UniqueRecordID);
+}
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecord.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecord.tipstaffRecordID},null)
+> Upload document</h6>
+
+@using (Html.BeginForm("Upload", "Document", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
+    <fieldset>
+        <legend>Upload details</legend>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.document.documentReference, true)
+        </div>        
+        <div class="editor-field">
+            @Html.EditorFor(model => model.document.documentReference)
+            @Html.ValidationMessageFor(model => model.document.documentReference)
+        </div>
+                
+        <div class="editor-label">
+            @Html.LabelFor(model => model.document.countryID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.document.countryID, Model.CountryList, "Select a country", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.document.countryID)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.document.nationalityID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.document.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.document.nationalityID)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.document.documentTypeID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.document.documentTypeID, Model.TypeList, "Select a Type", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.document.documentTypeID)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.document.documentStatusID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.document.documentStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.document.documentStatusID)
+        </div>
+        <div class="editor-label">
+            Please select file to upload
+        </div>        
+        <div class="editor-field">
+            <input name="uploadFile" type="file" />
+        </div>
+        @Html.HiddenFor(model => model.tipstaffRecordID)
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}

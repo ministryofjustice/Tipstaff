@@ -1,0 +1,57 @@
+﻿@model Tipstaff.Models.Solicitor
+
+@{
+    ViewBag.Title = string.Format("Deactivate {0}", Model.solicitorName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("Solicitors", "Index") 
+> @Html.ActionLink(Model.solicitorName, "Details", "Solicitor", new { id = Model.solicitorID }, null)
+> Deactivate</h6>
+
+<fieldset>
+    <legend>Are you sure you want to deactivate @Model.solicitorName?</legend>
+
+    <div class="display-label">@Html.LabelFor(model => model.solicitorName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.solicitorName)
+    </div>
+    <div class="display-label">            
+        @Html.LabelFor(model => model.SolicitorFirm.firmName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SolicitorFirm.firmName)
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.phoneDayTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneDayTime)
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.phoneOutofHours)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.phoneOutofHours)
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.email)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+    <p>
+        <input type="submit" value="Deactivate" /> 
+    </p>
+}
+
+

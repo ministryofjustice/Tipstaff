@@ -1,0 +1,94 @@
+﻿@model Tipstaff.Models.Address
+
+@{
+    ViewBag.Title = string.Format("Delete {0}", Model.addressLine1);
+}
+
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+    }
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> Addresses > Edit</h6>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+<fieldset>
+        <legend>Address</legend>
+
+        @Html.HiddenFor(model => model.addressID)
+        @Html.HiddenFor(model => model.tipstaffRecordID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addresseeName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addresseeName)
+            @Html.ValidationMessageFor(model => model.addresseeName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addressLine1, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addressLine1)
+            @Html.ValidationMessageFor(model => model.addressLine1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addressLine2, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addressLine2)
+            @Html.ValidationMessageFor(model => model.addressLine2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.addressLine3, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.addressLine3)
+            @Html.ValidationMessageFor(model => model.addressLine3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.town, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.town)
+            @Html.ValidationMessageFor(model => model.town)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.county, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.county)
+            @Html.ValidationMessageFor(model => model.county)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.postcode, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.postcode)
+            @Html.ValidationMessageFor(model => model.postcode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.phone, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.phone)
+            @Html.ValidationMessageFor(model => model.phone)
+        </div>
+        
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+    </fieldset>
+}

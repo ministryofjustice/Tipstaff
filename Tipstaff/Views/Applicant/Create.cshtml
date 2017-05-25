@@ -1,0 +1,103 @@
+﻿@model Tipstaff.Models.ApplicantCreationModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h6>@Html.ActionLink("Child Abductions","Index") 
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details","ChildAbduction", new{id=Model.tipstaffRecordID},null)
+> Create applicant record</h6>
+
+@using (Html.BeginForm()){
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
+    <fieldset>
+        <legend>Applicant details</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.salutationID, true) 
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.applicant.salutationID, Model.SalutationList, "Select a Title", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.applicant.salutationID) 
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.nameFirst, true)
+        </div>
+        <div class="editor-field" >
+            @Html.TextBoxFor(model => model.applicant.nameFirst)
+            @Html.ValidationMessageFor(model => model.applicant.nameFirst)
+        </div>
+        <div class="editor-label">
+           @Html.LabelFor(model => model.applicant.nameLast, true)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model=>model.applicant.nameLast)
+            @Html.ValidationMessageFor(model => model.applicant.nameLast)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.addressLine1, true) 
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.addressLine1)
+            @Html.ValidationMessageFor(model => model.applicant.addressLine1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.addressLine2, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.addressLine2)
+            @Html.ValidationMessageFor(model => model.applicant.addressLine2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.addressLine3, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.addressLine3)
+            @Html.ValidationMessageFor(model => model.applicant.addressLine3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.town, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.town)
+            @Html.ValidationMessageFor(model => model.applicant.town)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.county, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.county)
+            @Html.ValidationMessageFor(model => model.applicant.county)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.postcode, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.postcode)
+            @Html.ValidationMessageFor(model => model.applicant.postcode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.phone, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.phone)
+            @Html.ValidationMessageFor(model => model.applicant.phone)
+        </div>
+      
+        @Html.HiddenFor(model => model.applicant.tipstaffRecordID, new { Value = Model.tipstaffRecordID })
+        @Html.HiddenFor(model=>model.tipstaffRecordID)
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+        <div style="clear:both;">Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+
+     </fieldset>
+    
+}

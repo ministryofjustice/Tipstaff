@@ -1,0 +1,30 @@
+﻿@model Tipstaff.Models.ContactType
+
+@{
+    ViewBag.Title = string.Format("Deactivate {0}", Model.Detail);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("Contact types", "Index") 
+> @Html.ActionLink(Model.Detail, "Details", "Contact type", new { id = Model.contactTypeID }, null)
+> Deactivate</h6>
+
+<fieldset>
+    <legend>Are you sure you want to deactivate @Model.Detail?</legend>
+
+    <div class="display-label">@Html.LabelFor(model=>model.Detail)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Detail)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+    <p>
+        <input type="submit" value="Deactivate" /> 
+    </p>
+}
+
+

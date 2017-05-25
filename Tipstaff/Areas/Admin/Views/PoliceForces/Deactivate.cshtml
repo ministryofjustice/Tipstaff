@@ -1,0 +1,30 @@
+﻿@model Tipstaff.Models.PoliceForce
+
+@{
+    ViewBag.Title = string.Format("Deactivate {0}", Model.policeForceName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> @Html.ActionLink("PoliceForces", "Index") 
+> @Html.ActionLink(Model.policeForceName, "Details", "PoliceForces", new { id = Model.policeForceID }, null)
+> Deactivate</h6>
+
+<fieldset>
+    <legend>Are you sure you want to deactivate @Model.policeForceName?</legend>
+
+    <div class="display-label">@Html.LabelFor(model=>model.policeForceName)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.policeForceName)
+    </div>
+</fieldset>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+    <p>
+        <input type="submit" value="Deactivate" /> 
+    </p>
+}
+
+

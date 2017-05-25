@@ -1,0 +1,86 @@
+﻿@model Tipstaff.Models.DeleteWarrantViewModel
+
+@{
+    ViewBag.Title = string.Format("Delete {0}",Model.Warrant.UniqueRecordID);
+}
+<h6>
+@Html.ActionLink("Warrants", "Index", "Warrant") > 
+@Html.ActionLink(Model.Warrant.UniqueRecordID, "Details", "Warrant", new { id = Model.Warrant.tipstaffRecordID }, null)
+> Delete
+</h6>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+<fieldset>
+    <legend>Are you sure you want to delete warrant @Model.Warrant.UniqueRecordID?</legend>
+    <div class="message warning" style="padding:10px;">
+	    <span></span>
+	    <h6>Warning</h6>
+	    <p>Deleting @Model.Warrant.UniqueRecordID (case number: @Model.Warrant.caseNumber) will also delete the following, linked, records</p>
+        <dl>
+        @if (Model.Warrant.addresses.Count() > 0)
+        {
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.Warrant.addresses.Count(), "addressees")</dt>
+            foreach (var address in Model.Warrant.addresses)
+            {
+                <dd>@Html.DisplayFor(modelItem => address.outputAddressSingleLine)</dd>
+            }
+        }
+        @if (Model.Warrant.AttendanceNotes.Count() > 0)
+        {
+            
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.Warrant.AttendanceNotes.Count(), "attendance notes")</dt>
+            foreach (var item in Model.Warrant.AttendanceNotes)
+            {
+                <dd>@Html.DisplayFor(modelItem => item.callDetails)</dd>
+            }
+
+        }
+        @if (Model.Warrant.Documents.Count() > 0)
+        {
+            
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.Warrant.Documents.Count(), "documents")</dt>
+            foreach (var item in Model.Warrant.Documents)
+            {
+                <dd>        
+                @Html.DisplayFor(modelItem => item.documentType.Detail)
+                @if (item.documentTypeID > 1 && item.fileName != null){
+                    @Html.Raw("&ndash;&nbsp;")@Html.DisplayFor(modelItem => item.fileName)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.documentReference)
+                }
+                </dd>
+            }
+
+        }
+        @if (Model.Warrant.caseReviews.Count() > 0)
+        {
+            
+            <dt>@genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.Warrant.caseReviews.Count(), "case reviews")</dt>
+            foreach (var item in Model.Warrant.caseReviews)
+            {
+                <dd>@Html.DisplayFor(modelItem => item.reviewDate)@if (item.actionTaken!=null){@Html.Raw("&nbsp; &ndash; &nbsp;")@Html.DisplayFor(modelItem => item.actionTaken)}
+                </dd>
+            }
+
+        }
+        </dl>
+    </div>
+    @Html.ValidationSummary(true)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.deletedTipstaffRecord.deletedReasonID, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.deletedTipstaffRecord.deletedReasonID, Model.DeletedReasonList, "Please select a reason for deletion", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.deletedTipstaffRecord.deletedReasonID)
+    </div>
+    @Html.HiddenFor(model => model.Warrant.tipstaffRecordID)
+    @Html.HiddenFor(model => model.deletedTipstaffRecord.TipstaffRecordID)
+    <p>
+        <input type="submit" value="Delete" /> 
+    </p>
+    <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+</fieldset>
+}
