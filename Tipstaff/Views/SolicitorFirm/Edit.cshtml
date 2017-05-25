@@ -1,0 +1,119 @@
+﻿@model Tipstaff.Models.SolicitorFirmByTipstaffRecordViewModel
+
+@{
+    ViewBag.Title = string.Format("Edit record for {0}", Model.SolicitorFirm.firmName);
+}
+
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h6>@Html.ActionLink(display,"Index",controller)
+> @Html.ActionLink(Model.TipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> Solicitor Firm 
+> @Html.ActionLink(Model.SolicitorFirm.firmName,"Details", "SolicitorFirm", new { solicitorFirmID = Model.solicitorFirmID, tipstaffRecordID = Model.tipstaffRecordID })
+> Edit</h6>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+        @Html.HiddenFor(model => model.solicitorFirmID)
+        @Html.HiddenFor(model => model.SolicitorFirm.solicitorFirmID)
+        @Html.HiddenFor(model => model.SolicitorFirm.active)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.firmName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.firmName)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.firmName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.addressLine1, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.addressLine1)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.addressLine1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.addressLine2, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.addressLine2)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.addressLine2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.addressLine3, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.addressLine3)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.addressLine3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.town, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.town)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.town)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.county, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.county)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.county)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.postcode, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.postcode)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.postcode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.DX, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.DX)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.DX)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.phoneDayTime, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.phoneDayTime)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.phoneDayTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.phoneOutofHours, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.phoneOutofHours)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.phoneOutofHours)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SolicitorFirm.email, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SolicitorFirm.email)
+            @Html.ValidationMessageFor(model => model.SolicitorFirm.email)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+    </fieldset>
+}

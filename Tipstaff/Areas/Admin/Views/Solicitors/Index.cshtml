@@ -1,0 +1,113 @@
+﻿@model Tipstaff.Models.SolicitorListView
+
+@{
+    ViewBag.Title = "Solicitor list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head
+{
+    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+    <style type="text/css">
+        form {display:inline;}
+    </style>
+}
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> Solicitors</h6>
+
+<p>
+
+	@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new Solicitor", "Create new Solicitor", "Create", null, null, null, null, "createButton")
+
+</p>
+
+<table>
+    <tr>
+        <th colspan="2" style="text-align:right;vertical-align:middle;">
+        Solicitors containing 
+        @using (Html.BeginForm())
+           {    
+            @Html.AntiForgeryToken()
+            @Html.TextBox("detailContains", null, new { @style = "width: 5em;", AccessKey = "F" })@:&nbsp;
+                            <input alt="Filter Country" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
+            @Html.HiddenFor(model => model.onlyActive)
+        }
+        </th>
+        <th colspan="3">
+        @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deactivated entries?</label> 
+        @using (Html.BeginForm())
+           {    
+            @Html.AntiForgeryToken()
+           @Html.HiddenFor(model=>model.detailContains)
+            switch (Model.onlyActive)
+               {
+                   case true:
+                <input name="onlyActive" type="hidden" value="false" />
+                <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="true" checked="checked"/>
+                    break;
+                   case false:
+                <input name="onlyActive" type="hidden" value="true" />
+                <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="false" />
+                    break;
+                   default:
+                       break;
+               }
+        }
+        </th>
+    </tr>
+    <tr>
+        <th></th>
+        @{
+            var token = @Html.AntiForgeryToken().ToHtmlString();
+
+            var beginIndex = token.IndexOf("value=\"") + 7;
+            var endIndex = token.IndexOf("\"", beginIndex);
+            token = token.Substring(beginIndex, endIndex - beginIndex);
+
+        }
+        @Html.SortHeader(Model, "solicitorName", "Solicitor Name", token)
+        @Html.SortHeader(Model, "solicitorFirm", "Solicitor Firm", token)
+        <th>
+            @Html.LabelFor(model=>model.Solicitors.First().active)
+        </th>
+         @Html.SortHeader(Model, "activeCount", "Active records", token)
+    </tr>
+
+@{  var isAltRow = false;
+	foreach (var item in Model.Solicitors) {
+    <tr class="@(isAltRow ? "altRow" : "")>">
+        <td>
+            @if (item.active)
+            {
+            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "Solicitors", new { id = item.solicitorID }, null, null)
+            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "Solicitors", new { id = item.solicitorID }, null, null) 
+            }
+            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "Solicitor", id = item.solicitorID }, null, null) 
+        </td>
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.solicitorName, string.Format("Details for {0}", item.solicitorName), "Details", "Solicitors", new { id = item.solicitorID }, null, null, "createButton")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SolicitorFirm.firmName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+        <td>
+            @item.TipstaffRecords.Count()
+        </td>
+    </tr>
+	isAltRow = !isAltRow;
+	}
+}
+</table>
+@{
+    var token2 = @Html.AntiForgeryToken().ToHtmlString();
+
+    var beginIndex2 = token2.IndexOf("value=\"") + 7;
+    var endIndex2 = token2.IndexOf("\"", beginIndex2);
+    token2 = token2.Substring(beginIndex2, endIndex2 - beginIndex2);
+
+}
+@Html.SSGPaging("Index", "Solicitor", Model, Model.Solicitors, token2)

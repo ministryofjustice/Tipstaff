@@ -1,0 +1,106 @@
+﻿@model Tipstaff.Models.Solicitor
+
+
+<script type="text/javascript">
+    $(function () {
+        function log(id, name) {
+            var hidden = $('#' + name);
+            hidden.attr("value", id);
+        }
+
+        $('*[data-autocomplete-url]')
+    .each(function () {
+        $(this).autocomplete({
+            source: $(this).data("autocomplete-url"),
+            minLength: 2,
+            select: function (event, ui) {
+                log(ui.item.id, ui.item.name);
+            },
+            change: function (event, ui) {
+                if (!ui.item) {
+                    this.value = '';
+                } else {
+                    log(ui.item.id, ui.item.name);
+                }
+            }
+        });
+    });
+    });
+</script>
+
+@Html.ValidationSummary(true)
+@Html.AntiForgeryToken()
+    <fieldset>
+        <legend>Solicitor</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.salutationID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("salutationID", String.Empty)
+            @Html.ValidationMessageFor(model => model.salutationID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.firstName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.firstName)
+            @Html.ValidationMessageFor(model => model.firstName)
+        </div> 
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.lastName, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.lastName)
+            @Html.ValidationMessageFor(model => model.lastName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.solicitorFirmID, true)
+        </div>
+        <div class="editor-field">
+            <div id="createFirm">
+                @Html.AutocompleteWithHiddenFor(model => model.solicitorFirmID, "SolicitorFirm", "QuickSearch")
+                @Html.ValidationMessageFor(model => model.solicitorFirmID)
+                @Ajax.ActionLink("Create new firm", "CreateFirm"
+                                                        , "Solicitor"
+                                                        , new AjaxOptions
+                                                            {
+                                                                UpdateTargetId = "solFirm"
+                                                                ,LoadingElementId = "Refresh"
+                                                                ,OnSuccess = "window.location.hash='solFirm';"
+                                                            })
+                <img src="@Url.Content("~/Images/al_arrows_green.gif")" alt="loading..." id="Refresh" style="display:none"/>
+            </div>
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.phoneDayTime, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.phoneDayTime)
+            @Html.ValidationMessageFor(model => model.phoneDayTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.phoneOutofHours, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.phoneOutofHours)
+            @Html.ValidationMessageFor(model => model.phoneOutofHours)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.email, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.email)
+            @Html.ValidationMessageFor(model => model.email)
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+    </fieldset>

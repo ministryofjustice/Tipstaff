@@ -1,0 +1,16 @@
+﻿@model Tipstaff.Models.ChildCreationModel
+
+@{
+    ViewBag.Title = "Create child record";
+}
+
+
+<h6>@Html.ActionLink("Child Abductions","Index", "ChildAbduction")
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details","ChildAbduction", new{id=Model.tipstaffRecord.tipstaffRecordID},null)
+> Create child record</h6>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+    Html.RenderPartial("_createChildRecordBase");
+}
