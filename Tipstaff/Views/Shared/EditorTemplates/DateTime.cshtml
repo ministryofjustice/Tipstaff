@@ -10,6 +10,7 @@
         @Html.TextBox("", "", new { @class = "textbox" })
     } 
     string name = ViewData.TemplateInfo.HtmlFieldPrefix; 
+
     string id = name.Replace( ".", "_" ); 
 
     <script type="text/javascript">
