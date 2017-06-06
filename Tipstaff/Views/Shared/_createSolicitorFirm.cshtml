@@ -3,6 +3,7 @@
 @using (Ajax.BeginForm("Create", "SolicitorFirm", new AjaxOptions { UpdateTargetId = "createFirm", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }))
    {
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
     <fieldset>
         <legend>Solicitor Firm</legend>
 
