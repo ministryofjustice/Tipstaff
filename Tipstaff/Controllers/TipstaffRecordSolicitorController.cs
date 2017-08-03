@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using PagedList;
-
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
+using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -19,10 +15,15 @@ namespace Tipstaff.Controllers
     public class TipstaffRecordSolicitorController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ITelemetryLogger _logger;
+
+        public TipstaffRecordSolicitorController(ITelemetryLogger logger)
+        {
+            _logger = logger;
+        }
         
-        //
         // POST: /TipstaffRecordSolicitor/Create
-                
+
         public ActionResult Create(int tipstaffRecord, int solicitor)
         {
             TipstaffRecordSolicitor tipstaffrecordsolicitor=new TipstaffRecordSolicitor();
@@ -52,6 +53,8 @@ namespace Tipstaff.Controllers
             }
             catch (DbUpdateException ex)
             {
+                _logger.LogError(ex, $"DbUpdateException in TipstaffRecordSolicitorController in Create method, for user {((CPrincipal)User).UserID}");
+
                 TipstaffRecordSolicitorErrorViewModel model = new TipstaffRecordSolicitorErrorViewModel();
                 model.tipstaffrecordsolicitor = tipstaffrecordsolicitor;
 
@@ -68,6 +71,8 @@ namespace Tipstaff.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in TipstaffRecordSolicitorController in Create method, for user {((CPrincipal)User).UserID}");
+
                 ErrorModel model = new ErrorModel();
                 model.ErrorMessage = ex.Message;
                 return View("Error", model);
@@ -113,15 +118,5 @@ namespace Tipstaff.Controllers
             db.SaveChanges();
             return RedirectToAction("Details", controller, new { id = model.TipstaffRecordSolicitor.tipstaffRecordID });
         }
-        //public ActionResult DeleteConfirmed(int tipstaffRecordID, int solicitorID)
-        //{
-
-        //    TipstaffRecordSolicitor model = db.TipstaffRecordSolicitors.Single(t => t.tipstaffRecordID == tipstaffRecordID && t.solicitorID == solicitorID);
-        //    string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
-        //    db.TipstaffRecordSolicitors.Remove(model);
-        //    //db.Entry(model).State = EntityState.Deleted;
-        //    db.SaveChanges();
-        //    return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
-        //}
     }
 }

@@ -9,6 +9,7 @@ using System.Data;
 using System.Web.UI;
 using PagedList;
 using System.Data.Entity;
+using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -17,11 +18,16 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class AddressController : Controller
     {
-
         private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ITelemetryLogger _logger; 
         //
         // GET: /Address/
 
+        public AddressController(ITelemetryLogger telemetryLogger)
+        {
+            _logger = telemetryLogger;
+        }
+        
         public ActionResult Details(int id)
         {
             Address model = db.Addresses.Find(id);
@@ -98,6 +104,7 @@ namespace Tipstaff.Controllers
 
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in AddressController in Create method, for user {((CPrincipal)User).UserID}");
                 ErrorModel errModel = new ErrorModel(2);
                 errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                 TempData["ErrorModel"] = errModel;

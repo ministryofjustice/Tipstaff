@@ -10,6 +10,9 @@ using System.Web.Security;
 using System.Configuration;
 using System.Web.Helpers;
 using System.Security.Claims;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
+using Tipstaff.Infrastructure;
 
 namespace Tipstaff
 {
@@ -18,6 +21,15 @@ namespace Tipstaff
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static IWindsorContainer _container;
+
+        private static void BootstrapContainer()
+        {
+            _container = new WindsorContainer().Install(FromAssembly.This());
+
+            ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(_container.Kernel));
+        }
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             //filters.Add(new LogonAuthorize());
@@ -182,6 +194,7 @@ namespace Tipstaff
             if (DateTime.Now.Year.ToString() != appYear.ToString()) {
                 ConfigurationManager.AppSettings["AppYear"] = appYear += " - " + DateTime.Now.Year.ToString();
             }
+            BootstrapContainer();
             //ConfigurationManager.AppSettings["CurServer"] = ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString.Split(';').First().Split('=').Last();
         }
         protected void Application_AuthenticateRequest()

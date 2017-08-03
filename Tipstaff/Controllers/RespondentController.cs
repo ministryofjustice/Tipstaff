@@ -11,6 +11,7 @@ using PagedList;
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
 using System.Web.UI;
+using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -21,6 +22,12 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
+        private readonly ITelemetryLogger _logger;
+
+        public RespondentController(ITelemetryLogger logger)
+        {
+            _logger = logger;
+        }
         //
         // GET: /Respondent/Details/5
 
@@ -97,8 +104,10 @@ namespace Tipstaff.Controllers
 
                 }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError(ex, $"DbUpdateException in RespondentController in Create method, for user {((CPrincipal)User).UserID}");
+
                 if (Request.IsAjaxRequest())
                 {
                     return PartialView("_createRespondentForRecord", model);
@@ -110,6 +119,8 @@ namespace Tipstaff.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in RespondentController in Create method, for user {((CPrincipal)User).UserID}");
+
                 ErrorModel errModel = new ErrorModel(2);
                 errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                 TempData["ErrorModel"] = errModel;

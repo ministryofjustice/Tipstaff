@@ -11,6 +11,7 @@ using PagedList;
 using Tipstaff.Models;
 using System.Xml.Linq;
 using System.IO;
+using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -21,9 +22,15 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
+        private readonly ITelemetryLogger _logger;
+
+        public ChildAbductionController(ITelemetryLogger telemetryLogger)
+        {
+            _logger = telemetryLogger;
+        }
         //
         // GET: /ChildAbduction/
-        
+
         public ViewResult Index(ChildAbductionListViewModel model)
         {
             int pageSize = Int32.Parse(ConfigurationManager.AppSettings["pageSize"]);
@@ -263,6 +270,7 @@ namespace Tipstaff.Controllers
                 }
                 catch (Exception ex)
                 {
+                    _logger.LogError(ex, $"Exception in ChildAbductionController in EnterResult method, for user {((CPrincipal)User).UserID}");
                     ErrorModel errModel = new ErrorModel(2);
                     errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                     TempData["ErrorModel"] = errModel;
