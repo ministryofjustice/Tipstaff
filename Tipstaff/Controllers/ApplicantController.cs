@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Data.Entity.Infrastructure;
 using System.Data;
 using System.Data.Entity;
+using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -17,6 +18,12 @@ namespace Tipstaff.Controllers
     public class ApplicantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ITelemetryLogger _logger;
+        
+        public ApplicantController(ITelemetryLogger telemetryLogger)
+        {
+            _logger = telemetryLogger;
+        }
 
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
@@ -75,12 +82,14 @@ namespace Tipstaff.Controllers
                     return RedirectToAction("Details", "ChildAbduction", new { id = model.tipstaffRecordID });
                 }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError(ex, $"DbUpdateException in ApplicantController in Create method, for user {((CPrincipal)User).UserID}");
                 return View(model);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in ApplicantController in Create method, for user {((CPrincipal)User).UserID}");
                 ErrorModel errModel = new ErrorModel(2);
                 errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                 TempData["ErrorModel"] = errModel;

@@ -4,6 +4,7 @@ using Tipstaff.Models;
 using System;
 using System.IO;
 using System.Web.UI;
+using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -14,7 +15,13 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        
+        private readonly ITelemetryLogger _logger;
+
+        public DocumentController(ITelemetryLogger logger)
+        {
+            _logger = logger;
+        }
+
         public ActionResult ChooseAddressee(int tipstaffRecordID, int templateID)
         {
             TipstaffRecord tr = db.TipstaffRecord.Find(tipstaffRecordID);
@@ -166,8 +173,10 @@ namespace Tipstaff.Controllers
                 byte[] file = doc.binaryFile;
                 return File(file, doc.mimeType, doc.fileName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in DocumentController in ExtractDocument method, for user {((CPrincipal)User).UserID}");
+
                 return View("Error");
             }
         }

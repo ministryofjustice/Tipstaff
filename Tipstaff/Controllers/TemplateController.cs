@@ -9,6 +9,7 @@ using System.IO;
 using System.Reflection;
 using System.Security;
 using System.Data.Entity.Validation;
+using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -19,6 +20,12 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
+        private readonly ITelemetryLogger _logger;
+
+        public TemplateController(ITelemetryLogger logger)
+        {
+            _logger = logger;
+        }
         //
         // GET: /Template/
         public ActionResult Create(int tipstaffRecordID, int templateID)
@@ -73,6 +80,8 @@ namespace Tipstaff.Controllers
             }
             catch (DbEntityValidationException ex)
             {
+                _logger.LogError(ex, $"DbEntityValidationException in TemplateController in Create method, for user {((CPrincipal)User).UserID}");
+
                 ErrorModel model = new ErrorModel(2);
                 model.ErrorMessage = ex.Message;
                 TempData["ErrorModel"] = model;
@@ -81,6 +90,8 @@ namespace Tipstaff.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in TemplateController in Create method, for user {((CPrincipal)User).UserID}");
+
                 ErrorModel model = new ErrorModel(2);
                 model.ErrorMessage = ex.Message;
                 TempData["ErrorModel"] = model;
@@ -146,6 +157,8 @@ namespace Tipstaff.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in TemplateController in Create4 method, for user {((CPrincipal)User).UserID}");
+
                 ErrorModel model = new ErrorModel(2);
                 model.ErrorMessage = ex.Message;
                 TempData["ErrorModel"] = model;
@@ -211,6 +224,8 @@ namespace Tipstaff.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in TemplateController in Create8 method, for user {((CPrincipal)User).UserID}");
+
                 ErrorModel model = new ErrorModel(2);
                 model.ErrorMessage = ex.Message;
                 TempData["ErrorModel"] = model;
