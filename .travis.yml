@@ -4,4 +4,3 @@ install:
   - nuget restore Tipstaff.sln
 script:
   - xbuild /p:Configuration=Release Tipstaff.sln /p:TargetFrameworkVersion="v4.5"
-  os: windows
