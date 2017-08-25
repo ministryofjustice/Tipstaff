@@ -1,7 +1,5 @@
 language: csharp
 solution: tipstaff.sln
-mono: none
-dotnet: v4.5
 
 install:
   - nuget restore Tipstaff.sln
