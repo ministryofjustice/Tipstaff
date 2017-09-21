@@ -33,7 +33,7 @@ namespace Tipstaff.Models
     }
     public class CountryListView : AdminListView
     {
-    public IPagedList<Country> Countries { get; set; }
+    public IPagedList<Tipstaff.Services.DynamoTables.Country> Countries { get; set; }
     }
         public class DocumentStatusListView : AdminListView
     {
@@ -49,7 +49,7 @@ namespace Tipstaff.Models
     }
     public class NationalityListView : AdminListView
     {
-        public IPagedList<Nationality> Nationalities { get; set; }
+        public IPagedList<Tipstaff.Services.DynamoTables.Nationality> Nationalities { get; set; }
     }
     public class SalutationListView : AdminListView
     {

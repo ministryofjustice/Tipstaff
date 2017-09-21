@@ -409,7 +409,8 @@ namespace Tipstaff.Models
     public class Country
     {
         [Key]
-        public int countryID { get; set; }
+        //public int countryID { get; set; }
+        public string countryID { get; set; }
         [Required, MaxLength(50), Display(Name = "Issuing Country")]
         public string Detail { get; set; }
         public bool active { get; set; }

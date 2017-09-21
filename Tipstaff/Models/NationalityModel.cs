@@ -9,7 +9,8 @@ namespace Tipstaff.Models
     public class Nationality
     {
         [Key]
-        public int nationalityID { get; set; }
+        //public int nationalityID { get; set; }
+        public string nationalityID { get; set; }
         [Required, MaxLength(50), Display(Name = "Nationality")]
         public string Detail { get; set; }
         public bool active { get; set; }

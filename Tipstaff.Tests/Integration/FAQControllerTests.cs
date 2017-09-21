@@ -13,53 +13,71 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Tests.Integration
 {
+
+    [TestFixture]
     public class FAQControllerTests
     {
-        [TestFixture]
-        public class AttendanceNoteControllerTests
+        private FAQController _sub;
+        private IFAQRepository _faqRepository;
+        private IDynamoAPI<Tipstaff.Services.DynamoTables.FAQ> _dynamoAPI;
+        string faqIndex = string.Empty;
+        FAQ faq;
+
+        [SetUp]
+        public void SetUp()
         {
-            private FAQController _sub;
-            private IFAQRepository _faqRepository;
-            private IDynamoAPI<Tipstaff.Services.DynamoTables.FAQ> _dynamoAPI;
-            string faqIndex = string.Empty;
-            FAQ faq;
 
-            [SetUp]
-            public void SetUp()
+            _dynamoAPI = new DynamoAPI<Tipstaff.Services.DynamoTables.FAQ>();
+            _faqRepository = new FAQRepository(_dynamoAPI);
+            faqIndex = GuidGenerator.GenerateTimeBasedGuid().ToString();
+            _sub = new FAQController(_faqRepository);
+        }
+
+        [Test]
+        public void Create_Should_Add_New_FAQ()
+        {
+            var response = _sub.Create(new Models.FAQ()
             {
-                
-                _dynamoAPI = new DynamoAPI<Tipstaff.Services.DynamoTables.FAQ>();
-                _faqRepository = new FAQRepository(_dynamoAPI);
-                faqIndex = GuidGenerator.GenerateTimeBasedGuid().ToString();
-                _sub = new FAQController(_faqRepository);
-            }
+                faqID = faqIndex,
+                answer = "Answer-Test",
+                loggedInUser = true,
+                question = "Question-Test?"
+            });
 
-            [Test]
-            public void Create_Should_Add_New_FAQ()
+            faq = _faqRepository.GetFAQ(faqIndex);
+
+            Assert.AreEqual(faqIndex, faq.FaqId);
+        }
+
+        [Test]
+        public void Update_Should_Update_FAQ()
+        {
+            var response = _sub.Create(new Models.FAQ()
             {
-                var response = _sub.Create(new Models.FAQ()
-                {
-                    faqID = faqIndex,
-                    answer = "Answer-Test",
-                    loggedInUser = true,
-                    question = "Question-Test?"
-                });
+                faqID = faqIndex,
+                answer = "Answer-Test",
+                loggedInUser = true,
+                question = "Question-Test?"
+            });
 
-                faq = _faqRepository.GetFAQ(faqIndex);
-
-                Assert.AreEqual(faqIndex, faq.FaqId);
-            }
-
-            [Test]
-            public void Update_Should_Update_FAQ()
+            response = _sub.Edit(new Models.FAQ()
             {
-            }
+                faqID = faqIndex,
+                answer = "Answer-Test modified",
+                loggedInUser = true,
+                question = "Question-Test?"
+            });
 
-            [TearDown]
-            public void TearDown()
-            {
-                _faqRepository.Delete(faq);
-            }
+            faq = _faqRepository.GetFAQ(faqIndex);
+
+            Assert.AreEqual("Answer-Test modified", faq.Answer);
+
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _faqRepository.Delete(faq);
         }
     }
 }
