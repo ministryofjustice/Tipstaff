@@ -15,7 +15,6 @@ namespace Tipstaff.Controllers
     public class NPOController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-
         //
         // GET: /NPO/Add
 

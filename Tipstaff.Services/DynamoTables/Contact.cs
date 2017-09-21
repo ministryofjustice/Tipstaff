@@ -11,12 +11,9 @@ namespace Tipstaff.Services.DynamoTables
     public class Contact
     {
         [DynamoDBHashKey]
-        public int ContactID { get; set; }
+        public string ContactID { get; set; }
 
-        [DynamoDBRangeKey]
-        public string Type { get; set; }
-
-        public int salutationID { get; set; }
+        public string salutation{ get; set; }
        
         public string firstName { get; set; }
         
@@ -44,6 +41,6 @@ namespace Tipstaff.Services.DynamoTables
        
         public string notes { get; set; }
      
-        public int contactTypeID { get; set; }
+        public string ContactType { get; set; }
     }
 }

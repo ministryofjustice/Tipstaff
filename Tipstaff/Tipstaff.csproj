@@ -244,8 +244,15 @@
     <Compile Include="Infrastructure\ControllerFactory.cs" />
     <Compile Include="Infrastructure\ControllersInstaller.cs" />
     <Compile Include="Infrastructure\PresentationLayerInstaller.cs" />
-    <Compile Include="Logger\ITelemetryLogger.cs" />
-    <Compile Include="Logger\TelemetryLogger.cs" />
+    <Compile Include="Logger\ICloudWatchLogger.cs" />
+    <Compile Include="Logger\CloudWatchLogger.cs" />
+    <Compile Include="MemoryCollections\CaOrderTypeList.cs" />
+    <Compile Include="MemoryCollections\CaseStatusesList.cs" />
+    <Compile Include="MemoryCollections\ContactTypeList.cs" />
+    <Compile Include="MemoryCollections\DivisionsList.cs" />
+    <Compile Include="MemoryCollections\ProtectiveMarkingsList.cs" />
+    <Compile Include="MemoryCollections\ResultsList.cs" />
+    <Compile Include="MemoryCollections\SalutationList.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AddressModels.cs" />
     <Compile Include="Areas\Admin\Models\AdminUserModels.cs" />
@@ -658,6 +665,16 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tipstaff.Infrastructure\Tipstaff.Infrastructure.csproj">
+      <Project>{55b3ea41-d787-437b-913a-560193c00f98}</Project>
+      <Name>Tipstaff.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tipstaff.Services\Tipstaff.Services.csproj">
+      <Project>{c95d0533-6e9a-48be-9db0-dd242bf22141}</Project>
+      <Name>Tipstaff.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

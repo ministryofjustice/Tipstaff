@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tipstaff.Infrastructure</RootNamespace>
     <AssemblyName>Tipstaff.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,9 +50,14 @@
     <Compile Include="DynamoAPI\DynamoAPI.cs" />
     <Compile Include="DynamoAPI\IDynamoAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AttendanceNotesRepository.cs" />
     <Compile Include="Repositories\ContactsRepository.cs" />
+    <Compile Include="Repositories\FAQRepository.cs" />
+    <Compile Include="Repositories\TipstaffRecordRepository.cs" />
+    <Compile Include="Services\TimeBasedGuidService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -63,5 +69,6 @@
       <Name>Tipstaff.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

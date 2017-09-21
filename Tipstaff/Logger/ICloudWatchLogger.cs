@@ -2,7 +2,7 @@
 
 namespace Tipstaff.Logger
 {
-    public interface ITelemetryLogger
+    public interface ICloudWatchLogger
     {
         void LogError(Exception exception, string message);
 

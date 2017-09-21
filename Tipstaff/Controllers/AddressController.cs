@@ -19,11 +19,11 @@ namespace Tipstaff.Controllers
     public class AddressController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly ITelemetryLogger _logger; 
+        private readonly ICloudWatchLogger _logger; 
         //
         // GET: /Address/
 
-        public AddressController(ITelemetryLogger telemetryLogger)
+        public AddressController(ICloudWatchLogger telemetryLogger)
         {
             _logger = telemetryLogger;
         }

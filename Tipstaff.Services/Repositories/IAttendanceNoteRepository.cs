@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tipstaff.Services.Services
+namespace Tipstaff.Services.Repositories
 {
-    public interface IContactsService
+    public interface IAttendanceNoteRepository
     {
     }
 }

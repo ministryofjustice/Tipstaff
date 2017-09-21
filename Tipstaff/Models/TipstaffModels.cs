@@ -13,7 +13,7 @@ namespace Tipstaff.Models
 {
 
     #region Tipstaff Record Models
-    public abstract class TipstaffRecord
+    public class TipstaffRecord
     {
         [Key]
         public int tipstaffRecordID { get; set; }

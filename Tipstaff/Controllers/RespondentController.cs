@@ -22,9 +22,9 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        private readonly ITelemetryLogger _logger;
+        private readonly ICloudWatchLogger _logger;
 
-        public RespondentController(ITelemetryLogger logger)
+        public RespondentController(ICloudWatchLogger logger)
         {
             _logger = logger;
         }

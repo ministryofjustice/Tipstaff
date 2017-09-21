@@ -10,22 +10,37 @@ using PagedList;
 
 using Tipstaff.Models;
 using System.Web.UI;
+using Tipstaff.Services.Repositories;
+using Tipstaff.MemoryCollections;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
-    [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-    [Authorize]
-    [ValidateAntiForgeryTokenOnAllPosts]
+    //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    //[Authorize]
+    //[ValidateAntiForgeryTokenOnAllPosts]
     public class AttendanceNoteController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private TipstaffDB db;//////= myDBContextHelper.CurrentContext;
+        private readonly IAttendanceNotesRepository _attendanceNotesRepository;
+        private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
 
+        public AttendanceNoteController(IAttendanceNotesRepository attendanceNotesRepository, ITipstaffRecordRepository tipstaffRecordRepository)
+        {
+            _attendanceNotesRepository = attendanceNotesRepository;
+            _tipstaffRecordRepository = tipstaffRecordRepository;
+        }
+        
         [HttpGet]
-        public ActionResult Create(int id)
+        public ActionResult Create(string id)
         {
             AttendanceNote AttendanceNote = new AttendanceNote(DateTime.Now);
-            ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
-            AttendanceNote.tipstaffRecord = db.TipstaffRecord.Find(id);
+            ////////ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
+           AttendanceNote.tipstaffRecord = db.TipstaffRecord.Find(id);
+            ////////var tipstaffRecord = _tipstaffRecordRepository.GetEntityByHashKey(id);
+            ////////AttendanceNote.tipstaffRecord = new TipstaffRecord() { resultID = tipstaffRecord.res}
+           
+            ViewBag.AttendanceNoteCodes = CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1);
             AttendanceNote.tipstaffRecordID = id;
 
             if (AttendanceNote.tipstaffRecord.caseStatus.sequence > 3)
@@ -42,11 +57,30 @@ namespace Tipstaff.Controllers
             AttendanceNote.callEnded = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.AttendanceNotes.Add(AttendanceNote);
-                db.SaveChanges();
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(AttendanceNote.tipstaffRecordID), new { id = AttendanceNote.tipstaffRecordID });
+                ////db.AttendanceNotes.Add(AttendanceNote);
+                ////db.SaveChanges();
+                _attendanceNotesRepository.AddAttendanceNote(new Services.DynamoTables.AttendanceNote()
+                {
+                    CallDated = AttendanceNote.callDated,
+                    CallDetails = AttendanceNote.callDetails,
+                    CallEnded = AttendanceNote.callEnded,
+                    CallStarted = AttendanceNote.callStarted,
+                    TipstaffRecordID = AttendanceNote.tipstaffRecordID,
+                    AttendanceNoteID = GuidGenerator.GenerateTimeBasedGuid().ToString()
+
+                });
+
+               
+               var area = _tipstaffRecordRepository.GetEntityByHashKey(AttendanceNote.tipstaffRecordID);
+
+               //// return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(AttendanceNote.tipstaffRecordID), new { id = AttendanceNote.tipstaffRecordID });
+                return RedirectToAction("Details", area.Discriminator, new { id = AttendanceNote.tipstaffRecordID });
+
             }
-            ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
+
+            
+            /////// ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
+            ViewBag.AttendanceNoteCodes = CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1);
             return View(AttendanceNote);
         }
 
@@ -61,6 +95,7 @@ namespace Tipstaff.Controllers
             model.AttendanceNotes = w.AttendanceNotes.OrderByDescending(p => p.callDated).ToXPagedList<AttendanceNote>(page ?? 1, 8);
             return PartialView("_ListAttendanceNotesByRecord", model);
         }
+
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
@@ -87,11 +122,24 @@ namespace Tipstaff.Controllers
         [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
         public ActionResult DeleteConfirmed(DeleteAttendanceNote model)
         {
-            model.AttendanceNote = db.AttendanceNotes.Find(model.DeleteModelID);
-            int tipstaffRecordID = model.AttendanceNote.tipstaffRecordID;
-            string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
-            db.AttendanceNotes.Remove(model.AttendanceNote);
-            db.SaveChanges();
+            //////model.AttendanceNote = db.AttendanceNotes.Find(model.DeleteModelID);
+            var dynamoEntity = _attendanceNotesRepository.GetAttendanceNote(model.DeleteModelID);
+            model.AttendanceNote = new AttendanceNote()
+            {
+                 AttendanceNoteID = dynamoEntity.AttendanceNoteID,
+                 tipstaffRecordID = dynamoEntity.TipstaffRecordID,
+                 callDated = dynamoEntity.CallDated,
+                 callDetails = dynamoEntity.CallDetails,
+                 callEnded = dynamoEntity.CallEnded,
+               //  callStarted = dynamoEntity.CallStarted,
+            };
+
+            var tipstaffRecordID = model.AttendanceNote.tipstaffRecordID;
+            string controller = string.Empty;/////genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
+            //////db.AttendanceNotes.Remove(model.AttendanceNote);
+            //////db.SaveChanges();
+            // _attendanceNotesRepository.
+            
             //get the Audit Event we just created 
             string recDeleted = model.DeleteModelID.ToString();
             AuditEvent AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "AttendanceNote deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();

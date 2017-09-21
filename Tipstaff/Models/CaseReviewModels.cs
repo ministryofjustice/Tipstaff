@@ -13,12 +13,14 @@ namespace Tipstaff.Models
         public Tipstaff.xPagedList<CaseReview> CaseReviews { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
+
     public class OutstandingCaseReviewViewModel
     {
         public ICollection<TipstaffRecord> OverdueCaseReviews { get; set; }
         public ICollection<TipstaffRecord> DueTodayCaseReviews { get; set; }
         public ICollection<TipstaffRecord> DueWithinWeekCaseReviews { get; set; }
     }
+
     public class CaseReview
     {
         [Key]

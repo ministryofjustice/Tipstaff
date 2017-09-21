@@ -11,8 +11,6 @@ namespace Tipstaff.Infrastructure.DynamoAPI
 {
     public interface IDynamoAPI<T>
     {
-        //CreateTableResponse CreateTable(CreateTableRequest request, string table);
-
         //void CreateItem(Document document, string table);
 
         //UpdateItemResponse UpdateItem(UpdateItemRequest updateRequest, string table);
@@ -24,9 +22,14 @@ namespace Tipstaff.Infrastructure.DynamoAPI
         T GetEntity(object hashKey, object rangeKey);
 
         void Delete(T entity);
-
-        IEnumerable<T> GetResultsByCondition(object key, QueryOperator op, object range);
-
+        
         IEnumerable<T> GetResultsByCondition(string name, ScanOperator scanOp, object value);
+
+        IEnumerable<T> GetResultsByKey(object key);
+
+        IEnumerable<T> GetAll();
+
+        T GetEntityByHashKey(object hashKey);
+        
     }
 }

@@ -23,32 +23,20 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             _dynamoAPI.Save(contact);
         }
-
-        public Contact GetContact(object key, object rangeKey=null)
+        
+        public Contact GetContact(string id)
         {
-            return _dynamoAPI.GetEntity(key, rangeKey);
-            
+            return _dynamoAPI.GetEntityByHashKey(id);
         }
-
-        public Contact GetContact(int id)
+        
+        public IEnumerable<Contact> GetContacts()
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Contact> GetContacts(int id)
-        {
-            // var list = _dynamoAPI.GetResultsByCondition(id, ScanOperator.Contains, name)
-            return null;
-        }
-
-        public IEnumerable<Contact> GetContacts(int id, string name)
-        {
-            throw new NotImplementedException();
+            return _dynamoAPI.GetAll();
         }
 
         public void UpdateContact(Contact contact)
         {
-            var entity = _dynamoAPI.GetEntity(contact.ContactID, contact.contactTypeID);
+            var entity = _dynamoAPI.GetEntityByHashKey(contact.ContactID);
             entity.addressLine1 = contact.addressLine1;
             _dynamoAPI.Save(entity);
         }

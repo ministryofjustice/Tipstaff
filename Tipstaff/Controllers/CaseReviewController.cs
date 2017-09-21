@@ -29,6 +29,7 @@ namespace Tipstaff.Controllers
             model.CaseReview.nextReviewDate = DateTime.Today.AddMonths(1);
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Create(CaseReviewCreation model)
         {

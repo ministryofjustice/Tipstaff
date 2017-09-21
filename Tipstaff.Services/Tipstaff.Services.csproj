@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tipstaff.Services</RootNamespace>
     <AssemblyName>Tipstaff.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,10 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamoTables\AttendanceNote.cs" />
     <Compile Include="DynamoTables\Contact.cs" />
+    <Compile Include="DynamoTables\FAQ.cs" />
+    <Compile Include="DynamoTables\TipstaffNPO.cs" />
+    <Compile Include="DynamoTables\TipstaffRecord.cs" />
+    <Compile Include="DynamoTables\Warrant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IAttendanceNotesRepository.cs" />
     <Compile Include="Repositories\IContactsRepository.cs" />
-    <Compile Include="Services\IContactsService.cs" />
+    <Compile Include="Repositories\IFAQRepository.cs" />
+    <Compile Include="Repositories\ITipstaffNPORepository.cs" />
+    <Compile Include="Repositories\ITipstaffRecordRepository.cs" />
+    <Compile Include="Repositories\IWarrantRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

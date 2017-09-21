@@ -12,15 +12,15 @@ using Tipstaff.Logger;
 
 namespace Tipstaff.Controllers
 {
-    [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-    [Authorize]
-    [ValidateAntiForgeryTokenOnAllPosts]
+    //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    //[Authorize]
+    //[ValidateAntiForgeryTokenOnAllPosts]
     public class ApplicantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly ITelemetryLogger _logger;
+        private readonly ICloudWatchLogger _logger;
         
-        public ApplicantController(ITelemetryLogger telemetryLogger)
+        public ApplicantController(ICloudWatchLogger telemetryLogger)
         {
             _logger = telemetryLogger;
         }
@@ -59,6 +59,7 @@ namespace Tipstaff.Controllers
             }
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Create(ApplicantCreationModel model)
         {
@@ -72,6 +73,7 @@ namespace Tipstaff.Controllers
                 ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
                 ca.Applicants.Add(model.applicant);
                 db.SaveChanges();
+
                 if (Request.IsAjaxRequest())
                 {
                     string url = string.Format("window.location='{0}';", Url.Action("Details", "ChildAbduction", new { id = model.tipstaffRecordID }));

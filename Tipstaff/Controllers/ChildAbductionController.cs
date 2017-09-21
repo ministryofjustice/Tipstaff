@@ -12,6 +12,7 @@ using Tipstaff.Models;
 using System.Xml.Linq;
 using System.IO;
 using Tipstaff.Logger;
+using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Controllers
 {
@@ -22,11 +23,14 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        private readonly ITelemetryLogger _logger;
+        private readonly ICloudWatchLogger _logger;
+        private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
 
-        public ChildAbductionController(ITelemetryLogger telemetryLogger)
+        public ChildAbductionController(ITipstaffRecordRepository tipstaffRecordRepository)
         {
-            _logger = telemetryLogger;
+            _tipstaffRecordRepository = tipstaffRecordRepository;
+          ///  _logger = telemetryLogger;
+          ///  _
         }
         //
         // GET: /ChildAbduction/
@@ -183,9 +187,26 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TipstaffRecord.Add(childabduction);
-                db.SaveChanges();
-                return RedirectToAction("Create","Child", new { id = childabduction.tipstaffRecordID , initial=true});   
+                ////db.TipstaffRecord.Add(childabduction);
+                ////db.SaveChanges();
+                _tipstaffRecordRepository.Add(new Services.DynamoTables.TipstaffRecord()
+                {
+                       ArrestCount = childabduction.arrestCount,
+                       EldestChild = childabduction.EldestChild,
+                       Discriminator = "ChildAbduction",
+                       CreatedBy = childabduction.createdBy,
+                       OfficerDealing = childabduction.officerDealing,
+                       NPO = childabduction.NPO,
+                       PrisonCount = childabduction.prisonCount,
+                       SentSCD26 = childabduction.sentSCD26,
+                       ResultDate = childabduction.resultDate.Value,
+                       ResultEnteredBy = childabduction.resultEnteredBy,
+                       OrderReceived = childabduction.orderReceived,
+                       OrderDated = childabduction.orderDated
+                });
+                
+
+                return RedirectToAction("Create","Child", new { id = childabduction.tipstaffRecordID , initial=true });   
             }
 
             ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
@@ -279,6 +300,7 @@ namespace Tipstaff.Controllers
             }
             return View(model);
         }
+
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Delete(int id)
         {

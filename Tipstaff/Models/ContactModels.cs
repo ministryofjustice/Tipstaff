@@ -13,7 +13,7 @@ namespace Tipstaff.Models
     public class Contact
     {
         [Key]
-        public int contactID { get; set; }
+        public string contactID { get; set; }
         [Required, Display(Name = "Title")]
         public int salutationID { get; set; }
         [MaxLength(50), Display(Name = "First Name")]
@@ -49,14 +49,14 @@ namespace Tipstaff.Models
         public virtual ContactType contactType { get; set; }
         public virtual Salutation salutation { get; set; }
 
-        [Display(Name = "Full name of Child")]
-        public virtual string PoliceDisplayName
-        {
-            get
-            {
-                return string.Format("{0}, {1} {2}", lastName.ToUpper(), salutation.Detail ?? "", firstName).Replace("  ", " ");
-            }
-        }
+        //[Display(Name = "Full name of Child")]
+        //public virtual string PoliceDisplayName
+        //{
+        //    get
+        //    {
+        //        return string.Format("{0}, {1} {2}", lastName.ToUpper(), salutation.Detail ?? "", firstName).Replace("  ", " ");
+        //    }
+        //}
         [Display(Name = "Name")]
         public virtual string fullName
         {

@@ -11,9 +11,9 @@ namespace Tipstaff.Services.Repositories
     {
         void AddContact(Contact contact);
 
-        Contact GetContact(int id);
+        Contact GetContact(string id);
 
-        IEnumerable<Contact> GetContacts(int id, string name);
+        IEnumerable<Contact> GetContacts();
 
         void UpdateContact(Contact contact);
     }
