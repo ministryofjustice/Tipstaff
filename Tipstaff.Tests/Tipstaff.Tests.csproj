@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Integration\ContactsControllerTests.cs" />
     <Compile Include="Integration\CountryControllerTests.cs" />
+    <Compile Include="Integration\ApplicantControllerTests.cs" />
     <Compile Include="Integration\NationalityControllerTests.cs" />
     <Compile Include="Integration\FAQControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -79,13 +79,14 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.active = true;
+                //model.active = true;
                 //db.Nationalities.Add(model);
                 //db.SaveChanges();
                 _nationalityRepository.AddNationality(new Services.DynamoTables.Nationality()
                 {
                     NationalityId = model.nationalityID,
-                    Detail = model.Detail
+                    Detail = model.Detail,
+                    Active = true
                 });
                 return RedirectToAction("Index");
             }

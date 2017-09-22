@@ -50,6 +50,8 @@
     <Compile Include="DynamoTables\AttendanceNote.cs" />
     <Compile Include="DynamoTables\Contact.cs" />
     <Compile Include="DynamoTables\Country.cs" />
+    <Compile Include="DynamoTables\Applicant.cs" />
+    <Compile Include="DynamoTables\SolicitorFirm.cs" />
     <Compile Include="DynamoTables\Nationality.cs" />
     <Compile Include="DynamoTables\FAQ.cs" />
     <Compile Include="DynamoTables\TipstaffNPO.cs" />
@@ -59,6 +61,8 @@
     <Compile Include="Repositories\IAttendanceNotesRepository.cs" />
     <Compile Include="Repositories\IContactsRepository.cs" />
     <Compile Include="Repositories\ICountryRepository.cs" />
+    <Compile Include="Repositories\IApplicantRepository.cs" />
+    <Compile Include="Repositories\ISolicitorFirmRepository.cs" />
     <Compile Include="Repositories\INationalityRepository.cs" />
     <Compile Include="Repositories\IFAQRepository.cs" />
     <Compile Include="Repositories\ITipstaffNPORepository.cs" />

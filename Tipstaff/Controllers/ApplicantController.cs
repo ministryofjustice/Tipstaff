@@ -9,6 +9,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data;
 using System.Data.Entity;
 using Tipstaff.Logger;
+using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Controllers
 {
@@ -17,44 +18,57 @@ namespace Tipstaff.Controllers
     //[ValidateAntiForgeryTokenOnAllPosts]
     public class ApplicantController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly IApplicantRepository _applicantRepository;
         private readonly ICloudWatchLogger _logger;
+        private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
         
-        public ApplicantController(ICloudWatchLogger telemetryLogger)
+        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantRepository applicantRepository, ITipstaffRecordRepository tipstaffRecordRepository)
         {
             _logger = telemetryLogger;
+            _applicantRepository = applicantRepository;
+            _tipstaffRecordRepository = tipstaffRecordRepository;
         }
 
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
-        public PartialViewResult ListApplicantsByRecord(int id, int? page)
+        public PartialViewResult ListApplicantsByRecord(string id, int? page)
         {
             ListApplicantsByTipstaffRecord model = new ListApplicantsByTipstaffRecord();
-            try
-            {
-                ChildAbduction ca = db.ChildAbductions.Find(id);
-                model.tipstaffRecordID = ca.tipstaffRecordID;
-                model.Applicants = ca.Applicants.ToXPagedList<Applicant>(page ?? 1, 8);
-                model.TipstaffRecordClosed = ca.caseStatus.sequence > 3;
-            }
-            catch
-            {
-                //do nothing!  Return empty model
-            }
+            //try
+            //{
+            //    ChildAbduction ca = db.ChildAbductions.Find(id);
+            //    model.tipstaffRecordID = ca.tipstaffRecordID;
+            //    model.Applicants = ca.Applicants.ToXPagedList<Applicant>(page ?? 1, 8);
+            //    model.TipstaffRecordClosed = ca.caseStatus.sequence > 3;
+            //}
+            //catch
+            //{
+            //    //do nothing!  Return empty model
+            //}
+            var tipstaff = _tipstaffRecordRepository.GetEntityByHashKey(id);
+            model.tipstaffRecordID = id;
+            model.Applicants = _applicantRepository.GetAllApplicantsByTipstaffRecordID(id).ToXPagedList<Tipstaff.Services.DynamoTables.Applicant>(page ?? 1, 8);
+            model.TipstaffRecordClosed = (tipstaff.CaseStatus == "File Closed" || tipstaff.CaseStatus == "File Archived") ? true : false;
+
             return PartialView("_ListApplicantsByRecord", model);
         }
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            Applicant model = db.Applicants.Find(id);
+            //Applicant model = db.Applicants.Find(id);
+            var model = _applicantRepository.GetApplicant(id);
             return View(model);
         }
 
-        public ActionResult Create(int id)
+        public ActionResult Create(string id)
         {
             ApplicantCreationModel model = new ApplicantCreationModel(id);
-            if (model.tipstaffRecord.caseStatus.sequence > 3)
+            var tipstaff = _tipstaffRecordRepository.GetEntityByHashKey(id);
+
+            //if (model.tipstaffRecord.caseStatus.sequence > 3)
+            if (tipstaff.CaseStatus == "File Closed" || tipstaff.CaseStatus == "File Archived")
             {
-                TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
+                TempData["UID"] = "CA" + tipstaff.TipstaffRecordID; ;// model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
             return View(model);
@@ -70,10 +84,24 @@ namespace Tipstaff.Controllers
             try
             {
 
-                ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
-                ca.Applicants.Add(model.applicant);
-                db.SaveChanges();
-
+                //ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
+                //ca.Applicants.Add(model.applicant);
+                //db.SaveChanges();
+                _applicantRepository.AddApplicant(new Services.DynamoTables.Applicant()
+                {
+                    ApplicantID = model.applicant.ApplicantID,
+                    NameFirst = model.applicant.nameFirst,
+                    NameLast = model.applicant.nameLast,
+                    AddressLine1 = model.applicant.addressLine1,
+                    AddressLine2 = model.applicant.addressLine2,
+                    AddressLine3 = model.applicant.addressLine3,
+                    Town = model.applicant.town,
+                    County = model.applicant.county,
+                    Postcode = model.applicant.postcode,
+                    Phone = model.applicant.phone,
+                    Salutation = model.applicant.salutation.Detail,
+                    TipstaffRecordID = model.tipstaffRecordID
+                });
                 if (Request.IsAjaxRequest())
                 {
                     string url = string.Format("window.location='{0}';", Url.Action("Details", "ChildAbduction", new { id = model.tipstaffRecordID }));
@@ -99,13 +127,33 @@ namespace Tipstaff.Controllers
             }
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             ApplicantEditModel model = new ApplicantEditModel();
-            model.applicant = db.Applicants.Find(id);
-            if (model.applicant.childAbduction.caseStatus.sequence > 3)
+            var app = _applicantRepository.GetApplicant(id);
+            //model.applicant = db.Applicants.Find(id);
+            model.applicant = new Applicant
             {
-                TempData["UID"] = model.applicant.childAbduction.UniqueRecordID;
+                ApplicantID = app.ApplicantID,
+                nameFirst = app.NameFirst,
+                nameLast = app.NameLast,
+                addressLine1 = app.AddressLine1,
+                addressLine2 = app.AddressLine2,
+                addressLine3 = app.AddressLine3,
+                town = app.Town,
+                county = app.County,
+                postcode = app.Postcode,
+                phone = app.Phone,
+                //Salutation = model.applicant.salutation.Detail,
+                tipstaffRecordID = app.TipstaffRecordID
+            };
+            var tipstaff = _tipstaffRecordRepository.GetEntityByHashKey(app.TipstaffRecordID);
+
+            //if (model.applicant.childAbduction.caseStatus.sequence > 3)
+            if (tipstaff.CaseStatus == "File Closed" || tipstaff.CaseStatus == "File Archived")
+            {
+                TempData["UID"] = "CA" + tipstaff.TipstaffRecordID; //This is not entirely correct. They use a numeric ID to identify records
+                                //model.applicant.childAbduction.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
             return View(model);
@@ -116,8 +164,23 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(model.applicant).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(model.applicant).State = EntityState.Modified;
+                //db.SaveChanges();
+                _applicantRepository.Update(new Services.DynamoTables.Applicant()
+                {
+                    ApplicantID = model.applicant.ApplicantID,
+                    NameFirst = model.applicant.nameFirst,
+                    NameLast = model.applicant.nameLast,
+                    AddressLine1 = model.applicant.addressLine1,
+                    AddressLine2 = model.applicant.addressLine2,
+                    AddressLine3 = model.applicant.addressLine3,
+                    Town = model.applicant.town,
+                    County = model.applicant.county,
+                    Postcode = model.applicant.postcode,
+                    Phone = model.applicant.phone,
+                    Salutation = model.applicant.salutation.Detail,
+                    TipstaffRecordID = model.applicant.tipstaffRecordID
+                });
                 return RedirectToAction("Details", "ChildAbduction", new { id = model.applicant.tipstaffRecordID });
             }
             return View(model);
@@ -142,17 +205,32 @@ namespace Tipstaff.Controllers
         [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
         public ActionResult DeleteConfirmed(DeleteApplicant model)
         {
-            model.Applicant = db.Applicants.Find(model.DeleteModelID);
-            int tipstaffRecordID = model.Applicant.tipstaffRecordID;
-            db.Applicants.Remove(model.Applicant);
-            db.SaveChanges();
-            //get the Audit Event we just created 
-            string recDeleted = model.DeleteModelID.ToString();
-            AuditEvent AE= db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "Applicant deleted" && a.RecordChanged == recDeleted).OrderByDescending(a=>a.EventDate).Single();
-            //add a deleted reason
-            AE.DeletedReasonID = model.DeletedReasonID;
-            //and save again
-            db.SaveChanges();
+            //model.Applicant = db.Applicants.Find(model.DeleteModelID);
+            //db.Applicants.Remove(model.Applicant);
+            //db.SaveChanges();
+            ////get the Audit Event we just created 
+            //string recDeleted = model.DeleteModelID.ToString();
+            //AuditEvent AE= db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "Applicant deleted" && a.RecordChanged == recDeleted).OrderByDescending(a=>a.EventDate).Single();
+            ////add a deleted reason
+            //AE.DeletedReasonID = model.DeletedReasonID;
+            ////and save again
+            //db.SaveChanges();
+            string tipstaffRecordID = model.Applicant.tipstaffRecordID;
+            _applicantRepository.Delete(new Services.DynamoTables.Applicant()
+            {
+                ApplicantID = model.Applicant.ApplicantID,
+                NameFirst = model.Applicant.nameFirst,
+                NameLast = model.Applicant.nameLast,
+                AddressLine1 = model.Applicant.addressLine1,
+                AddressLine2 = model.Applicant.addressLine2,
+                AddressLine3 = model.Applicant.addressLine3,
+                Town = model.Applicant.town,
+                County = model.Applicant.county,
+                Postcode = model.Applicant.postcode,
+                Phone = model.Applicant.phone,
+                Salutation = model.Applicant.salutation.Detail,
+                TipstaffRecordID = model.Applicant.tipstaffRecordID
+            });
             return RedirectToAction("Details", "ChildAbduction", new { id = tipstaffRecordID });
         }
     }

@@ -46,7 +46,8 @@ namespace Tipstaff.Models
     public class SolicitorFirm
     {
         [Key]
-        public int solicitorFirmID { get; set; }
+        //public int solicitorFirmID { get; set; }
+        public string solicitorFirmID { get; set; }
         [Required, MaxLength(50), Display(Name="Name of Firm")]
         public string firmName { get; set; }
         [Required, MaxLength(100), Display(Name="Address Line 1")]

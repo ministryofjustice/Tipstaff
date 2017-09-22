@@ -84,13 +84,14 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                country.active = true;
+                //country.active = true;
                 //db.IssuingCountries.Add(country);
                 //db.SaveChanges();
                 _countryRepository.AddCountry(new Services.DynamoTables.Country()
                 {
                     CountryId = country.countryID,
-                    Detail = country.Detail
+                    Detail = country.Detail,
+                    Active = true
                 });
                 return RedirectToAction("Index");  
             }

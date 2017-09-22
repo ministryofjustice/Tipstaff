@@ -61,7 +61,7 @@ namespace Tipstaff.Models
     }
     public class SolicitorFirmListView : AdminListView
     {
-        public IPagedList<SolicitorFirm> SolicitorFirms { get; set; }
+        public IPagedList<Tipstaff.Services.DynamoTables.SolicitorFirm> SolicitorFirms { get; set; }
     }
     public class DeletionReasonsListView : AdminListView
     {
