@@ -18,13 +18,11 @@ namespace Tipstaff.Infrastructure
 
             container.Register(Component.For<IFAQRepository>().ImplementedBy<FAQRepository>());
 
-            container.Register(Component.For<INationalityRepository>().ImplementedBy<NationalityRepository>());
-
-            container.Register(Component.For<ICountryRepository>().ImplementedBy<CountryRepository>());
-
             container.Register(Component.For<ISolicitorFirmRepository>().ImplementedBy<SolicitorFirmRepository>());
 
             container.Register(Component.For<IApplicantRepository>().ImplementedBy<ApplicantRepository>());
+
+            container.Register(Component.For<IChildRepository>().ImplementedBy<ChildRepository>());
 
             container.Register(Component.For(typeof(IDynamoAPI<>))
                             .ImplementedBy(typeof(DynamoAPI<>)));

@@ -8,6 +8,10 @@ using System.Xml;
 using System.Text;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
+using Tipstaff.Services.Repositories;
+using Tipstaff.Infrastructure.Repositories;
+using Tipstaff.Infrastructure.DynamoAPI;
+
 namespace Tipstaff
 {
     public static partial class genericFunctions
@@ -39,6 +43,14 @@ namespace Tipstaff
                 TipstaffRecord obj = tempDB.TipstaffRecord.Find(id);
                 return isTipstaffRecordChildAbduction(obj) ? "ChildAbduction" : "Warrant";
             }
+        }
+        public static string TypeOfTipstaffRecord(string id)
+        {
+            ITipstaffRecordRepository _repository = new TipstaffRecordRepository(new DynamoAPI<Services.DynamoTables.TipstaffRecord>());
+            var t = _repository.GetEntityByHashKey(id);
+
+            return t.Discriminator; 
+
         }
         public static bool isTipstaffRecordChildAbduction(TipstaffRecord obj)
         {

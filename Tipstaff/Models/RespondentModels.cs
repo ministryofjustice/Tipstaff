@@ -47,14 +47,18 @@ namespace Tipstaff.Models
         public string riskOfDrugs { get; set; }
         [Required]
         public int tipstaffRecordID  { get; set; }
-        
+
         public string PNCID { get; set; }
         
         public virtual Gender gender { get; set; }
-        [Display(Name = "Country of Origin")]
-        public virtual Country country { get; set; }
-        [Display(Name = "Nationality")]
-        public virtual Nationality nationality { get; set; }
+        //[Display(Name = "Country of Origin")]
+        //public virtual Country country { get; set; }
+        //[Display(Name = "Nationality")]
+        //public virtual Nationality nationality { get; set; }
+        public MemoryCollections.Country country { get; set; }
+        public MemoryCollections.Nationality nationality { get; set; }
+
+
         [Display(Name = "Skin colour")]
         public virtual SkinColour SkinColour { get; set; }
         //public virtual ChildAbduction childAbduction { get; set; }
@@ -149,21 +153,32 @@ namespace Tipstaff.Models
         public bool initial { get; set; }
         public RespondentCreationModel()
         {
-            GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x => x.active == true).ToList(), "genderID", "Detail");
-            CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
-            NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+            //GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x => x.active == true).ToList(), "genderID", "Detail");
+            //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
+            //SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
+            //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+
+            GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GountryID", "Detail");
+            CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
+            SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourID", "Detail");
+            NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
+            
             RelationToChildList = new SelectList(myDBContextHelper.CurrentContext.ChildRelationships.Where(x => x.active == true).ToList(), "childRelationshipID", "Detail");
-            SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
+            
         }
         public RespondentCreationModel(int id)
         {
             tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
             tipstaffRecordID = id;
-            GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x => x.active == true).ToList(), "genderID", "Detail");
-            CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
-            NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+            //GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x => x.active == true).ToList(), "genderID", "Detail");
+            //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
+            //SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
+            //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
             RelationToChildList = new SelectList(myDBContextHelper.CurrentContext.ChildRelationships.Where(x => x.active == true).ToList(), "childRelationshipID", "Detail");
-            SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
+            GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1), "GenderID", "Detail");
+            CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
+            SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1), "SkinColourID", "Detail");
+            NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
         }
     }
     public class ListRespondentsByTipstaffRecord:IListByTipstaffRecord

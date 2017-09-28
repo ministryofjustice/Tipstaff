@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.Entity;
 using Tipstaff.Logger;
 using Tipstaff.Services.Repositories;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
@@ -87,9 +88,10 @@ namespace Tipstaff.Controllers
                 //ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
                 //ca.Applicants.Add(model.applicant);
                 //db.SaveChanges();
+                string aid = (model.applicant.ApplicantID == null) ? GuidGenerator.GenerateTimeBasedGuid().ToString() : model.applicant.ApplicantID;
                 _applicantRepository.AddApplicant(new Services.DynamoTables.Applicant()
                 {
-                    ApplicantID = model.applicant.ApplicantID,
+                    ApplicantID = aid,
                     NameFirst = model.applicant.nameFirst,
                     NameLast = model.applicant.nameLast,
                     AddressLine1 = model.applicant.addressLine1,

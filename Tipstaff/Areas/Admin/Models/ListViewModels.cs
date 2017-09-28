@@ -31,11 +31,8 @@ namespace Tipstaff.Models
     {
         public IPagedList<ContactType> ContactTypes { get; set; }
     }
-    public class CountryListView : AdminListView
-    {
-    public IPagedList<Tipstaff.Services.DynamoTables.Country> Countries { get; set; }
-    }
-        public class DocumentStatusListView : AdminListView
+   
+    public class DocumentStatusListView : AdminListView
     {
     public IPagedList<DocumentStatus> DocumentStatuses { get; set; }
     }
@@ -47,10 +44,7 @@ namespace Tipstaff.Models
     {
         public IPagedList<Gender> Genders { get; set; }
     }
-    public class NationalityListView : AdminListView
-    {
-        public IPagedList<Tipstaff.Services.DynamoTables.Nationality> Nationalities { get; set; }
-    }
+    
     public class SalutationListView : AdminListView
     {
         public IPagedList<Salutation> Salutations { get; set; }

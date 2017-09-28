@@ -9,7 +9,7 @@ namespace Tipstaff.Services.Repositories
 {
     public interface IApplicantRepository
     {
-        void AddApplicant(Applicant contact);
+        void AddApplicant(Applicant applicant);
 
         Applicant GetApplicant(string id);
 

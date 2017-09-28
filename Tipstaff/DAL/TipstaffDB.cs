@@ -39,8 +39,8 @@ namespace Tipstaff.Models
         public DbSet<Document> Documents { get; set; }
         public DbSet<DocumentStatus> DocumentStatuses { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
-        public DbSet<Country> IssuingCountries { get; set; }
-        public DbSet<Nationality> Nationalities { get; set; }
+        //public DbSet<Country> IssuingCountries { get; set; }
+        //public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<TipstaffRecordSolicitor> TipstaffRecordSolicitors { get; set; }
         public DbSet<CaseReview> CaseReviews { get; set; }
         public DbSet<Child> Children { get; set; }
