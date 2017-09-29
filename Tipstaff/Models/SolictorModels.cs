@@ -146,7 +146,8 @@ namespace Tipstaff.Models
         [MaxLength(50)]
         public string deactivatedBy { get; set; }
         public virtual SolicitorFirm SolicitorFirm { get; set; }
-        public virtual Salutation salutation { get; set; }
+        //public virtual Salutation salutation { get; set; }
+        public MemoryCollections.Salutation salutation { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> TipstaffRecords { get; set; }
 
         [Display(Name="Name")]
@@ -208,12 +209,13 @@ namespace Tipstaff.Models
         public EditSolicitorbyTipstaffRecordViewModel() { }
         public EditSolicitorbyTipstaffRecordViewModel(int SolicitorID, int TipstaffRecordID)
         {
+            // SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true), "salutationID", "Detail", Solicitor.salutationID);
             solicitorID = SolicitorID;
             tipstaffRecordID = TipstaffRecordID;
             Solicitor = myDBContextHelper.CurrentContext.Solicitors.Find(solicitorID);
             TipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(tipstaffRecordID);
             SolicitorsFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName", Solicitor.solicitorFirmID);
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true), "salutationID", "Detail", Solicitor.salutationID);
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail", Solicitor.salutationID);
         }
     }
     public class SolicitorFirmByTipstaffRecordViewModel

@@ -307,7 +307,7 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
-            if (model.Child.childAbduction.caseStatus.sequence > 3)
+            if (model.Child.childAbduction.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.Child.childAbduction.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");

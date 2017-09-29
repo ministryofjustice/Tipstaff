@@ -45,9 +45,13 @@ namespace Tipstaff.Models
         public string notes { get; set; }
         [Display(Name = "Contact Type")]
         public int contactTypeID { get; set; }
+        //[Display(Name = "Contact Type")]
+        //public virtual ContactType contactType { get; set; }
+        //public virtual Salutation salutation { get; set; }
         [Display(Name = "Contact Type")]
-        public virtual ContactType contactType { get; set; }
-        public virtual Salutation salutation { get; set; }
+        public MemoryCollections.ContactType contactType { get; set; }
+        public MemoryCollections.Salutation salutation { get; set; }
+        
 
         //[Display(Name = "Full name of Child")]
         //public virtual string PoliceDisplayName
@@ -87,19 +91,19 @@ namespace Tipstaff.Models
         }
 
     }
-    public class ContactType
-    {
-        [Key]
-        public int contactTypeID { get; set; }
-        [Required, MaxLength(50), Display(Name = "Contact Type")]
-        public string Detail { get; set; }
-        [ScaffoldColumn(false)]
-        public bool active { get; set; }
-        [ScaffoldColumn(false)]
-        public DateTime? deactivated { get; set; }
-        [ScaffoldColumn(false), MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
+    //public class ContactType
+    //{
+    //    [Key]
+    //    public int contactTypeID { get; set; }
+    //    [Required, MaxLength(50), Display(Name = "Contact Type")]
+    //    public string Detail { get; set; }
+    //    [ScaffoldColumn(false)]
+    //    public bool active { get; set; }
+    //    [ScaffoldColumn(false)]
+    //    public DateTime? deactivated { get; set; }
+    //    [ScaffoldColumn(false), MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
     #endregion
 
     public class ContactListView : ListViewModel
@@ -111,7 +115,8 @@ namespace Tipstaff.Models
         public ContactListView()
         {
             ContactTypeID = -1;
-            ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).OrderBy(x=>x.Detail).ToList(), "contactTypeID", "Detail");
+            //ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).OrderBy(x=>x.Detail).ToList(), "contactTypeID", "Detail");
+            ContactTypeList = new SelectList(MemoryCollections.ContactTypeList.GetContactTypeList().Where(x => x.Active == 1).OrderBy(x => x.Detail).ToList(), "ContactTypeID", "Detail");
         }
     }
 
@@ -123,15 +128,19 @@ namespace Tipstaff.Models
 
         public ContactModification()
         {
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).OrderBy(x => x.Detail).ToList(), "salutationID", "Detail");
-            ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).OrderBy(x => x.Detail).ToList(), "contactTypeID", "Detail");
+            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).OrderBy(x => x.Detail).ToList(), "salutationID", "Detail");
+            //ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).OrderBy(x => x.Detail).ToList(), "contactTypeID", "Detail");
+            ContactTypeList = new SelectList(MemoryCollections.ContactTypeList.GetContactTypeList().Where(x => x.Active == 1).OrderBy(x => x.Detail).ToList(), "ContactTypeID", "Detail");
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
 
         public ContactModification(int id)
         {
             contact = myDBContextHelper.CurrentContext.Contacts.Find(id);
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "salutationID", "Detail");
-            ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "contactTypeID", "Detail");
+            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "salutationID", "Detail");
+            //ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "contactTypeID", "Detail");
+            ContactTypeList = new SelectList(MemoryCollections.ContactTypeList.GetContactTypeList().Where(x => x.Active == 1).OrderBy(x => x.Detail).ToList(), "ContactTypeID", "Detail");
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
     }
 }

@@ -49,21 +49,25 @@ namespace Tipstaff.Models
         public int tipstaffRecordID  { get; set; }
 
         public string PNCID { get; set; }
-        
-        public virtual Gender gender { get; set; }
+
+        //public virtual Gender gender { get; set; }
         //[Display(Name = "Country of Origin")]
         //public virtual Country country { get; set; }
         //[Display(Name = "Nationality")]
         //public virtual Nationality nationality { get; set; }
+        //[Display(Name = "Skin colour")]
+        //public virtual SkinColour SkinColour { get; set; }
+        public MemoryCollections.Gender gender { get; set; }
         public MemoryCollections.Country country { get; set; }
         public MemoryCollections.Nationality nationality { get; set; }
+        public MemoryCollections.SkinColour skinColour { get; set; }
 
 
-        [Display(Name = "Skin colour")]
-        public virtual SkinColour SkinColour { get; set; }
+
         //public virtual ChildAbduction childAbduction { get; set; }
         public virtual TipstaffRecord tipstaffRecord { get; set; }
-        public virtual ChildRelationship childRelationship { get; set; }
+        //public virtual ChildRelationship childRelationship { get; set; }
+        public MemoryCollections.ChildRelationship childRelationship { get; set; }
 
         [Display(Name = "Full name of respondent")]
         public virtual string fullname
@@ -130,7 +134,7 @@ namespace Tipstaff.Models
                                                     SecurityElement.Escape(Age),
                                                     SecurityElement.Escape(hairColour),
                                                     SecurityElement.Escape(eyeColour),
-                                                    SecurityElement.Escape(SkinColour.Detail),
+                                                    SecurityElement.Escape(skinColour.Detail),
                                                     SecurityElement.Escape(height),
                                                     SecurityElement.Escape(build),
                                                     SecurityElement.Escape(country.Detail),
@@ -157,14 +161,13 @@ namespace Tipstaff.Models
             //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
             //SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
             //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+            //RelationToChildList = new SelectList(myDBContextHelper.CurrentContext.ChildRelationships.Where(x => x.active == true).ToList(), "childRelationshipID", "Detail");
 
             GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GountryID", "Detail");
             CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
             SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourID", "Detail");
             NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
-            
-            RelationToChildList = new SelectList(myDBContextHelper.CurrentContext.ChildRelationships.Where(x => x.active == true).ToList(), "childRelationshipID", "Detail");
-            
+            RelationToChildList = new SelectList(MemoryCollections.ChildRelationshipList.GetChildRelationshipList().Where(x => x.Active == 1).ToList(), "ChildRelationshipID", "Detail");
         }
         public RespondentCreationModel(int id)
         {
@@ -174,11 +177,12 @@ namespace Tipstaff.Models
             //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
             //SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
             //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
-            RelationToChildList = new SelectList(myDBContextHelper.CurrentContext.ChildRelationships.Where(x => x.active == true).ToList(), "childRelationshipID", "Detail");
+            //RelationToChildList = new SelectList(myDBContextHelper.CurrentContext.ChildRelationships.Where(x => x.active == true).ToList(), "childRelationshipID", "Detail");
             GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1), "GenderID", "Detail");
             CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
             SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1), "SkinColourID", "Detail");
             NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
+            RelationToChildList = new SelectList(MemoryCollections.ChildRelationshipList.GetChildRelationshipList().Where(x => x.Active == 1).ToList(), "ChildRelationshipID", "Detail");
         }
     }
     public class ListRespondentsByTipstaffRecord:IListByTipstaffRecord

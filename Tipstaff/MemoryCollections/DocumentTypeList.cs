@@ -394,7 +394,7 @@ namespace Tipstaff.MemoryCollections
             };
         }
 
-        public static DocumentType GetCountryByDetail(string c)
+        public static DocumentType GetDocumentTypeByDetail(string c)
         {
             return GetDocumentTypeList().Where(x => x.Detail == c).FirstOrDefault();
         }

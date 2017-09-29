@@ -43,7 +43,7 @@ namespace Tipstaff.Controllers
         public ActionResult Create(int id, bool initial=false)
         {
             RespondentCreationModel model = new RespondentCreationModel(id);
-            if (model.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -143,7 +143,7 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
-            if (model.respondent.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.respondent.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.respondent.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -193,7 +193,7 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
-            if (model.Respondent.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.Respondent.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.Respondent.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");

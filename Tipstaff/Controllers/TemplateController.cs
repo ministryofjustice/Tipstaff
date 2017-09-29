@@ -34,7 +34,7 @@ namespace Tipstaff.Controllers
             {
                 //Get TipstaffRecord from warrantID
                 TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
-                if (tipstaffRecord.caseStatus.sequence > 3)
+                if (tipstaffRecord.caseStatus.Sequence > 3)
                 {
                     TempData["UID"] = tipstaffRecord.UniqueRecordID;
                     return RedirectToAction("ClosedFile", "Error");
@@ -110,7 +110,7 @@ namespace Tipstaff.Controllers
 
                 //Get TipstaffRecord from warrantID
                 TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
-                if (tipstaffRecord.caseStatus.sequence > 3)
+                if (tipstaffRecord.caseStatus.Sequence > 3)
                 {
                     TempData["UID"] = tipstaffRecord.UniqueRecordID;
                     return RedirectToAction("ClosedFile", "Error");
@@ -177,7 +177,7 @@ namespace Tipstaff.Controllers
 
                 //Get TipstaffRecord from warrantID
                 TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
-                if (tipstaffRecord.caseStatus.sequence > 3)
+                if (tipstaffRecord.caseStatus.Sequence > 3)
                 {
                     TempData["UID"] = tipstaffRecord.UniqueRecordID;
                     return RedirectToAction("ClosedFile", "Error");
@@ -564,7 +564,7 @@ namespace Tipstaff.Controllers
                     result = result.Replace("||GENDER.DETAIL||", warrant.Respondents.FirstOrDefault().gender.Detail);
                     result = result.Replace("||NATIONALITY.DETAIL||", warrant.Respondents.FirstOrDefault().nationality.Detail);
                     result = result.Replace("||COUNTRY.DETAIL||", warrant.Respondents.FirstOrDefault().country.Detail);
-                    result = result.Replace("||SKINCOLOUR.DETAIL||", warrant.Respondents.FirstOrDefault().SkinColour.Detail);
+                    result = result.Replace("||SKINCOLOUR.DETAIL||", warrant.Respondents.FirstOrDefault().skinColour.Detail);
                 }
    
             }

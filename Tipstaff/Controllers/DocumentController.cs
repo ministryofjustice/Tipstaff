@@ -25,7 +25,7 @@ namespace Tipstaff.Controllers
         public ActionResult ChooseAddressee(int tipstaffRecordID, int templateID)
         {
             TipstaffRecord tr = db.TipstaffRecord.Find(tipstaffRecordID);
-            if (tr.caseStatus.sequence > 3)
+            if (tr.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = tr.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -97,7 +97,7 @@ namespace Tipstaff.Controllers
         {
             CreateDocumentViewModel model = new CreateDocumentViewModel();
             model.tipstaffRecord = db.TipstaffRecord.Find(id);
-            if (model.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -113,7 +113,7 @@ namespace Tipstaff.Controllers
             DocumentUploadModel model = new DocumentUploadModel();
             model.tipstaffRecordID = id;
             model.tipstaffRecord = db.TipstaffRecord.Find(id);
-            if (model.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");

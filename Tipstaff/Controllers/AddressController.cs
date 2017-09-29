@@ -44,7 +44,7 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
-            if (model.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -68,7 +68,7 @@ namespace Tipstaff.Controllers
         public ActionResult Create(int id)
         {
             AddressCreationModel model = new AddressCreationModel(id);
-            if (model.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");

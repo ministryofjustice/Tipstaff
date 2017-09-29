@@ -41,16 +41,22 @@ namespace Tipstaff.Models
         [Required, Display(Name = "Current case status")]
         public int caseStatusID { get; set; }
 
+        //[Display(Name = "Protective Marking")]
+        //public virtual ProtectiveMarking protectiveMarking { get; set; }
         [Display(Name = "Protective Marking")]
-        public virtual ProtectiveMarking protectiveMarking { get; set; }
-        public virtual Result result { get; set; }
+        public MemoryCollections.ProtectiveMarkings protectiveMarking { get; set; }
+
+        //public virtual Result result { get; set; }
+        public MemoryCollections.Result result { get; set; }
+
         public virtual ICollection<Document> Documents { get; set; }
         public virtual ICollection<AttendanceNote> AttendanceNotes { get; set; }
         public virtual ICollection<CaseReview> caseReviews { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
         public virtual ICollection<Respondent> Respondents { get; set; }
         public virtual ICollection<Address> addresses { get; set; }
-        public virtual CaseStatus caseStatus { get; set; }
+        //public virtual CaseStatus caseStatus { get; set; }
+        public MemoryCollections.CaseStatus caseStatus { get; set; }
         public virtual ICollection<TipstaffPoliceForce> policeForces { get; set; }
         
 
@@ -78,7 +84,7 @@ namespace Tipstaff.Models
                 string recID = tipstaffRecordID.ToString();
                 try
                 {
-                    var status = myDBContextHelper.CurrentContext.AuditEventRows.Where(x => x.ColumnName == "caseStatusID" && x.Now == "3" && x.auditEvent.RecordChanged == recID)
+                    var status = myDBContextHelper.CurrentContext.AuditEventRows.Where(x => x.ColumnName == "CaseStatusID" && x.Now == "3" && x.auditEvent.RecordChanged == recID)
                                                     .OrderByDescending(a => a.auditEvent.EventDate).Take(1).SingleOrDefault();
                     if (status != null)
                     {
@@ -112,8 +118,11 @@ namespace Tipstaff.Models
 
         [Required,Display(Name = "Order Type")]
         public int caOrderTypeID { get; set; }
+        //[Display(Name = "Order Type")]
+        //public virtual CAOrderType caOrderType { get; set; }
         [Display(Name = "Order Type")]
-        public virtual CAOrderType caOrderType { get; set; }
+        public MemoryCollections.CaOrderType caOrderType { get; set;}
+
         //public virtual ChildAbductionCaseStatus childAbductionCaseStatus { get; set; }
         [Display(Name="Linked Children")]
         public virtual ICollection<Child> children { get; set; }
@@ -171,8 +180,11 @@ namespace Tipstaff.Models
         public string RespondentName { get; set; }
         [Required, Display(Name = "Division")]
         public int divisionID { get; set; }
+        //[Display(Name = "Division")]
+        //public virtual Division division { get; set; }
         [Display(Name = "Division")]
-        public virtual Division division { get; set; }
+        public MemoryCollections.Division division { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Circulated")]
         public DateTime? DateCirculated { get; set; }
@@ -190,7 +202,8 @@ namespace Tipstaff.Models
     {
         public TipstaffRecord tipstaffRecord { get; set; }
         public int tipstaffRecordID { get; set; }
-        public Result result { get; set; }
+        public MemoryCollections.Result result { get; set; }
+
         [Display(Name="Result Type")]
         public int resultID { get; set; }
         public SelectList resultList { get; set; }
@@ -207,7 +220,8 @@ namespace Tipstaff.Models
         {
             tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(TipstaffRecordID);
             tipstaffRecordID = TipstaffRecordID;
-            resultList = new SelectList(myDBContextHelper.CurrentContext.Results.Where(r => r.active == true).ToList(), "resultID", "Detail");
+            //resultList = new SelectList(myDBContextHelper.CurrentContext.Results.Where(r => r.active == true).ToList(), "resultID", "Detail");
+            resultList = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(r => r.Active == 1).ToList(), "ResultID", "Detail");
             int respCount = tipstaffRecord.Respondents.Count();
             
             Dictionary<int, string> resp = new Dictionary<int, string>();
@@ -221,7 +235,8 @@ namespace Tipstaff.Models
         
         public TipstaffRecordResolutionModel()
         {
-            resultList = new SelectList(myDBContextHelper.CurrentContext.Results.Where(r=>r.active==true).ToList(), "resultID", "Detail");
+            //resultList = new SelectList(myDBContextHelper.CurrentContext.Results.Where(r=>r.active==true).ToList(), "resultID", "Detail");
+            resultList = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(r => r.Active == 1).ToList(), "ResultID", "Detail");
         }
     }
 
@@ -263,8 +278,10 @@ namespace Tipstaff.Models
         {
             caseStatusID = -1;
             divisionID = -1;
-            StatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(c => c.active == true), "CaseStatusID", "Detail");
-            DivisionList = new SelectList(myDBContextHelper.CurrentContext.Divisions.Where(c => c.active == true), "DivisionID", "Detail");
+            //StatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(c => c.active == true), "CaseStatusID", "Detail");
+            //DivisionList = new SelectList(myDBContextHelper.CurrentContext.Divisions.Where(c => c.active == true), "DivisionID", "Detail");
+            StatusList = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(c => c.Active == 1), "CaseStatusID", "Detail");
+            DivisionList = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(c => c.Active == 1), "DivisionID", "Detail");
         }
     }
 
@@ -279,8 +296,10 @@ namespace Tipstaff.Models
         {
             caseStatusID = -1;
             caOrderTypeID = -1;
-            StatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(c => c.active == true), "CaseStatusID", "Detail");
-            OrderTypeList = new SelectList(myDBContextHelper.CurrentContext.CAOrderTypes.Where(c => c.active == true), "caOrderTypeID", "Detail");
+            //StatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(c => c.active == true), "CaseStatusID", "Detail");
+            //OrderTypeList = new SelectList(myDBContextHelper.CurrentContext.CAOrderTypes.Where(c => c.active == true), "caOrderTypeID", "Detail");
+            OrderTypeList = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(c => c.Active == 1), "CAOrderTypeID", "Detail");
+            StatusList = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(c => c.Active == 1), "CaseStatusID", "Detail");
         }
 
     }
@@ -293,18 +312,18 @@ namespace Tipstaff.Models
     }
 
     #region Case Status Models
-    public class CaseStatus
-    {
-        [Key]
-        public int caseStatusID { get; set; }
-        [Required, MaxLength(30), Display(Name = "Case Status")]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public int sequence { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
+    //public class CaseStatus
+    //{
+    //    [Key]
+    //    public int caseStatusID { get; set; }
+    //    [Required, MaxLength(30), Display(Name = "Case Status")]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public int sequence { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
     //public class ChildAbductionCaseStatus
     //{
     //    [Key]
@@ -329,121 +348,121 @@ namespace Tipstaff.Models
     //}
     #endregion
     #region Lookup models
-    public class Gender
-    {
-        [Key]
-        public int genderID { get; set; }
-        [Required,MaxLength(50)]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class FaxCode
-    {
-        [Key]
-        public int faxCodeID { get; set; }
-        [Required, MaxLength(50)]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class ProtectiveMarking
-    {
-        [Key]
-        public int protectiveMarkingID { get; set; }
-        [Required,MaxLength(15),Display(Name="Protective Marking")]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class Result
-    {
-        [Key]
-        public int resultID { get; set; }
-        [Required,MaxLength(20),Display(Name="Result")]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class DocumentType
-    {
-        [Key]
-        public int documentTypeID { get; set; }
-        [Required, MaxLength(100), Display(Name = "Document Type")]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class DocumentStatus
-    {
-        [Key]
-        public int DocumentStatusID { get; set; }
-        [Required, MaxLength(40), Display(Name = "Document Status")]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class ChildRelationship
-    {
-        [Key]
-        public int childRelationshipID { get; set; }
-        [Required, MaxLength(40), Display(Name = "Child Relationship")]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class Division
-    {
-        [Key]
-        public int divisionID { get; set; }
-        [Required, MaxLength(50), Display(Name = "Division")]
-        public string Detail { get; set; }
-        [Required]
-        public string Prefix { get; set; }
-        [Display(Name="Active")]
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class CAOrderType
-    {
-        [Key]
-        public int caOrderTypeID { get; set; }
-        [Required, MaxLength(50), Display(Name = "Order Type")]
-        public string Detail { get; set; }
-        [Display(Name="Active")]
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
-    public class Salutation
-    {
-        [Key]
-        public int salutationID { get; set; }
-        [Required, MaxLength(10), Display(Name = "Title")]
-        public string Detail { get; set; }
-        [Display(Name="Active")]
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
+    //public class Gender
+    //{
+    //    [Key]
+    //    public int genderID { get; set; }
+    //    [Required,MaxLength(50)]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class FaxCode
+    //{
+    //    [Key]
+    //    public int faxCodeID { get; set; }
+    //    [Required, MaxLength(50)]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class ProtectiveMarking
+    //{
+    //    [Key]
+    //    public int protectiveMarkingID { get; set; }
+    //    [Required,MaxLength(15),Display(Name="Protective Marking")]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class Result
+    //{
+    //    [Key]
+    //    public int resultID { get; set; }
+    //    [Required,MaxLength(20),Display(Name="Result")]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class DocumentType
+    //{
+    //    [Key]
+    //    public int documentTypeID { get; set; }
+    //    [Required, MaxLength(100), Display(Name = "Document Type")]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class DocumentStatus
+    //{
+    //    [Key]
+    //    public int DocumentStatusID { get; set; }
+    //    [Required, MaxLength(40), Display(Name = "Document Status")]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class ChildRelationship
+    //{
+    //    [Key]
+    //    public int childRelationshipID { get; set; }
+    //    [Required, MaxLength(40), Display(Name = "Child Relationship")]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class Division
+    //{
+    //    [Key]
+    //    public int divisionID { get; set; }
+    //    [Required, MaxLength(50), Display(Name = "Division")]
+    //    public string Detail { get; set; }
+    //    [Required]
+    //    public string Prefix { get; set; }
+    //    [Display(Name="Active")]
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class CAOrderType
+    //{
+    //    [Key]
+    //    public int caOrderTypeID { get; set; }
+    //    [Required, MaxLength(50), Display(Name = "Order Type")]
+    //    public string Detail { get; set; }
+    //    [Display(Name="Active")]
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
+    //public class Salutation
+    //{
+    //    [Key]
+    //    public int salutationID { get; set; }
+    //    [Required, MaxLength(10), Display(Name = "Title")]
+    //    public string Detail { get; set; }
+    //    [Display(Name="Active")]
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
     #endregion
 
 }

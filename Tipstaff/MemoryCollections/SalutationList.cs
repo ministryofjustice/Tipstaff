@@ -44,5 +44,10 @@ namespace Tipstaff.MemoryCollections
                 new Salutation() {  SalutationId=22 ,  Detail = "Newcastle",    Active = 1  },
             };
         }
+
+        public static Salutation GetSalutationByID(int id)
+        {
+            return GetSalutationList().Where(x => x.SalutationId == id).FirstOrDefault();
+        }
     }
 }

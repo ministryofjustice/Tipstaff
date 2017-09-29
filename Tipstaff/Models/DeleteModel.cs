@@ -15,7 +15,8 @@ namespace Tipstaff.Models
         public SelectList DeletedReasons { get; set; }
         public DeleteModel()
         {
-            DeletedReasons = new SelectList(myDBContextHelper.CurrentContext.DeletedReasons.Where(x => x.active == true).ToList(), "deletedReasonID", "Detail");
+            //DeletedReasons = new SelectList(myDBContextHelper.CurrentContext.DeletedReasons.Where(x => x.active == true).ToList(), "deletedReasonID", "Detail");
+            DeletedReasons = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
         }
     }
     public class DeleteApplicant : DeleteModel

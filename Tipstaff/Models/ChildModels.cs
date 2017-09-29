@@ -22,7 +22,7 @@ namespace Tipstaff.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date of Birth"),PastDateorNull(ErrorMessage="Birth date cannot be in the future")]
         public DateTime? dateOfBirth { get; set; }
-        [Required,Display(Name="Gender")]
+        [Required, Display(Name = "Gender")]
         public int genderID { get; set; }
         [Required,Display(Name="Height")]
         public string height { get; set; }
@@ -53,6 +53,7 @@ namespace Tipstaff.Models
         //public virtual Country country { get; set; }
         //[Display(Name = "Nationality")]
         //public virtual Nationality nationality { get; set; }
+        [Required, Display(Name = "Gender")]
         public MemoryCollections.Gender gender { get; set; }
         public MemoryCollections.SkinColour skinColour { get; set; }
         public MemoryCollections.Country country { get; set; }

@@ -42,7 +42,9 @@ namespace Tipstaff.Models
         public virtual ChildAbduction childAbduction { get; set; }
 
         //public virtual TipstaffRecord tipstaffRecord { get; set; }
-        public virtual Salutation salutation { get; set; }
+        //public virtual Salutation salutation { get; set; }
+
+           public MemoryCollections.Salutation salutation { get; set; }
 
         [Display(Name = "Full name of Applicant")]
         public virtual string fullname
@@ -147,7 +149,8 @@ namespace Tipstaff.Models
         {
             tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
             tipstaffRecordID = id;
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail");
+            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail");
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
     }
     public class ApplicantEditModel
@@ -156,7 +159,8 @@ namespace Tipstaff.Models
         public SelectList SalutationList { get; set; }
         public ApplicantEditModel()
         {
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x=>x.active==true).ToList(), "salutationID", "Detail");
+            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x=>x.active==true).ToList(), "salutationID", "Detail");
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
 
     }

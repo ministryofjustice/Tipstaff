@@ -50,7 +50,7 @@ namespace Tipstaff.Tests.Integration
                 county = "County",
                 postcode = "Postcode",
                 phone = "Phone",
-                salutation = new Models.Salutation() { salutationID = 1, active = true, Detail = "Mr" },
+                salutation = MemoryCollections.SalutationList.GetSalutationByID(1),
                 salutationID = 1,
                 childAbduction = new Models.ChildAbduction(),
                 tipstaffRecordID = tipstaffRecordIndex
@@ -84,7 +84,7 @@ namespace Tipstaff.Tests.Integration
                     county = "County",
                     postcode = "Postcode",
                     phone = "Phone",
-                    salutation = new Models.Salutation() { salutationID = 1, active = true, Detail = "Mr" },
+                    salutation = MemoryCollections.SalutationList.GetSalutationByID(1),
                     tipstaffRecordID = tipstaffRecordIndex
                 },
                 tipstaffRecordID = tipstaffRecordIndex
@@ -104,7 +104,7 @@ namespace Tipstaff.Tests.Integration
                     county = "County",
                     postcode = "Postcode",
                     phone = "Phone",
-                    salutation = new Models.Salutation() { salutationID = 1, active = true, Detail = "Mr" },
+                    salutation = MemoryCollections.SalutationList.GetSalutationByID(1),
                     tipstaffRecordID = tipstaffRecordIndex
                 }
             });

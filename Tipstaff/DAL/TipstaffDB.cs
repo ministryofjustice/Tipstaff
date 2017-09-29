@@ -21,24 +21,24 @@ namespace Tipstaff.Models
         public DbSet<AuditEventDescription> AuditDescriptions { get; set; }
         //Application Specifc Models
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<ContactType> ContactTypes { get; set; }
+        //public DbSet<ContactType> ContactTypes { get; set; }
         public DbSet<Solicitor> Solicitors { get; set; }
         public DbSet<SolicitorFirm> SolicitorsFirms { get; set; }
-        public DbSet<Gender> Genders { get; set; }
-        public DbSet<FaxCode> FaxCodes { get; set; }
+        //public DbSet<Gender> Genders { get; set; }
+        //public DbSet<FaxCode> FaxCodes { get; set; }
         public DbSet<AttendanceNoteCode> AttendanceNoteCodes { get; set; }
         public DbSet<TipstaffRecord> TipstaffRecord { get; set; }
         public DbSet<ChildAbduction> ChildAbductions { get; set; }
         public DbSet<Warrant> Warrants { get; set; }
-        public DbSet<ProtectiveMarking> ProtectiveMarkings { get; set; }
-        public DbSet<Result> Results { get; set; }
-        public DbSet<CaseStatus> CaseStatuses { get; set; }
+        //public DbSet<ProtectiveMarking> ProtectiveMarkings { get; set; }
+        //public DbSet<Result> Results { get; set; }
+        //public DbSet<CaseStatus> CaseStatuses { get; set; }
         //public DbSet<WarrantCaseStatus> WarrantCaseStatuses { get; set; }
         //public DbSet<ChildAbductionCaseStatus> ChildAbductionCaseStatuses { get; set; }
         public DbSet<CaseReviewStatus> CaseReviewStatuses { get; set; }
         public DbSet<Document> Documents { get; set; }
-        public DbSet<DocumentStatus> DocumentStatuses { get; set; }
-        public DbSet<DocumentType> DocumentTypes { get; set; }
+        //public DbSet<DocumentStatus> DocumentStatuses { get; set; }
+        //public DbSet<DocumentType> DocumentTypes { get; set; }
         //public DbSet<Country> IssuingCountries { get; set; }
         //public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<TipstaffRecordSolicitor> TipstaffRecordSolicitors { get; set; }
@@ -48,16 +48,16 @@ namespace Tipstaff.Models
         public DbSet<AttendanceNote> AttendanceNotes { get; set; }
         //public DbSet<party> Parties { get; set; }
         public DbSet<Template> Templates { get; set; }
-        public DbSet<Division> Divisions { get; set; }
-        public DbSet<ChildRelationship> ChildRelationships { get; set; }
-        public DbSet<Salutation> Salutations { get; set; }
-        public DbSet<CAOrderType> CAOrderTypes { get; set; }
+        //public DbSet<Division> Divisions { get; set; }
+        //public DbSet<ChildRelationship> ChildRelationships { get; set; }
+        //public DbSet<Salutation> Salutations { get; set; }
+        //public DbSet<CAOrderType> CAOrderTypes { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Applicant> Applicants { get; set; }
         //public DbSet<Contemnor> Contemnors { get; set; }
         public DbSet<DeletedTipstaffRecord> DeletedTipstaffRecords{ get; set; }
-        public DbSet<DeletedReason> DeletedReasons { get; set; }
-        public DbSet<SkinColour> SkinColours { get; set; }
+        //public DbSet<DeletedReason> DeletedReasons { get; set; }
+        //public DbSet<SkinColour> SkinColours { get; set; }
         public DbSet<PoliceForce> PoliceForces { get; set; }
         public DbSet<TipstaffPoliceForce> TipstaffPoliceForces { get; set; }
         public DbSet<Role> Roles { get; set; }

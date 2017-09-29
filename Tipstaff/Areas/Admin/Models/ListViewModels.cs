@@ -23,32 +23,32 @@ namespace Tipstaff.Models
         }
     }
 
-    public class ChildRelationshipListView : AdminListView
-    {
-        public IPagedList<ChildRelationship> ChildRelationships { get; set; }
-    }
-    public class ContactTypeListView : AdminListView
-    {
-        public IPagedList<ContactType> ContactTypes { get; set; }
-    }
+    //public class ChildRelationshipListView : AdminListView
+    //{
+    //    public IPagedList<ChildRelationship> ChildRelationships { get; set; }
+    //}
+    //public class ContactTypeListView : AdminListView
+    //{
+    //    public IPagedList<ContactType> ContactTypes { get; set; }
+    //}
    
-    public class DocumentStatusListView : AdminListView
-    {
-    public IPagedList<DocumentStatus> DocumentStatuses { get; set; }
-    }
-    public class DocumentTypeListView : AdminListView
-    {
-        public IPagedList<DocumentType> DocumentTypes { get; set; }
-    }
-    public class GenderListView : AdminListView
-    {
-        public IPagedList<Gender> Genders { get; set; }
-    }
+    //public class DocumentStatusListView : AdminListView
+    //{
+    //  public IPagedList<DocumentStatus> DocumentStatuses { get; set; }
+    //}
+    //public class DocumentTypeListView : AdminListView
+    //{
+    //    public IPagedList<DocumentType> DocumentTypes { get; set; }
+    //}
+    //public class GenderListView : AdminListView
+    //{
+    //    public IPagedList<Gender> Genders { get; set; }
+    //}
     
-    public class SalutationListView : AdminListView
-    {
-        public IPagedList<Salutation> Salutations { get; set; }
-    }
+    //public class SalutationListView : AdminListView
+    //{
+    //    public IPagedList<Salutation> Salutations { get; set; }
+    //}
     public class SolicitorListView : AdminListView
     {
         public IPagedList<Solicitor> Solicitors { get; set; }
@@ -57,10 +57,10 @@ namespace Tipstaff.Models
     {
         public IPagedList<Tipstaff.Services.DynamoTables.SolicitorFirm> SolicitorFirms { get; set; }
     }
-    public class DeletionReasonsListView : AdminListView
-    {
-        public IPagedList<DeletedReason> DeletionReasons { get; set; }
-    }
+    //public class DeletionReasonsListView : AdminListView
+    //{
+    //    public IPagedList<DeletedReason> DeletionReasons { get; set; }
+    //}
     public class PoliceForcesListView : AdminListView
     {
         public IPagedList<PoliceForce> PoliceForces { get; set; }

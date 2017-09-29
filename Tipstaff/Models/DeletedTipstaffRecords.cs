@@ -32,7 +32,8 @@ namespace Tipstaff.Models
         public SelectList DeletedReasonList { get; set; }
         public DeleteTRViewModel()
         {
-            DeletedReasonList = new SelectList(myDBContextHelper.CurrentContext.DeletedReasons.Where(x => x.active == true).ToList(), "deletedReasonID", "Detail");
+            //DeletedReasonList = new SelectList(myDBContextHelper.CurrentContext.DeletedReasons.Where(x => x.active == true).ToList(), "deletedReasonID", "Detail");
+            DeletedReasonList = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
             deletedTipstaffRecord = new DeletedTipstaffRecord();
         }
     }

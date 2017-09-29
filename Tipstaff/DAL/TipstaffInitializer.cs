@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 
 namespace Tipstaff.Models
@@ -8,55 +7,55 @@ namespace Tipstaff.Models
     {
         protected override void Seed(TipstaffDB context)
         {
-            var caot = new List<CAOrderType>
-            {
-                new CAOrderType {Detail="Collection", active=true},
-                new CAOrderType {Detail="Location", active=true},
-                new CAOrderType {Detail="Passport Seizure", active=true}
-            };
+            //var caot = new List<CAOrderType>
+            //{
+            //    new CAOrderType {Detail="Collection", active=true},
+            //    new CAOrderType {Detail="Location", active=true},
+            //    new CAOrderType {Detail="Passport Seizure", active=true}
+            //};
 
-            var sal = new List<Salutation>
-            {
-                new Salutation {Detail="Mr", active=true},
-                new Salutation {Detail="Miss", active=true},
-                new Salutation {Detail="Ms", active=true},
-                new Salutation {Detail="Mrs", active=true},
-                new Salutation {Detail="Madam", active=true},
-                new Salutation {Detail="Sir", active=true}
-            };
+            //var sal = new List<Salutation>
+            //{
+            //    new Salutation {Detail="Mr", active=true},
+            //    new Salutation {Detail="Miss", active=true},
+            //    new Salutation {Detail="Ms", active=true},
+            //    new Salutation {Detail="Mrs", active=true},
+            //    new Salutation {Detail="Madam", active=true},
+            //    new Salutation {Detail="Sir", active=true}
+            //};
 
-            var contactTypes = new List<ContactType>
-            {
-                new ContactType {Detail="Judicial", active=true},
-                new ContactType {Detail="Judges Clerk", active=true},
-                new ContactType {Detail="Solicitor", active=true},
-                new ContactType {Detail="Met Police", active=true},
-                new ContactType {Detail="Met Police IBO", active=true}
-            };
-            var protMarks = new List<ProtectiveMarking>
-            {
-                new ProtectiveMarking {Detail="Confidential", active=true},
-                new ProtectiveMarking {Detail="Restricted",active=true},
-                new ProtectiveMarking {Detail="Protect",active=true},
-                new ProtectiveMarking {Detail="Unclassified",active=true}
-            };
-            var results = new List<Result>
-            {
-                new Result{Detail="Executed",active=true},
-                new Result{Detail="Suspended",active=true},
-                new Result{Detail="Discharged",active=true},
-                new Result{Detail="Expired",active=true},
-                new Result{Detail="Lodged in Prison",active=true},
-                new Result{Detail="Arrested",active=true}
-            };
-            var caCS = new List<CaseStatus>
-            {
-                new CaseStatus{Detail="Awaiting Information",active=true},
-                new CaseStatus{Detail="Active",active=true},
-                //new ChildAbductionCaseStatus{Detail="Port Alert Only",active=true},
-                new CaseStatus{Detail="File Closed",active=true},
-                new CaseStatus{Detail="File Archived",active=true},
-            }; 
+            //var contactTypes = new List<ContactType>
+            //{
+            //    new ContactType {Detail="Judicial", active=true},
+            //    new ContactType {Detail="Judges Clerk", active=true},
+            //    new ContactType {Detail="Solicitor", active=true},
+            //    new ContactType {Detail="Met Police", active=true},
+            //    new ContactType {Detail="Met Police IBO", active=true}
+            //};
+            //var protMarks = new List<ProtectiveMarking>
+            //{
+            //    new ProtectiveMarking {Detail="Confidential", active=true},
+            //    new ProtectiveMarking {Detail="Restricted",active=true},
+            //    new ProtectiveMarking {Detail="Protect",active=true},
+            //    new ProtectiveMarking {Detail="Unclassified",active=true}
+            //};
+            //var results = new List<Result>
+            //{
+            //    new Result{Detail="Executed",active=true},
+            //    new Result{Detail="Suspended",active=true},
+            //    new Result{Detail="Discharged",active=true},
+            //    new Result{Detail="Expired",active=true},
+            //    new Result{Detail="Lodged in Prison",active=true},
+            //    new Result{Detail="Arrested",active=true}
+            //};
+            //var caCS = new List<CaseStatus>
+            //{
+            //    new CaseStatus{Detail="Awaiting Information",active=true},
+            //    new CaseStatus{Detail="Active",active=true},
+            //    //new ChildAbductionCaseStatus{Detail="Port Alert Only",active=true},
+            //    new CaseStatus{Detail="File Closed",active=true},
+            //    new CaseStatus{Detail="File Archived",active=true},
+            //}; 
             //var caCS = new List<ChildAbductionCaseStatus>
             //{
             //    new ChildAbductionCaseStatus{Detail="Awaiting Information",active=true},
@@ -81,43 +80,43 @@ namespace Tipstaff.Models
                 new CaseReviewStatus{Detail="File Closed",active=true},
                 new CaseReviewStatus{Detail="File Archived",active=true},
             };
-            var dT = new List<DocumentType>
-            {
-                new DocumentType{Detail="Generated",active=true},
-                new DocumentType{Detail="Order",active=true},
-                new DocumentType{Detail="Passport",active=true},
-                new DocumentType{Detail="Driving Licence",active=true},
-                new DocumentType{Detail="ID Card",active=true},
-                new DocumentType{Detail="SCD26 papers",active=true},
-                new DocumentType{Detail="Updated document",active=true},
-                new DocumentType{Detail="Other",active=true},
-            };
-            var cR = new List<ChildRelationship>
-            {
-                new ChildRelationship{Detail="None-Warrant",active=false},
-                new ChildRelationship{Detail="Father",active=true},
-                new ChildRelationship{Detail="Mother",active=true},
-                new ChildRelationship{Detail="Grandfather",active=true},
-                new ChildRelationship{Detail="Grandmother",active=true},
-                new ChildRelationship{Detail="Uncle",active=true},
-                new ChildRelationship{Detail="Aunt",active=true},
-                new ChildRelationship{Detail="Brother",active=true},
-                new ChildRelationship{Detail="Sister",active=true}
+            //var dT = new List<DocumentType>
+            //{
+            //    new DocumentType{Detail="Generated",active=true},
+            //    new DocumentType{Detail="Order",active=true},
+            //    new DocumentType{Detail="Passport",active=true},
+            //    new DocumentType{Detail="Driving Licence",active=true},
+            //    new DocumentType{Detail="ID Card",active=true},
+            //    new DocumentType{Detail="SCD26 papers",active=true},
+            //    new DocumentType{Detail="Updated document",active=true},
+            //    new DocumentType{Detail="Other",active=true},
+            //};
+            //var cR = new List<ChildRelationship>
+            //{
+            //    new ChildRelationship{Detail="None-Warrant",active=false},
+            //    new ChildRelationship{Detail="Father",active=true},
+            //    new ChildRelationship{Detail="Mother",active=true},
+            //    new ChildRelationship{Detail="Grandfather",active=true},
+            //    new ChildRelationship{Detail="Grandmother",active=true},
+            //    new ChildRelationship{Detail="Uncle",active=true},
+            //    new ChildRelationship{Detail="Aunt",active=true},
+            //    new ChildRelationship{Detail="Brother",active=true},
+            //    new ChildRelationship{Detail="Sister",active=true}
 
-            };
-            var dS = new List<DocumentStatus>
-            {
-                new DocumentStatus{Detail="Generated",active=true},
-                new DocumentStatus{Detail="Stored in Tipstaff's Safe",active=true},
-                new DocumentStatus{Detail="Disposed of",active=true},
-                new DocumentStatus{Detail="Returned to Owner",active=true},
-                new DocumentStatus{Detail="Stored on shared drive",active=true},
-            };
-            var g = new List<Gender>
-            {
-                new Gender{Detail="Male", active=true},
-                new Gender{Detail="Female", active=true}
-            };
+            //};
+            //var dS = new List<DocumentStatus>
+            //{
+            //    new DocumentStatus{Detail="Generated",active=true},
+            //    new DocumentStatus{Detail="Stored in Tipstaff's Safe",active=true},
+            //    new DocumentStatus{Detail="Disposed of",active=true},
+            //    new DocumentStatus{Detail="Returned to Owner",active=true},
+            //    new DocumentStatus{Detail="Stored on shared drive",active=true},
+            //};
+            //var g = new List<Gender>
+            //{
+            //    new Gender{Detail="Male", active=true},
+            //    new Gender{Detail="Female", active=true}
+            //};
             var pCC = new List<AttendanceNoteCode>
             {
                 new AttendanceNoteCode{Detail="Phone call", active=true},
@@ -398,14 +397,14 @@ namespace Tipstaff.Models
             //    new Solicitor{firstName="Sue M.", lastName="Blind", solicitorFirmID=1, salutationID=2},
             //    new Solicitor{firstName="Bill", lastName="Biggs", solicitorFirmID=1, salutationID=1}
             //};
-            var d = new List<Division>
-            {
-                new Division{Detail="Bankruptcy", Prefix="B", active=true},
-                new Division{Detail="Chancery", Prefix="CH", active=true},
-                new Division{Detail="Family", Prefix="FAM", active=true},
-                new Division{Detail="Insolvency", Prefix="IN", active=true},
-                new Division{Detail="Queen's Bench", Prefix="QB", active=true}
-            };
+            //var d = new List<Division>
+            //{
+            //    new Division{Detail="Bankruptcy", Prefix="B", active=true},
+            //    new Division{Detail="Chancery", Prefix="CH", active=true},
+            //    new Division{Detail="Family", Prefix="FAM", active=true},
+            //    new Division{Detail="Insolvency", Prefix="IN", active=true},
+            //    new Division{Detail="Queen's Bench", Prefix="QB", active=true}
+            //};
 
             //var w = new List<Warrant>
             //{
@@ -573,24 +572,24 @@ namespace Tipstaff.Models
             };
             a.ForEach(c => context.AuditDescriptions.Add(c));
             context.SaveChanges();
-            caot.ForEach(c => context.CAOrderTypes.Add(c));
-            sal.ForEach(c => context.Salutations.Add(c));
+            //caot.ForEach(c => context.CAOrderTypes.Add(c));
+            //sal.ForEach(c => context.Salutations.Add(c));
             context.SaveChanges();
-            contactTypes.ForEach(cType => context.ContactTypes.Add(cType));
-            protMarks.ForEach(p => context.ProtectiveMarkings.Add(p));
-            results.ForEach(r => context.Results.Add(r));
-            caCS.ForEach(c => context.CaseStatuses.Add(c));
+            //contactTypes.ForEach(cType => context.ContactTypes.Add(cType));
+            //protMarks.ForEach(p => context.ProtectiveMarkings.Add(p));
+            //results.ForEach(r => context.Results.Add(r));
+            //caCS.ForEach(c => context.CaseStatuses.Add(c));
             //caCS.ForEach(c => context.ChildAbductionCaseStatuses.Add(c));
             //wCS.ForEach(c => context.WarrantCaseStatuses.Add(c));
             crS.ForEach(c => context.CaseReviewStatuses.Add(c));
-            dT.ForEach(c => context.DocumentTypes.Add(c));
-            dS.ForEach(c => context.DocumentStatuses.Add(c));
+            //dT.ForEach(c => context.DocumentTypes.Add(c));
+            //dS.ForEach(c => context.DocumentStatuses.Add(c));
             //iC.ForEach(c => context.IssuingCountries.Add(c));
-            g.ForEach(c => context.Genders.Add(c));
+            //g.ForEach(c => context.Genders.Add(c));
             pCC.ForEach(c => context.AttendanceNoteCodes.Add(c));
             //sF.ForEach(c => context.SolicitorsFirms.Add(c));
-            cR.ForEach(c => context.ChildRelationships.Add(c));
-            d.ForEach(c => context.Divisions.Add(c));
+            //cR.ForEach(c => context.ChildRelationships.Add(c));
+            //d.ForEach(c => context.Divisions.Add(c));
             faq.ForEach(c => context.FAQs.Add(c));
             context.SaveChanges();
             //s.ForEach(c => context.Solicitors.Add(c));
