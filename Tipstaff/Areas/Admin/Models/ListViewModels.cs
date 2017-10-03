@@ -69,6 +69,6 @@ namespace Tipstaff.Models
     }
     public class PoliceForcesListView : AdminListView
     {
-        public IPagedList<PoliceForce> PoliceForces { get; set; }
+        public IPagedList<PoliceForces> PoliceForces { get; set; }
     }
 }
