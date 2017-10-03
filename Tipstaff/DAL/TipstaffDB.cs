@@ -59,7 +59,7 @@ namespace Tipstaff.Models
         public DbSet<DeletedTipstaffRecord> DeletedTipstaffRecords{ get; set; }
         //public DbSet<DeletedReason> DeletedReasons { get; set; }
         //public DbSet<SkinColour> SkinColours { get; set; }
-        public DbSet<PoliceForce> PoliceForces { get; set; }
+        public DbSet<PoliceForces> PoliceForces { get; set; }
         public DbSet<TipstaffPoliceForce> TipstaffPoliceForces { get; set; }
         //public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }

@@ -53,6 +53,7 @@
     <Compile Include="DynamoAPI\DynamoAPI.cs" />
     <Compile Include="DynamoAPI\IDynamoAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\PoliceForcesRepository.cs" />
     <Compile Include="Repositories\TemplateRepository.cs" />
     <Compile Include="Repositories\DocumentsRepository.cs" />
     <Compile Include="Repositories\ChildRepository.cs" />
