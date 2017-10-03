@@ -34,17 +34,10 @@ namespace Tipstaff.Tests.Integration
             {
                 var response = _sub.Create(new Models.User()
                 {
-                   policeForceID = policeforcesIndex,
-                   loggedInUser = true, 
-                   policeForceName = "Police force name - test",
-                   policeForceEmail = "Police force email - test",
-                   active = true,
-                   deactivated = DateTime.Now,
-                   deactivatedBy = "Deactivated by - test"
+                   //create to be added
         });
 
-                policeforces = _policeforcesRepository.GetPoliceForces(policeforcesIndex);
-                Assert.AreEqual(policeforcesIndex, policeforces.PoliceForceId);
+                // to be added
             }
 
             [Test]
@@ -55,7 +48,7 @@ namespace Tipstaff.Tests.Integration
             [TearDown]
             public void TearDown()
             {
-                _policeforcesRepository.Delete(policeforces);
+                // to be added for user
             }
         }
     }

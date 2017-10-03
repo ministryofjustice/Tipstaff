@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Integration\ContactsControllerTests.cs" />
+    <Compile Include="Integration\UserController.cs" />
     <Compile Include="Integration\UserControllerTests.cs" />
     <Compile Include="Integration\PoliceForcesControllerTests.cs" />
     <Compile Include="Integration\FAQControllerTests.cs" />
