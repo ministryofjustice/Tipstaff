@@ -430,8 +430,8 @@ namespace Tipstaff.Helpers
                 includeFinal.MergeAttribute("type", "hidden");
                 includeFinal.MergeAttribute("value", model.includeFinal.ToString());
                 TagBuilder caseStatusID = new TagBuilder("input");
-                caseStatusID.Attributes.Add("id", "caseStatusID");
-                caseStatusID.Attributes.Add("name", "caseStatusID");
+                caseStatusID.Attributes.Add("id", "CaseStatusID");
+                caseStatusID.Attributes.Add("name", "CaseStatusID");
                 caseStatusID.MergeAttribute("type", "hidden");
                 caseStatusID.MergeAttribute("value", model.caseStatusID.ToString());
                 if (model is ChildAbductionListViewModel)
@@ -466,8 +466,8 @@ namespace Tipstaff.Helpers
                     caseNumberContains.MergeAttribute("value", temp.caseNumberContains ?? "");
                     form.InnerHtml += caseNumberContains.ToString();
                     TagBuilder divisionID = new TagBuilder("input");
-                    divisionID.Attributes.Add("id", "divisionID");
-                    divisionID.Attributes.Add("name", "divisionID");
+                    divisionID.Attributes.Add("id", "DivisionID");
+                    divisionID.Attributes.Add("name", "DivisionID");
                     divisionID.MergeAttribute("type", "hidden");
                     divisionID.MergeAttribute("value", temp.divisionID.ToString());
                     form.InnerHtml += divisionID.ToString();
@@ -719,8 +719,8 @@ namespace Tipstaff.Helpers
             }
             //Add Hidden fields from ListViewModel
             TagBuilder caseStatusID = new TagBuilder("input");
-            caseStatusID.Attributes.Add("id", "caseStatusID");
-            caseStatusID.Attributes.Add("name", "caseStatusID");
+            caseStatusID.Attributes.Add("id", "CaseStatusID");
+            caseStatusID.Attributes.Add("name", "CaseStatusID");
             caseStatusID.MergeAttribute("type", "hidden");
             caseStatusID.MergeAttribute("value", Model.caseStatusID.ToString());
             if (Model is ChildAbductionListViewModel)

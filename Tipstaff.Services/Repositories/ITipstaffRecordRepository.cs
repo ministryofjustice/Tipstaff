@@ -12,6 +12,8 @@ namespace Tipstaff.Services.Repositories
     {
         void Add(TipstaffRecord record);
 
+        void Update(TipstaffRecord record);
+
         TipstaffRecord GetEntityByObjectKey(object hashKey, object rangeKey);
 
         TipstaffRecord GetEntityByHashKey(object hashKey);

@@ -29,7 +29,7 @@ namespace Tipstaff.Controllers
             TipstaffRecordSolicitor tipstaffrecordsolicitor=new TipstaffRecordSolicitor();
             tipstaffrecordsolicitor.solicitor=db.Solicitors.Find(solicitor);
             tipstaffrecordsolicitor.tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecord);
-            if (tipstaffrecordsolicitor.tipstaffRecord.caseStatus.sequence > 3)
+            if (tipstaffrecordsolicitor.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = tipstaffrecordsolicitor.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");

@@ -12,7 +12,8 @@ namespace Tipstaff.Models
     public class Applicant
     {
         [Key]
-        public int ApplicantID { get; set; }
+        //public int ApplicantID { get; set; }
+        public string ApplicantID { get; set; }
         [Required, Display(Name = "Title")]
         public int salutationID { get; set; }
         [Required, MaxLength(50), Display(Name = "Last name")]
@@ -36,11 +37,14 @@ namespace Tipstaff.Models
         public string phone { get; set; }
 
         [Required]
-        public int tipstaffRecordID { get; set; }
+        //public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public virtual ChildAbduction childAbduction { get; set; }
 
         //public virtual TipstaffRecord tipstaffRecord { get; set; }
-        public virtual Salutation salutation { get; set; }
+        //public virtual Salutation salutation { get; set; }
+
+           public MemoryCollections.Salutation salutation { get; set; }
 
         [Display(Name = "Full name of Applicant")]
         public virtual string fullname
@@ -122,26 +126,31 @@ namespace Tipstaff.Models
     }
     public class ListApplicantsByTipstaffRecord:IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
-        public Tipstaff.xPagedList<Applicant> Applicants { get; set; }
+        //public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
+        public Tipstaff.xPagedList<Tipstaff.Services.DynamoTables.Applicant> Applicants { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
     public class ApplicantCreationModel
     {
-        public int tipstaffRecordID { get; set; }
+        //public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
+        //public Applicant applicant { get; set; }
         public Applicant applicant { get; set; }
         public SelectList SalutationList { get; set; }
         public virtual TipstaffRecord tipstaffRecord { get; set; }
 
         public ApplicantCreationModel()
         {
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x=>x.active==true).ToList(), "salutationID", "Detail");
+            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x=>x.active==true).ToList(), "salutationID", "Detail");
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x=>x.Active == 1));
         }
-        public ApplicantCreationModel(int id)
+        public ApplicantCreationModel(string id)
         {
             tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
             tipstaffRecordID = id;
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail");
+            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail");
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
     }
     public class ApplicantEditModel
@@ -150,7 +159,8 @@ namespace Tipstaff.Models
         public SelectList SalutationList { get; set; }
         public ApplicantEditModel()
         {
-            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x=>x.active==true).ToList(), "salutationID", "Detail");
+            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x=>x.active==true).ToList(), "salutationID", "Detail");
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
 
     }

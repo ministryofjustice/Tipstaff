@@ -74,12 +74,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\ChildControllerTests.cs" />
     <Compile Include="Integration\ContactsControllerTests.cs" />
-    <Compile Include="Integration\UserController.cs" />
-    <Compile Include="Integration\UserControllerTests.cs" />
-    <Compile Include="Integration\PoliceForcesControllerTests.cs" />
+    <Compile Include="Integration\ApplicantControllerTests.cs" />
     <Compile Include="Integration\FAQControllerTests.cs" />
-    <Compile Include="Integration\userRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

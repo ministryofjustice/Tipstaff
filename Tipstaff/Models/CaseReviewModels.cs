@@ -63,8 +63,9 @@ namespace Tipstaff.Models
         public CaseReviewCreation()
         {
             CaseReview = new CaseReview();
-            CaseStatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(x => x.active == true && x.sequence <= 3).OrderBy(x => x.sequence).ToList(), "caseStatusID", "Detail");
+            //CaseStatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(x => x.active == true && x.sequence <= 3).OrderBy(x => x.sequence).ToList(), "caseStatusID", "Detail");
             CaseReviewStatusList = new SelectList(myDBContextHelper.CurrentContext.CaseReviewStatuses.Where(c => c.active == true), "caseReviewStatusID", "Detail");
+            CaseStatusList = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(c => c.Active == 1 && c.Sequence <= 3).OrderBy(x => x.Sequence), "CaseStatusID", "Detail");
         }
     }
 }

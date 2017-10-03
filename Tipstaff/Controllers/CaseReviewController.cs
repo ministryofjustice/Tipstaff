@@ -19,7 +19,7 @@ namespace Tipstaff.Controllers
         {
             CaseReviewCreation model = new CaseReviewCreation();
             model.CaseReview.tipstaffRecord = db.TipstaffRecord.Find(id);
-            if (model.CaseReview.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.CaseReview.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.CaseReview.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");

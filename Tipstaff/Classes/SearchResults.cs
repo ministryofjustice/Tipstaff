@@ -40,8 +40,8 @@ namespace Tipstaff
                         Results.Add(new SearchResultRow
                         {
                             name = resp.fullname,
-                            partyID = resp.respondentID,
-                            tipstaffRecordID = resp.tipstaffRecordID,
+                            partyID = resp.respondentID.ToString(), //resp.respondentID,
+                            tipstaffRecordID = resp.tipstaffRecordID.ToString(), //this is incorrect, as we have to modify respondent to handle TipstaffRecordID as string
                             DateOfBirth = (DateTime)resp.dateOfBirth,
                             PartyType = "Respondent",
                             tipstaffRecordType = genericFunctions.TypeOfTipstaffRecord(resp.tipstaffRecordID),
@@ -102,8 +102,8 @@ namespace Tipstaff
                         Results.Add(new SearchResultRow
                         {
                             name = resp.fullname,
-                            partyID = resp.respondentID,
-                            tipstaffRecordID = resp.tipstaffRecordID,
+                            partyID = resp.respondentID.ToString(), //this is not correct, as respondentid will have to change to be string when migrated to nosql
+                            tipstaffRecordID = resp.tipstaffRecordID.ToString(), //this is not correct, we will have to change respondent.tipstaffrecordid to String when migrating to NoSQL
                             DateOfBirth = (DateTime)resp.dateOfBirth,
                             PartyType = "Respondent",
                             tipstaffRecordType = genericFunctions.TypeOfTipstaffRecord(resp.tipstaffRecordID),
@@ -169,8 +169,8 @@ namespace Tipstaff
                         Results.Add(new SearchResultRow
                         {
                             name = resp.fullname,
-                            partyID = resp.respondentID,
-                            tipstaffRecordID = resp.tipstaffRecordID,
+                            partyID = resp.respondentID.ToString(), //this is not correct, as respondentid will have to change to be string when migrated to nosql
+                            tipstaffRecordID = resp.tipstaffRecordID.ToString(), //this is not correct, we will have to change respondent.tipstaffrecordid to String when migrating to NoSQL
                             DateOfBirth = resp.dateOfBirth,
                             PartyType = "Respondent",
                             tipstaffRecordType = string.Format("{0}{1}", genericFunctions.TypeOfTipstaffRecord(resp.tipstaffRecordID)
@@ -191,10 +191,14 @@ namespace Tipstaff
         public class SearchResultRow
         {
             public string name { get; set; }
-            public int tipstaffRecordID { get; set; } //DBid field
+            //public int tipstaffRecordID { get; set; } //DBid field
+            public string tipstaffRecordID { get; set; } //DBid field
             public string tipstaffUniqueRecordID { get; set; }
             public string tipstaffRecordType { get; set; } //for controller
-            public int partyID { get; set; } //DBid field
+                                                          
+            //public int partyID { get; set; } //DBid field
+
+            public string partyID { get; set; } //DBid field
             public string PartyType { get; set; } //child or respondent
             [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
             public DateTime? DateOfBirth { get; set; }

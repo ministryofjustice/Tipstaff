@@ -43,7 +43,8 @@ namespace Tipstaff.Models
 
             data = new List<OPTRow>();
             data.Add(new OPTRow("CA", startDate, endDate));
-            foreach (var div in myDBContextHelper.CurrentContext.Divisions.Where(d=>d.active==true))
+            //foreach (var div in myDBContextHelper.CurrentContext.Divisions.Where(d=>d.active==true))
+            foreach (var div in MemoryCollections.DivisionsList.GetResultList().Where(d => d.Active == 1))
             {
                 data.Add(new OPTRow(div.Detail, startDate, endDate));
             }

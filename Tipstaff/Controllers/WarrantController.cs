@@ -155,10 +155,15 @@ namespace Tipstaff.Controllers
         // GET: /Warrant/Create
         public ActionResult Create()
         {
-            ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail");
-            ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail");
-            ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail");
-            ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail");
+            //ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail");
+            //ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail");
+            //ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail");
+            //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail");
+            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail");
+            ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail");
+            ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail");
+            ViewBag.resultID = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(x => x.Active == 1), "ResultID", "Detail");
+
             Warrant model = new Warrant();
             model.nextReviewDate = DateTime.Today.AddMonths(1);
             System.Security.Principal.IIdentity userIdentity = User.Identity;
@@ -176,10 +181,15 @@ namespace Tipstaff.Controllers
         {
             if (warrant.DateCirculated == null)
             {
-                ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
-                ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
-                ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail", warrant.resultID);
-                ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+                //ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
+                //ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
+                //ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail", warrant.resultID);
+                //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+                ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
+                ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
+                ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
+                ViewBag.resultID = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(x => x.Active == 1), "ResultID", "Detail", warrant.resultID);
+
                 ViewBag.noDateCirculated = "Please enter the Date Circulated";
                 return View(warrant);
             }
@@ -205,10 +215,14 @@ namespace Tipstaff.Controllers
                     return RedirectToAction("Create", "Respondent", new { id = warrant.tipstaffRecordID });
                 }
 
-                ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
-                ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
-                ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail", warrant.resultID);
-                ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+                //ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
+                //ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
+                //ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail", warrant.resultID);
+                //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+                ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
+                ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
+                ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
+                ViewBag.resultID = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(x => x.Active == 1), "ResultID", "Detail", warrant.resultID);
                 return View(warrant);
             }
         }
@@ -218,14 +232,17 @@ namespace Tipstaff.Controllers
         public ActionResult Edit(int id)
         {
             Warrant warrant = db.Warrants.Find(id);
-            if (warrant.caseStatus.sequence > 3)
+            if (warrant.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = warrant.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
-            ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
-            ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
-            ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+            //ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
+            //ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
+            //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
+            ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
+            ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
             return View(warrant);
         }
 
@@ -235,7 +252,8 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Edit(Warrant warrant)
         {
-            warrant.division = db.Divisions.Find(warrant.divisionID);
+            //warrant.division = db.Divisions.Find(warrant.divisionID);
+            warrant.division = MemoryCollections.DivisionsList.GetDivisionByID(warrant.divisionID);
             warrant.Respondents = db.Respondents.Where(r => r.tipstaffRecordID == warrant.tipstaffRecordID).ToList();
             if (ModelState.IsValid)
             {
@@ -243,9 +261,12 @@ namespace Tipstaff.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Warrant", new { id = warrant.tipstaffRecordID });
             }
-            ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
-            ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
-            ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+            //ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
+            //ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
+            //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
+            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
+            ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
+            ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
             return View(warrant);
         }
         

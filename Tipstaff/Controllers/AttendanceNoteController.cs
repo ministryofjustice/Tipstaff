@@ -43,7 +43,7 @@ namespace Tipstaff.Controllers
             ViewBag.AttendanceNoteCodes = CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1);
             AttendanceNote.tipstaffRecordID = id;
 
-            if (AttendanceNote.tipstaffRecord.caseStatus.sequence > 3)
+            if (AttendanceNote.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = AttendanceNote.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -79,8 +79,8 @@ namespace Tipstaff.Controllers
             }
 
             
-            /////// ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
-            ViewBag.AttendanceNoteCodes = CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1);
+            ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
+            //ViewBag.AttendanceNoteCodes = CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1);
             return View(AttendanceNote);
         }
 
@@ -107,7 +107,7 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             } 
-            if (model.AttendanceNote.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.AttendanceNote.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.AttendanceNote.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");

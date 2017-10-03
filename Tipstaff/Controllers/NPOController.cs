@@ -58,14 +58,27 @@ namespace Tipstaff.Controllers
                 return View(model);
         }
 
-        public PartialViewResult ListPNCIDAndNPOByRecord(int id)
+        //public PartialViewResult ListPNCIDAndNPOByRecord(int id)
+        //{
+        //    TipstaffRecord w = db.TipstaffRecord.Find(id);
+        //    ListPNCIDsNPO model = new ListPNCIDsNPO();
+        //    model.npo = new TipstaffNPO();
+        //    model.npo.tipstaffRecordID = w.tipstaffRecordID;
+        //    model.npo.NPO = w.NPO;
+        //    model.Respondents = w.Respondents.Where(r=>r.PNCID != null).ToList();
+        //    if (genericFunctions.TypeOfTipstaffRecord(id) != "Warrant")
+        //        model.children = db.Children.Where(c => c.tipstaffRecordID == id && c.PNCID != null).ToList();
+        //    return PartialView("_ListPNCIDAndNPOByRecord", model);
+        //}
+
+        public PartialViewResult ListPNCIDAndNPOByRecord(string id)
         {
             TipstaffRecord w = db.TipstaffRecord.Find(id);
             ListPNCIDsNPO model = new ListPNCIDsNPO();
             model.npo = new TipstaffNPO();
             model.npo.tipstaffRecordID = w.tipstaffRecordID;
             model.npo.NPO = w.NPO;
-            model.Respondents = w.Respondents.Where(r=>r.PNCID != null).ToList();
+            model.Respondents = w.Respondents.Where(r => r.PNCID != null).ToList();
             if (genericFunctions.TypeOfTipstaffRecord(id) != "Warrant")
                 model.children = db.Children.Where(c => c.tipstaffRecordID == id && c.PNCID != null).ToList();
             return PartialView("_ListPNCIDAndNPOByRecord", model);

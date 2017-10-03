@@ -29,5 +29,9 @@ namespace Tipstaff.MemoryCollections
                 new Division() {  DivisionId=5 ,  Detail = "Queen's Bench", Active = 1  , Prefix ="QB" }
             };
         }
+        public static Division GetDivisionByID(int id)
+        {
+            return GetResultList().Where(x => x.DivisionId == id).FirstOrDefault();
+        }
     }
 }

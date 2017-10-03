@@ -38,7 +38,7 @@ namespace Tipstaff.Controllers
             }
             //ChooseSolicitorModel model = new ChooseSolicitorModel();
             if (model.tipstaffRecord == null) model.tipstaffRecord = db.TipstaffRecord.Find(id);
-            if (model.tipstaffRecord.caseStatus.sequence > 3)
+            if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 HttpResponse.RemoveOutputCacheItem("/Error/ClosedFile");
@@ -99,7 +99,7 @@ namespace Tipstaff.Controllers
         {
             ViewBag.warrantID = warrantID;
             ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
-            ViewBag.salutationID = new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
+            ViewBag.salutationID =  new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail"); //new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
 
             return PartialView("_createSolicitor");
             //return PartialView("_createSolicitorForWarrant");
@@ -123,7 +123,7 @@ namespace Tipstaff.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ViewBag.salutationID = new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
+            ViewBag.salutationID = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");//new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
             ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms, "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
             //return PartialView("_createSolicitor");
             return PartialView("_createSolicitorForWarrant");

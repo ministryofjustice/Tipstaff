@@ -34,10 +34,16 @@ namespace Tipstaff.Models
         public string fileName { get; set; }
         [ScaffoldColumn(false), MaxLength(60)]
         public string mimeType { get; set; }
-        public virtual Country country { get; set; }
-        public virtual Nationality nationality { get; set; }
-        public virtual DocumentStatus documentStatus { get; set; }
-        public virtual DocumentType documentType { get; set; }
+        //public virtual Country country { get; set; }
+        //public virtual Nationality nationality { get; set; }
+        //public virtual DocumentType documentType { get; set; }
+        public MemoryCollections.Country country { get; set; }
+        public MemoryCollections.Nationality nationality { get; set; }
+        public MemoryCollections.DocumentType documentType { get; set; }
+
+        //public virtual DocumentStatus documentStatus { get; set; }
+        public MemoryCollections.DocumentStatus documentStatus { get; set; }
+        
         public virtual Template template { get; set; }
         public virtual TipstaffRecord tipstaffRecord { get; set; }
         // public virtual TipstaffRecord tipstaffRecord { get; set; }
@@ -71,10 +77,14 @@ namespace Tipstaff.Models
         //public List<DocumentType> Types { get; set; }
         public DocumentUploadModel()
         {
-            CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
-            StatusList = new SelectList(myDBContextHelper.CurrentContext.DocumentStatuses.Where(x => x.active == true).Where(s => s.Detail != "Generated").ToList(), "DocumentStatusID", "Detail");
-            TypeList = new SelectList(myDBContextHelper.CurrentContext.DocumentTypes.Where(x => x.active == true).Where(t => t.Detail != "Generated").ToList(), "documentTypeID", "Detail");
-            NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+            //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
+            //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+            //TypeList = new SelectList(myDBContextHelper.CurrentContext.DocumentTypes.Where(x => x.active == true).Where(t => t.Detail != "Generated").ToList(), "documentTypeID", "Detail");
+            //StatusList = new SelectList(myDBContextHelper.CurrentContext.DocumentStatuses.Where(x => x.active == true).Where(s => s.Detail != "Generated").ToList(), "DocumentStatusID", "Detail");
+            CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
+            NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
+            StatusList = new SelectList(MemoryCollections.DocumentStatusList.GetDocumentStatusList().Where(x => x.Active == 1).Where(s => s.Detail != "Generated").ToList(), "DocumentStatusID", "Detail");
+            TypeList = new SelectList(MemoryCollections.DocumentTypeList.GetDocumentTypeList().Where(x => x.Active == 1).Where(t => t.Detail != "Generated").ToList(), "DocumentTypeID", "Detail");
         }
     }
     public class ChooseAddresseeModel
