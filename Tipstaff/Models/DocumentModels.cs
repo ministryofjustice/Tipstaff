@@ -22,7 +22,8 @@ namespace Tipstaff.Models
         public int documentStatusID { get; set; }
         [Required, Display(Name = "Document Type")]
         public int documentTypeID { get; set; }
-        public int? templateID { get; set; }
+        //public int? templateID { get; set; }
+        public string templateID { get; set; }
         [ScaffoldColumn(false),Display(Name="Created on")]
         public DateTime createdOn { get; set; }
         [ScaffoldColumn(false), MaxLength(50), Display(Name="Created by")]
@@ -94,6 +95,6 @@ namespace Tipstaff.Models
         public IEnumerable<Applicant> Applicants { get; set; }
         public Template template { get; set; }
         public int solicitorID { get; set; }
-        public int applicantID { get; set; }
+        public string applicantID { get; set; }
     }
 }

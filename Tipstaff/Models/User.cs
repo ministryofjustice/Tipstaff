@@ -8,13 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tipstaff.Models
 {
-    public class Role
-    {
-        [Required, Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int strength { get; set; }
-        [Required, MaxLength(20)]
-        public string Detail { get; set; }
-    }
+    //public class Role
+    //{
+    //    [Required, Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+    //    public int strength { get; set; }
+    //    [Required, MaxLength(20)]
+    //    public string Detail { get; set; }
+    //}
     public class User
     {
         [Key]
@@ -27,7 +27,8 @@ namespace Tipstaff.Models
         public DateTime? LastActive { get; set; }
         [Required, Display(Name = "Role")]
         public int RoleStrength { get; set; }
-        public virtual Role Role { get; set; }
+        //public virtual Role Role { get; set; }
+        public MemoryCollections.Role Role { get; set; }
        
     }
 }

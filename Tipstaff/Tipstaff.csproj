@@ -247,6 +247,7 @@
     <Compile Include="MemoryCollections\NationalityList.cs" />
     <Compile Include="MemoryCollections\DivisionsList.cs" />
     <Compile Include="MemoryCollections\CountryList.cs" />
+    <Compile Include="MemoryCollections\RolesList.cs" />
     <Compile Include="MemoryCollections\SkinColourList.cs" />
     <Compile Include="MemoryCollections\ProtectiveMarkingsList.cs" />
     <Compile Include="MemoryCollections\ResultsList.cs" />
