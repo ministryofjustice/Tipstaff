@@ -7,19 +7,29 @@ using System.Web.Mvc;
 
 namespace Tipstaff.Models
 {
-    public class PoliceForce
+    public class PoliceForces
     {
         [Key]
-        public int policeForceID { get; set; }
+        public string policeForceID { get; set; }
+
+        public bool loggedInUser { get; set; }
+
         [Required, MaxLength(255), Display(Name = "Police Force Name")]
+
         public string policeForceName { get; set; }
         [Required, MaxLength(255), Display(Name = "Police Force Email"),DataType(DataType.EmailAddress)]
+
         public string policeForceEmail { get; set; }
+
         public bool active { get; set; }
         [Display(Name = "Deactivated On")]
+
         public DateTime? deactivated { get; set; }
         [MaxLength(50), Display(Name = "Deactivated By")]
+
         public string deactivatedBy { get; set; }
+
+        
     }
 
     public class TipstaffPoliceForce
@@ -31,7 +41,7 @@ namespace Tipstaff.Models
         
 
         public virtual TipstaffRecord tipstaffRecord { get; set; }
-        public virtual PoliceForce policeForce { get; set; }
+        public virtual PoliceForces policeForces { get; set; }
     }
 
     public class PoliceForceCreation
