@@ -11,6 +11,7 @@ using System.Data.Entity;
 using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.S3API;
 using Tipstaff.Infrastructure.Services;
+using Tipstaff.Presenter;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -21,12 +22,12 @@ namespace Tipstaff.Areas.Admin.Controllers
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        private readonly ITemplateRepository _templateRepository;
+        private readonly IPresenterTemplate _templatePresenter;
         private readonly IS3API _s3API;
 
-        public TemplatesController(ITemplateRepository templateRepo, IS3API s3Repo)
+        public TemplatesController(IPresenterTemplate templatePresenter, IS3API s3Repo)
         {
-            _templateRepository = templateRepo;
+            _templatePresenter = templatePresenter;
             _s3API = s3Repo;
         }
 
@@ -36,23 +37,9 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Index()
         {
             //var model = db.Templates.OrderBy(t=>t.Discriminator).ThenBy(t=>t.templateName);
-            var model = _templateRepository.GetAllTemplates().OrderBy(t => t.Discriminator).ThenBy(t => t.templateName);
-            List<Template> templates = new List<Template>();
-            foreach (Services.DynamoTables.Template t in model)
-            {
-                Template temp = new Template() {
-                    templateID = t.templateID,
-                    Discriminator = t.Discriminator,
-                    templateName = t.templateName,
-                    filePath = t.filePath,
-                    addresseeRequired = t.addresseeRequired,
-                    active = t.active,
-                    deactivated = t.deactivated,
-                    deactivatedBy = t.deactivatedBy
-                };
-                templates.Add(temp);
-            }
-            return View(templates);
+            var model = _templatePresenter.GetAllTemplates().OrderBy(t => t.Discriminator).ThenBy(t => t.templateName);
+            
+            return View(model);
         }
 
         public ActionResult Open(string id)
@@ -63,13 +50,14 @@ namespace Tipstaff.Areas.Admin.Controllers
             //return File(genericFunctions.ConvertToBytes(xDoc), "application/msword", template.templateName +".xml"); 
             try
             {
-                var template = _templateRepository.GetTemplate(id);
-                return File(template.filePath, "application/msword");
+                Template template = _templatePresenter.GetTemplate(id);
+                return File(template.filePath, "application/msword", template.templateName + ".xml");
             }
             catch (Exception ex)
             {
+                return View("Error");
             }
-            return null;
+            
         }
         public ActionResult Create()
         {
@@ -94,8 +82,8 @@ namespace Tipstaff.Areas.Admin.Controllers
                     {
                         throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try");
                     }
-                    var filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
-
+                    model.Template.filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
+                    model.Template.active = true;
                     //Upload
                     //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
                     //model.uploadFile.SaveAs(fileName); //Save to uploads folder     
@@ -105,18 +93,9 @@ namespace Tipstaff.Areas.Admin.Controllers
                     ////Delete file
                     //System.IO.File.Delete(fileName);
 
-                    string tid = (model.Template.templateID == null) ? GuidGenerator.GenerateTimeBasedGuid().ToString() : model.Template.templateID;
-                    _templateRepository.AddTemplate(new Services.DynamoTables.Template()
-                    {
-                        templateID = tid,
-                        Discriminator = model.Template.Discriminator,
-                        templateName = model.Template.templateName,
-                        filePath = filePath,
-                        addresseeRequired = model.Template.addresseeRequired,
-                        active = true
-                    });
-                    //db.Entry(model.Template).State = EntityState.Added;
-                    //db.SaveChanges();
+
+                    _templatePresenter.AddTemplate(model);
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -138,17 +117,8 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Edit(string id)
         {
             TemplateEdit model = new TemplateEdit();
-            var t = _templateRepository.GetTemplate(id);
-            model.Template = new Template() {
-                templateID = id,
-                Discriminator = t.Discriminator,
-                templateName = t.templateName,
-                filePath = t.filePath,
-                addresseeRequired = t.addresseeRequired,
-                active = t.active,
-                deactivated = t.deactivated,
-                deactivatedBy = t.deactivatedBy
-            };
+
+            model.Template = _templatePresenter.GetTemplate(id);
             return View(model);
         }
 
@@ -156,7 +126,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Edit(TemplateEdit model)
         {
             //Template oldTemplate = db.Templates.Find(model.Template.templateID);
-            var oldTemplate = _templateRepository.GetTemplate(model.Template.templateID);
+            Template oldTemplate = _templatePresenter.GetTemplate(model.Template.templateID);
             string filePath = string.Empty;
             try
             {
@@ -180,26 +150,13 @@ namespace Tipstaff.Areas.Admin.Controllers
                     //xml = document.InnerXml;
                     ////Delete file
                     //System.IO.File.Delete(fileName);
-
-
                 }
                 else
                 {
                     filePath = oldTemplate.filePath; //db.Templates.Find(model.Template.templateID).templateXML;
                 }
-                //model.Template.templateXML = xml;
-                
-                //db.Entry(oldTemplate).CurrentValues.SetValues(model.Template);
-                //db.SaveChanges();
-                _templateRepository.Update(new Services.DynamoTables.Template()
-                {
-                    templateID = model.Template.templateID,
-                    Discriminator = model.Template.Discriminator,
-                    templateName = model.Template.templateName,
-                    filePath = filePath,
-                    addresseeRequired = model.Template.addresseeRequired,
-                    active = model.Template.active
-                });
+                model.Template.filePath = filePath;
+                _templatePresenter.UpdateTemplate(model);
 
                 return RedirectToAction("Index");
             }
@@ -214,8 +171,8 @@ namespace Tipstaff.Areas.Admin.Controllers
         // GET: /Admin/Template/Delete/5
         public ActionResult Deactivate(string id)
         {
-            //Template model = db.Templates.Find(id);
-            var model =_templateRepository.GetTemplate(id);
+            Template model = _templatePresenter.GetTemplate(id);
+           
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -223,29 +180,19 @@ namespace Tipstaff.Areas.Admin.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
-            return View(new Template() {
-                templateID = model.templateID,
-                templateName = model.templateName
-            });
+            return View(model);
         }
         //
         // POST: /Admin/Solicitor/Delete/5
         [HttpPost, ActionName("Deactivate")]
         public ActionResult DeactivateConfirmed(string id)
         {
-            //Template model = db.Templates.Find(id);
-            var model = _templateRepository.GetTemplate(id);
-            _templateRepository.Update(new Services.DynamoTables.Template()
-            {
-                templateID = model.templateID,
-                Discriminator = model.Discriminator,
-                templateName = model.templateName,
-                filePath = model.filePath,
-                addresseeRequired = model.addresseeRequired,
-                active = false,
-                deactivated = DateTime.Now,
-                deactivatedBy = User.Identity.Name
-            });
+            TemplateEdit model = new TemplateEdit();
+            model.Template = _templatePresenter.GetTemplate(id);
+            model.Template.active = false;
+            model.Template.deactivated = DateTime.Now;
+            model.Template.deactivatedBy = User.Identity.Name;
+            _templatePresenter.UpdateTemplate(model);
            
             //model.templateXML = null;
             //db.Entry(model).State = EntityState.Modified;

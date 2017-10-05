@@ -13,7 +13,7 @@ namespace Tipstaff.Services.Repositories
 
         void DeleteAttendanceNote(AttendanceNote note);
     
-        AttendanceNote GetAttendanceNote(int id);
+        AttendanceNote GetAttendanceNote(string id);
 
         AttendanceNote GetEntityByObjectKey(object key);
     }

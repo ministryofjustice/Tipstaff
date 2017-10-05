@@ -91,6 +91,12 @@ namespace Tipstaff.Models
             //Ensure folder exists to create outoput
             //if (!Directory.Exists(Path)) Directory.CreateDirectory(Path);
         }
+        public WordFile(string tipstaffRecordID, string serverPath, string templateID, string templateName, string tipstaffURI)
+        {
+            Path = string.Format(serverPath + "{0}", tipstaffRecordID);
+            fileName = string.Format("{0}-{1}.doc", templateName, tipstaffURI);
+            fullName = string.Format("{0}\\{1}", Path, fileName);
+        }
 
         public bool Exists
         {

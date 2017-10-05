@@ -9,9 +9,9 @@ namespace Tipstaff.Models
 {
     public abstract class DeleteModel
     {
-        public int DeleteModelID { get; set; }
+        public string DeleteModelID { get; set; }
         [Display(Name="Reason for deletion")]
-        public int DeletedReasonID { get; set; }
+        public MemoryCollections.DeletedReason DeletedReason { get; set; }
         public SelectList DeletedReasons { get; set; }
         public DeleteModel()
         {
@@ -22,8 +22,10 @@ namespace Tipstaff.Models
     public class DeleteApplicant : DeleteModel
     {
         public Applicant Applicant { get; set; }
-        public DeleteApplicant() { }
-        public DeleteApplicant(int id)
+        public DeleteApplicant() {
+            DeletedReasons = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
+        }
+        public DeleteApplicant(string id)
         {
             Applicant = myDBContextHelper.CurrentContext.Applicants.Find(id);
             DeleteModelID = id;
@@ -32,8 +34,10 @@ namespace Tipstaff.Models
     public class DeleteChild : DeleteModel
     {
         public Child Child { get; set; }
-        public DeleteChild() { }
-        public DeleteChild(int id)
+        public DeleteChild() {
+            DeletedReasons = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
+        }
+        public DeleteChild(string id)
         {
             Child = myDBContextHelper.CurrentContext.Children.Find(id);
             DeleteModelID = id;
@@ -43,7 +47,7 @@ namespace Tipstaff.Models
     {
         public Respondent Respondent { get; set; }
         public DeleteRespondent() { }
-        public DeleteRespondent(int id)
+        public DeleteRespondent(string id)
         {
             Respondent = myDBContextHelper.CurrentContext.Respondents.Find(id);
             DeleteModelID = id;
@@ -52,8 +56,10 @@ namespace Tipstaff.Models
 	public class DeleteAddress : DeleteModel
     {
         public Address Address { get; set; }
-        public DeleteAddress() { }
-        public DeleteAddress(int id)
+        public DeleteAddress() {
+            DeletedReasons = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
+        }
+        public DeleteAddress(string id)
         {
             Address = myDBContextHelper.CurrentContext.Addresses.Find(id);
             DeleteModelID = id;
@@ -63,7 +69,7 @@ namespace Tipstaff.Models
     {
         public AttendanceNote AttendanceNote { get; set; }
         public DeleteAttendanceNote() { }
-        public DeleteAttendanceNote(int id)
+        public DeleteAttendanceNote(string id)
         {
             AttendanceNote = myDBContextHelper.CurrentContext.AttendanceNotes.Find(id);
             DeleteModelID = id;
@@ -72,18 +78,21 @@ namespace Tipstaff.Models
 	public class DeleteDocument : DeleteModel
     {
         public Document Document { get; set; }
-        public DeleteDocument() { }
-        public DeleteDocument(int id)
+        public DeleteDocument() {
+            DeletedReasons = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
+        }
+        public DeleteDocument(string id)
         {
-            Document = myDBContextHelper.CurrentContext.Documents.Find(id);
+            //Document = myDBContextHelper.CurrentContext.Documents.Find(id);
             DeleteModelID = id;
         }
+
     }
     public class DeleteTipstaffRecordSolicitor : DeleteModel
     {
         public TipstaffRecordSolicitor TipstaffRecordSolicitor { get; set; }
         public DeleteTipstaffRecordSolicitor() { }
-        public DeleteTipstaffRecordSolicitor(int id)
+        public DeleteTipstaffRecordSolicitor(string id)
         {
             TipstaffRecordSolicitor = myDBContextHelper.CurrentContext.TipstaffRecordSolicitors.Find(id);
             DeleteModelID = id;

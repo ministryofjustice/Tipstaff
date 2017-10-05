@@ -37,7 +37,7 @@ namespace Tipstaff.Models
         //public DbSet<WarrantCaseStatus> WarrantCaseStatuses { get; set; }
         //public DbSet<ChildAbductionCaseStatus> ChildAbductionCaseStatuses { get; set; }
         public DbSet<CaseReviewStatus> CaseReviewStatuses { get; set; }
-        public DbSet<Document> Documents { get; set; }
+        //public DbSet<Document> Documents { get; set; }
         //public DbSet<DocumentStatus> DocumentStatuses { get; set; }
         //public DbSet<DocumentType> DocumentTypes { get; set; }
         //public DbSet<Country> IssuingCountries { get; set; }
