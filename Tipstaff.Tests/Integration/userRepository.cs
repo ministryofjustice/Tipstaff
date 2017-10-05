@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tipstaff.Infrastructure.DynamoAPI;
+using Tipstaff.Models;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Tests.Integration
 {
-    internal class userRepository : IUserRepository
+    internal class userRepository 
     {
         private IDynamoAPI<User> _dynamoAPI;
 

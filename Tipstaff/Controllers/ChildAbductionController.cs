@@ -5,9 +5,7 @@ using System.Web.Mvc;
 using System.Configuration;
 using PagedList;
 using Tipstaff.Models;
-using System.Xml.Linq;
-using System.IO;
-using Tipstaff.Logger;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -17,10 +15,10 @@ namespace Tipstaff.Controllers
     public class ChildAbductionController : Controller
     {
         private readonly IChildAbductionPresenter _childAbductionPresenter;
-       
+
         public ChildAbductionController(IChildAbductionPresenter childAbbductionPresenter)
         {
-           _childAbductionPresenter = childAbbductionPresenter;
+            _childAbductionPresenter = childAbbductionPresenter;
         }
         //
         // GET: /ChildAbduction/
@@ -162,9 +160,9 @@ namespace Tipstaff.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.protectiveMarkingList = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true).ToList(), "protectiveMarkingID", "Detail");
-            ViewBag.childAbductionCaseStatusList = new SelectList(db.CaseStatuses.Where(x => x.active == true).OrderBy(x => x.sequence), "caseStatusID", "Detail");
-            ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail");
+            ViewBag.protectiveMarkingList = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "protectiveMarkingID", "Detail");
+            ViewBag.childAbductionCaseStatusList = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1).OrderBy(x => x.Sequence), "caseStatusID", "Detail");
+            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "caOrderTypeID", "Detail");
             ChildAbduction model = new ChildAbduction();
             model.nextReviewDate = DateTime.Today.AddMonths(1);
             System.Security.Principal.IIdentity userIdentity = User.Identity;
@@ -181,13 +179,14 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TipstaffRecord.Add(childabduction);
-                db.SaveChanges();
+                //////db.TipstaffRecord.Add(childabduction);
+                //////db.SaveChanges();
+                _childAbductionPresenter.AddTipstaffRecord(childabduction);
                 return RedirectToAction("Create", "Child", new { id = childabduction.tipstaffRecordID, initial = true });
             }
 
             //ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
-           // ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
+            // ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
             //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
             ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.caOrderTypeID);
             ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childabduction.caseStatusID);
@@ -198,7 +197,7 @@ namespace Tipstaff.Controllers
         //
         // GET: /ChildAbduction/Edit/5
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             ////////ChildAbduction childabduction = db.ChildAbductions.Find(id);
             var childAbduction = _childAbductionPresenter.GetChildAbduction(id);
@@ -283,7 +282,7 @@ namespace Tipstaff.Controllers
                 }
                 catch (Exception ex)
                 {
-                   // _logger.LogError(ex, $"Exception in ChildAbductionController in EnterResult method, for user {((CPrincipal)User).UserID}");
+                    // _logger.LogError(ex, $"Exception in ChildAbductionController in EnterResult method, for user {((CPrincipal)User).UserID}");
                     ErrorModel errModel = new ErrorModel(2);
                     errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                     TempData["ErrorModel"] = errModel;
@@ -296,8 +295,9 @@ namespace Tipstaff.Controllers
         public ActionResult Delete(string id)
         {
             DeleteChildAbductionViewModel model = new DeleteChildAbductionViewModel();
-            model.ChildAbduction = db.ChildAbductions.Find(id);
-            model.deletedTipstaffRecord.TipstaffRecordID = id;
+            ////model.ChildAbduction = db.ChildAbductions.Find(id);
+            model.ChildAbduction = _childAbductionPresenter.GetChildAbduction(id);
+            model.deletedTipstaffRecord.TipstaffRecordID = int.Parse(id);
             if (model.ChildAbduction == null)
             {
                 ErrorModel errModel = new ErrorModel(2);

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Xml;
@@ -10,10 +8,8 @@ using System.Reflection;
 using System.Security;
 using System.Data.Entity.Validation;
 using Tipstaff.Logger;
-using Tipstaff.Services.Repositories;
-using Tipstaff.Services.Services;
 using Tipstaff.Infrastructure.S3API;
-using Tipstaff.Presenter;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -115,10 +111,10 @@ namespace Tipstaff.Controllers
                 //Get TipstaffRecord from warrantID
                 TipstaffRecord tipstaffRecord = _templatePresenter.GetTipstaffRecord(tipstaffRecordID);
 
-                
-                if (tipstaffRecord.caseStatus.Detail == "File Closed" || tipstaffRecord.caseStatus.Detail == "File Archived") 
+
+                if (tipstaffRecord.caseStatus.Detail == "File Closed" || tipstaffRecord.caseStatus.Detail == "File Archived")
                 {
-                    TempData["UID"] =  tipstaffRecord.UniqueRecordID;
+                    TempData["UID"] = tipstaffRecord.UniqueRecordID;
                     return RedirectToAction("ClosedFile", "Error");
                 }
                 //Get Template from templateID
@@ -414,7 +410,7 @@ namespace Tipstaff.Controllers
                 }
             }
             if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) != "Warrant") //Check PNCIDs
-            { 
+            {
                 string pncids = "";
                 ChildAbduction ca = (ChildAbduction)tipstaffRecord;
                 foreach (Child c in ca.children)
@@ -508,7 +504,7 @@ namespace Tipstaff.Controllers
             else
             {
                 result = result.Replace("||ADDRESSEENAME||", applicant.fullname);
-                
+
                 if (applicant.printAddressMultiLine != null)
                 {
                     result = result.Replace("||ADDRESS||", applicant.printAddressMultiLine);
@@ -525,7 +521,7 @@ namespace Tipstaff.Controllers
         {
 
             string result = _s3API.ReadS3Object("tipstaff", "templates", Path.GetFileName(template.filePath)); //template.templateXML;
-            int kids=1;
+            int kids = 1;
             //merge generic fields
             result = result.Replace("||DATE||", DateTime.Now.ToShortDateString());
             result = result.Replace("||TIME||", DateTime.Now.ToShortTimeString());
@@ -591,14 +587,14 @@ namespace Tipstaff.Controllers
             result = result.Replace("||ADDRESSES||", "");
             result = result.Replace("||ADDRESSBLOCK||", "");
 
-            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord)=="ChildAbduction" && template.Discriminator=="ChildAbduction")
+            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) == "ChildAbduction" && template.Discriminator == "ChildAbduction")
             {
                 ChildAbduction ca = (ChildAbduction)tipstaffRecord;
                 PropertyInfo[] properties = typeof(ChildAbduction).GetProperties();
 
                 foreach (PropertyInfo property in properties)
                 {
-                    var propValue="";
+                    var propValue = "";
                     object value = property.GetValue(ca, null);
                     if (value != null)
                     {
@@ -617,12 +613,12 @@ namespace Tipstaff.Controllers
                             System.Diagnostics.Debug.Print(propValue.ToString());
                         }
                     }
-                    result = result.Replace(string.Format("||{0}||",property.Name.ToUpper()), SecurityElement.Escape(propValue));
+                    result = result.Replace(string.Format("||{0}||", property.Name.ToUpper()), SecurityElement.Escape(propValue));
                 }
                 //child blocks
                 foreach (Child child in ca.children)
                 {
-                    result = result.Replace("||CHILDBLOCK||", child.xmlBlock.Replace("||CHILDNUMBER||",kids.ToString()) + "||CHILDBLOCK||");
+                    result = result.Replace("||CHILDBLOCK||", child.xmlBlock.Replace("||CHILDNUMBER||", kids.ToString()) + "||CHILDBLOCK||");
                     kids++;
                 }
                 result = result.Replace("||MULTICHILD||", ca.children.Count() > 1 ? "children" : "child");
@@ -631,10 +627,10 @@ namespace Tipstaff.Controllers
                 //respondent block
                 foreach (Respondent resp in tipstaffRecord.Respondents)
                 {
-                    result = result.Replace("||RESPONDENTBLOCK||", resp.xmlBlock + "||RESPONDENTBLOCK||");        
+                    result = result.Replace("||RESPONDENTBLOCK||", resp.xmlBlock + "||RESPONDENTBLOCK||");
                 }
                 result = result.Replace("||RESPONDENTBLOCK||", "");
-                result = result.Replace("||MULTIRESP||", ca.Respondents.Count()>1?"people":"person");
+                result = result.Replace("||MULTIRESP||", ca.Respondents.Count() > 1 ? "people" : "person");
                 string pncids = "";
                 foreach (Respondent r in ca.Respondents)
                 {
@@ -718,12 +714,11 @@ namespace Tipstaff.Controllers
                     result = result.Replace("||COUNTRY.DETAIL||", warrant.Respondents.FirstOrDefault().country.Detail);
                     result = result.Replace("||SKINCOLOUR.DETAIL||", warrant.Respondents.FirstOrDefault().skinColour.Detail);
                 }
-   
+
             }
             return result;
         }
 
-   }
+    }
 
 }
-

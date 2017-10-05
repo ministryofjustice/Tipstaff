@@ -3,6 +3,8 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Infrastructure.Repositories;
+using Tipstaff.Infrastructure.S3API;
+using Tipstaff.Infrastructure.Services;
 using Tipstaff.Logger;
 using Tipstaff.Services.Repositories;
 

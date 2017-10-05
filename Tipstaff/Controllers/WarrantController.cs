@@ -17,7 +17,7 @@ namespace Tipstaff.Controllers
     public class WarrantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        //private readonly IWarrantRepository _warrantRepository;
+        private readonly IWarrantPresenter _warrantPresenter;
 
 
         public WarrantController(IWarrantPresenter warrantPresenter)

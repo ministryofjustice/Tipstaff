@@ -25,7 +25,7 @@
 //        Child child;
 
 //        private Mock<IGuidGenerator> _guidGeneratorMock;
-       
+
 
 //        [SetUp]
 //        public void SetUp()
@@ -35,8 +35,8 @@
 //            _childRepository = new ChildRepository(_dynamoAPI);
 //            _tipstaffRepository = new TipstaffRecordRepository(_dynamoAPITipstaff);
 //            _guidGeneratorMock = new Mock<IGuidGenerator>();
-          
-           
+
+
 
 //            childIndex = Guid.NewGuid();
 //            _guidGeneratorMock.Setup(x => x.GenerateTimeBasedGuid()).Returns(childIndex);
@@ -104,7 +104,7 @@
 //                },
 //                tipstaffRecordID = tipstaffRecordIndex
 //            }, "");
-            
+
 
 //            response = _sub.Edit(new Models.ChildCreationModel()
 //            {

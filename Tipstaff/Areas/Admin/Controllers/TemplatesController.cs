@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Data;
 using System.IO;
-using System.Xml;
-using System.Data.Entity;
-using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.S3API;
-using Tipstaff.Infrastructure.Services;
-using Tipstaff.Presenter;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -24,13 +18,11 @@ namespace Tipstaff.Areas.Admin.Controllers
 
         private readonly IPresenterTemplate _templatePresenter;
         private readonly IS3API _s3API;
-        private readonly IGuidGenerator _guidGenerator;
 
         public TemplatesController(IPresenterTemplate templatePresenter, IS3API s3Repo)
         {
             _templatePresenter = templatePresenter;
             _s3API = s3Repo;
-            _guidGenerator = guidGenerator;
         }
 
         //
@@ -40,7 +32,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             //var model = db.Templates.OrderBy(t=>t.Discriminator).ThenBy(t=>t.templateName);
             var model = _templatePresenter.GetAllTemplates().OrderBy(t => t.Discriminator).ThenBy(t => t.templateName);
-            
+
             return View(model);
         }
 
@@ -59,7 +51,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             {
                 return View("Error");
             }
-            
+
         }
         public ActionResult Create()
         {
@@ -95,18 +87,9 @@ namespace Tipstaff.Areas.Admin.Controllers
                     ////Delete file
                     //System.IO.File.Delete(fileName);
 
-                    string tid = (model.Template.templateID == null) ? GuidGenerator.GenerateTimeBasedGuid().ToString() : model.Template.templateID;
-                    _templateRepository.AddTemplate(new Services.DynamoTables.Template()
-                    {
-                        templateID = tid,
-                        Discriminator = model.Template.Discriminator,
-                        templateName = model.Template.templateName,
-                        filePath = filePath,
-                        addresseeRequired = model.Template.addresseeRequired,
-                        active = true
-                    });
-                    //db.Entry(model.Template).State = EntityState.Added;
-                    //db.SaveChanges();
+
+                    _templatePresenter.AddTemplate(model);
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -183,7 +166,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Deactivate(string id)
         {
             Template model = _templatePresenter.GetTemplate(id);
-           
+
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -204,7 +187,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             model.Template.deactivated = DateTime.Now;
             model.Template.deactivatedBy = User.Identity.Name;
             _templatePresenter.UpdateTemplate(model);
-           
+
             //model.templateXML = null;
             //db.Entry(model).State = EntityState.Modified;
             //db.SaveChanges();

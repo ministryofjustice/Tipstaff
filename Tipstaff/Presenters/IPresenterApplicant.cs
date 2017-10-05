@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tipstaff.Models;
 
-namespace Tipstaff.Presenter
+namespace Tipstaff.Presenters
 {
     public interface IPresenterApplicant
     {

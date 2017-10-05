@@ -66,7 +66,6 @@
     <Compile Include="Repositories\TipstaffRecordRepository.cs" />
     <Compile Include="S3API\IS3API.cs" />
     <Compile Include="S3API\S3API.cs" />
-    <Compile Include="Services\TimeBasedGuidService.cs" />
     <Compile Include="Services\GuidGenerator.cs" />
     <Compile Include="Services\IGuidGenerator.cs" />
   </ItemGroup>

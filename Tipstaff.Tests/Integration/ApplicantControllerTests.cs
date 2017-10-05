@@ -1,4 +1,6 @@
-﻿//using NUnit.Framework;
+﻿//using Moq;
+//using NUnit.Framework;
+//using System;
 //using Tipstaff.Areas.Admin.Controllers;
 //using Tipstaff.Controllers;
 //using Tipstaff.Infrastructure.DynamoAPI;
@@ -22,6 +24,8 @@
 //        string applicantIndex = string.Empty;
 //        string tipstaffRecordIndex = string.Empty;
 //        Applicant applicant;
+//        private Mock<IGuidGenerator> _guidGeneratorMock;
+//        Guid id;
 
 //        [SetUp]
 //        public void SetUp()
@@ -30,9 +34,12 @@
 //            _dynamoAPI = new DynamoAPI<Tipstaff.Services.DynamoTables.Applicant>();
 //            _applicantRepository = new ApplicantRepository(_dynamoAPI);
 //            _tipstaffRepository = new TipstaffRecordRepository(_dynamoAPITipstaff);
+//            id = Guid.NewGuid();
+//            _guidGeneratorMock.Setup(x => x.GenerateTimeBasedGuid()).Returns(id);
+
 //            applicantIndex = GuidGenerator.GenerateTimeBasedGuid().ToString();
 //            tipstaffRecordIndex = GuidGenerator.GenerateTimeBasedGuid().ToString();
-//            _sub = new ApplicantController(_logger, _applicantRepository, _tipstaffRepository);
+//            _sub = new ApplicantController(_logger, _applicantRepository, _tipstaffRepository,);
 //        }
 
 //        [Test]

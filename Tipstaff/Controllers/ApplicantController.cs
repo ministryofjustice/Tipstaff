@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Web.UI;
 using System.Data.Entity.Infrastructure;
-using System.Data;
-using System.Data.Entity;
 using Tipstaff.Logger;
-using Tipstaff.Services.Repositories;
-using Tipstaff.Infrastructure.Services;
-using Tipstaff.Presenter;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -23,7 +16,7 @@ namespace Tipstaff.Controllers
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IPresenterApplicant _applicantPresenter;
         private readonly ICloudWatchLogger _logger;
-        
+
         public ApplicantController(ICloudWatchLogger telemetryLogger, IPresenterApplicant applicantPresenter)
         {
             _logger = telemetryLogger;
@@ -87,22 +80,8 @@ namespace Tipstaff.Controllers
                 //ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
                 //ca.Applicants.Add(model.applicant);
                 //db.SaveChanges();
-                string aid = (model.applicant.ApplicantID == null) ? GuidGenerator.GenerateTimeBasedGuid().ToString() : model.applicant.ApplicantID;
-                _applicantRepository.AddApplicant(new Services.DynamoTables.Applicant()
-                {
-                    ApplicantID = aid,
-                    NameFirst = model.applicant.nameFirst,
-                    NameLast = model.applicant.nameLast,
-                    AddressLine1 = model.applicant.addressLine1,
-                    AddressLine2 = model.applicant.addressLine2,
-                    AddressLine3 = model.applicant.addressLine3,
-                    Town = model.applicant.town,
-                    County = model.applicant.county,
-                    Postcode = model.applicant.postcode,
-                    Phone = model.applicant.phone,
-                    Salutation = model.applicant.salutation.Detail,
-                    TipstaffRecordID = model.tipstaffRecordID
-                });
+                _applicantPresenter.AddApplicant(model);
+
                 if (Request.IsAjaxRequest())
                 {
                     string url = string.Format("window.location='{0}';", Url.Action("Details", "ChildAbduction", new { id = model.tipstaffRecordID }));

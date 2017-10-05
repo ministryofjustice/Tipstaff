@@ -6,10 +6,8 @@ using System.IO;
 using System.Web.UI;
 using Tipstaff.Logger;
 using Tipstaff.Infrastructure.S3API;
-using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.Services;
-using System.Collections.Generic;
-using Tipstaff.Presenter;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -23,12 +21,14 @@ namespace Tipstaff.Controllers
         private readonly IPresenterDocument _docPresenter;
         private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
+        private readonly IGuidGenerator _guidGenerator;
         
-        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IPresenterDocument docPresenter)
+        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IPresenterDocument docPresenter, IGuidGenerator guidGenerator)
         {
             _logger = logger;
             _docPresenter = docPresenter;
             _s3API = s3api;
+            _guidGenerator = guidGenerator;
         }
 
         public ActionResult ChooseAddressee(string tipstaffRecordID, string templateID)
@@ -152,7 +152,7 @@ namespace Tipstaff.Controllers
             }
             if (ModelState.IsValid)
             {
-                string did = (model.document.documentID == null) ? GuidGenerator.GenerateTimeBasedGuid().ToString() : model.document.documentID;
+                string did = (model.document.documentID == null) ? _guidGenerator.GenerateTimeBasedGuid().ToString() : model.document.documentID;
                 _docPresenter.AddDocument(model);
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.tipstaffRecordID), new { id = model.tipstaffRecordID });
             }
