@@ -9,6 +9,7 @@ using System.Data.Entity.Validation;
 using System.Security.Principal;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Metadata.Edm;
+using Tipstaff.MemoryCollections;
 
 namespace Tipstaff.Models
 {
@@ -58,9 +59,9 @@ namespace Tipstaff.Models
         public DbSet<DeletedTipstaffRecord> DeletedTipstaffRecords{ get; set; }
         //public DbSet<DeletedReason> DeletedReasons { get; set; }
         //public DbSet<SkinColour> SkinColours { get; set; }
-        public DbSet<PoliceForce> PoliceForces { get; set; }
+        public DbSet<PoliceForces> PoliceForces { get; set; }
         public DbSet<TipstaffPoliceForce> TipstaffPoliceForces { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        //public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
 
 
@@ -358,19 +359,31 @@ namespace Tipstaff.Models
             return Users.OrderBy(u => u.DisplayName);
         }
 
+        //public IEnumerable<Role> GetAllRoles()
+        //{
+        //    CPrincipal usr = new CPrincipal(HttpContext.Current.User.Identity);
+        //    if (usr.AccessLevel == AccessLevel.SystemAdmin)
+        //    {
+        //        return Roles.ToList();
+        //    }
+        //    else
+        //    {
+        //        return Roles.Where(x => x.strength != 100);
+        //    }
+        //}
+
         public IEnumerable<Role> GetAllRoles()
         {
             CPrincipal usr = new CPrincipal(HttpContext.Current.User.Identity);
             if (usr.AccessLevel == AccessLevel.SystemAdmin)
             {
-                return Roles.ToList();
+                return RolesList.GetRolesList();
             }
             else
             {
-                return Roles.Where(x => x.strength != 100);
+                return RolesList.GetRolesList().Where(x => x.Strength != 100);
             }
         }
-
         public User GetUserByID(int id)
         {
             return Users.Find(id);

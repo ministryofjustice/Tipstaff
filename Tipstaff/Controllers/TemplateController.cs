@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Security;
 using System.Data.Entity.Validation;
 using Tipstaff.Logger;
+using Tipstaff.Services.Repositories;
+using Tipstaff.Infrastructure.S3API;
 
 namespace Tipstaff.Controllers
 {
@@ -19,12 +21,15 @@ namespace Tipstaff.Controllers
     public class TemplateController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ITemplateRepository _templateRepository;
+        private readonly IS3API _s3API;
 
         private readonly ICloudWatchLogger _logger;
 
-        public TemplateController(ICloudWatchLogger logger)
+        public TemplateController(ICloudWatchLogger logger, IS3API s3api)
         {
             _logger = logger;
+            _s3API = s3api;
         }
         //
         // GET: /Template/
@@ -372,7 +377,8 @@ namespace Tipstaff.Controllers
 
         private string mergeData(Template template, TipstaffRecord tipstaffRecord)
         {
-            string result = template.templateXML;
+
+            string result = _s3API.ReadS3Object("tipstaff", "templates", Path.GetFileName(template.filePath)); //template.templateXML;
             int kids=1;
             //merge generic fields
             result = result.Replace("||DATE||", DateTime.Now.ToShortDateString());

@@ -8,6 +8,9 @@ using System.Data;
 using System.IO;
 using System.Xml;
 using System.Data.Entity;
+using Tipstaff.Services.Repositories;
+using Tipstaff.Infrastructure.S3API;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -16,23 +19,59 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class TemplatesController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
+
+        private readonly ITemplateRepository _templateRepository;
+        private readonly IS3API _s3API;
+        private readonly IGuidGenerator _guidGenerator;
+
+        public TemplatesController(ITemplateRepository templateRepo, IS3API s3Repo, IGuidGenerator guidGenerator)
+        {
+            _templateRepository = templateRepo;
+            _s3API = s3Repo;
+            _guidGenerator = guidGenerator;
+        }
 
         //
         // GET: /Admin/Template/
 
         public ActionResult Index()
         {
-            var model = db.Templates.OrderBy(t=>t.Discriminator).ThenBy(t=>t.templateName);
-            return View(model);
+            //var model = db.Templates.OrderBy(t=>t.Discriminator).ThenBy(t=>t.templateName);
+            var model = _templateRepository.GetAllTemplates().OrderBy(t => t.Discriminator).ThenBy(t => t.templateName);
+            List<Template> templates = new List<Template>();
+            foreach (Services.DynamoTables.Template t in model)
+            {
+                Template temp = new Template() {
+                    templateID = t.templateID,
+                    Discriminator = t.Discriminator,
+                    templateName = t.templateName,
+                    filePath = t.filePath,
+                    addresseeRequired = t.addresseeRequired,
+                    active = t.active,
+                    deactivated = t.deactivated,
+                    deactivatedBy = t.deactivatedBy
+                };
+                templates.Add(temp);
+            }
+            return View(templates);
         }
 
-        public ActionResult Open(int id)
+        public ActionResult Open(string id)
         {
-            Template template = db.Templates.Find(id);
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.InnerXml = template.templateXML;
-            return File(genericFunctions.ConvertToBytes(xDoc), "application/msword", template.templateName +".xml"); 
+            //Template template = db.Templates.Find(id);
+            //XmlDocument xDoc = new XmlDocument();
+            //xDoc.InnerXml = template.templateXML;
+            //return File(genericFunctions.ConvertToBytes(xDoc), "application/msword", template.templateName +".xml"); 
+            try
+            {
+                var template = _templateRepository.GetTemplate(id);
+                return File(template.filePath, "application/msword");
+            }
+            catch (Exception ex)
+            {
+            }
+            return null;
         }
         public ActionResult Create()
         {
@@ -49,19 +88,37 @@ namespace Tipstaff.Areas.Admin.Controllers
                 //Tests before uploading
                 if (model.uploadFile != null)
                 {
-                    if (!Path.GetExtension(model.uploadFile.FileName.ToLower()).EndsWith("xml")) { throw new NotUploaded("Please select an XML file to upload"); }
-                    if (model.uploadFile.ContentLength == 0) { throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try"); }
+                    if (!Path.GetExtension(model.uploadFile.FileName.ToLower()).EndsWith("xml"))
+                    {
+                        throw new NotUploaded("Please select an XML file to upload");
+                    }
+                    if (model.uploadFile.ContentLength == 0)
+                    {
+                        throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try");
+                    }
+                    var filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
+
                     //Upload
-                    var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
-                    model.uploadFile.SaveAs(fileName); //Save to uploads folder     
-                    XmlDocument document = new XmlDocument();
-                    document.Load(fileName);
-                    xml = document.InnerXml;
-                    //Delete file
-                    System.IO.File.Delete(fileName);
-                    model.Template.templateXML = xml;
-                    db.Entry(model.Template).State = EntityState.Added;
-                    db.SaveChanges();
+                    //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
+                    //model.uploadFile.SaveAs(fileName); //Save to uploads folder     
+                    //XmlDocument document = new XmlDocument();
+                    //document.Load(fileName);
+                    //xml = document.InnerXml;
+                    ////Delete file
+                    //System.IO.File.Delete(fileName);
+
+                    string tid = (model.Template.templateID == null) ? _guidGenerator.GenerateTimeBasedGuid().ToString() : model.Template.templateID;
+                    _templateRepository.AddTemplate(new Services.DynamoTables.Template()
+                    {
+                        templateID = tid,
+                        Discriminator = model.Template.Discriminator,
+                        templateName = model.Template.templateName,
+                        filePath = filePath,
+                        addresseeRequired = model.Template.addresseeRequired,
+                        active = true
+                    });
+                    //db.Entry(model.Template).State = EntityState.Added;
+                    //db.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 else
@@ -80,41 +137,71 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            TemplateEdit model = new TemplateEdit(id);
+            TemplateEdit model = new TemplateEdit();
+            var t = _templateRepository.GetTemplate(id);
+            model.Template = new Template() {
+                templateID = id,
+                Discriminator = t.Discriminator,
+                templateName = t.templateName,
+                filePath = t.filePath,
+                addresseeRequired = t.addresseeRequired,
+                active = t.active,
+                deactivated = t.deactivated,
+                deactivatedBy = t.deactivatedBy
+            };
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(TemplateEdit model)
         {
-            Template oldTemplate = db.Templates.Find(model.Template.templateID);
-
-            var xml = string.Empty;
+            //Template oldTemplate = db.Templates.Find(model.Template.templateID);
+            var oldTemplate = _templateRepository.GetTemplate(model.Template.templateID);
+            string filePath = string.Empty;
             try
             {
                 //Tests before uploading
                 if (model.uploadFile != null)
                 {
-                    if (!Path.GetExtension(model.uploadFile.FileName.ToLower()).EndsWith("xml")) { throw new NotUploaded("Please select an XML file to upload"); }
-                    if (model.uploadFile.ContentLength == 0) { throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try"); }
+                    if (!Path.GetExtension(model.uploadFile.FileName.ToLower()).EndsWith("xml"))
+                    {
+                        throw new NotUploaded("Please select an XML file to upload");
+                    }
+                    if (model.uploadFile.ContentLength == 0)
+                    {
+                        throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try");
+                    }
                     //Upload
-                    var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
-                    model.uploadFile.SaveAs(fileName); //Save to uploads folder     
-                    XmlDocument document = new XmlDocument();
-                    document.Load(fileName);
-                    xml = document.InnerXml;
-                    //Delete file
-                    System.IO.File.Delete(fileName);
+                    filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
+                    //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
+                    //model.uploadFile.SaveAs(fileName); //Save to uploads folder     
+                    //XmlDocument document = new XmlDocument();
+                    //document.Load(fileName);
+                    //xml = document.InnerXml;
+                    ////Delete file
+                    //System.IO.File.Delete(fileName);
+
+
                 }
                 else
                 {
-                    xml = db.Templates.Find(model.Template.templateID).templateXML;
+                    filePath = oldTemplate.filePath; //db.Templates.Find(model.Template.templateID).templateXML;
                 }
-                model.Template.templateXML = xml;
-                db.Entry(oldTemplate).CurrentValues.SetValues(model.Template);
-                db.SaveChanges();
+                //model.Template.templateXML = xml;
+                
+                //db.Entry(oldTemplate).CurrentValues.SetValues(model.Template);
+                //db.SaveChanges();
+                _templateRepository.Update(new Services.DynamoTables.Template()
+                {
+                    templateID = model.Template.templateID,
+                    Discriminator = model.Template.Discriminator,
+                    templateName = model.Template.templateName,
+                    filePath = filePath,
+                    addresseeRequired = model.Template.addresseeRequired,
+                    active = model.Template.active
+                });
 
                 return RedirectToAction("Index");
             }
@@ -127,9 +214,10 @@ namespace Tipstaff.Areas.Admin.Controllers
         }
 
         // GET: /Admin/Template/Delete/5
-        public ActionResult Deactivate(int id)
+        public ActionResult Deactivate(string id)
         {
-            Template model = db.Templates.Find(id);
+            //Template model = db.Templates.Find(id);
+            var model =_templateRepository.GetTemplate(id);
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -137,20 +225,33 @@ namespace Tipstaff.Areas.Admin.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
-            return View(model);
+            return View(new Template() {
+                templateID = model.templateID,
+                templateName = model.templateName
+            });
         }
         //
         // POST: /Admin/Solicitor/Delete/5
         [HttpPost, ActionName("Deactivate")]
-        public ActionResult DeactivateConfirmed(int id)
+        public ActionResult DeactivateConfirmed(string id)
         {
-            Template model = db.Templates.Find(id);
-            model.active = false;
-            model.deactivated = DateTime.Now;
-            model.deactivatedBy = User.Identity.Name;
+            //Template model = db.Templates.Find(id);
+            var model = _templateRepository.GetTemplate(id);
+            _templateRepository.Update(new Services.DynamoTables.Template()
+            {
+                templateID = model.templateID,
+                Discriminator = model.Discriminator,
+                templateName = model.templateName,
+                filePath = model.filePath,
+                addresseeRequired = model.addresseeRequired,
+                active = false,
+                deactivated = DateTime.Now,
+                deactivatedBy = User.Identity.Name
+            });
+           
             //model.templateXML = null;
-            db.Entry(model).State = EntityState.Modified;
-            db.SaveChanges();
+            //db.Entry(model).State = EntityState.Modified;
+            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 

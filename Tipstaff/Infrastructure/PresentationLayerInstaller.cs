@@ -3,7 +3,6 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Infrastructure.Repositories;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Logger;
 using Tipstaff.Services.Repositories;
 
@@ -25,12 +24,30 @@ namespace Tipstaff.Infrastructure
 
             container.Register(Component.For<IChildRepository>().ImplementedBy<ChildRepository>());
 
+            container.Register(Component.For<IDocumentsRepository>().ImplementedBy<DocumentsRepository>());
+
+            container.Register(Component.For<ITemplateRepository>().ImplementedBy<TemplateRepository>());
+
             container.Register(Component.For<ISolicitorRepository>().ImplementedBy<SolicitorRepository>());
             
             container.Register(Component.For<IGuidGenerator>().ImplementedBy<GuidGenerator>());
 
+            container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
+
+            //container.Register(Component.For<IWarrantRepository>().ImplementedBy<WarrantRepository>());
+
+            container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
+
+            //container.Register(Component.For<IWarrantRepository>().ImplementedBy<WarrantRepository>());
+
+            container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
+
+            //container.Register(Component.For<IWarrantRepository>().ImplementedBy<WarrantRepository>());
+
             container.Register(Component.For(typeof(IDynamoAPI<>))
                             .ImplementedBy(typeof(DynamoAPI<>)));
+
+            container.Register(Component.For<IS3API>().ImplementedBy<S3API.S3API>());
 
             container.Register(Component.For<ICloudWatchLogger>().ImplementedBy<CloudWatchLogger>());
         }

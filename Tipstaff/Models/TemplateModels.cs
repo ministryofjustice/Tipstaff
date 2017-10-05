@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using Tipstaff.Infrastructure.Repositories;
 
 namespace Tipstaff.Models
 {
@@ -24,10 +25,10 @@ namespace Tipstaff.Models
         public bool UploadSuccessful { get; set; }
         public string ErrorMessage { get; set; }
         public SelectList DiscriminatorType { get; set; }
-        public TemplateEdit(int id) : this()
-        {
-            Template = myDBContextHelper.CurrentContext.Templates.Find(id);
-        }
+        //public TemplateEdit(int id) : this()
+        //{
+        //    Template = myDBContextHelper.CurrentContext.Templates.Find(id);
+        //}
         public TemplateEdit() 
         {
             DiscriminatorType = new SelectList(
@@ -38,22 +39,23 @@ namespace Tipstaff.Models
                         new { value = "ChildAbduction" , text = "Child Abduction"}
                   },
                   "value",
-                  "text","");        
+                  "text","");
+            Template = new Template();
         }
     }
 
     public class Template
     {
         [Key]
-        public int templateID { get; set; }
+        //public int templateID { get; set; }
+        public string templateID { get; set; }
         [Required,MaxLength(128)]
         public string Discriminator { get; set; }
         [Required,MaxLength(80),Display(Name="Document Name")]
         public string templateName { get; set; }
-        //[Required]
-        //public string templateMHT { get; set; }
         [Required]
-        public string templateXML { get; set; }
+        //public string templateXML { get; set; }
+        public string filePath { get; set; }
         [Display(Name="Is addressee required?")]
         public bool addresseeRequired { get; set; }
         public bool active { get; set; }

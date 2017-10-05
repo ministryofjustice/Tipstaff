@@ -78,6 +78,7 @@
     <Compile Include="Integration\ChildControllerTests.cs" />
     <Compile Include="Integration\ContactsControllerTests.cs" />
     <Compile Include="Integration\ApplicantControllerTests.cs" />
+    <Compile Include="Integration\TemplatesControllerTests.cs" />
     <Compile Include="Integration\FAQControllerTests.cs" />
     <Compile Include="Integration\SolicitorFirmControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -95,7 +96,7 @@
       <Name>Tipstaff.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tipstaff.Services\Tipstaff.Services.csproj">
-      <Project>{C95D0533-6E9A-48BE-9DB0-DD242BF22141}</Project>
+      <Project>{c95d0533-6e9a-48be-9db0-dd242bf22141}</Project>
       <Name>Tipstaff.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tipstaff\Tipstaff.csproj">

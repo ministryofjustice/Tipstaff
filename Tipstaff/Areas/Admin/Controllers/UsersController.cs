@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
-using Tipstaff;
 
 
 namespace Tipstaff.Areas.Admin.Controllers
@@ -52,7 +49,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
             UserAdminVM model = new UserAdminVM();
-            model.Roles = new SelectList(db.GetAllRoles(), "strength", "Detail");
+            model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
             return View(model);
         }
 
@@ -72,7 +69,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                model.Roles = new SelectList(db.GetAllRoles(), "strength", "Detail");
+                model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
                 return View(model);
             }
         }
@@ -83,7 +80,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             UserAdminVM model = new UserAdminVM();
             Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
             model.User = db.GetUserByID(id);
-            model.Roles = new SelectList(db.GetAllRoles(), "strength", "Detail", model.User.RoleStrength);
+            model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
             return View(model);
         }
         [HttpPost]
@@ -94,7 +91,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                 db.UpdateUser(model.User);
                 return RedirectToAction("Index");
             }
-            model.Roles = new SelectList(db.GetAllRoles(), "strength", "Detail", model.User.RoleStrength);
+            model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
             return View(model);
         }
 

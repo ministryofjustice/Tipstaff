@@ -17,7 +17,7 @@ namespace Tipstaff.Controllers
     public class WarrantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly IWarrantPresenter _warrantPresenter;
+        //private readonly IWarrantRepository _warrantRepository;
 
 
         public WarrantController(IWarrantPresenter warrantPresenter)
@@ -143,8 +143,8 @@ namespace Tipstaff.Controllers
         // GET: /Warrant/Details/5
         public ViewResult Details(string id)
         {
-            var warrant = _warrantPresenter.GetWarrant(id);
-            //Warrant warrant = db.Warrants.Find(id);
+            // var warrant = _warrantRepository.GetWarrant(id);
+            Warrant warrant = db.Warrants.Find(id);
             //Warrant warrant = db
             return View(warrant);
         }
@@ -196,21 +196,19 @@ namespace Tipstaff.Controllers
                 warrant.createdOn = DateTime.Now;
                 if (ModelState.IsValid)
                 {
-                    //db.Warrants.Add(warrant);
-                    //db.SaveChanges();
-                    //////_warrantRepository.AddWarrant(new Services.DynamoTables.Warrant()
-                    //////{
-                    //////     CaseNumber = warrant.caseNumber,
-                    //////     DateCirculated = warrant.DateCirculated,
-                    //////     ExpiryDate = warrant.expiryDate,
-                    //////     RespondentName = warrant.RespondentName,
-                    //////     NPO= warrant.NPO,
-                    //////     DivisionID = warrant.divisionID,
-                    //////     TipstaffRecordID = warrant.tipstaffRecordID,
-                    //////     UniqueRecordID = warrant.UniqueRecordID
-                    //////});
-
-                    _warrantPresenter.AddWarrant(warrant);
+                    db.Warrants.Add(warrant);
+                    db.SaveChanges();
+                    //_warrantRepository.AddWarrant(new Services.DynamoTables.Warrant()
+                    //{
+                    //     CaseNumber = warrant.caseNumber,
+                    //     DateCirculated = warrant.DateCirculated,
+                    //     ExpiryDate = warrant.expiryDate,
+                    //     RespondentName = warrant.RespondentName,
+                    //     NPO= warrant.NPO,
+                    //     DivisionID = warrant.divisionID,
+                    //     TipstaffRecordID = warrant.tipstaffRecordID,
+                    //     UniqueRecordID = warrant.UniqueRecordID
+                    //});
 
                     return RedirectToAction("Create", "Respondent", new { id = warrant.tipstaffRecordID });
                 }
