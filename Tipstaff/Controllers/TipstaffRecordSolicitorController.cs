@@ -89,7 +89,7 @@ namespace Tipstaff.Controllers
         {
             DeleteTipstaffRecordSolicitor model = new DeleteTipstaffRecordSolicitor();
             model.TipstaffRecordSolicitor = db.TipstaffRecordSolicitors.Single(t=>t.tipstaffRecordID==tipstaffRecordID && t.solicitorID==solicitorID);
-            model.DeleteModelID = tipstaffRecordID;
+            model.DeleteModelID = tipstaffRecordID.ToString();
             if (model.TipstaffRecordSolicitor == null)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -113,7 +113,7 @@ namespace Tipstaff.Controllers
             string recDeleted = model.DeleteModelID.ToString();
             var AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "TipstaffRecordSolicitor deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
             //add a deleted reason
-            AE.DeletedReasonID = model.DeletedReasonID;
+            AE.DeletedReasonID = model.DeletedReason.DeletedReasonID;
             //and save again
             db.SaveChanges();
             return RedirectToAction("Details", controller, new { id = model.TipstaffRecordSolicitor.tipstaffRecordID });

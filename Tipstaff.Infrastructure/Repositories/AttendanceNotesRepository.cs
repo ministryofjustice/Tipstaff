@@ -28,7 +28,7 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Delete(note);
         }
 
-        public AttendanceNote GetAttendanceNote(int id)
+        public AttendanceNote GetAttendanceNote(string id)
         {
             return _dynamoAPI.GetEntityByHashKey(id);
         }

@@ -10,40 +10,36 @@ namespace Tipstaff.Models
     public class Document
     {
         [Key]
-        public int documentID { get; set; }
+        public string documentID { get; set; }
         [Required(ErrorMessage = "Document Reference must be completed"), MaxLength(60)]
         [Display(Name = "Document Reference number")]
         public string documentReference { get; set; }
         [Display(Name = "Country of Origin")]
-        public int? countryID { get; set; }
+        public MemoryCollections.Country country { get; set; }
         [Required, Display(Name = "Nationality")]
-        public int? nationalityID { get; set; }
+        public MemoryCollections.Nationality nationality { get; set; }
         [Required, Display(Name = "Document Status")]
-        public int documentStatusID { get; set; }
+        public MemoryCollections.DocumentStatus documentStatus { get; set; }
         [Required, Display(Name = "Document Type")]
-        public int documentTypeID { get; set; }
+        public MemoryCollections.DocumentType documentType { get; set; }
         //public int? templateID { get; set; }
         public string templateID { get; set; }
-        [ScaffoldColumn(false),Display(Name="Created on")]
+        [Display(Name="Created on")]
         public DateTime createdOn { get; set; }
-        [ScaffoldColumn(false), MaxLength(50), Display(Name="Created by")]
+        [ Display(Name="Created by")]
         public string createdBy { get; set; }
-        public int tipstaffRecordID { get; set; }
-        [ScaffoldColumn(false)]
-        public byte[] binaryFile { get; set; }
-        [ScaffoldColumn(false), MaxLength(256)]
+        public string tipstaffRecordID { get; set; }
+        
+        //public byte[] binaryFile { get; set; }
+        
         public string fileName { get; set; }
+        public string filePath { get; set; }
         [ScaffoldColumn(false), MaxLength(60)]
         public string mimeType { get; set; }
         //public virtual Country country { get; set; }
         //public virtual Nationality nationality { get; set; }
         //public virtual DocumentType documentType { get; set; }
-        public MemoryCollections.Country country { get; set; }
-        public MemoryCollections.Nationality nationality { get; set; }
-        public MemoryCollections.DocumentType documentType { get; set; }
-
         //public virtual DocumentStatus documentStatus { get; set; }
-        public MemoryCollections.DocumentStatus documentStatus { get; set; }
         
         public virtual Template template { get; set; }
         public virtual TipstaffRecord tipstaffRecord { get; set; }
@@ -58,14 +54,15 @@ namespace Tipstaff.Models
     }
     public class ListDocumentsByTipstaffRecord :IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public Tipstaff.xPagedList<Document> Documents { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
 
     public class DocumentUploadModel
     {
-        public int tipstaffRecordID { get; set; }
+        //public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public TipstaffRecord tipstaffRecord { get; set; }
         public HttpPostedFileBase uploadFile { get; set; }
         public Document document { get; set; }

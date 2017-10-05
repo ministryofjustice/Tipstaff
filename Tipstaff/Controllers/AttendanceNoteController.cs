@@ -97,7 +97,7 @@ namespace Tipstaff.Controllers
         }
 
         [AuthorizeRedirect(Roles = "Admin")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             DeleteAttendanceNote model = new DeleteAttendanceNote(id);
             if (model.AttendanceNote == null)
@@ -144,7 +144,7 @@ namespace Tipstaff.Controllers
             string recDeleted = model.DeleteModelID.ToString();
             AuditEvent AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "AttendanceNote deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
             //add a deleted reason
-            AE.DeletedReasonID = model.DeletedReasonID;
+            AE.DeletedReasonID = model.DeletedReason.DeletedReasonID;
             //and save again
             db.SaveChanges();
             return RedirectToAction("Details", controller, new { id = tipstaffRecordID });

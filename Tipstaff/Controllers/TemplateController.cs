@@ -11,7 +11,9 @@ using System.Security;
 using System.Data.Entity.Validation;
 using Tipstaff.Logger;
 using Tipstaff.Services.Repositories;
+using Tipstaff.Services.Services;
 using Tipstaff.Infrastructure.S3API;
+using Tipstaff.Presenter;
 
 namespace Tipstaff.Controllers
 {
@@ -20,68 +22,145 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class TemplateController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly ITemplateRepository _templateRepository;
-        private readonly IS3API _s3API;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly IPresenterTemplate _templatePresenter;
 
+        private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
 
-        public TemplateController(ICloudWatchLogger logger, IS3API s3api)
+        public TemplateController(ICloudWatchLogger logger, IS3API s3api, IPresenterTemplate templatePresenter)
         {
             _logger = logger;
             _s3API = s3api;
+            _templatePresenter = templatePresenter;
         }
         //
         // GET: /Template/
-        public ActionResult Create(int tipstaffRecordID, int templateID)
+        //public ActionResult Create(int tipstaffRecordID, int templateID)
+        //{
+        //    try
+        //    {
+        //        //Get TipstaffRecord from warrantID
+        //        TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
+        //        if (tipstaffRecord.caseStatus.Sequence > 3)
+        //        {
+        //            TempData["UID"] = tipstaffRecord.UniqueRecordID;
+        //            return RedirectToAction("ClosedFile", "Error");
+        //        }
+        //        //Get Template from templateID
+        //        Template template = db.Templates.Find(templateID);
+        //        if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}",templateID));
+
+        //        //set fileOutput details
+        //        WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"),template);
+
+        //        //Create XML object for Template
+        //        XmlDocument xDoc = new XmlDocument();
+
+        //        //Merge Data
+        //        xDoc.InnerXml = mergeData(template,tipstaffRecord,null);
+
+        //        ////Save resulting document 
+        //        //xDoc.Save(fileOutput.fullName); //Save physical file
+        //        //if (!System.IO.File.Exists(fileOutput.fullName)) throw new FileNotFoundException(string.Format("File {0} could not be created", fileOutput.fileName));
+
+        //        //Create and add a Document to TipstaffRecord
+        //        Document doc = new Document();
+        //        doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
+        //        doc.mimeType = "application/msword";
+        //        doc.fileName = fileOutput.fileName;
+        //        doc.countryID = 244; //UK!
+        //        doc.nationalityID = 27;
+        //        doc.documentTypeID = 1;     //generated
+        //        doc.documentStatusID = 1;   //generated
+        //        doc.documentReference = template.templateName;
+        //        doc.templateID = template.templateID;
+        //        doc.createdOn = DateTime.Now;
+        //        doc.createdBy = User.Identity.Name;
+        //        tipstaffRecord.Documents.Add(doc);
+
+        //        //Save Changes
+        //        db.SaveChanges();
+
+        //        //Return saved document
+        //        //return File(fileOutput.fullName, "application/doc", fileOutput.fileName); // return physical file 
+        //        return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+        //    }
+        //    catch (DbEntityValidationException ex)
+        //    {
+        //        _logger.LogError(ex, $"DbEntityValidationException in TemplateController in Create method, for user {((CPrincipal)User).UserID}");
+
+        //        ErrorModel model = new ErrorModel(2);
+        //        model.ErrorMessage = ex.Message;
+        //        TempData["ErrorModel"] = model;
+        //        return RedirectToAction("IndexByModel", "Error", model ?? null);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Exception in TemplateController in Create method, for user {((CPrincipal)User).UserID}");
+
+        //        ErrorModel model = new ErrorModel(2);
+        //        model.ErrorMessage = ex.Message;
+        //        TempData["ErrorModel"] = model;
+        //        return RedirectToAction("IndexByModel", "Error", model ?? null);
+        //        //Note: working redirect to view with Model
+        //        //Note: Working error redirect
+        //    }
+        //}
+        public ActionResult Create(string tipstaffRecordID, string templateID)
         {
             try
             {
                 //Get TipstaffRecord from warrantID
-                TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
-                if (tipstaffRecord.caseStatus.Sequence > 3)
+                TipstaffRecord tipstaffRecord = _templatePresenter.GetTipstaffRecord(tipstaffRecordID);
+
+                
+                if (tipstaffRecord.caseStatus.Detail == "File Closed" || tipstaffRecord.caseStatus.Detail == "File Archived") 
                 {
-                    TempData["UID"] = tipstaffRecord.UniqueRecordID;
+                    TempData["UID"] =  tipstaffRecord.UniqueRecordID;
                     return RedirectToAction("ClosedFile", "Error");
                 }
                 //Get Template from templateID
-                Template template = db.Templates.Find(templateID);
-                if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}",templateID));
+                Template template = _templatePresenter.GetTemplate(templateID);
+                if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}", templateID));
+
 
                 //set fileOutput details
-                WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"),template);
-
+                // WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
+                WordFile fileOutput = new WordFile(tipstaffRecordID, Server.MapPath("~/Documents/"), templateID, template.templateName, tipstaffRecordID); //INCORRECT! THE LAST TIPSTAFFRECORDID SHOULD BE UNIQUEREFERENCEID
                 //Create XML object for Template
                 XmlDocument xDoc = new XmlDocument();
 
                 //Merge Data
-                xDoc.InnerXml = mergeData(template,tipstaffRecord,null);
-                
+
+                xDoc.InnerXml = mergeData(template, tipstaffRecord, null);
+
                 ////Save resulting document 
                 //xDoc.Save(fileOutput.fullName); //Save physical file
                 //if (!System.IO.File.Exists(fileOutput.fullName)) throw new FileNotFoundException(string.Format("File {0} could not be created", fileOutput.fileName));
 
-                //Create and add a Document to TipstaffRecord
-                Document doc = new Document();
-                doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
-                doc.mimeType = "application/msword";
-                doc.fileName = fileOutput.fileName;
-                doc.countryID = 244; //UK!
-                doc.nationalityID = 27;
-                doc.documentTypeID = 1;     //generated
-                doc.documentStatusID = 1;   //generated
-                doc.documentReference = template.templateName;
-                doc.templateID = template.templateID;
-                doc.createdOn = DateTime.Now;
-                doc.createdBy = User.Identity.Name;
-                tipstaffRecord.Documents.Add(doc);
+                //Create and add a Document to TipstaffRecord --> NOT REQUIRED TO SAVE GENERATED FILES!!!
+                //Document doc = new Document();
+                ////doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
+                //doc.mimeType = "application/msword";
+                //doc.fileName = fileOutput.fileName;
+                //doc.country = MemoryCollections.CountryList.GetCountryByID(244); //UK!
+                //doc.nationality = MemoryCollections.NationalityList.GetNationalityByID(27);
+                //doc.documentType = MemoryCollections.DocumentTypeList.GetDocumentTypeByID(1);     //generated
+                //doc.documentStatus = MemoryCollections.DocumentStatusList.GetDocumentStatusByID(1);   //generated
+                //doc.documentReference = template.templateName;
+                //doc.templateID = template.templateID;
+                //doc.createdOn = DateTime.Now;
+                //doc.createdBy = User.Identity.Name;
+                //tipstaffRecord.Documents.Add(doc);
 
-                //Save Changes
-                db.SaveChanges();
+                ////Save Changes
+                //db.SaveChanges();
 
                 //Return saved document
                 //return File(fileOutput.fullName, "application/doc", fileOutput.fileName); // return physical file 
-                return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+                return File(genericFunctions.ConvertToBytes(xDoc), "application/msword", fileOutput.fileName); //return byte version
             }
             catch (DbEntityValidationException ex)
             {
@@ -105,16 +184,82 @@ namespace Tipstaff.Controllers
                 //Note: Working error redirect
             }
         }
+        //public ActionResult Create4(int tipstaffRecordID, int templateID, int solicitorID)
+        //{
+        //    try
+        //    {
+        //        //get solicitor from solicitorID
+        //        Solicitor solicitor = db.Solicitors.Find(solicitorID);
 
-        public ActionResult Create4(int tipstaffRecordID, int templateID, int solicitorID)
+        //        //Get TipstaffRecord from warrantID
+        //        TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
+        //        if (tipstaffRecord.caseStatus.Sequence > 3)
+        //        {
+        //            TempData["UID"] = tipstaffRecord.UniqueRecordID;
+        //            return RedirectToAction("ClosedFile", "Error");
+        //        }
+
+        //        //Get Template from templateID
+        //        Template template = db.Templates.Find(templateID);
+        //        if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}",templateID));
+
+        //        //set fileOutput details
+        //        WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"),template);
+
+        //        //Create XML object for Template
+        //        XmlDocument xDoc = new XmlDocument();
+
+        //        //Merge Data
+        //        xDoc.InnerXml = mergeData(template,tipstaffRecord, solicitor);
+
+        //        ////Save resulting document 
+        //        //xDoc.Save(fileOutput.fullName); //Save physical file
+        //        //if (!System.IO.File.Exists(fileOutput.fullName)) throw new FileNotFoundException(string.Format("File {0} could not be created", fileOutput.fileName));
+
+        //        //Create and add a Document to TipstaffRecord
+        //        Document doc = new Document();
+        //        doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
+        //        doc.mimeType = "application/msword";
+        //        doc.fileName = fileOutput.fileName;
+        //        doc.countryID = 244; //UK!
+        //        doc.nationalityID = 27; //English
+        //        doc.documentTypeID = 1;     //generated
+        //        doc.documentStatusID = 1;   //generated
+        //        doc.documentReference = template.templateName;
+        //        doc.templateID = template.templateID;
+        //        doc.createdOn = DateTime.Now;
+        //        doc.createdBy = User.Identity.Name;
+        //        tipstaffRecord.Documents.Add(doc);
+
+        //        //Save Changes
+        //        db.SaveChanges();
+
+        //        //Return saved document
+        //        //return File(fileOutput.fullName, "application/doc", fileOutput.fileName); // return physical file 
+        //        return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Exception in TemplateController in Create4 method, for user {((CPrincipal)User).UserID}");
+
+        //        ErrorModel model = new ErrorModel(2);
+        //        model.ErrorMessage = ex.Message;
+        //        TempData["ErrorModel"] = model;
+        //        return RedirectToAction("IndexByModel", "Error", model ?? null);
+        //        //Note: working redirect to view with Model
+        //        //Note: Working error redirect
+        //    }
+        //}
+
+        public ActionResult Create4(string tipstaffRecordID, string templateID, string solicitorID)
         {
             try
             {
                 //get solicitor from solicitorID
-                Solicitor solicitor = db.Solicitors.Find(solicitorID);
+                Solicitor solicitor = _templatePresenter.GetSolicitor(solicitorID);
 
                 //Get TipstaffRecord from warrantID
-                TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
+                TipstaffRecord tipstaffRecord = _templatePresenter.GetTipstaffRecord(tipstaffRecordID);
                 if (tipstaffRecord.caseStatus.Sequence > 3)
                 {
                     TempData["UID"] = tipstaffRecord.UniqueRecordID;
@@ -122,43 +267,44 @@ namespace Tipstaff.Controllers
                 }
 
                 //Get Template from templateID
-                Template template = db.Templates.Find(templateID);
-                if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}",templateID));
+                Template template = _templatePresenter.GetTemplate(templateID);
+                if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}", templateID));
 
                 //set fileOutput details
-                WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"),template);
+                WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
 
                 //Create XML object for Template
                 XmlDocument xDoc = new XmlDocument();
 
                 //Merge Data
-                xDoc.InnerXml = mergeData(template,tipstaffRecord, solicitor);
-                
+                xDoc.InnerXml = mergeData(template, tipstaffRecord, solicitor);
+
                 ////Save resulting document 
                 //xDoc.Save(fileOutput.fullName); //Save physical file
                 //if (!System.IO.File.Exists(fileOutput.fullName)) throw new FileNotFoundException(string.Format("File {0} could not be created", fileOutput.fileName));
 
-                //Create and add a Document to TipstaffRecord
-                Document doc = new Document();
-                doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
-                doc.mimeType = "application/msword";
-                doc.fileName = fileOutput.fileName;
-                doc.countryID = 244; //UK!
-                doc.nationalityID = 27; //English
-                doc.documentTypeID = 1;     //generated
-                doc.documentStatusID = 1;   //generated
-                doc.documentReference = template.templateName;
-                doc.templateID = template.templateID;
-                doc.createdOn = DateTime.Now;
-                doc.createdBy = User.Identity.Name;
-                tipstaffRecord.Documents.Add(doc);
+                //WE DON'T NEED THIS AS WE DON'T WANT TO SAVE GENERATED FILES
+                ////Create and add a Document to TipstaffRecord
+                //Document doc = new Document();
+                //doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
+                //doc.mimeType = "application/msword";
+                //doc.fileName = fileOutput.fileName;
+                //doc.countryID = 244; //UK!
+                //doc.nationalityID = 27; //English
+                //doc.documentTypeID = 1;     //generated
+                //doc.documentStatusID = 1;   //generated
+                //doc.documentReference = template.templateName;
+                //doc.templateID = template.templateID;
+                //doc.createdOn = DateTime.Now;
+                //doc.createdBy = User.Identity.Name;
+                //tipstaffRecord.Documents.Add(doc);
 
-                //Save Changes
-                db.SaveChanges();
+                ////Save Changes
+                //db.SaveChanges();
 
                 //Return saved document
                 //return File(fileOutput.fullName, "application/doc", fileOutput.fileName); // return physical file 
-                return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+                return File(genericFunctions.ConvertToBytes(xDoc), "application/msword", fileOutput.fileName); //return byte version
             }
             catch (Exception ex)
             {
@@ -172,16 +318,15 @@ namespace Tipstaff.Controllers
                 //Note: Working error redirect
             }
         }
-
-        public ActionResult Create8(int tipstaffRecordID, int templateID, int applicantID)
+        public ActionResult Create8(string tipstaffRecordID, string templateID, string applicantID)
         {
             try
             {
                 //get applicant from applicantID
-                Applicant applicant = db.Applicants.Find(applicantID);
+                Applicant applicant = _templatePresenter.GetApplicant(applicantID);
 
                 //Get TipstaffRecord from warrantID
-                TipstaffRecord tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecordID);
+                TipstaffRecord tipstaffRecord = _templatePresenter.GetTipstaffRecord(tipstaffRecordID);
                 if (tipstaffRecord.caseStatus.Sequence > 3)
                 {
                     TempData["UID"] = tipstaffRecord.UniqueRecordID;
@@ -189,7 +334,7 @@ namespace Tipstaff.Controllers
                 }
 
                 //Get Template from templateID
-                Template template = db.Templates.Find(templateID);
+                Template template = _templatePresenter.GetTemplate(templateID);
                 if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}", templateID));
 
                 //set fileOutput details
@@ -205,27 +350,28 @@ namespace Tipstaff.Controllers
                 //xDoc.Save(fileOutput.fullName); //Save physical file
                 //if (!System.IO.File.Exists(fileOutput.fullName)) throw new FileNotFoundException(string.Format("File {0} could not be created", fileOutput.fileName));
 
-                //Create and add a Document to TipstaffRecord
-                Document doc = new Document();
-                doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
-                doc.mimeType = "application/msword";
-                doc.fileName = fileOutput.fileName;
-                doc.countryID = 244; //UK!
-                doc.nationalityID = 27; //English
-                doc.documentTypeID = 1;     //generated
-                doc.documentStatusID = 1;   //generated
-                doc.documentReference = template.templateName;
-                doc.templateID = template.templateID;
-                doc.createdOn = DateTime.Now;
-                doc.createdBy = User.Identity.Name;
-                tipstaffRecord.Documents.Add(doc);
+                //WE DON'T NEED THIS AS WE DON'T SAVE GENERATED FILES!!!!
+                ////Create and add a Document to TipstaffRecord
+                //Document doc = new Document();
+                //doc.binaryFile = genericFunctions.ConvertToBytes(xDoc);
+                //doc.mimeType = "application/msword";
+                //doc.fileName = fileOutput.fileName;
+                //doc.countryID = 244; //UK!
+                //doc.nationalityID = 27; //English
+                //doc.documentTypeID = 1;     //generated
+                //doc.documentStatusID = 1;   //generated
+                //doc.documentReference = template.templateName;
+                //doc.templateID = template.templateID;
+                //doc.createdOn = DateTime.Now;
+                //doc.createdBy = User.Identity.Name;
+                //tipstaffRecord.Documents.Add(doc);
 
-                //Save Changes
-                db.SaveChanges();
+                ////Save Changes
+                //db.SaveChanges();
 
                 //Return saved document
                 //return File(fileOutput.fullName, "application/doc", fileOutput.fileName); // return physical file 
-                return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+                return File(genericFunctions.ConvertToBytes(xDoc), "application/msword", fileOutput.fileName); //return byte version
             }
             catch (Exception ex)
             {
