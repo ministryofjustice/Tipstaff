@@ -289,6 +289,9 @@
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
     <Compile Include="Presenters\IChildAbductionPresenter.cs" />
     <Compile Include="Presenters\IWarrantPresenter.cs" />
+    <Compile Include="Presenter\IPresenterApplicant.cs" />
+    <Compile Include="Presenter\IPresenterDocument.cs" />
+    <Compile Include="Presenter\IPresenterTemplate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\SearchResults.cs" />
     <Compile Include="Classes\SecurityUtils.cs" />

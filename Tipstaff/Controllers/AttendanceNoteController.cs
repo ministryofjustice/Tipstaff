@@ -97,7 +97,7 @@ namespace Tipstaff.Controllers
         }
 
         [AuthorizeRedirect(Roles = "Admin")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             DeleteAttendanceNote model = new DeleteAttendanceNote(id);
             if (model.AttendanceNote == null)

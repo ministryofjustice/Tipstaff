@@ -32,7 +32,7 @@
         @Html.LabelFor(model => Model.DeletedReasonID,true)
     </div>
     <div class="editor-field">
-        @Html.DropDownListFor(model => model.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
+        @Html.DropDownListFor(model => model.DeletedReason.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
         @Html.ValidationMessageFor(model => model.DeletedReasonID)
     </div>
 </fieldset>

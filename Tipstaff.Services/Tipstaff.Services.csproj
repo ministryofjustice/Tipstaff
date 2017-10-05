@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dto\Address.cs" />
+    <Compile Include="dto\Tipstaff.cs" />
     <Compile Include="DynamoTables\Documents.cs" />
     <Compile Include="DynamoTables\Children.cs" />
     <Compile Include="DynamoTables\AttendanceNote.cs" />
@@ -74,6 +76,8 @@
     <Compile Include="Repositories\ITipstaffNPORepository.cs" />
     <Compile Include="Repositories\ITipstaffRecordRepository.cs" />
     <Compile Include="Repositories\IWarrantRepository.cs" />
+    <Compile Include="Services\ITipstaffService.cs" />
+    <Compile Include="Services\TipstaffServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

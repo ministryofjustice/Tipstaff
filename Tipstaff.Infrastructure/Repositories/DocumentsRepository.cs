@@ -28,6 +28,11 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Delete(doc);
         }
 
+        public IEnumerable<Document> GetAllDocumentssByTipstaffRecordID(string id)
+        {
+            return _dynamoAPI.GetAll().Where(c => c.TipstaffRecordID == id);
+        }
+
         public Document GetDocument(string id)
         {
             return _dynamoAPI.GetEntityByHashKey(id);

@@ -300,7 +300,7 @@ namespace Tipstaff.Controllers
         }
 
         [AuthorizeRedirect(Roles = "Admin")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             DeleteChild model = new DeleteChild(id);
             if (model.Child == null)

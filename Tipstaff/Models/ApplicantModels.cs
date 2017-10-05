@@ -128,7 +128,7 @@ namespace Tipstaff.Models
     {
         //public int tipstaffRecordID { get; set; }
         public string tipstaffRecordID { get; set; }
-        public Tipstaff.xPagedList<Tipstaff.Services.DynamoTables.Applicant> Applicants { get; set; }
+        public Tipstaff.xPagedList<Applicant> Applicants { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
     public class ApplicantCreationModel
