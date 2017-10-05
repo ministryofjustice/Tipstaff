@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("SolicitorFirms")]
+    [DynamoDBTable("TipstaffSolicitorFirms")]
     public class SolicitorFirm
     {
         [DynamoDBHashKey]
@@ -34,7 +34,9 @@ namespace Tipstaff.Services.DynamoTables
         public string PhoneOutofHours { get; set; }
        
         public string Email { get; set; }
+
         public bool Active { get; set; }
+
         public DateTime? Deactivated { get; set; }
         
         public string DeactivatedBy { get; set; }

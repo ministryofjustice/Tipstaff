@@ -23,11 +23,14 @@ namespace Tipstaff.Controllers
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IChildRepository _childRepository;
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public ChildController(IChildRepository childRepository, ITipstaffRecordRepository tipstaffRecordRepository)
+
+        public ChildController(IChildRepository childRepository, ITipstaffRecordRepository tipstaffRecordRepository, IGuidGenerator guidGenerator)
         {
             _childRepository = childRepository;
             _tipstaffRecordRepository = tipstaffRecordRepository;
+            _guidGenerator = guidGenerator;
         }
         //
         // GET: /Child/
@@ -159,7 +162,7 @@ namespace Tipstaff.Controllers
             }
             try
             {
-                string cid = (model.child.childID == null) ? GuidGenerator.GenerateTimeBasedGuid().ToString() : model.child.childID;
+                string cid = (model.child.childID == null) ? _guidGenerator.GenerateTimeBasedGuid().ToString() : model.child.childID;
 
                 var ca = _tipstaffRecordRepository.GetEntityByHashKey(model.tipstaffRecordID);
                 var eldestChild = _childRepository.GetAllChildrenByTipstaffRecordID(model.tipstaffRecordID).OrderBy(c => c.DateOfBirth).ThenBy(c => c.ChildID).FirstOrDefault();

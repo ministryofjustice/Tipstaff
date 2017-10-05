@@ -51,6 +51,7 @@
     <Compile Include="DynamoTables\AttendanceNote.cs" />
     <Compile Include="DynamoTables\Contact.cs" />
     <Compile Include="DynamoTables\Applicant.cs" />
+    <Compile Include="DynamoTables\Solicitor.cs" />
     <Compile Include="DynamoTables\SolicitorFirm.cs" />
     <Compile Include="DynamoTables\FAQ.cs" />
     <Compile Include="DynamoTables\TipstaffNPO.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Repositories\IApplicantRepository.cs" />
     <Compile Include="Repositories\ISolicitorFirmRepository.cs" />
     <Compile Include="Repositories\IFAQRepository.cs" />
+    <Compile Include="Repositories\ISolicitorRepository.cs" />
     <Compile Include="Repositories\ITipstaffNPORepository.cs" />
     <Compile Include="Repositories\ITipstaffRecordRepository.cs" />
     <Compile Include="Repositories\IWarrantRepository.cs" />

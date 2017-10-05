@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using PagedList;
-
 using Tipstaff.Models;
 using System.Web.UI;
 using Tipstaff.Services.Repositories;
@@ -16,31 +10,37 @@ using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
-    //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-    //[Authorize]
-    //[ValidateAntiForgeryTokenOnAllPosts]
+    [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class AttendanceNoteController : Controller
     {
-        private TipstaffDB db;//////= myDBContextHelper.CurrentContext;
+        //private TipstaffDB db;//////= myDBContextHelper.CurrentContext;
         private readonly IAttendanceNotesRepository _attendanceNotesRepository;
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public AttendanceNoteController(IAttendanceNotesRepository attendanceNotesRepository, ITipstaffRecordRepository tipstaffRecordRepository)
+        public AttendanceNoteController(IAttendanceNotesRepository attendanceNotesRepository, ITipstaffRecordRepository tipstaffRecordRepository, IGuidGenerator guidGenerator)
         {
             _attendanceNotesRepository = attendanceNotesRepository;
             _tipstaffRecordRepository = tipstaffRecordRepository;
+            _guidGenerator = guidGenerator;
         }
         
         [HttpGet]
         public ActionResult Create(string id)
         {
             AttendanceNote AttendanceNote = new AttendanceNote(DateTime.Now);
+            ViewBag.AttendanceNoteCodes = AttendanceNoteCodeList.GetAttendanceNoteCodeList().Where(x => x.Active == 1);
             ////////ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
-           AttendanceNote.tipstaffRecord = db.TipstaffRecord.Find(id);
+
+
+            ////AttendanceNote.tipstaffRecord = db.TipstaffRecord.Find(id);
+            AttendanceNote.tipstaffRecord = GetTipstaffRecord(id);
             ////////var tipstaffRecord = _tipstaffRecordRepository.GetEntityByHashKey(id);
             ////////AttendanceNote.tipstaffRecord = new TipstaffRecord() { resultID = tipstaffRecord.res}
-           
-            ViewBag.AttendanceNoteCodes = CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1);
+
+            
             AttendanceNote.tipstaffRecordID = id;
 
             if (AttendanceNote.tipstaffRecord.caseStatus.Sequence > 3)
@@ -66,8 +66,8 @@ namespace Tipstaff.Controllers
                     CallEnded = AttendanceNote.callEnded,
                     CallStarted = AttendanceNote.callStarted,
                     TipstaffRecordID = AttendanceNote.tipstaffRecordID,
-                    AttendanceNoteID = GuidGenerator.GenerateTimeBasedGuid().ToString()
-
+                    AttendanceNoteID = _guidGenerator.GenerateTimeBasedGuid().ToString(),
+                    AttendanceNoteCode = AttendanceNoteCodeList.GetAttendanceNoteCodeList().FirstOrDefault(x => x.Id == AttendanceNote.AttendanceNoteCodeID).Detail
                 });
 
                
@@ -79,16 +79,16 @@ namespace Tipstaff.Controllers
             }
 
             
-            ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
-            //ViewBag.AttendanceNoteCodes = CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1);
+            //////ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
+            ViewBag.AttendanceNoteCodes = AttendanceNoteCodeList.GetAttendanceNoteCodeList().Where(x => x.Active == 1);
             return View(AttendanceNote);
         }
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
-        public PartialViewResult ListAttendanceNotesByRecord(int id, int? page)
+        public PartialViewResult ListAttendanceNotesByRecord(string id, int? page)
         {
-            TipstaffRecord w = db.TipstaffRecord.Find(id);
-
+            //////TipstaffRecord w = db.TipstaffRecord.Find(id);
+            TipstaffRecord w = GetTipstaffRecord(id);
             ListAttendanceNotesByTipstaffRecord model = new ListAttendanceNotesByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.TipstaffRecordClosed = w.caseStatusID > 2;
@@ -140,15 +140,36 @@ namespace Tipstaff.Controllers
             //////db.SaveChanges();
             // _attendanceNotesRepository.
             
+            //REVISIT AUDIT EVENTS!!!!
             //get the Audit Event we just created 
-            string recDeleted = model.DeleteModelID.ToString();
-            AuditEvent AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "AttendanceNote deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
-            //add a deleted reason
-            AE.DeletedReasonID = model.DeletedReasonID;
-            //and save again
-            db.SaveChanges();
+            //////////////string recDeleted = model.DeleteModelID.ToString();
+            //////////////AuditEvent AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "AttendanceNote deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
+            ////////////////add a deleted reason
+            //////////////AE.DeletedReasonID = model.DeletedReasonID;
+            ////////////////and save again
+            //////////////db.SaveChanges();
             return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
         }
 
+        private TipstaffRecord GetTipstaffRecord(string id)
+        {
+            var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
+
+            var tipstaffRecord = new TipstaffRecord()
+            {
+                arrestCount = record.ArrestCount,
+                NPO = record.NPO,
+                createdBy = record.CreatedBy,  
+                DateExecuted = record.DateExecuted,
+                createdOn = record.CreatedOn,
+                nextReviewDate = record.NextReviewDate,
+                prisonCount = record.PrisonCount,
+                tipstaffRecordID = int.Parse(record.TipstaffRecordID),
+                resultEnteredBy = record.ResultEnteredBy,
+                resultDate = record.ResultDate
+            };
+
+            return tipstaffRecord;
+        }
     }
 }

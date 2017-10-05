@@ -220,20 +220,22 @@ namespace Tipstaff.Models
     }
     public class SolicitorFirmByTipstaffRecordViewModel
     {
-        public int solicitorFirmID { get; set; }
-        public int tipstaffRecordID { get; set; }
+        public string solicitorFirmID { get; set; }
+        public string tipstaffRecordID { get; set; }
 
         public virtual SolicitorFirm SolicitorFirm { get; set; }
+
         public virtual TipstaffRecord TipstaffRecord { get; set; }
 
         public SolicitorFirmByTipstaffRecordViewModel() { }
-        public SolicitorFirmByTipstaffRecordViewModel(int SolicitorFirmID, int TipstaffRecordID)
-        {
-            solicitorFirmID = SolicitorFirmID;
-            tipstaffRecordID = TipstaffRecordID;
-            SolicitorFirm = myDBContextHelper.CurrentContext.SolicitorsFirms.Find(solicitorFirmID);
-            TipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(tipstaffRecordID);
-        }
+
+        //////public SolicitorFirmByTipstaffRecordViewModel(int SolicitorFirmID, int TipstaffRecordID)
+        //////{
+        //////    solicitorFirmID = SolicitorFirmID;
+        //////    tipstaffRecordID = TipstaffRecordID;
+        //////    //////SolicitorFirm = myDBContextHelper.CurrentContext.SolicitorsFirms.Find(solicitorFirmID);
+        //////    //////TipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(tipstaffRecordID);
+        //////}
     }
     #endregion
 }

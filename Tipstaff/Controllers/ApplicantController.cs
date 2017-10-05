@@ -14,21 +14,24 @@ using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
-    //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-    //[Authorize]
-    //[ValidateAntiForgeryTokenOnAllPosts]
+    [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class ApplicantController : Controller
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IApplicantRepository _applicantRepository;
         private readonly ICloudWatchLogger _logger;
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
-        
-        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantRepository applicantRepository, ITipstaffRecordRepository tipstaffRecordRepository)
+        private readonly IGuidGenerator _guidGenerator;
+
+        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantRepository applicantRepository, 
+            ITipstaffRecordRepository tipstaffRecordRepository, IGuidGenerator guidGenerator)
         {
             _logger = telemetryLogger;
             _applicantRepository = applicantRepository;
             _tipstaffRecordRepository = tipstaffRecordRepository;
+            _guidGenerator = guidGenerator;
         }
 
 
@@ -88,7 +91,7 @@ namespace Tipstaff.Controllers
                 //ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
                 //ca.Applicants.Add(model.applicant);
                 //db.SaveChanges();
-                string aid = (model.applicant.ApplicantID == null) ? GuidGenerator.GenerateTimeBasedGuid().ToString() : model.applicant.ApplicantID;
+                string aid = (model.applicant.ApplicantID == null) ? _guidGenerator.GenerateTimeBasedGuid().ToString() : model.applicant.ApplicantID;
                 _applicantRepository.AddApplicant(new Services.DynamoTables.Applicant()
                 {
                     ApplicantID = aid,

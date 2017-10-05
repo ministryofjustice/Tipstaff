@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
 using PagedList;
 
 using Tipstaff.Models;
-using System.Web.Security;
-using System.IO;
-using Tipstaff.Services.Repositories;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -21,19 +17,21 @@ namespace Tipstaff.Controllers
     public class WarrantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly IWarrantRepository _warrantRepository;
+        private readonly IWarrantPresenter _warrantPresenter;
 
-        public WarrantController(IWarrantRepository warrantRepository)
+
+        public WarrantController(IWarrantPresenter warrantPresenter)
         {
-            _warrantRepository = warrantRepository;
+            _warrantPresenter = warrantPresenter;
         }
 
 
         public ViewResult Index(WarrantListViewModel model)
         {
-            IQueryable<Warrant> TRs = myDBContextHelper.CurrentContext.Warrants;
-           // var TRs = _warrantRepository.get
+            //////IQueryable<Warrant> TRs = myDBContextHelper.CurrentContext.Warrants;
+            var TRs = _warrantPresenter.GetAllWarrants();
             model.TotalRecordCount = TRs.Count();
+
             if (!model.includeFinal)
             {
                 TRs = TRs.Where(x => x.resultID == null);
@@ -143,9 +141,9 @@ namespace Tipstaff.Controllers
         }
         //
         // GET: /Warrant/Details/5
-        public ViewResult Details(int id)
+        public ViewResult Details(string id)
         {
-            var warrant = _warrantRepository.GetWarrant(id);
+            var warrant = _warrantPresenter.GetWarrant(id);
             //Warrant warrant = db.Warrants.Find(id);
             //Warrant warrant = db
             return View(warrant);
@@ -200,17 +198,19 @@ namespace Tipstaff.Controllers
                 {
                     //db.Warrants.Add(warrant);
                     //db.SaveChanges();
-                    _warrantRepository.AddWarrant(new Services.DynamoTables.Warrant()
-                    {
-                         CaseNumber = warrant.caseNumber,
-                         DateCirculated = warrant.DateCirculated,
-                         ExpiryDate = warrant.expiryDate,
-                         RespondentName = warrant.RespondentName,
-                         NPO= warrant.NPO,
-                         DivisionID = warrant.divisionID,
-                         TipstaffRecordID = warrant.tipstaffRecordID,
-                         UniqueRecordID = warrant.UniqueRecordID
-                    });
+                    //////_warrantRepository.AddWarrant(new Services.DynamoTables.Warrant()
+                    //////{
+                    //////     CaseNumber = warrant.caseNumber,
+                    //////     DateCirculated = warrant.DateCirculated,
+                    //////     ExpiryDate = warrant.expiryDate,
+                    //////     RespondentName = warrant.RespondentName,
+                    //////     NPO= warrant.NPO,
+                    //////     DivisionID = warrant.divisionID,
+                    //////     TipstaffRecordID = warrant.tipstaffRecordID,
+                    //////     UniqueRecordID = warrant.UniqueRecordID
+                    //////});
+
+                    _warrantPresenter.AddWarrant(warrant);
 
                     return RedirectToAction("Create", "Respondent", new { id = warrant.tipstaffRecordID });
                 }
@@ -229,9 +229,10 @@ namespace Tipstaff.Controllers
         
         //
         // GET: /Warrant/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            Warrant warrant = db.Warrants.Find(id);
+            //////Warrant warrant = db.Warrants.Find(id);
+            Warrant warrant = _warrantPresenter.GetWarrant(id);
             if (warrant.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = warrant.UniqueRecordID;
@@ -295,7 +296,9 @@ namespace Tipstaff.Controllers
             {
                 try
                 {
-                    model.tipstaffRecord = db.TipstaffRecord.Find(model.tipstaffRecordID);
+                    var tipstaffRecord = _warrantPresenter.GetTipstaffRecord(model.tipstaffRecordID.ToString());
+                    //////model.tipstaffRecord = db.TipstaffRecord.Find(model.tipstaffRecordID);
+                    model.tipstaffRecord = tipstaffRecord;
                     model.tipstaffRecord.resultDate = DateTime.Now;
                     model.tipstaffRecord.DateExecuted = model.DateExecuted;
                     model.tipstaffRecord.resultID = model.resultID;
@@ -303,8 +306,9 @@ namespace Tipstaff.Controllers
                     model.tipstaffRecord.prisonCount = model.pCount;
                     model.tipstaffRecord.arrestCount = model.aCount;
                     model.tipstaffRecord.caseStatusID = 3;
-                    db.Entry(model.tipstaffRecord).State = EntityState.Modified;
-                    db.SaveChanges();
+                    ////db.Entry(model.tipstaffRecord).State = EntityState.Modified;
+                    ////db.SaveChanges();
+                    _warrantPresenter.UpdateTipstaffRecord(model.tipstaffRecord);
                     return RedirectToAction("Details", "Warrant", new { id = model.tipstaffRecordID });
                 }
                 catch (Exception ex)
@@ -318,11 +322,12 @@ namespace Tipstaff.Controllers
             return View(model);
         }
         [AuthorizeRedirect(Roles = "Admin")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             DeleteWarrantViewModel model = new DeleteWarrantViewModel();
-            model.Warrant = db.Warrants.Find(id);
-            model.deletedTipstaffRecord.TipstaffRecordID = id;
+            //////model.Warrant = db.Warrants.Find(id);
+            model.Warrant = _warrantPresenter.GetWarrant(id);
+            model.deletedTipstaffRecord.TipstaffRecordID = int.Parse(id);
             if (model == null)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -339,11 +344,15 @@ namespace Tipstaff.Controllers
         [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
         public ActionResult DeleteConfirmed(DeleteWarrantViewModel model)
         {
-            model.Warrant = db.Warrants.Find(model.deletedTipstaffRecord.TipstaffRecordID);
+            //////model.Warrant = db.Warrants.Find(model.deletedTipstaffRecord.TipstaffRecordID);
+            model.Warrant = _warrantPresenter.GetWarrant(model.deletedTipstaffRecord.TipstaffRecordID.ToString());
             model.deletedTipstaffRecord.UniqueRecordID = model.Warrant.UniqueRecordID;
-            db.Warrants.Remove(model.Warrant);
-            db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
-            db.SaveChanges();
+            //////db.Warrants.Remove(model.Warrant);
+
+            _warrantPresenter.RemoveWarrant(model.Warrant);
+            //////db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
+            //////db.SaveChanges();
+            _warrantPresenter.AddDeletedTipstaffRecord(model.deletedTipstaffRecord);
             return RedirectToAction("Index", "Warrant");
         }
 

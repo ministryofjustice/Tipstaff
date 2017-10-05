@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
 using PagedList;
-
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 using Tipstaff.MemoryCollections;
@@ -188,6 +187,7 @@ namespace Tipstaff.Controllers
 
                 return RedirectToAction("Index");
             }
+
             return View(model);
         }
 

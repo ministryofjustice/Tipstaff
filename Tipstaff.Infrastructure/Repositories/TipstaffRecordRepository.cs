@@ -59,5 +59,10 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.CAOrderType = record.CAOrderType;
             _dynamoAPI.Save(entity);
         }
+
+        public IEnumerable<TipstaffRecord> GetAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

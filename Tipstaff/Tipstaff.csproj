@@ -237,6 +237,7 @@
     <Compile Include="Infrastructure\PresentationLayerInstaller.cs" />
     <Compile Include="Logger\ICloudWatchLogger.cs" />
     <Compile Include="Logger\CloudWatchLogger.cs" />
+    <Compile Include="MemoryCollections\AttendanceNoteCodeList.cs" />
     <Compile Include="MemoryCollections\DeletedReasonList.cs" />
     <Compile Include="MemoryCollections\CaOrderTypeList.cs" />
     <Compile Include="MemoryCollections\ChildRelationshipList.cs" />
@@ -282,6 +283,9 @@
     <Compile Include="Helpers\AjaxPagerHelper.cs" />
     <Compile Include="Helpers\AjaxPagerItem.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Presenters\ChildAbductionPresenter.cs" />
+    <Compile Include="Presenters\IChildAbductionPresenter.cs" />
+    <Compile Include="Presenters\IWarrantPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\SearchResults.cs" />
     <Compile Include="Classes\SecurityUtils.cs" />

@@ -9,6 +9,8 @@ using System.Configuration;
 using System.Data;
 using System.Web.UI;
 using System.Data.Entity;
+using Tipstaff.Services.Repositories;
+using Tipstaff.MemoryCollections;
 
 namespace Tipstaff.Controllers
 {
@@ -17,20 +19,31 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class SolicitorController : Controller
     {
-
         private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ISolicitorRepository _solicitorRepository;
+        private readonly ISolicitorFirmRepository _solicitorFirmRepository;
+        private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
+
+        public SolicitorController(ISolicitorRepository solicitorRepository, ISolicitorFirmRepository solicitorFirmRepository, ITipstaffRecordRepository tipstaffRecordRepository)
+        {
+            _solicitorRepository = solicitorRepository;
+            _solicitorFirmRepository = solicitorFirmRepository;
+            _tipstaffRecordRepository = tipstaffRecordRepository;
+        }
 
         //
         // GET: /Solicitor/
 
         public ActionResult Select(int id, ChooseSolicitorModel model)
         {
-            if ((db.Solicitors.Count() == 0) && (db.SolicitorsFirms.Count() == 0))
+            var solicitors = _solicitorRepository.GetSolicitors();
+
+            if ((!solicitors.Any()) && (db.SolicitorsFirms.Count() == 0))
             {
                 //No solicitors or firms... add a firm first
                 return RedirectToAction("Create", "SolicitorFirm");
             }
-            else if (db.Solicitors.Count() == 0)
+            else if (!solicitors.Any())
             {
                 //No solicitors but some firms, redirect to solicitor creation
                 //and let the user choose a firm, or create new if needed
@@ -136,7 +149,25 @@ namespace Tipstaff.Controllers
 
         public ActionResult QuickSearch(string term)
         {
-            var sols = db.Solicitors.Where(s => s.firstName.ToLower().Contains(term.ToLower()) || s.lastName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.solicitorName });
+            var solicitors = _solicitorRepository.GetSolicitors().Select(x=> new Solicitor()
+            {
+               firstName = x.FirstName,
+               lastName = x.LastName,
+               email = x.Email,
+               active = x.Active,
+               phoneDayTime = x.PhoneDayTime,
+               phoneOutofHours = x.PhoneOutOfHours,
+               deactivated = x.Dectivated,
+               deactivatedBy = x.DectivatedBy,
+               solicitorID = int.Parse(x.SolicitorID),
+               solicitorFirmID = int.Parse(x.SolicitorFirmId),
+               salutationID = SalutationList.GetSalutationList().First(z => z.Detail == x.Salutation).SalutationId,
+             });
+
+            /////var sols = db.Solicitors.Where(s => s.firstName.ToLower().Contains(term.ToLower()) || s.lastName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.solicitorName });
+
+            var sols = solicitors.Where(s => s.firstName.ToLower().Contains(term.ToLower()) || s.lastName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.solicitorName });
+
             return Json(sols, JsonRequestBehavior.AllowGet);
         }
 

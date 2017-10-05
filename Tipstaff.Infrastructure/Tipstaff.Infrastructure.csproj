@@ -56,8 +56,10 @@
     <Compile Include="Repositories\ApplicantRepository.cs" />
     <Compile Include="Repositories\SolicitorFirmRepository.cs" />
     <Compile Include="Repositories\FAQRepository.cs" />
+    <Compile Include="Repositories\SolicitorRepository.cs" />
     <Compile Include="Repositories\TipstaffRecordRepository.cs" />
-    <Compile Include="Services\TimeBasedGuidService.cs" />
+    <Compile Include="Services\GuidGenerator.cs" />
+    <Compile Include="Services\IGuidGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

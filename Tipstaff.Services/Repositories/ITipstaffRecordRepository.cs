@@ -17,5 +17,7 @@ namespace Tipstaff.Services.Repositories
         TipstaffRecord GetEntityByObjectKey(object hashKey, object rangeKey);
 
         TipstaffRecord GetEntityByHashKey(object hashKey);
+
+        IEnumerable<TipstaffRecord> GetAll();
     }
 }

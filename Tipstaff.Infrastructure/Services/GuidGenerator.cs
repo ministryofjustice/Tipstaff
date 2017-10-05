@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace Tipstaff.Infrastructure.Services
 {
-    public static class GuidGenerator
+    public class GuidGenerator : IGuidGenerator
     {
         // number of bytes in guid
         public const int ByteArraySize = 16;
@@ -34,7 +34,7 @@ namespace Tipstaff.Infrastructure.Services
         public static byte[] DefaultClockSequence { get; set; }
         public static byte[] DefaultNode { get; set; }
 
-        static GuidGenerator()
+        public GuidGenerator()
         {
             DefaultClockSequence = new byte[2];
             DefaultNode = new byte[6];
@@ -44,7 +44,7 @@ namespace Tipstaff.Infrastructure.Services
             random.NextBytes(DefaultNode);
         }
 
-        public static GuidVersion GetVersion(this Guid guid)
+        public static GuidVersion GetVersion(Guid guid)
         {
             byte[] bytes = guid.ToByteArray();
             return (GuidVersion)((bytes[VersionByte] & 0xFF) >> VersionByteShift);
@@ -82,7 +82,7 @@ namespace Tipstaff.Infrastructure.Services
             return GetDateTimeOffset(guid).UtcDateTime;
         }
 
-        public static Guid GenerateTimeBasedGuid()
+        public Guid GenerateTimeBasedGuid()
         {
             return GenerateTimeBasedGuid(DateTimeOffset.UtcNow, DefaultClockSequence, DefaultNode);
         }

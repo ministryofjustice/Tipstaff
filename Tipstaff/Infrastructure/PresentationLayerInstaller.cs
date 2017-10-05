@@ -3,6 +3,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Infrastructure.Repositories;
+using Tipstaff.Infrastructure.Services;
 using Tipstaff.Logger;
 using Tipstaff.Services.Repositories;
 
@@ -23,6 +24,10 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<IApplicantRepository>().ImplementedBy<ApplicantRepository>());
 
             container.Register(Component.For<IChildRepository>().ImplementedBy<ChildRepository>());
+
+            container.Register(Component.For<ISolicitorRepository>().ImplementedBy<SolicitorRepository>());
+            
+            container.Register(Component.For<IGuidGenerator>().ImplementedBy<GuidGenerator>());
 
             container.Register(Component.For(typeof(IDynamoAPI<>))
                             .ImplementedBy(typeof(DynamoAPI<>)));
