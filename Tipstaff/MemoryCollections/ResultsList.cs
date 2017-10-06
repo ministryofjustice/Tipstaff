@@ -24,9 +24,14 @@ namespace Tipstaff.MemoryCollections
                 new Result() {  ResultId=2 ,  Detail = "Suspended",        Active = 1   },
                 new Result() {  ResultId=3 ,  Detail = "Discharged",       Active = 1   },
                 new Result() {  ResultId=4 ,  Detail = "Expired",          Active = 1   },
-                new Result() {  ResultId=4 ,  Detail = "Lodged in Prison", Active = 1   },
-                new Result() {  ResultId=4 ,  Detail = "Arrested",         Active = 1   }
+                new Result() {  ResultId=5 ,  Detail = "Lodged in Prison", Active = 1   },
+                new Result() {  ResultId=6 ,  Detail = "Arrested",         Active = 1   }
             };
+        }
+
+        public static Result GetResultByDetail(string c)
+        {
+            return GetResultList().Where(x => x.Detail == c).FirstOrDefault();
         }
     }
 }

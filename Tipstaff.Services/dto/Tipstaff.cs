@@ -9,31 +9,27 @@ namespace Tipstaff.Services.dto
     public class Tipstaff
     {
         
-        public int tipstaffRecordID { get; set; }
+        public string TipstaffRecordID { get; set; }
         
-        public string createdBy { get; set; }
+        public string CreatedBy { get; set; }
         
-        public DateTime createdOn { get; set; }
+        public DateTime CreatedOn { get; set; }
         
-        public int protectiveMarkingID { get; set; }
+        public DateTime NextReviewDate { get; set; }
         
-        public int? resultID { get; set; }
-        
-        public DateTime nextReviewDate { get; set; }
-        
-        public DateTime? resultDate { get; set; }
+        public DateTime? ResultDate { get; set; }
         
         public DateTime? DateExecuted { get; set; }
-        public int? arrestCount { get; set; }
-        public int? prisonCount { get; set; }      
-        public string resultEnteredBy { get; set; }
+        public int? ArrestCount { get; set; }
+        public int? PrisonCount { get; set; }      
+        public string ResultEnteredBy { get; set; }
         public string NPO { get; set; }
-    
-        public int caseStatusID { get; set; }
 
-        public string protectiveMarking { get; set; }
+        public string ProtectiveMarking { get; set; }
 
-        public string result { get; set; }
+        public string Result { get; set; }
+
+        public string CaseStatus { get; set; }
 
         public IEnumerable<Address> addresses { get; set; }
     }
