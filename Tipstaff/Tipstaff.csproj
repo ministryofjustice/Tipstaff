@@ -288,6 +288,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
     <Compile Include="Presenters\IChildPresenter.cs" />
+    <Compile Include="Presenters\IAddressPresenter.cs" />
     <Compile Include="Presenters\IChildAbductionPresenter.cs" />
     <Compile Include="Presenters\IApplicantPresenter.cs" />
     <Compile Include="Presenters\IDocumentPresenter.cs" />

@@ -10,6 +10,8 @@ using System.Web.UI;
 using PagedList;
 using System.Data.Entity;
 using Tipstaff.Logger;
+using Tipstaff.Services.Repositories;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -19,24 +21,28 @@ namespace Tipstaff.Controllers
     public class AddressController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly ICloudWatchLogger _logger; 
-        //
+        private readonly ICloudWatchLogger _logger;
+        private readonly IAddressPresenter _addressPresenter;
+        
         // GET: /Address/
 
-        public AddressController(ICloudWatchLogger telemetryLogger)
+        public AddressController(ICloudWatchLogger telemetryLogger, IAddressPresenter addressPresenter)
         {
             _logger = telemetryLogger;
+            _addressPresenter = addressPresenter;
         }
         
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            Address model = db.Addresses.Find(id);
+            //////Address model = db.Addresses.Find(id);
+            var model = _addressPresenter.GetAddress(id);
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            Address model = db.Addresses.Find(id);
+            ////Address model = db.Addresses.Find(id);
+            var model = _addressPresenter.GetAddress(id);
             if (model == null)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -44,9 +50,9 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
-            if (model.tipstaffRecord.caseStatus.Sequence > 3)
+            if (model.TipstaffRecord.caseStatus.Sequence > 3)
             {
-                TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
+                TempData["UID"] = model.TipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
 

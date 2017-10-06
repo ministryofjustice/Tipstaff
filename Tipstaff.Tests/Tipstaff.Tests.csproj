@@ -84,7 +84,6 @@
     <Compile Include="Integration\SolicitorFirmControllerTests.cs" />
     <Compile Include="Integration\UserController.cs" />
     <Compile Include="Integration\UserControllerTests.cs" />
-    <Compile Include="Integration\userRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@ using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Infrastructure.Repositories;
 using Tipstaff.Infrastructure.Services;
 using Tipstaff.Models;
+using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Tests.Integration
@@ -25,7 +26,7 @@ namespace Tipstaff.Tests.Integration
         private ITipstaffRecordRepository _tipstaffRecordRepository;
         private Mock<IGuidGenerator> _guidGeneratorMock;
         Guid id;
-        SolicitorFirm solicitorFirm;
+        Models.SolicitorFirm solicitorFirm;
 
         [SetUp]
         public void SetUp()

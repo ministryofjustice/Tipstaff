@@ -51,7 +51,8 @@ namespace Tipstaff.Models
         [Required]
         public int tipstaffRecordID { get; set; }
 
-        public virtual TipstaffRecord tipstaffRecord { get; set; }
+        //////public virtual TipstaffRecord tipstaffRecord { get; set; }
+        public TipstaffRecord TipstaffRecord { get; set; }
 
         public virtual List<string> populatedLines
         {
