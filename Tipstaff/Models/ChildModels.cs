@@ -22,8 +22,6 @@ namespace Tipstaff.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date of Birth"),PastDateorNull(ErrorMessage="Birth date cannot be in the future")]
         public DateTime? dateOfBirth { get; set; }
-        [Required, Display(Name = "Gender")]
-        public int genderID { get; set; }
         [Required,Display(Name="Height")]
         public string height { get; set; }
         [Required, Display(Name = "Build")]
@@ -32,14 +30,8 @@ namespace Tipstaff.Models
         public string hairColour { get; set; }
         [Required, Display(Name = "Eye colour")]
         public string eyeColour { get; set; }
-        [Required, Display(Name = "Skin colour")]
-        public int? skinColourID { get; set; }
         [Required, Display(Name = "Special Features")]
         public string specialfeatures { get; set; }
-        [Required, Display(Name="Country of Origin")]
-        public int countryID { get; set; }
-        [Required, Display(Name="Nationality")]
-        public int? nationalityID { get; set; }
         [Required]
         //public int tipstaffRecordID { get; set; }
         public string tipstaffRecordID { get; set; }
@@ -54,9 +46,20 @@ namespace Tipstaff.Models
         //[Display(Name = "Nationality")]
         //public virtual Nationality nationality { get; set; }
         [Required, Display(Name = "Gender")]
+        public int genderID { get; set; }
+        [Required, Display(Name = "Skin colour")]
+        public int? skinColourID { get; set; }
+        [Required, Display(Name = "Country of Origin")]
+        public int countryID { get; set; }
+        [Required, Display(Name = "Nationality")]
+        public int? nationalityID { get; set; }
+        [Required, Display(Name = "Gender")]
         public MemoryCollections.Gender gender { get; set; }
+        [Required, Display(Name = "Skin colour")]
         public MemoryCollections.SkinColour skinColour { get; set; }
+        [Required, Display(Name = "Country of Origin")]
         public MemoryCollections.Country country { get; set; }
+        [Required, Display(Name = "Nationality")]
         public MemoryCollections.Nationality nationality { get; set; }
 
 
@@ -191,7 +194,7 @@ namespace Tipstaff.Models
     {
         //public int tipstaffRecordID { get; set; }
         public string tipstaffRecordID { get; set; }
-        public Tipstaff.xPagedList<Services.DynamoTables.Child> Children { get; set; }
+        public Tipstaff.xPagedList<Child> Children { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
 }

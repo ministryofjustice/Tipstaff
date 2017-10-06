@@ -7,7 +7,7 @@ using Tipstaff.Models;
 
 namespace Tipstaff.Presenters
 {
-    public interface IPresenterDocument
+    public interface IDocumentPresenter
     {
         Document GetDocument(string id);
 

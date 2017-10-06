@@ -155,7 +155,7 @@ namespace Tipstaff.Models
 
     public class CAReportItem
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public string UniqueRecordID { get; set; }
         public DateTime? DateCirculated { get; set; }
         public DateTime? ClosedDate { get; set; }
@@ -166,7 +166,7 @@ namespace Tipstaff.Models
 
     public class WReportItem
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public string UniqueRecordID { get; set; }
         public DateTime? DateCirculated { get; set; }
         public DateTime? ClosedDate { get; set; }

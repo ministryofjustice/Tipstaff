@@ -287,10 +287,11 @@
     <Compile Include="Helpers\AjaxPagerItem.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
+    <Compile Include="Presenters\IChildPresenter.cs" />
     <Compile Include="Presenters\IChildAbductionPresenter.cs" />
-    <Compile Include="Presenters\IPresenterApplicant.cs" />
-    <Compile Include="Presenters\IPresenterDocument.cs" />
-    <Compile Include="Presenters\IPresenterTemplate.cs" />
+    <Compile Include="Presenters\IApplicantPresenter.cs" />
+    <Compile Include="Presenters\IDocumentPresenter.cs" />
+    <Compile Include="Presenters\ITemplatePresenter.cs" />
     <Compile Include="Presenters\IWarrantPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\SearchResults.cs" />

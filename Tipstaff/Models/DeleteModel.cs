@@ -34,13 +34,9 @@ namespace Tipstaff.Models
     public class DeleteChild : DeleteModel
     {
         public Child Child { get; set; }
-        public DeleteChild() {
-            DeletedReasons = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
-        }
-        public DeleteChild(string id)
+        public DeleteChild()
         {
-            Child = myDBContextHelper.CurrentContext.Children.Find(id);
-            DeleteModelID = id;
+            DeletedReasons = new SelectList(MemoryCollections.DeletedReasonList.GetDeletedReasonList().Where(x => x.Active == 1).ToList(), "DeletedReasonID", "Detail");
         }
     }
 	public class DeleteRespondent : DeleteModel

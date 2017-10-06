@@ -40,7 +40,7 @@ namespace Tipstaff.Controllers
         //
         // GET: /Respondent/Create
 
-        public ActionResult Create(int id, bool initial=false)
+        public ActionResult Create(string id, bool initial=false)
         {
             RespondentCreationModel model = new RespondentCreationModel(id);
             if (model.tipstaffRecord.caseStatus.Sequence > 3)
@@ -209,7 +209,7 @@ namespace Tipstaff.Controllers
         public ActionResult DeleteConfirmed(DeleteRespondent model)
         {
             model.Respondent = db.Respondents.Find(model.DeleteModelID);
-            int tipstaffRecordID = model.Respondent.tipstaffRecordID;
+            string tipstaffRecordID = model.Respondent.tipstaffRecordID;
             string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
             db.Respondents.Remove(model.Respondent);
             db.SaveChanges();

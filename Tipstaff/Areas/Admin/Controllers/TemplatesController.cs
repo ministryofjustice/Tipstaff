@@ -16,10 +16,10 @@ namespace Tipstaff.Areas.Admin.Controllers
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        private readonly IPresenterTemplate _templatePresenter;
+        private readonly ITemplatePresenter _templatePresenter;
         private readonly IS3API _s3API;
 
-        public TemplatesController(IPresenterTemplate templatePresenter, IS3API s3Repo)
+        public TemplatesController(ITemplatePresenter templatePresenter, IS3API s3Repo)
         {
             _templatePresenter = templatePresenter;
             _s3API = s3Repo;

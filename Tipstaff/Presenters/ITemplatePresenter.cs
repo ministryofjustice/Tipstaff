@@ -7,7 +7,7 @@ using Tipstaff.Models;
 
 namespace Tipstaff.Presenters
 {
-    public interface IPresenterTemplate
+    public interface ITemplatePresenter
     {
         Template GetTemplate(string id);
 

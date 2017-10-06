@@ -46,7 +46,7 @@ namespace Tipstaff.Models
         [Required, MaxLength(100), Display(Name="Risk of Drugs?")]
         public string riskOfDrugs { get; set; }
         [Required]
-        public int tipstaffRecordID  { get; set; }
+        public string tipstaffRecordID  { get; set; }
 
         public string PNCID { get; set; }
 
@@ -146,7 +146,7 @@ namespace Tipstaff.Models
 
     public class RespondentCreationModel
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public Respondent respondent { get; set; }
         public SelectList CountryList { get; set; }
         public SelectList GenderList { get; set; }
@@ -169,7 +169,7 @@ namespace Tipstaff.Models
             NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
             RelationToChildList = new SelectList(MemoryCollections.ChildRelationshipList.GetChildRelationshipList().Where(x => x.Active == 1).ToList(), "ChildRelationshipID", "Detail");
         }
-        public RespondentCreationModel(int id)
+        public RespondentCreationModel(string id)
         {
             tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
             tipstaffRecordID = id;
@@ -187,7 +187,7 @@ namespace Tipstaff.Models
     }
     public class ListRespondentsByTipstaffRecord:IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public Tipstaff.xPagedList<Respondent> Respondents { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }

@@ -7,7 +7,7 @@ namespace Tipstaff.Models
 {
     public class ListAddressesByTipstaffRecord : IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public Tipstaff.xPagedList<Address> Addresses { get; set; }
         //public IPagedList<Address> Addresses { get; set; }
         public bool TipstaffRecordClosed { get; set; }

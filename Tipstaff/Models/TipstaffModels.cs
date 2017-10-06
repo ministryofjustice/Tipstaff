@@ -16,7 +16,7 @@ namespace Tipstaff.Models
     public class TipstaffRecord
     {
         [Key]
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         [Required, MaxLength(50), Display(Name = "Created by")]
         public string createdBy { get; set; }
         [Required, Display(Name = "Created on")]
@@ -73,7 +73,8 @@ namespace Tipstaff.Models
                 {
                     prefix = ((Warrant)this).division.Prefix;
                 }
-                return string.Format("{0}{1}",prefix, tipstaffRecordID.ToString("D6"));
+                //return string.Format("{0}{1}",prefix, tipstaffRecordID.ToString("D6"));
+                return string.Format("{0}{1}", prefix, tipstaffRecordID);
             }
         }
 
@@ -193,7 +194,7 @@ namespace Tipstaff.Models
 
     public class TipstaffNPO
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public string UniqueRecordID { get; set; }
         public string NPO { get; set; }
     }

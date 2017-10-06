@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.Services;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -21,81 +22,31 @@ namespace Tipstaff.Controllers
     public class ChildController : Controller
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly IChildRepository _childRepository;
-        private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
-        private readonly IGuidGenerator _guidGenerator;
+        private readonly IChildPresenter _childPresenter;
 
-
-        public ChildController(IChildRepository childRepository, ITipstaffRecordRepository tipstaffRecordRepository, IGuidGenerator guidGenerator)
+        public ChildController(IChildPresenter childPresenter, IGuidGenerator guidGenerator)
         {
-            _childRepository = childRepository;
-            _tipstaffRecordRepository = tipstaffRecordRepository;
-            _guidGenerator = guidGenerator;
+            _childPresenter = childPresenter;   
         }
         //
         // GET: /Child/
 
         public ActionResult Details(string id)
         {
-            //Child model = db.Children.Find(id);
-            var model = _childRepository.GetChild(id);
-            Child c = new Child() {
-                childID = model.ChildID,
-                nameFirst = model.NameFirst,
-                nameLast = model.NameLast,
-                nameMiddle = model.NameMiddle,
-                dateOfBirth = model.DateOfBirth,
-                gender = MemoryCollections.GenderList.GetGenderByDetail(model.Gender),
-                height = model.Height,
-                build = model.Build,
-                hairColour = model.HairColour,
-                eyeColour = model.EyeColour,
-                skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(model.SkinColour),
-                specialfeatures = model.Specialfeatures,
-                //country = model.Country,
-                //nationality = model.Nationality,
-                PNCID = model.PNCID,
-                tipstaffRecordID = model.TipstaffRecordID
-        };
-            return View(c);
+            Child model = _childPresenter.GetChild(id);
+            return View(model);
         }
         //
         // GET: /Child/Edit/5
         public ActionResult Edit(string id)
         {
             ChildCreationModel model = new ChildCreationModel();
-            var c = _childRepository.GetChild(id);
-            //model.child = db.Children.Find(id);
-            model.child = new Child()
-            {
-                childID = c.ChildID,
-                nameFirst = c.NameFirst,
-                nameLast = c.NameLast,
-                nameMiddle = c.NameMiddle,
-                dateOfBirth = c.DateOfBirth,
-                gender = MemoryCollections.GenderList.GetGenderByDetail(c.Gender),
-                height = c.Height,
-                build = c.Build,
-                hairColour = c.HairColour,
-                eyeColour = c.EyeColour,
-                skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(c.SkinColour),
-                specialfeatures = c.Specialfeatures,
-                //country = c.Country,
-                //nationality = c.Nationality,
-                PNCID = c.PNCID,
-                tipstaffRecordID = c.TipstaffRecordID
-            };
-            var tipstaff = _tipstaffRecordRepository.GetEntityByHashKey(c.TipstaffRecordID);
+            model.child = _childPresenter.GetChild(id);
+            TipstaffRecord tipstaff = _childPresenter.GetTipstaffRecord(model.child.tipstaffRecordID);
 
-            //if (model.child.childAbduction.caseStatus.sequence > 3)
-            //{
-            //    TempData["UID"] = model.child.childAbduction.UniqueRecordID;
-            //    return RedirectToAction("ClosedFile", "Error");
-            //}
-            if (tipstaff.CaseStatus == "File Closed" || tipstaff.CaseStatus == "File Archived")
+            if (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived")
             {
-                TempData["UID"] = "CA" + tipstaff.TipstaffRecordID; //This is not entirely correct. They use a numeric ID to identify records
-                                                                    //model.applicant.childAbduction.UniqueRecordID;
+                TempData["UID"] = tipstaff.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
             return View(model);
@@ -110,25 +61,7 @@ namespace Tipstaff.Controllers
             {
                 //db.Entry(model.child).State = EntityState.Modified;
                 //db.SaveChanges();
-                Child c = model.child;
-                _childRepository.Update(new Services.DynamoTables.Child() {
-                    ChildID = c.childID,
-                    NameFirst = c.nameFirst,
-                    NameLast = c.nameLast,
-                    NameMiddle = c.nameMiddle,
-                    DateOfBirth = c.dateOfBirth,
-                    Gender = c.gender.Detail,
-                    Height = c.height,
-                    Build = c.build,
-                    HairColour = c.hairColour,
-                    EyeColour = c.eyeColour,
-                    SkinColour = c.skinColour.Detail,
-                    Specialfeatures = c.specialfeatures,
-                    //country = c.Country,
-                    //nationality = c.Nationality,
-                    PNCID = c.PNCID,
-                    TipstaffRecordID = c.tipstaffRecordID
-                });
+                _childPresenter.UpdateChild(model);
                 return RedirectToAction("Details", "ChildAbduction", new { id = model.child.tipstaffRecordID });
             }
             return View(model);
@@ -136,21 +69,17 @@ namespace Tipstaff.Controllers
 
         public ActionResult Create(string id, bool initial=false)
         {
-            ChildCreationModel model = new ChildCreationModel(id);
-            var tipstaff = _tipstaffRecordRepository.GetEntityByHashKey(id);
+            ChildCreationModel model = new ChildCreationModel();
+            model.tipstaffRecord = _childPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecordID = id;
+            model.initial = initial;
 
-            
-            if (tipstaff.CaseStatus == "File Closed" || tipstaff.CaseStatus == "File Archived")
+            if (model.tipstaffRecord.caseStatus.Detail == "File Closed" || model.tipstaffRecord.caseStatus.Detail == "File Archived")
             {
-                TempData["UID"] = "CA" + tipstaff.TipstaffRecordID; ;// model.tipstaffRecord.UniqueRecordID;
+                TempData["UID"] =  model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
-            //if (model.tipstaffRecord.caseStatus.sequence > 3)
-            //{
-            //    TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
-            //    return RedirectToAction("ClosedFile", "Error");
-            //}
-            model.initial = initial;
+
             return View(model);
         }
         [HttpPost]
@@ -162,63 +91,23 @@ namespace Tipstaff.Controllers
             }
             try
             {
-                string cid = (model.child.childID == null) ? _guidGenerator.GenerateTimeBasedGuid().ToString() : model.child.childID;
+                ChildAbduction ca = _childPresenter.GetChildAbduction(model.tipstaffRecordID);
+                Child eldestChild = _childPresenter.GetAllChildrenByTipstaffRecordID(model.tipstaffRecordID).OrderBy(c => c.dateOfBirth).FirstOrDefault();
 
-                var ca = _tipstaffRecordRepository.GetEntityByHashKey(model.tipstaffRecordID);
-                var eldestChild = _childRepository.GetAllChildrenByTipstaffRecordID(model.tipstaffRecordID).OrderBy(c => c.DateOfBirth).ThenBy(c => c.ChildID).FirstOrDefault();
-
-                //ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
-                /* if 
-                 *  EldestChild is null or
-                 *  new child is eldest 
-                 * Add the surname of this child to the CA record
-                 */
-                //Child curEldest = ca.children.OrderBy(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault();
                 string newSurname = model.child.nameLast; //by default set to new childs name
-                //if (curEldest != null)
-                //{
-                //    if (model.child.dateOfBirth > curEldest.dateOfBirth)
-                //    {
-                //        newSurname = curEldest.nameLast;
-                //    }
-                //}
+                
                 if (eldestChild != null)
                 {
-                    if (model.child.dateOfBirth > eldestChild.DateOfBirth)
+                    if (model.child.dateOfBirth > eldestChild.dateOfBirth)
                     {
-                        newSurname = eldestChild.NameLast;
+                        newSurname = eldestChild.nameLast;
                     }
                 }
                 ca.EldestChild = newSurname;
 
-                _tipstaffRecordRepository.Update(ca);
+                _childPresenter.UpdateChildAbduction(ca);
+                _childPresenter.AddChild(model);
 
-                _childRepository.AddChild(new Services.DynamoTables.Child() {
-
-                    ChildID = cid,
-                    NameLast = model.child.nameLast,
-                    NameFirst = model.child.nameFirst,
-                    NameMiddle = model.child.nameMiddle,
-                    DateOfBirth = model.child.dateOfBirth,
-                    Gender = model.child.gender.Detail,
-                    Height = model.child.height,
-                    Build = model.child.build,
-                    HairColour = model.child.hairColour,
-                    EyeColour = model.child.eyeColour,
-                    SkinColour = model.child.skinColour.Detail,
-                    Specialfeatures = model.child.specialfeatures,
-                    Country = model.child.country.Detail,
-                    Nationality = model.child.nationality.Detail,
-                    TipstaffRecordID = model.tipstaffRecordID,
-                    PNCID = model.child.PNCID
-                });
-
-
-                ////Add new child
-                //ca.children.Add(model.child);
-
-                ////Now save the changes
-                //db.SaveChanges();
 
                 if (Request.IsAjaxRequest())
                 {
@@ -272,37 +161,40 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
         }
+
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 10)]
         public PartialViewResult ListChildrenByRecord(string id, int? page)
         {
             ListChildrenByTipstaffRecord model = new ListChildrenByTipstaffRecord();
-            //try
-            //{
-            //    ChildAbduction ca = db.ChildAbductions.Find(id);
-            //    model.tipstaffRecordID = ca.tipstaffRecordID;
-            //    model.TipstaffRecordClosed = ca.caseStatus.sequence > 3;
-            //    model.Children = ca.children.ToXPagedList<Child>(page ?? 1, 8);
-            //}
-            //catch
-            //{
-            //    //do nothing!  Return empty model
-            //}
-            var tipstaff = _tipstaffRecordRepository.GetEntityByHashKey(id);
-            model.tipstaffRecordID = id;
-            model.Children = _childRepository.GetAllChildrenByTipstaffRecordID(id).ToXPagedList<Tipstaff.Services.DynamoTables.Child>(page ?? 1, 8);
-            model.TipstaffRecordClosed = (tipstaff.CaseStatus == "File Closed" || tipstaff.CaseStatus == "File Archived") ? true : false;
+            try
+            {
+                ChildAbduction ca = _childPresenter.GetChildAbduction(id);
+                model.tipstaffRecordID = ca.tipstaffRecordID;
+                model.TipstaffRecordClosed = (ca.caseStatus.Detail == "File Closed" || ca.caseStatus.Detail == "File Archived");
+                model.Children = ca.children.ToXPagedList<Child>(page ?? 1, 8);
+            }
+            catch
+            {
+                //do nothing!  Return empty model
+            }
+
             return PartialView("_ListChildrenByRecord", model);
         }
-        public PartialViewResult _Create(int id)
+
+        public PartialViewResult _Create(string id)
         {
-            ChildCreationModel model = new ChildCreationModel(id);
+            ChildCreationModel model = new ChildCreationModel();
+            model.tipstaffRecord = _childPresenter.GetTipstaffRecord(id);
             return PartialView("_createChildRecordForRecord",model);
         }
 
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Delete(string id)
         {
-            DeleteChild model = new DeleteChild(id);
+            DeleteChild model = new DeleteChild();
+            model.Child = _childPresenter.GetChild(id);
+            model.DeleteModelID = id;
+
             if (model.Child == null)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -336,27 +228,11 @@ namespace Tipstaff.Controllers
             //AE.DeletedReasonID = model.DeletedReasonID;
             ////and save again
             //db.SaveChanges();
+
             string tipstaffRecordID = model.Child.tipstaffRecordID;
             string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
-            _childRepository.Delete(new Services.DynamoTables.Child()
-            {
-                ChildID = model.Child.childID,
-                NameLast = model.Child.nameLast,
-                NameFirst = model.Child.nameFirst,
-                NameMiddle = model.Child.nameMiddle,
-                DateOfBirth = model.Child.dateOfBirth,
-                Gender = model.Child.gender.Detail,
-                Height = model.Child.height,
-                Build = model.Child.build,
-                HairColour = model.Child.hairColour,
-                EyeColour = model.Child.eyeColour,
-                SkinColour = model.Child.skinColour.Detail,
-                Specialfeatures = model.Child.specialfeatures,
-                Country = model.Child.country.Detail,
-                Nationality = model.Child.nationality.Detail,
-                TipstaffRecordID = tipstaffRecordID,
-                PNCID = model.Child.PNCID
-            });
+            _childPresenter.DeleteChild(model);
+            //Audit the deletion??
             return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
         }
 

@@ -14,10 +14,10 @@ namespace Tipstaff.Controllers
     public class ApplicantController : Controller
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly IPresenterApplicant _applicantPresenter;
+        private readonly IApplicantPresenter _applicantPresenter;
         private readonly ICloudWatchLogger _logger;
 
-        public ApplicantController(ICloudWatchLogger telemetryLogger, IPresenterApplicant applicantPresenter)
+        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantPresenter applicantPresenter)
         {
             _logger = telemetryLogger;
             _applicantPresenter = applicantPresenter;
