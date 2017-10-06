@@ -59,7 +59,7 @@ namespace Tipstaff.Models
 
     public class ListPoliceForcesByTipstaffRecord : IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public Tipstaff.xPagedList<TipstaffPoliceForce> PoliceForces { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }

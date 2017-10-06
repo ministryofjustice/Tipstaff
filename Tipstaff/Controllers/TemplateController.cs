@@ -19,12 +19,12 @@ namespace Tipstaff.Controllers
     public class TemplateController : Controller
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly IPresenterTemplate _templatePresenter;
+        private readonly ITemplatePresenter _templatePresenter;
 
         private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
 
-        public TemplateController(ICloudWatchLogger logger, IS3API s3api, IPresenterTemplate templatePresenter)
+        public TemplateController(ICloudWatchLogger logger, IS3API s3api, ITemplatePresenter templatePresenter)
         {
             _logger = logger;
             _s3API = s3api;

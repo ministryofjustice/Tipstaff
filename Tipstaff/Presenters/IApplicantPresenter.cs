@@ -7,7 +7,7 @@ using Tipstaff.Models;
 
 namespace Tipstaff.Presenters
 {
-    public interface IPresenterApplicant
+    public interface IApplicantPresenter
     {
         Applicant GetApplicant(string id);
 

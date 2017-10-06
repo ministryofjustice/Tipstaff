@@ -10,7 +10,7 @@ namespace Tipstaff.Models
 {
     public class ListAttendanceNotesByTipstaffRecord : IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         //public IEnumerable<AttendanceNote> AttendanceNotes { get; set; }
         public Tipstaff.xPagedList<AttendanceNote> AttendanceNotes { get; set; }
         public bool TipstaffRecordClosed { get; set; }

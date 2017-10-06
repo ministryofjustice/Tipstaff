@@ -18,7 +18,7 @@ namespace Tipstaff.Controllers
         //
         // GET: /NPO/Add
 
-        public ActionResult Add(int id)
+        public ActionResult Add(string id)
         {
             TipstaffNPO model = new TipstaffNPO();
             TipstaffRecord ts = db.TipstaffRecord.Find(id);

@@ -164,7 +164,7 @@ namespace Tipstaff.Controllers
                 createdOn = record.CreatedOn,
                 nextReviewDate = record.NextReviewDate,
                 prisonCount = record.PrisonCount,
-                tipstaffRecordID = int.Parse(record.TipstaffRecordID),
+                tipstaffRecordID = record.TipstaffRecordID, //int.Parse(record.TipstaffRecordID),
                 resultEnteredBy = record.ResultEnteredBy,
                 resultDate = record.ResultDate
             };

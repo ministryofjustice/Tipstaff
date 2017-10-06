@@ -69,7 +69,7 @@ namespace Tipstaff.Models
         public string fileName { get; set; }
         public string Path { get; set; }
         public string fullName { get; set; }
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
 
         public WordFile() { } //empty constructor   
 

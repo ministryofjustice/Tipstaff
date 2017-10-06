@@ -18,12 +18,12 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        private readonly IPresenterDocument _docPresenter;
+        private readonly IDocumentPresenter _docPresenter;
         private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
         private readonly IGuidGenerator _guidGenerator;
         
-        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IPresenterDocument docPresenter, IGuidGenerator guidGenerator)
+        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IDocumentPresenter docPresenter, IGuidGenerator guidGenerator)
         {
             _logger = logger;
             _docPresenter = docPresenter;

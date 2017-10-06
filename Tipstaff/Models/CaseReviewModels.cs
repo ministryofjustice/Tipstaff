@@ -9,7 +9,7 @@ namespace Tipstaff.Models
 {
     public class ListCaseReviewsByTipstaffRecord : IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public Tipstaff.xPagedList<CaseReview> CaseReviews { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }

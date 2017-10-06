@@ -16,7 +16,7 @@ namespace Tipstaff.Models
 
     public class ListTipstaffRecordSolicitorByTipstaffRecord : IListByTipstaffRecord
     {
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
         public Tipstaff.xPagedList<TipstaffRecordSolicitor> pLinkedSolicitors { get; set; }
         public bool TipstaffRecordClosed { get; set; }

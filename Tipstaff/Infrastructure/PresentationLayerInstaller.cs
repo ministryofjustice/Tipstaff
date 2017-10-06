@@ -38,9 +38,6 @@ namespace Tipstaff.Infrastructure
 
             //container.Register(Component.For<IWarrantRepository>().ImplementedBy<WarrantRepository>());
 
-            container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
-
-            //container.Register(Component.For<IWarrantRepository>().ImplementedBy<WarrantRepository>());
 
             container.Register(Component.For(typeof(IDynamoAPI<>))
                             .ImplementedBy(typeof(DynamoAPI<>)));
