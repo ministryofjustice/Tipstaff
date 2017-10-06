@@ -16,5 +16,7 @@ namespace Tipstaff.Presenters
         void RemoveAddress(Address address);
 
         void UpdateAddress(Address address);
+
+        void AddAddress(Address address);
     }
 }

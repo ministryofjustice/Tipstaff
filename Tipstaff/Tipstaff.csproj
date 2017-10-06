@@ -286,6 +286,7 @@
     <Compile Include="Helpers\AjaxPagerHelper.cs" />
     <Compile Include="Helpers\AjaxPagerItem.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Presenters\AddressPresenter.cs" />
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
     <Compile Include="Presenters\IChildPresenter.cs" />
     <Compile Include="Presenters\IAddressPresenter.cs" />

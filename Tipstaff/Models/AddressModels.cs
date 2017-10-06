@@ -21,11 +21,11 @@ namespace Tipstaff.Models
 
         public AddressCreationModel() { }
 
-        public AddressCreationModel(int id)
-        {
-            tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
-            tipstaffRecordID = id;
-        }
+        //////public AddressCreationModel(int id)
+        //////{
+        //////    tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
+        //////    tipstaffRecordID = id;
+        //////}
     }
 
     public class Address

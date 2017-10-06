@@ -58,6 +58,8 @@ namespace Tipstaff.Models
         //public virtual CaseStatus caseStatus { get; set; }
         public MemoryCollections.CaseStatus caseStatus { get; set; }
         public virtual ICollection<TipstaffPoliceForce> policeForces { get; set; }
+
+        public string Descriminator { get; set; }
         
 
         public virtual string UniqueRecordID

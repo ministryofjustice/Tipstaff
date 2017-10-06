@@ -18,14 +18,12 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IWarrantPresenter _warrantPresenter;
-
-
+        
         public WarrantController(IWarrantPresenter warrantPresenter)
         {
             _warrantPresenter = warrantPresenter;
         }
-
-
+        
         public ViewResult Index(WarrantListViewModel model)
         {
             //////IQueryable<Warrant> TRs = myDBContextHelper.CurrentContext.Warrants;

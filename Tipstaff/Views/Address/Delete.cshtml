@@ -10,7 +10,7 @@
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
     }
 <h6>@Html.ActionLink(display,"Index",controller)
-> @Html.ActionLink(Model.Address.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.Address.tipstaffRecordID},null) 
+> @Html.ActionLink(Model.Address.TipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.Address.tipstaffRecordID},null) 
 > Addresses > Delete</h6>
 @using (Html.BeginForm())
 {
@@ -24,11 +24,11 @@
         @Html.Raw(@Model.Address.screenAddressMultiLine)
     </div>
     <div class="editor-label">
-        @Html.LabelFor(model => model.DeletedReasonID,true)
+        @Html.LabelFor(model => model.DeletedReason.DeletedReasonID,true)
     </div>
     <div class="editor-field">
         @Html.DropDownListFor(model => model.DeletedReason.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
-        @Html.ValidationMessageFor(model => model.DeletedReasonID)
+        @Html.ValidationMessageFor(model => model.DeletedReason.DeletedReasonID)
     </div>
 </fieldset>
     <p>

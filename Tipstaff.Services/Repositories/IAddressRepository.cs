@@ -14,5 +14,9 @@ namespace Tipstaff.Services.Repositories
         IEnumerable<Address> GetAddresses();
 
         void DeleteAddress(Address address);
+
+        void AddAddress(Address address);
+
+        void UpdateRepository(Address address);
     }
 }

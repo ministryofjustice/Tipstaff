@@ -10,7 +10,7 @@
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
     }
 <h6>@Html.ActionLink(display,"Index",controller)
-> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> @Html.ActionLink(Model.TipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
 > Addresses > Edit</h6>
 
 @using (Html.BeginForm())
