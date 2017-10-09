@@ -49,5 +49,10 @@ namespace Tipstaff.MemoryCollections
         {
             return GetSalutationList().Where(x => x.SalutationId == id).FirstOrDefault();
         }
+
+        public static Salutation GetSalutationByDetail(string detail)
+        {
+            return GetSalutationList().Where(x => x.Detail == detail).FirstOrDefault();
+        }
     }
 }

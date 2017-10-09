@@ -288,6 +288,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Presenters\AddressPresenter.cs" />
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
+    <Compile Include="Presenters\ChildPresenter.cs" />
     <Compile Include="Presenters\IChildPresenter.cs" />
     <Compile Include="Presenters\IAddressPresenter.cs" />
     <Compile Include="Presenters\IChildAbductionPresenter.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Presenters\IDocumentPresenter.cs" />
     <Compile Include="Presenters\ITemplatePresenter.cs" />
     <Compile Include="Presenters\IWarrantPresenter.cs" />
+    <Compile Include="Presenters\TemplatePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\SearchResults.cs" />
     <Compile Include="Classes\SecurityUtils.cs" />

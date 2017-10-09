@@ -29,5 +29,10 @@ namespace Tipstaff.MemoryCollections
                 new CaseStatus() {  CaseStatusId=5 ,  Detail = "Stayed",                Active = 1,  Sequence = 3  }
             };
         }
+
+        public static CaseStatus GetCaseStatusByDetail(string c)
+        {
+            return GetCaseStatusList().Where(x => x.Detail == c).FirstOrDefault();
+        }
     }
 }
