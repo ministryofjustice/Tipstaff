@@ -1,11 +1,12 @@
-﻿using System;
-using Amazon.DynamoDBv2.DocumentModel;
+﻿using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Amazon;
+using System;
 
 namespace Tipstaff.Infrastructure.DynamoAPI
 {
@@ -19,13 +20,18 @@ namespace Tipstaff.Infrastructure.DynamoAPI
         public DynamoAPI()
         {
             _awsDynamoDBConfig = new AmazonDynamoDBConfig();
-           
+            DynamoDBContextConfig _contextConfig = new DynamoDBContextConfig();
             try
             {
                 _awsDynamoDBConfig.ServiceURL = "ec2.eu-west-2.amazonaws.com";
-                _awsDynamoDBConfig.RegionEndpoint = Amazon.RegionEndpoint.EUWest2;
-                _awsDynamoDBClient = new AmazonDynamoDBClient( "AKIAIYOJJPVKTI5E6DLA", "h61Diom/SlmOuHu7LlOLDWsbnHKa6tqnZ0BN+A9C", _awsDynamoDBConfig);
-                _dynamoDBContext = new DynamoDBContext(_awsDynamoDBClient);
+                _awsDynamoDBConfig.RegionEndpoint = RegionEndpoint.EUWest2;
+                _awsDynamoDBClient = new AmazonDynamoDBClient("AKIAIYOJJPVKTI5E6DLA", "h61Diom/SlmOuHu7LlOLDWsbnHKa6tqnZ0BN+A9C", _awsDynamoDBConfig);
+                if (System.Configuration.ConfigurationSettings.AppSettings["AWS.DynamoDBContext.TableNamePrefix"] is null)
+                {
+                    _contextConfig.TableNamePrefix = "Dev_";
+                }
+                _dynamoDBContext = new DynamoDBContext(_awsDynamoDBClient, _contextConfig);
+
             }
             catch (Exception ex)
             {

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Documents")]
+    [DynamoDBTable("Tipstaff_Documents")]
     public class Document
     {
         [DynamoDBHashKey]
-        public string Id { get; set; }
+        public string DocumentID { get; set; }
         public string DocumentReference { get; set; }
         
         public string Country { get; set; }

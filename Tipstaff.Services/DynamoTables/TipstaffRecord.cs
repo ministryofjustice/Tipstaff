@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("TipstaffRecord")]
+    [DynamoDBTable("Tipstaff_TipstaffRecord")]
     public class TipstaffRecord
     {
         [DynamoDBHashKey]

@@ -24,14 +24,14 @@ namespace Tipstaff.Services.Services
         {
             DynamoTables.Template t = _templateRepo.GetTemplate(id);
             Template template = new Template() {
-                TemplateID = t.templateID,
+                TemplateID = t.TemplateID,
                 Discriminator = t.Discriminator,
-                TemplateName = t.templateName,
-                FilePath = t.filePath,
-                AddresseeRequired = t.addresseeRequired,
-                Active = t.active,
-                Deactivated = t.deactivated,
-                DeactivatedBy = t.deactivatedBy
+                TemplateName = t.TemplateName,
+                FilePath = t.FilePath,
+                AddresseeRequired = t.AddresseeRequired,
+                Active = t.Active,
+                Deactivated = t.Deactivated,
+                DeactivatedBy = t.DeactivatedBy
             };
 
             return template;
@@ -45,14 +45,14 @@ namespace Tipstaff.Services.Services
             {
                 Template template = new Template()
                 {
-                    TemplateID = t.templateID,
+                    TemplateID = t.TemplateID,
                     Discriminator = t.Discriminator,
-                    TemplateName = t.templateName,
-                    FilePath = t.filePath,
-                    AddresseeRequired = t.addresseeRequired,
-                    Active = t.active,
-                    Deactivated = t.deactivated,
-                    DeactivatedBy = t.deactivatedBy
+                    TemplateName = t.TemplateName,
+                    FilePath = t.FilePath,
+                    AddresseeRequired = t.AddresseeRequired,
+                    Active = t.Active,
+                    Deactivated = t.Deactivated,
+                    DeactivatedBy = t.DeactivatedBy
                 };
                 templates.Add(template);
             }
@@ -63,14 +63,14 @@ namespace Tipstaff.Services.Services
         {
             _templateRepo.AddTemplate(new DynamoTables.Template()
             {
-                templateID = t.TemplateID,
+                TemplateID = t.TemplateID,
                 Discriminator = t.Discriminator,
-                templateName = t.TemplateName,
-                filePath = t.FilePath,
-                addresseeRequired = t.AddresseeRequired,
-                active = t.Active,
-                deactivated = t.Deactivated,
-                deactivatedBy = t.DeactivatedBy
+                TemplateName = t.TemplateName,
+                FilePath = t.FilePath,
+                AddresseeRequired = t.AddresseeRequired,
+                Active = t.Active,
+                Deactivated = t.Deactivated,
+                DeactivatedBy = t.DeactivatedBy
             });
         }
 
@@ -78,14 +78,14 @@ namespace Tipstaff.Services.Services
         {
             _templateRepo.Update(new DynamoTables.Template()
             {
-                templateID = t.TemplateID,
+                TemplateID = t.TemplateID,
                 Discriminator = t.Discriminator,
-                templateName = t.TemplateName,
-                filePath = t.FilePath,
-                addresseeRequired = t.AddresseeRequired,
-                active = t.Active,
-                deactivated = t.Deactivated,
-                deactivatedBy = t.DeactivatedBy
+                TemplateName = t.TemplateName,
+                FilePath = t.FilePath,
+                AddresseeRequired = t.AddresseeRequired,
+                Active = t.Active,
+                Deactivated = t.Deactivated,
+                DeactivatedBy = t.DeactivatedBy
             });
         }
 

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("TipstaffAddress")]
+    [DynamoDBTable("Tipstaff_TipstaffAddress")]
     public class Address
     {
         [DynamoDBHashKey]
-        public string Id { get; set; }
+        public string AddressID { get; set; }
 
         public string TipstaffRecordId { get; set; }
 

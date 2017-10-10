@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Templates")]
+    [DynamoDBTable("Tipstaff_Templates")]
     public class Template
     {
         [DynamoDBHashKey]
-        public string templateID { get; set; }
+        public string TemplateID { get; set; }
 
         public string Discriminator { get; set; }
         
-        public string templateName { get; set; }
+        public string TemplateName { get; set; }
         
-        public string filePath { get; set; }
+        public string FilePath { get; set; }
 
-        public bool addresseeRequired { get; set; }
+        public bool AddresseeRequired { get; set; }
 
-        public bool active { get; set; }
+        public bool Active { get; set; }
 
-        public DateTime? deactivated { get; set; }
+        public DateTime? Deactivated { get; set; }
         
-        public string deactivatedBy { get; set; }
+        public string DeactivatedBy { get; set; }
     }
 }

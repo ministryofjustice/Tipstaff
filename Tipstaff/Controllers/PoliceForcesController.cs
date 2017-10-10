@@ -46,7 +46,7 @@ namespace Tipstaff.Controllers
             
             return View(new PoliceForces()
             {
-                policeForceID = policeforces.PoliceForceId,
+                policeForceID = policeforces.PoliceForceID,
                 deactivated  = policeforces.Deactivated,
                 deactivatedBy = policeforces.DeactivatedBy, 
                 active = policeforces.Active,
@@ -63,7 +63,7 @@ namespace Tipstaff.Controllers
                 
                 _policeforcesRepository.Update(new Services.DynamoTables.PoliceForces()
                 {
-                    PoliceForceId = policeforce.policeForceID,
+                    PoliceForceID = policeforce.policeForceID,
                     Active = policeforce.active,
                     
                     ////Deactivated = policeforce.deactivated,
@@ -95,7 +95,7 @@ namespace Tipstaff.Controllers
                 _policeforcesRepository.AddPoliceForces(new Services.DynamoTables.PoliceForces()
                 {
 
-                    PoliceForceId = policeforces.policeForceID,
+                    PoliceForceID = policeforces.policeForceID,
                     PoliceForceName = policeforces.policeForceName,
                     PoliceForceEMail = policeforces.policeForceEmail,
                     Active = policeforces.active,

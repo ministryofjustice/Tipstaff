@@ -63,7 +63,6 @@
     <Compile Include="DynamoTables\Solicitor.cs" />
     <Compile Include="DynamoTables\SolicitorFirm.cs" />
     <Compile Include="DynamoTables\FAQ.cs" />
-    <Compile Include="DynamoTables\TipstaffNPO.cs" />
     <Compile Include="DynamoTables\TipstaffRecord.cs" />
     <Compile Include="DynamoTables\Warrant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
