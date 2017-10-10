@@ -21,7 +21,7 @@ namespace Tipstaff.Services.DynamoTables
         
         public bool Active { get; set; }
 
-        public DateTime Deactivated { get; set; }
+        public DateTime? Deactivated { get; set; }
 
         public string DeactivatedBy { get; set; }
 

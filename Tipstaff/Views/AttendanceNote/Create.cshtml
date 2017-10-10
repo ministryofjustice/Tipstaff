@@ -36,12 +36,12 @@
             @Html.ValidationMessageFor(model => model.callStarted) 
         </div>*@
         <div class="editor-label">
-            @Html.LabelFor(model => model.AttendanceNoteCodeID, true)
+            @Html.LabelFor(model => model.AttendanceNoteCode.Id, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.AttendanceNoteCodeID,
+            @Html.DropDownListFor(model => model.AttendanceNoteCode.Id,
                 new SelectList(ViewBag.AttendanceNoteCodes, "AttendanceNoteCodeID", "Detail"), "Select a type")
-            @Html.ValidationMessageFor(model => model.AttendanceNoteCodeID) 
+            @Html.ValidationMessageFor(model => model.AttendanceNoteCode.Id) 
         </div>
 
         <div class="editor-label">

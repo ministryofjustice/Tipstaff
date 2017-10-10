@@ -31,13 +31,15 @@ namespace Tipstaff.Models
         [Required, MaxLength(1000, ErrorMessage = "Maximum 1000 characters"), Display(Name = "Call details"), UIHint("TextAreaWithCountdown")]
         [AdditionalMetadata("maxLength", 1000)]
         public string callDetails { get; set; }
-        [Display(Name = "Call type")]
-        public int AttendanceNoteCodeID { get; set; }
+        //[Display(Name = "Call type")]
+        //public int AttendanceNoteCodeID { get; set; }
         [Required]
         public string tipstaffRecordID { get; set; }
+
         [Display(Name = "Call type")]
-        public virtual AttendanceNoteCode AttendanceNoteCode { get; set; }
-        public virtual TipstaffRecord tipstaffRecord { get; set; }
+        public Tipstaff.MemoryCollections.AttendanceNoteCode AttendanceNoteCode { get; set; }
+
+        public TipstaffRecord tipstaffRecord { get; set; }
 
         public AttendanceNote() { }
         public AttendanceNote(DateTime started)
@@ -65,17 +67,17 @@ namespace Tipstaff.Models
         }
     }
 
-    public class AttendanceNoteCode
-    {
-        [Key]
-        public int AttendanceNoteCodeID { get; set; }
-        [Required, MaxLength(50), Display(Name = "Call Type")]
-        public string Detail { get; set; }
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
+    //public class AttendanceNoteCode
+    //{
+    //    [Key]
+    //    public int AttendanceNoteCodeID { get; set; }
+    //    [Required, MaxLength(50), Display(Name = "Call Type")]
+    //    public string Detail { get; set; }
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
 
-        public virtual ICollection<AttendanceNote> AttendanceNotes { get; set; }
-    }
+    //    public virtual ICollection<AttendanceNote> AttendanceNotes { get; set; }
+    //}
 }
