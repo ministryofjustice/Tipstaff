@@ -64,7 +64,6 @@
     <Compile Include="DynamoTables\SolicitorFirm.cs" />
     <Compile Include="DynamoTables\FAQ.cs" />
     <Compile Include="DynamoTables\TipstaffRecord.cs" />
-    <Compile Include="DynamoTables\Warrant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IAddressRepository.cs" />
     <Compile Include="Repositories\IPoliceForcesRepository.cs" />
@@ -79,7 +78,6 @@
     <Compile Include="Repositories\ISolicitorRepository.cs" />
     <Compile Include="Repositories\ITipstaffNPORepository.cs" />
     <Compile Include="Repositories\ITipstaffRecordRepository.cs" />
-    <Compile Include="Repositories\IWarrantRepository.cs" />
     <Compile Include="Services\ITemplateServices.cs" />
     <Compile Include="Services\IChildServices.cs" />
     <Compile Include="Services\ITipstaffService.cs" />
