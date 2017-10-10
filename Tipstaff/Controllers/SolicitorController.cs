@@ -160,7 +160,7 @@ namespace Tipstaff.Controllers
                deactivated = x.Dectivated,
                deactivatedBy = x.DectivatedBy,
                solicitorID = int.Parse(x.SolicitorID),
-               solicitorFirmID = int.Parse(x.SolicitorFirmId),
+               solicitorFirmID = int.Parse(x.SolicitorFirmID),
                salutationID = SalutationList.GetSalutationList().First(z => z.Detail == x.Salutation).SalutationId,
              });
 

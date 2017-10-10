@@ -40,14 +40,14 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(Template template)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(template.templateID);
+            var entity = _dynamoAPI.GetEntityByHashKey(template.TemplateID);
             entity.Discriminator = template.Discriminator;
-            entity.templateName = template.templateName;
-            entity.filePath = template.filePath;
-            entity.addresseeRequired = template.addresseeRequired;
-            entity.active = template.active;
-            entity.deactivated = template.deactivated;
-            entity.deactivatedBy = template.deactivatedBy;
+            entity.TemplateName = template.TemplateName;
+            entity.FilePath = template.FilePath;
+            entity.AddresseeRequired = template.AddresseeRequired;
+            entity.Active = template.Active;
+            entity.Deactivated = template.Deactivated;
+            entity.DeactivatedBy = template.DeactivatedBy;
 
             _dynamoAPI.Save(entity);
         }
