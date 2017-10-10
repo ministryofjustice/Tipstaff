@@ -18,9 +18,9 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI = dynamoAPI;
         }
 
-        public void AddPoliceForces(PoliceForces contact)
+        public void AddPoliceForces(PoliceForces policeForce)
         {
-            throw new NotImplementedException();
+            _dynamoAPI.Save(policeForce);
         }
 
 
@@ -48,6 +48,7 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.PoliceForceEMail = policeforces.PoliceForceEMail;
             entity.PoliceForceName = policeforces.PoliceForceName;
             entity.LoggedInUser = policeforces.LoggedInUser;
+            entity.PoliceForceID = policeforces.PoliceForceID;
             _dynamoAPI.Save(entity);
         }
     }

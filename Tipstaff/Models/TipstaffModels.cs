@@ -21,10 +21,14 @@ namespace Tipstaff.Models
         public string createdBy { get; set; }
         [Required, Display(Name = "Created on")]
         public DateTime createdOn { get; set; }
+
         [Required, Display(Name = "Protective Marking")]
         public int protectiveMarkingID { get; set; }
+
         [Display(Name="Result")]
         public int? resultID { get; set; }
+
+
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Required, Display(Name = "Next review date"),FutureDate(ErrorMessage="The review date must be in the future")]
         public DateTime nextReviewDate { get; set; }
@@ -54,7 +58,8 @@ namespace Tipstaff.Models
         public virtual ICollection<CaseReview> caseReviews { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
         public virtual ICollection<Respondent> Respondents { get; set; }
-        public virtual ICollection<Address> addresses { get; set; }
+
+        public IEnumerable<Address> addresses { get; set; }
         //public virtual CaseStatus caseStatus { get; set; }
         public MemoryCollections.CaseStatus caseStatus { get; set; }
         public virtual ICollection<TipstaffPoliceForce> policeForces { get; set; }

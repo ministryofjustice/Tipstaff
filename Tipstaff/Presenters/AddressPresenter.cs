@@ -17,8 +17,7 @@ namespace Tipstaff.Presenters
             _addressRepository = addressRepository;
             _tipstaffRepository = tipstaffRepository;
         }
-
-      
+        
         public void AddAddress(Address addressMdl)
         {
             var address = GetDTAddress(addressMdl);
@@ -33,9 +32,19 @@ namespace Tipstaff.Presenters
             return addressMdl;
         }
 
+        public IEnumerable<Address> GetAddressByTipstaffRecordId(string id)
+        {
+            var records = _addressRepository.GetAddresses().Where(x => x.TipstaffRecordId == id);
+
+            var addresses = GetAddresses(records);
+
+            return addresses;
+        }
+
         public TipstaffRecord GetTipstaffRecord(string id)
         {
-            throw new NotImplementedException();
+            var record = _tipstaffRepository.GetEntityByHashKey(id);
+            return GetMdlTipstaffRecord(record);
         }
 
         public void RemoveAddress(Address address)
@@ -109,21 +118,50 @@ namespace Tipstaff.Presenters
             return add;
         }
 
-        //private IEnumerable<Address> GetAddresses(IList<Services.DynamoTables.Address> addresses)
-        //{
-        //    return addresses.Select(x => new Address()
-        //    {
-        //        addresseeName = x.AddresseeName,
-        //        addressLine1 = x.AddressLine1,
-        //        addressLine2 = x.AddressLine2,
-        //        addressLine3 = x.AddressLine3,
-        //        county = x.County,
-        //        addressID = int.Parse(x.Id),
-        //        phone = x.Phone,
-        //        postcode = x.PostCode,
-        //        tipstaffRecordID = int.Parse(x.TipstaffRecordId),
-        //        town = x.Town
-        //    });
-        //}
+        private IEnumerable<Address> GetAddresses(IEnumerable<Services.DynamoTables.Address> addresses)
+        {
+            return addresses.Select(x => new Address()
+            {
+                addresseeName = x.AddresseeName,
+                addressLine1 = x.AddressLine1,
+                addressLine2 = x.AddressLine2,
+                addressLine3 = x.AddressLine3,
+                county = x.County,
+                addressID = int.Parse(x.AddressID),
+                phone = x.Phone,
+                postcode = x.PostCode,
+                tipstaffRecordID = int.Parse(x.TipstaffRecordId),
+                town = x.Town,
+                
+            });
+        }
+
+        private TipstaffRecord GetMdlTipstaffRecord(Tipstaff.Services.DynamoTables.TipstaffRecord rec)
+        {
+            var addressList = _addressRepository.GetAddresses();
+
+            var record = new TipstaffRecord()
+            {
+                Descriminator = rec.Discriminator,
+                arrestCount = rec.ArrestCount,
+                DateExecuted = rec.DateExecuted,
+                NPO = rec.NPO,
+                createdBy = rec.CreatedBy,
+                createdOn = rec.CreatedOn,
+                nextReviewDate = rec.NextReviewDate,
+                prisonCount = rec.PrisonCount,
+                result = MemoryCollections.ResultsList.GetResultByDetail(rec.Result),
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByDetail(rec.CaseStatus),
+                addresses = GetAddresses(addressList) as ICollection<Address>,
+                resultDate = rec.ResultDate,
+                resultEnteredBy = rec.ResultEnteredBy,
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingByDetail(rec.ProtectiveMarking),
+                tipstaffRecordID = rec.TipstaffRecordID,
+            };
+
+            return record;
+        }
     }
+
+    
 }

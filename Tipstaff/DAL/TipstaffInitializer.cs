@@ -117,12 +117,12 @@ namespace Tipstaff.Models
             //    new Gender{Detail="Male", active=true},
             //    new Gender{Detail="Female", active=true}
             //};
-            var pCC = new List<AttendanceNoteCode>
-            {
-                new AttendanceNoteCode{Detail="Phone call", active=true},
-                new AttendanceNoteCode{Detail="Personal Attendance", active=true},
-                new AttendanceNoteCode{Detail="Note", active=true}
-            };
+            //////var pCC = new List<AttendanceNoteCode>
+            //////{
+            //////    new AttendanceNoteCode{Detail="Phone call", active=true},
+            //////    new AttendanceNoteCode{Detail="Personal Attendance", active=true},
+            //////    new AttendanceNoteCode{Detail="Note", active=true}
+            //////};
             //var iC = new List<Country>
             //{
             //    #region Country List (260 rows)
@@ -586,7 +586,7 @@ namespace Tipstaff.Models
             //dS.ForEach(c => context.DocumentStatuses.Add(c));
             //iC.ForEach(c => context.IssuingCountries.Add(c));
             //g.ForEach(c => context.Genders.Add(c));
-            pCC.ForEach(c => context.AttendanceNoteCodes.Add(c));
+           //////// pCC.ForEach(c => context.AttendanceNoteCodes.Add(c));
             //sF.ForEach(c => context.SolicitorsFirms.Add(c));
             //cR.ForEach(c => context.ChildRelationships.Add(c));
             //d.ForEach(c => context.Divisions.Add(c));

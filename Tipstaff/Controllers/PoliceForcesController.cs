@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Data;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
-using System.Data.Entity;
-using Tipstaff.Services.Repositories;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -14,11 +10,11 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class PoliceForcesController : Controller
     {
-        private readonly IPoliceForcesRepository _policeforcesRepository;
+        private readonly IPoliceForcesPresenter _policeForcesPresenter;
 
-        public PoliceForcesController(IPoliceForcesRepository policeforcesRepository)
+        public PoliceForcesController(IPoliceForcesPresenter policeForcesPresenter)
         {
-            _policeforcesRepository = policeforcesRepository;
+            _policeForcesPresenter = policeForcesPresenter;
         }
         
 
@@ -29,12 +25,12 @@ namespace Tipstaff.Controllers
             Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
             if (thisUser.IsInRole("Admin"))
             {
-                var policeforces = _policeforcesRepository.GetAllPoliceForces();
+                var policeforces = _policeForcesPresenter.GetAllPoliceForces();
                 return View(policeforces.ToList());
             }
             else
             {
-                var policeforces = _policeforcesRepository.GetAllPoliceForces().Where(x=>x.LoggedInUser == User.Identity.IsAuthenticated);
+                var policeforces = _policeForcesPresenter.GetAllPoliceForces().Where(x=>x.loggedInUser == User.Identity.IsAuthenticated);
                 //var policeforces = db.PoliceForces.Where(f => f.loggedInUser == User.Identity.IsAuthenticated);
                 return View(policeforces.ToList());
             }
@@ -42,16 +38,9 @@ namespace Tipstaff.Controllers
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
-            var policeforces = _policeforcesRepository.GetPoliceForces(id);
+            var policeforce = _policeForcesPresenter.GetPoliceForces(id);
             
-            return View(new PoliceForces()
-            {
-                policeForceID = policeforces.PoliceForceID,
-                deactivated  = policeforces.Deactivated,
-                deactivatedBy = policeforces.DeactivatedBy, 
-                active = policeforces.Active,
-                loggedInUser = policeforces.LoggedInUser
-            });
+            return View(policeforce);
         }
 
         [AuthorizeRedirect(Roles = "Admin")]
@@ -60,23 +49,13 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                _policeforcesRepository.Update(new Services.DynamoTables.PoliceForces()
-                {
-                    PoliceForceID = policeforce.policeForceID,
-                    Active = policeforce.active,
-                    
-                    ////Deactivated = policeforce.deactivated,
-                    DeactivatedBy = policeforce.deactivatedBy,
-                    PoliceForceName = policeforce.policeForceName,
-                    PoliceForceEMail = policeforce.policeForceEmail,
-                    LoggedInUser = policeforce.loggedInUser
-                });
+                _policeForcesPresenter.Update(policeforce);
 
                 return RedirectToAction("Index");
             }
             return View(policeforce);
         }
+
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Create()
         {
@@ -92,17 +71,7 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                _policeforcesRepository.AddPoliceForces(new Services.DynamoTables.PoliceForces()
-                {
-
-                    PoliceForceID = policeforces.policeForceID,
-                    PoliceForceName = policeforces.policeForceName,
-                    PoliceForceEMail = policeforces.policeForceEmail,
-                    Active = policeforces.active,
-                    //Deactivated = policeforces.deactivated,
-                    DeactivatedBy = policeforces.deactivatedBy,
-                    LoggedInUser = policeforces.loggedInUser
-                });
+                _policeForcesPresenter.AddPoliceForces(policeforces);
 
                 return RedirectToAction("Index");
             }
