@@ -119,11 +119,11 @@ namespace Tipstaff.Controllers
         }
         public ActionResult QuickSearch(string term)
         {
-            var solisitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
 
             ////var sols = db.SolicitorsFirms.Where(s => s.firmName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.firmName });
 
-            var sols = solisitorFirms.Where(s => s.firmName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.firmName });
+            var sols = solicitorFirms.Where(s => s.firmName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.firmName });
             return Json(sols, JsonRequestBehavior.AllowGet);
         }
         

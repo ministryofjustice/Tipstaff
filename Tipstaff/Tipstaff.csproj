@@ -290,9 +290,11 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Presenters\AddressPresenter.cs" />
     <Compile Include="Presenters\AttendanceNotePresenter.cs" />
+    <Compile Include="Presenters\CaseReviewPresenter.cs.cs" />
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
     <Compile Include="Presenters\ChildPresenter.cs" />
     <Compile Include="Presenters\IAttendanceNotePresenter.cs" />
+    <Compile Include="Presenters\ICaseReviewPresenter.cs" />
     <Compile Include="Presenters\IChildPresenter.cs" />
     <Compile Include="Presenters\IAddressPresenter.cs" />
     <Compile Include="Presenters\IChildAbductionPresenter.cs" />

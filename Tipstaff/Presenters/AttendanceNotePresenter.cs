@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tipstaff.Infrastructure.Services;
+using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
@@ -85,6 +88,11 @@ namespace Tipstaff.Presenters
             };
 
             return table;
+        }
+
+        public IEnumerable<TipstaffRecord> GettAllRecords()
+        {
+            throw new NotImplementedException();
         }
     }
 }

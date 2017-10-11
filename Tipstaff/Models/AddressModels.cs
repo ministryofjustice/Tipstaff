@@ -31,7 +31,7 @@ namespace Tipstaff.Models
     public class Address : IModel
     {
         [Key]
-        public int addressID { get; set; }
+        public string addressID { get; set; }
         [MaxLength(100), Display(Name = "Name")]
         public string addresseeName { get; set; }
         [Required, MaxLength(100), Display(Name = "Address Line 1")]

@@ -76,9 +76,11 @@ namespace Tipstaff.Controllers
                 allSols = allSols.Where(s => s.SolicitorFirm.firmName.ToUpper().Contains(model.searchFirm.ToUpper()));
             }
             //Note: working except clause
-            //////IEnumerable<Solicitor> availableSols = allSols.Except(db.Solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
-           /////// IEnumerable<Solicitor> availableSols = allSols.Except(solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
-           /////// model.pSolicitors = availableSols.OrderBy(s => s.firstName).ToPagedList(model.page ?? 1, 8); //all
+
+            //VERONICA - REVISIT TIPSTAFFRECORDSOLICITORS
+            ///////IEnumerable < Solicitor > availableSols = allSols.Except(solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
+            IEnumerable<Solicitor> availableSols = allSols;
+            model.pSolicitors = availableSols.OrderBy(s => s.firstName).ToPagedList(model.page ?? 1, 8); //all
             return View(model);
         }
         //
