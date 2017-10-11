@@ -11,7 +11,7 @@ namespace Tipstaff.Services.DynamoTables
     public class FAQ
     {
         [DynamoDBHashKey]
-        public string FaqId { get; set; }
+        public string FaqID { get; set; }
         
         public bool LoggedInUser { get; set; }
         
