@@ -239,6 +239,7 @@
     <Compile Include="Infrastructure\PresentationLayerInstaller.cs" />
     <Compile Include="Logger\ICloudWatchLogger.cs" />
     <Compile Include="Logger\CloudWatchLogger.cs" />
+    <Compile Include="Mappers\IMapperCollections.cs" />
     <Compile Include="MemoryCollections\AttendanceNoteCodeList.cs" />
     <Compile Include="MemoryCollections\DeletedReasonList.cs" />
     <Compile Include="MemoryCollections\CaOrderTypeList.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Models\GraphModels.cs" />
     <Compile Include="Models\IGraphData.cs" />
     <Compile Include="Models\IListByTipstaffRecord.cs" />
+    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\PhoneCallModels.cs" />
     <Compile Include="Models\PoliceForcesModels.cs" />
     <Compile Include="Models\ReportModels.cs" />
@@ -297,10 +299,14 @@
     <Compile Include="Presenters\IApplicantPresenter.cs" />
     <Compile Include="Presenters\IDocumentPresenter.cs" />
     <Compile Include="Presenters\IPoliceForcesPresenter.cs" />
+    <Compile Include="Presenters\ISolicitorFirmsPresenter.cs" />
+    <Compile Include="Presenters\ISolicitorPresenter.cs" />
     <Compile Include="Presenters\ITemplatePresenter.cs" />
     <Compile Include="Presenters\ITipstaffRecordPresenter.cs" />
     <Compile Include="Presenters\IWarrantPresenter.cs" />
     <Compile Include="Presenters\PoliceForcesPresenter.cs" />
+    <Compile Include="Presenters\SolicitorFirmsPresenter.cs" />
+    <Compile Include="Presenters\SolicitorPresenter.cs" />
     <Compile Include="Presenters\TemplatePresenter.cs" />
     <Compile Include="Presenters\TipstaffRecordPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

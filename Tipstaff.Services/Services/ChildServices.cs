@@ -22,7 +22,7 @@ namespace Tipstaff.Services.Services
         public void AddChild(Child child)
         {
             _childRepo.AddChild(new DynamoTables.Child() {
-                ChildID = child.ChildID,
+                Id = child.ChildID,
                 NameLast = child.NameLast,
                 NameFirst = child.NameFirst,
                 NameMiddle = child.NameMiddle,
@@ -45,7 +45,7 @@ namespace Tipstaff.Services.Services
         {
             _childRepo.Delete(new DynamoTables.Child()
             {
-                ChildID = child.ChildID,
+                Id = child.ChildID,
                 NameLast = child.NameLast,
                 NameFirst = child.NameFirst,
                 NameMiddle = child.NameMiddle,
@@ -72,7 +72,7 @@ namespace Tipstaff.Services.Services
             {
                 Child child = new Child()
                 {
-                    ChildID = c.ChildID,
+                    ChildID = c.Id,
                     NameLast = c.NameLast,
                     NameFirst = c.NameFirst,
                     NameMiddle = c.NameMiddle,
@@ -98,7 +98,7 @@ namespace Tipstaff.Services.Services
         {
             DynamoTables.Child c = _childRepo.GetChild(id);
             Child child = new Child() {
-                ChildID = c.ChildID,
+                ChildID = c.Id,
                 NameLast = c.NameLast,
                 NameFirst = c.NameFirst,
                 NameMiddle = c.NameMiddle,
@@ -122,7 +122,7 @@ namespace Tipstaff.Services.Services
         {
             _childRepo.Update(new DynamoTables.Child()
             {
-                ChildID = child.ChildID,
+                Id = child.ChildID,
                 NameLast = child.NameLast,
                 NameFirst = child.NameFirst,
                 NameMiddle = child.NameMiddle,
@@ -145,7 +145,7 @@ namespace Tipstaff.Services.Services
         {
             DynamoTables.TipstaffRecord tr = _tipstaffRepo.GetEntityByHashKey(id);
             dto.Tipstaff t = new dto.Tipstaff() {
-                TipstaffRecordID = tr.TipstaffRecordID,
+                TipstaffRecordID = tr.Id,
                 CreatedBy = tr.CreatedBy,
                 CreatedOn = tr.CreatedOn,
                 NextReviewDate = tr.NextReviewDate,

@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 namespace Tipstaff.Services.DynamoTables
 {
     [DynamoDBTable("Tipstaff_Documents")]
-    public class Document
+    public class Document : DynamoTable
     {
-        [DynamoDBHashKey]
-        public string DocumentID { get; set; }
         public string DocumentReference { get; set; }
         
         public string Country { get; set; }

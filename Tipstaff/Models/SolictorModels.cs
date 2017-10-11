@@ -43,7 +43,7 @@ namespace Tipstaff.Models
     //    public Warrant warrant { get; set; }
     //}
 
-    public class SolicitorFirm
+    public class SolicitorFirm : IModel
     {
         [Key]
         //public int solicitorFirmID { get; set; }
@@ -74,7 +74,9 @@ namespace Tipstaff.Models
         public DateTime? deactivated { get; set; }
         [MaxLength(50)]
         public string deactivatedBy { get; set; }
-        public virtual ICollection<Solicitor> Solicitors { get; set; }
+        //////public virtual ICollection<Solicitor> Solicitors { get; set; }
+
+        public IEnumerable<Solicitor> Solicitors { get; set; }
 
         public virtual List<string> populatedLines
         {
@@ -123,18 +125,18 @@ namespace Tipstaff.Models
             }
         }
     }
-    public class Solicitor
+    public class Solicitor : IModel
     {
         [Key]
-        public int solicitorID { get; set; }
+        public string solicitorID { get; set; }
         [MaxLength(50), Display(Name = "First name")]
         public string firstName { get; set; }
         [Required, MaxLength(50), Display(Name = "Last name")]
         public string lastName { get; set; }
         [Display(Name="Solicitor firm")]
-        public int? solicitorFirmID { get; set; }
-        [Required,Display(Name="Title")]
-        public int salutationID { get; set; }
+        public string solicitorFirmID { get; set; }
+        ////[Required, Display(Name = "Title")]
+        ////public int salutationID { get; set; }
         [MaxLength(20), Display(Name="Day time phone number")]
         public string phoneDayTime { get; set; }
         [MaxLength(20), Display(Name="Out of Hours phone number")]
@@ -215,7 +217,7 @@ namespace Tipstaff.Models
             Solicitor = myDBContextHelper.CurrentContext.Solicitors.Find(solicitorID);
             TipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(tipstaffRecordID);
             SolicitorsFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName", Solicitor.solicitorFirmID);
-            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail", Solicitor.salutationID);
+            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail", Solicitor.salutation.SalutationId);
         }
     }
     public class SolicitorFirmByTipstaffRecordViewModel

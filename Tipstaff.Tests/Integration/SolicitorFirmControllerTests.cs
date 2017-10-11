@@ -36,7 +36,7 @@ namespace Tipstaff.Tests.Integration
             _guidGeneratorMock = new Mock<IGuidGenerator>();
             id = Guid.NewGuid();
             _guidGeneratorMock.Setup(x => x.GenerateTimeBasedGuid()).Returns(id);
-            _sub = new SolicitorFirmController(_solicitorFirmRepository, _tipstaffRecordRepository, _guidGeneratorMock.Object);
+            _sub = new SolicitorFirmController(null,null);
             var mocks = new ContextMocks(_sub);
         }
 
@@ -63,7 +63,7 @@ namespace Tipstaff.Tests.Integration
 
             var solicitorFirm = _solicitorFirmRepository.GetSolicitorFirm(id.ToString());
 
-            Assert.AreEqual(id.ToString(), solicitorFirm.SolicitorFirmID);
+            Assert.AreEqual(id.ToString(), solicitorFirm.Id);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace Tipstaff.Tests.Integration
 
             var solicitorFirm = _solicitorFirmRepository.GetSolicitorFirm(id.ToString());
 
-            Assert.AreEqual(modifiedFirm.solicitorFirmID, solicitorFirm.SolicitorFirmID);
+            Assert.AreEqual(modifiedFirm.solicitorFirmID, solicitorFirm.Id);
             Assert.AreEqual(modifiedFirm.addressLine1, solicitorFirm.AddressLine1);
             Assert.AreEqual(modifiedFirm.addressLine2, solicitorFirm.AddressLine2);
             Assert.AreEqual(modifiedFirm.addressLine3, solicitorFirm.AddressLine3);

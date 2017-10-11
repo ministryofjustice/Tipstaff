@@ -105,7 +105,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                 //db.SaveChanges();
                 _solicitorFirmRepository.AddSolicitorFirm(new Services.DynamoTables.SolicitorFirm()
                 {
-                    SolicitorFirmID = model.solicitorFirmID,
+                    Id = model.solicitorFirmID,
                     FirmName = model.firmName,
                     AddressLine1 = model.addressLine1,
                     AddressLine2 = model.addressLine2,
@@ -152,7 +152,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                 //db.SaveChanges();
                 _solicitorFirmRepository.Update(new Services.DynamoTables.SolicitorFirm()
                 {
-                    SolicitorFirmID = model.solicitorFirmID,
+                    Id = model.solicitorFirmID,
                     FirmName = model.firmName,
                     AddressLine1 = model.addressLine1,
                     AddressLine2 = model.addressLine2,
@@ -208,7 +208,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             var model = _solicitorFirmRepository.GetSolicitorFirm(id);
             _solicitorFirmRepository.Update(new Services.DynamoTables.SolicitorFirm()
             {
-                SolicitorFirmID = model.SolicitorFirmID,
+                Id = model.Id,
                 FirmName = model.FirmName,
                 AddressLine1 = model.AddressLine1,
                 AddressLine2 = model.AddressLine2,

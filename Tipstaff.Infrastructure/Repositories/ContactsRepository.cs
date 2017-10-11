@@ -36,7 +36,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void UpdateContact(Contact contact)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(contact.ContactID);
+            var entity = _dynamoAPI.GetEntityByHashKey(contact.Id);
             entity.addressLine1 = contact.addressLine1;
             _dynamoAPI.Save(entity);
         }

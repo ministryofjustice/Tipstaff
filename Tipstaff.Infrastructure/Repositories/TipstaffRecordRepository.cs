@@ -37,7 +37,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(TipstaffRecord record)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(record.TipstaffRecordID);
+            var entity = _dynamoAPI.GetEntityByHashKey(record.Id);
             entity.EldestChild = record.EldestChild;
             entity.ArrestCount = record.ArrestCount;
             entity.ProtectiveMarking = record.ProtectiveMarking;

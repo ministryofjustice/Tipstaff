@@ -130,26 +130,6 @@ namespace Tipstaff.Controllers
             //////////////db.SaveChanges();
             return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
         }
-
-        //private TipstaffRecord GetTipstaffRecord(string id)
-        //{
-        //    var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
-
-        //    var tipstaffRecord = new TipstaffRecord()
-        //    {
-        //        arrestCount = record.ArrestCount,
-        //        NPO = record.NPO,
-        //        createdBy = record.CreatedBy,  
-        //        DateExecuted = record.DateExecuted,
-        //        createdOn = record.CreatedOn,
-        //        nextReviewDate = record.NextReviewDate,
-        //        prisonCount = record.PrisonCount,
-        //        tipstaffRecordID = record.TipstaffRecordID, //int.Parse(record.TipstaffRecordID),
-        //        resultEnteredBy = record.ResultEnteredBy,
-        //        resultDate = record.ResultDate
-        //    };
-
-        //    return tipstaffRecord;
-        //}
+        
     }
 }

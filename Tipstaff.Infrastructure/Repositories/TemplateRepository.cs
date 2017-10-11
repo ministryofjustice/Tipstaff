@@ -40,7 +40,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(Template template)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(template.TemplateID);
+            var entity = _dynamoAPI.GetEntityByHashKey(template.Id);
             entity.Discriminator = template.Discriminator;
             entity.TemplateName = template.TemplateName;
             entity.FilePath = template.FilePath;

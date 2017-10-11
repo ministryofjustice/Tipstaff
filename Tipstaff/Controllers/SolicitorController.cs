@@ -11,6 +11,7 @@ using System.Web.UI;
 using System.Data.Entity;
 using Tipstaff.Services.Repositories;
 using Tipstaff.MemoryCollections;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -19,26 +20,28 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class SolicitorController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly ISolicitorRepository _solicitorRepository;
-        private readonly ISolicitorFirmRepository _solicitorFirmRepository;
-        private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ISolicitorPresenter _solicitorPresenter;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
 
-        public SolicitorController(ISolicitorRepository solicitorRepository, ISolicitorFirmRepository solicitorFirmRepository, ITipstaffRecordRepository tipstaffRecordRepository)
+        public SolicitorController(ISolicitorPresenter solicitorPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, ISolicitorFirmsPresenter solicitorFirmsPresenter)
         {
-            _solicitorRepository = solicitorRepository;
-            _solicitorFirmRepository = solicitorFirmRepository;
-            _tipstaffRecordRepository = tipstaffRecordRepository;
+            _solicitorPresenter = solicitorPresenter;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _solicitorFirmsPresenter = solicitorFirmsPresenter;
         }
 
         //
         // GET: /Solicitor/
 
-        public ActionResult Select(int id, ChooseSolicitorModel model)
+        public ActionResult Select(string id, ChooseSolicitorModel model)
         {
-            var solicitors = _solicitorRepository.GetSolicitors();
+            var solicitors = _solicitorPresenter.GetSolicitors();
+            var record = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
 
-            if ((!solicitors.Any()) && (db.SolicitorsFirms.Count() == 0))
+            if ((!solicitors.Any()) && (!solicitorFirms.Any()))
             {
                 //No solicitors or firms... add a firm first
                 return RedirectToAction("Create", "SolicitorFirm");
@@ -50,7 +53,8 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("Create");
             }
             //ChooseSolicitorModel model = new ChooseSolicitorModel();
-            if (model.tipstaffRecord == null) model.tipstaffRecord = db.TipstaffRecord.Find(id);
+            //////if (model.tipstaffRecord == null) model.tipstaffRecord = db.TipstaffRecord.Find(id);
+            if (model.tipstaffRecord == null) model.tipstaffRecord = record;
             if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
@@ -60,7 +64,9 @@ namespace Tipstaff.Controllers
             if (model.searchFirm == null) model.searchFirm = "";
             if (model.searchString == null) model.searchString = "";
 
-            IQueryable<Solicitor> allSols = db.Solicitors;
+            ////IQueryable<Solicitor> allSols = db.Solicitors;
+            IQueryable<Solicitor> allSols = _solicitorPresenter.GetSolicitors().AsQueryable();
+
             if (!String.IsNullOrEmpty(model.searchString))
             {
                 allSols = allSols.Where(s => s.firstName.ToUpper().Contains(model.searchString.ToUpper()) || s.lastName.ToUpper().Contains(model.searchString.ToUpper()));
@@ -70,8 +76,9 @@ namespace Tipstaff.Controllers
                 allSols = allSols.Where(s => s.SolicitorFirm.firmName.ToUpper().Contains(model.searchFirm.ToUpper()));
             }
             //Note: working except clause
-            IEnumerable<Solicitor> availableSols = allSols.Except(db.Solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
-            model.pSolicitors = availableSols.OrderBy(s => s.firstName).ToPagedList(model.page ?? 1, 8); //all
+            //////IEnumerable<Solicitor> availableSols = allSols.Except(db.Solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
+           /////// IEnumerable<Solicitor> availableSols = allSols.Except(solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
+           /////// model.pSolicitors = availableSols.OrderBy(s => s.firstName).ToPagedList(model.page ?? 1, 8); //all
             return View(model);
         }
         //
@@ -95,8 +102,10 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(model.Solicitor).State = EntityState.Modified;
-                db.SaveChanges();
+                ////db.Entry(model.Solicitor).State = EntityState.Modified;
+                ////db.SaveChanges();
+                _solicitorPresenter.Update(model.Solicitor);
+
                 string controller = genericFunctions.TypeOfTipstaffRecord(model.TipstaffRecord);
                 return RedirectToAction("Details", "Solicitor", new { solicitorID = model.solicitorID, tipstaffRecordID = model.tipstaffRecordID });
             }
@@ -110,8 +119,11 @@ namespace Tipstaff.Controllers
         /// <returns></returns>
         public PartialViewResult CreateSolicitor(int warrantID)
         {
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+
             ViewBag.warrantID = warrantID;
-            ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
+            ViewBag.solicitorFirmID = new SelectList(solicitorFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
+            //ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
             ViewBag.salutationID =  new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail"); //new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
 
             return PartialView("_createSolicitor");
@@ -124,8 +136,9 @@ namespace Tipstaff.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Solicitors.Add(solicitor);
-                db.SaveChanges();
+                ////db.Solicitors.Add(solicitor);
+                ////db.SaveChanges();
+                _solicitorPresenter.AddSolicitor(solicitor);
                 if (Request.IsAjaxRequest())
                 {
                     return RedirectToAction("Create", "TipstaffRecordSolicitor", new { tipstaffRecord = warrantID, solicitor = solicitor.solicitorID });
@@ -136,8 +149,10 @@ namespace Tipstaff.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+
             ViewBag.salutationID = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");//new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
-            ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms, "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
+            ViewBag.solicitorFirmID = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
             //return PartialView("_createSolicitor");
             return PartialView("_createSolicitorForWarrant");
         }
@@ -149,20 +164,7 @@ namespace Tipstaff.Controllers
 
         public ActionResult QuickSearch(string term)
         {
-            var solicitors = _solicitorRepository.GetSolicitors().Select(x=> new Solicitor()
-            {
-               firstName = x.FirstName,
-               lastName = x.LastName,
-               email = x.Email,
-               active = x.Active,
-               phoneDayTime = x.PhoneDayTime,
-               phoneOutofHours = x.PhoneOutOfHours,
-               deactivated = x.Dectivated,
-               deactivatedBy = x.DectivatedBy,
-               solicitorID = int.Parse(x.SolicitorID),
-               solicitorFirmID = int.Parse(x.SolicitorFirmID),
-               salutationID = SalutationList.GetSalutationList().First(z => z.Detail == x.Salutation).SalutationId,
-             });
+            var solicitors = _solicitorPresenter.GetSolicitors();
 
             /////var sols = db.Solicitors.Where(s => s.firstName.ToLower().Contains(term.ToLower()) || s.lastName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.solicitorName });
 
@@ -172,9 +174,10 @@ namespace Tipstaff.Controllers
         }
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
-        public PartialViewResult ListSolicitorsByRecord(int id, int? page)
+        public PartialViewResult ListSolicitorsByRecord(string id, int? page)
         {
-            TipstaffRecord w = db.TipstaffRecord.Find(id);
+            ////TipstaffRecord w = db.TipstaffRecord.Find(id);
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             ListTipstaffRecordSolicitorByTipstaffRecord model = new ListTipstaffRecordSolicitorByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.LinkedSolicitors = w.LinkedSolicitors;

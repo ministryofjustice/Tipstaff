@@ -63,7 +63,7 @@ namespace Tipstaff.Presenters
                 callEnded = table.CallEnded,
                 callStarted = table.CallStarted.Value,
                 AttendanceNoteCode = MemoryCollections.AttendanceNoteCodeList.GetAttendanceNoteCodeList().FirstOrDefault(x => x.Detail == table.AttendanceNoteCode),
-                AttendanceNoteID = table.AttendanceNoteID,
+                AttendanceNoteID = table.Id,
                 tipstaffRecordID = table.TipstaffRecordID,
                 tipstaffRecord = GetTipStaffRecord(table.TipstaffRecordID)
             };
@@ -81,7 +81,7 @@ namespace Tipstaff.Presenters
                 CallDetails = model.callDetails,
                 CallEnded = model.callEnded,
                 CallStarted = model.callStarted,
-                AttendanceNoteID = model.AttendanceNoteID
+                Id = model.AttendanceNoteID
             };
 
             return table;

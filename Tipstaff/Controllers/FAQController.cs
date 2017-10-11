@@ -49,7 +49,7 @@ namespace Tipstaff.Controllers
 
             return View(new FAQ()
             {
-                faqID = faq.FaqId,
+                faqID = faq.Id,
                 answer = faq.Answer,
                 question = faq.Question,
                loggedInUser = faq.LoggedInUser
@@ -66,7 +66,7 @@ namespace Tipstaff.Controllers
                 //db.SaveChanges();
                 _faqRepository.Update(new Services.DynamoTables.FAQ()
                 {
-                    FaqId = faq.faqID,
+                    Id = faq.faqID,
                     Answer = faq.answer,
                     LoggedInUser = faq.loggedInUser,
                     Question = faq.question
@@ -95,7 +95,7 @@ namespace Tipstaff.Controllers
                 //db.SaveChanges();
                 _faqRepository.AddFaQ(new Services.DynamoTables.FAQ()
                 {
-                    FaqId = faq.faqID,
+                    Id = faq.faqID,
                     Answer = faq.answer,
                     LoggedInUser = faq.loggedInUser,
                     Question = faq.question

@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 namespace Tipstaff.Services.DynamoTables
 {
     [DynamoDBTable("Tipstaff_TipstaffRecord")]
-    public class TipstaffRecord
+    public class TipstaffRecord : DynamoTable
     {
-        [DynamoDBHashKey]
-        public string TipstaffRecordID { get; set; }
-
         [DynamoDBRangeKey]
         public string TrackItem { get; set; }
 

@@ -13,7 +13,7 @@ namespace Tipstaff.Models
         public bool TipstaffRecordClosed { get; set; }
     }
 
-    public class AddressCreationModel
+    public class AddressCreationModel : IModel
     {
         public int tipstaffRecordID { get; set; }
         public TipstaffRecord tipstaffRecord { get; set; }
@@ -28,7 +28,7 @@ namespace Tipstaff.Models
         //////}
     }
 
-    public class Address
+    public class Address : IModel
     {
         [Key]
         public int addressID { get; set; }

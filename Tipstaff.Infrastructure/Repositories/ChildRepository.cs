@@ -45,7 +45,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(Child child)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(child.ChildID);
+            var entity = _dynamoAPI.GetEntityByHashKey(child.Id);
             entity.NameFirst = child.NameFirst;
             entity.NameLast = child.NameLast;
             entity.NameMiddle = child.NameMiddle;
