@@ -23,6 +23,16 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Save(solicitor);
         }
 
+        public void Delete(Solicitor solicitor)
+        {
+            _dynamoAPI.Delete(solicitor);
+        }
+
+        public Solicitor GetSolicitor(string id)
+        {
+            return _dynamoAPI.GetEntityByHashKey(id);
+        }
+
         public IEnumerable<Solicitor> GetSolicitors()
         {
             return _dynamoAPI.GetAll();

@@ -12,6 +12,10 @@ namespace Tipstaff.Services.DynamoTables
     {
         [DynamoDBHashKey]
         public string DocumentID { get; set; }
+
+        [DynamoDBRangeKey]
+        public string TipstaffRecordID { get; set; }
+
         public string DocumentReference { get; set; }
         
         public string Country { get; set; }
@@ -26,7 +30,6 @@ namespace Tipstaff.Services.DynamoTables
         public DateTime CreatedOn { get; set; }
         
         public string CreatedBy { get; set; }
-        public string TipstaffRecordID { get; set; }
         
         public string FilePath { get; set; }
         

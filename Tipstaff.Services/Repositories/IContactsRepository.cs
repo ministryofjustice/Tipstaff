@@ -16,5 +16,7 @@ namespace Tipstaff.Services.Repositories
         IEnumerable<Contact> GetContacts();
 
         void UpdateContact(Contact contact);
+
+        void Delete(Contact contact);
     }
 }

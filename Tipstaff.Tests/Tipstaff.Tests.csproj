@@ -85,6 +85,15 @@
     <Compile Include="Integration\UserController.cs" />
     <Compile Include="Integration\UserControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\TemplatesNunitTests.cs" />
+    <Compile Include="UnitTests\SolicitorFirmNunitTests.cs" />
+    <Compile Include="UnitTests\SolicitorNunitTests.cs" />
+    <Compile Include="UnitTests\DocumentNunitTests.cs" />
+    <Compile Include="UnitTests\ChildNunitTests.cs" />
+    <Compile Include="UnitTests\AttendanceNoteNunitTests.cs" />
+    <Compile Include="UnitTests\ContactNunitTests.cs" />
+    <Compile Include="UnitTests\AddressNunitTests.cs" />
+    <Compile Include="UnitTests\PoliceForcesNunitTests.cs" />
     <Compile Include="UnitTests\FAQNunitTests.cs" />
   </ItemGroup>
   <ItemGroup>

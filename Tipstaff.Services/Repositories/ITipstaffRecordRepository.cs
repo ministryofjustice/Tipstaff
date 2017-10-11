@@ -19,5 +19,7 @@ namespace Tipstaff.Services.Repositories
         TipstaffRecord GetEntityByHashKey(object hashKey);
 
         IEnumerable<TipstaffRecord> GetAll();
+
+        void Delete(TipstaffRecord record);
     }
 }

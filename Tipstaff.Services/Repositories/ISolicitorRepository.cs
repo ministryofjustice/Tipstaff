@@ -12,8 +12,12 @@ namespace Tipstaff.Services.Repositories
 
         IEnumerable<Solicitor> GetSolicitors();
 
+        Solicitor GetSolicitor(string id);
+
         void Update(Solicitor solicitor);
 
         void AddSolicitor(Solicitor solicitor);
+
+        void Delete(Solicitor solicitor);
     }
 }

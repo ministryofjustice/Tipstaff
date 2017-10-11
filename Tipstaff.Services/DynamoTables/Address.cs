@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_TipstaffAddress")]
+    [DynamoDBTable("Tipstaff_Address")]
     public class Address
     {
         [DynamoDBHashKey]
         public string AddressID { get; set; }
-
-        public string TipstaffRecordId { get; set; }
+        [DynamoDBRangeKey]
+        public string TipstaffRecordID { get; set; }
 
         public string AddressLine1 { get; set; }
 
