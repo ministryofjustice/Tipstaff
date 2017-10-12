@@ -60,7 +60,7 @@ namespace Tipstaff.Presenters
                 DeactivatedBy = mdl.deactivatedBy,
                 LoggedInUser = mdl.loggedInUser,
                 PoliceForceEMail = mdl.policeForceEmail,
-                PoliceForceID = _guidGenerator.GenerateTimeBasedGuid().ToString(),
+                Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
                 PoliceForceName = mdl.policeForceName
             };
 
@@ -77,7 +77,7 @@ namespace Tipstaff.Presenters
                 deactivatedBy = dt.DeactivatedBy,
                 loggedInUser = dt.LoggedInUser,
                 policeForceEmail = dt.PoliceForceEMail,
-                policeForceID = dt.PoliceForceID
+                policeForceID = dt.Id
             };
 
             return forces;
@@ -92,10 +92,9 @@ namespace Tipstaff.Presenters
                 deactivatedBy = x.DeactivatedBy,
                 loggedInUser = x.LoggedInUser,
                 policeForceEmail = x.PoliceForceEMail,
-                policeForceID = x.PoliceForceID,
+                policeForceID = x.Id,
                 policeForceName = x.PoliceForceName
             });
         }
-
     }
 }

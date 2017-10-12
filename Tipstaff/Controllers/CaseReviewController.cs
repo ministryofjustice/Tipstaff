@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -13,12 +14,20 @@ namespace Tipstaff.Controllers
     public class CaseReviewController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
+
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+
+        public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter)
+        {
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
+        }
         //
         // GET: /CaseReview/
-        public ActionResult Create(int id)
+        public ActionResult Create(string id)
         {
             CaseReviewCreation model = new CaseReviewCreation();
-            model.CaseReview.tipstaffRecord = db.TipstaffRecord.Find(id);
+            ////model.CaseReview.tipstaffRecord = db.TipstaffRecord.Find(id);
+            model.CaseReview.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             if (model.CaseReview.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.CaseReview.tipstaffRecord.UniqueRecordID;
@@ -38,8 +47,10 @@ namespace Tipstaff.Controllers
             if (ModelState.IsValid)
             {
                 //if (genericFunctions.isTipstaffRecordChildAbduction){
-                TipstaffRecord tr = db.TipstaffRecord.Find(model.CaseReview.tipstaffRecordID);
+                ////TipstaffRecord tr = db.TipstaffRecord.Find(model.CaseReview.tipstaffRecordID);
+                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.CaseReview.tipstaffRecordID);
                 tr.caseReviews.Add(model.CaseReview);
+
                 if (model.CaseReview.caseReviewStatusID == 2 || model.CaseReview.caseReviewStatusID == 3)
                 {
                     tr.caseStatusID = model.CaseReview.caseReviewStatusID + 1;

@@ -30,7 +30,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(Solicitor solicitor)
         {
-            var entity = _dynamoAPI.GetEntity(solicitor.SolicitorID, solicitor.SolicitorFirmID);
+            var entity = _dynamoAPI.GetEntity(solicitor.Id, solicitor.SolicitorFirmID);
             entity.Active = solicitor.Active;
             entity.FirstName = solicitor.FirstName;
             entity.LastName = solicitor.LastName;
@@ -41,7 +41,7 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.Email = solicitor.Email;
             entity.Salutation = solicitor.Salutation;
             entity.SolicitorFirmID = solicitor.SolicitorFirmID;
-            entity.SolicitorID = solicitor.SolicitorID;
+            entity.Id = solicitor.Id;
             _dynamoAPI.Save(entity);
         }
     }

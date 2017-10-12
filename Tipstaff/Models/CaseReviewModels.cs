@@ -37,9 +37,9 @@ namespace Tipstaff.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Next Review Date")]
         public DateTime nextReviewDate { get; set; }
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         
-        public virtual TipstaffRecord tipstaffRecord { get; set; }
+        public TipstaffRecord tipstaffRecord { get; set; }
         public virtual CaseReviewStatus caseReviewStatus { get; set; }
     }
     public class CaseReviewStatus

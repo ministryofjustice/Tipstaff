@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 namespace Tipstaff.Services.DynamoTables
 {
     [DynamoDBTable("Tipstaff_Children")]
-    public class Child
+    public class Child : DynamoTable
     {
-        [DynamoDBHashKey]
-        public string ChildID { get; set; }
-        
-        public string NameLast { get; set; }
+       public string NameLast { get; set; }
         
         public string NameFirst { get; set; }
         
