@@ -12,7 +12,10 @@ namespace Tipstaff.Services.DynamoTables
     {
         [DynamoDBHashKey]
         public string ApplicantID { get; set; }
-        
+
+        [DynamoDBRangeKey]
+        public string TipstaffRecordID { get; set; }
+
         public string Salutation { get; set; }
        
         public string NameLast { get; set; }
@@ -33,6 +36,6 @@ namespace Tipstaff.Services.DynamoTables
         
         public string Phone { get; set; }
        
-        public string TipstaffRecordID { get; set; }
+        
     }
 }

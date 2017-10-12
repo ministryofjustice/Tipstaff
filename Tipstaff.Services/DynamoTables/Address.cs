@@ -12,6 +12,7 @@ namespace Tipstaff.Services.DynamoTables
     {
         [DynamoDBHashKey]
         public string AddressID { get; set; }
+
         [DynamoDBRangeKey]
         public string TipstaffRecordID { get; set; }
 
