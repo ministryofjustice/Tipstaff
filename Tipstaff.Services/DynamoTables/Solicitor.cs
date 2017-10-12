@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 namespace Tipstaff.Services.DynamoTables
 {
     [DynamoDBTable("Tipstaff_Solicitors")]
-    public class Solicitor
+    public class Solicitor : DynamoTable
     {
-        [DynamoDBHashKey]
-        public string SolicitorID { get; set; }
-
         [DynamoDBRangeKey]
         public string SolicitorFirmID { get; set; }
 
@@ -30,8 +27,10 @@ namespace Tipstaff.Services.DynamoTables
 
         public bool Active { get; set; }
 
-        public DateTime Dectivated { get; set; }
+        public DateTime? Dectivated { get; set; }
 
         public string DectivatedBy { get; set; }
+
+        public string SolicitorName { get; set; }
     }
 }

@@ -58,6 +58,7 @@
     <Compile Include="DynamoTables\AttendanceNote.cs" />
     <Compile Include="DynamoTables\Contact.cs" />
     <Compile Include="DynamoTables\Applicant.cs" />
+    <Compile Include="DynamoTables\DynamoTable.cs" />
     <Compile Include="DynamoTables\PoliceForces.cs" />
     <Compile Include="DynamoTables\Template.cs" />
     <Compile Include="DynamoTables\Solicitor.cs" />

@@ -9,7 +9,7 @@ using System.Security;
 
 namespace Tipstaff.Models
 {
-    public class Applicant
+    public class Applicant : IModel
     {
         [Key]
         //public int ApplicantID { get; set; }

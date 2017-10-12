@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 namespace Tipstaff.Services.DynamoTables
 {
     [DynamoDBTable("Tipstaff_PoliceForces")]
-    public class PoliceForces
+    public class PoliceForces : DynamoTable
     {
-        [DynamoDBHashKey]
-        public string PoliceForceID { get; set; }
-
         public bool LoggedInUser { get; set; }
 
         public string PoliceForceName { get; set; }

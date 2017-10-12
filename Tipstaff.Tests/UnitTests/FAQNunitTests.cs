@@ -33,7 +33,7 @@ namespace Tipstaff.Tests.UnitTests
         public void Create_Should_Add_New_FAQ()
         {
             _faqRepository.AddFaQ(new FAQ() {
-                FaqID = faqIndex,
+                Id = faqIndex,
                 Question="this is the question",
                 Answer = "this is the answer",
                 LoggedInUser = true
@@ -51,7 +51,7 @@ namespace Tipstaff.Tests.UnitTests
         {
             _faqRepository.AddFaQ(new FAQ()
             {
-                FaqID = faqIndex,
+                Id = faqIndex,
                 Question = "this is the question",
                 Answer = "this is the answer",
                 LoggedInUser = true
@@ -59,7 +59,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _faqRepository.Update(new FAQ()
             {
-                FaqID = faqIndex,
+                Id = faqIndex,
                 Question = "this is the question updated",
                 Answer = "this is the answer updated",
                 LoggedInUser = false

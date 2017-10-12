@@ -41,14 +41,14 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(PoliceForces policeforces)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(policeforces.PoliceForceID);
+            var entity = _dynamoAPI.GetEntityByHashKey(policeforces.Id);
             entity.Active= policeforces.Active;
             entity.Deactivated = policeforces.Deactivated;
             entity.DeactivatedBy = policeforces.DeactivatedBy;
             entity.PoliceForceEMail = policeforces.PoliceForceEMail;
             entity.PoliceForceName = policeforces.PoliceForceName;
             entity.LoggedInUser = policeforces.LoggedInUser;
-            entity.PoliceForceID = policeforces.PoliceForceID;
+            entity.Id = policeforces.Id;
             _dynamoAPI.Save(entity);
         }
     }

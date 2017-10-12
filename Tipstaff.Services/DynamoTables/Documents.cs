@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 namespace Tipstaff.Services.DynamoTables
 {
     [DynamoDBTable("Tipstaff_Documents")]
-    public class Document
+    public class Document : DynamoTable
     {
-        [DynamoDBHashKey]
-        public string DocumentID { get; set; }
 
         [DynamoDBRangeKey]
         public string TipstaffRecordID { get; set; }
@@ -30,6 +28,7 @@ namespace Tipstaff.Services.DynamoTables
         public DateTime CreatedOn { get; set; }
         
         public string CreatedBy { get; set; }
+        
         
         public string FilePath { get; set; }
         

@@ -40,7 +40,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(SolicitorFirm solicitorFirm)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(solicitorFirm.SolicitorFirmID);
+            var entity = _dynamoAPI.GetEntityByHashKey(solicitorFirm.Id);
             entity.FirmName = solicitorFirm.FirmName;
             entity.AddressLine1 = solicitorFirm.AddressLine1;
             entity.AddressLine2 = solicitorFirm.AddressLine2;

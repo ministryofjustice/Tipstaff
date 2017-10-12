@@ -18,6 +18,11 @@ namespace Tipstaff.Presenters
             _addressPresernter = addressPresernter;
         }
 
+        public IEnumerable<TipstaffRecord> GettAllRecords()
+        {
+            throw new NotImplementedException();
+        }
+
         public TipstaffRecord GetTipStaffRecord(string id)
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);

@@ -8,7 +8,7 @@ using System.Web.Security;
 namespace Tipstaff.Models
 {
 
-    public class ProfileModel
+    public class ProfileModel : IModel
     {
         [Display(Name = "User name")]
         public string userName { get; set; }

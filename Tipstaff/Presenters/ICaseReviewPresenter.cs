@@ -7,10 +7,8 @@ using Tipstaff.Models;
 
 namespace Tipstaff.Presenters
 {
-    public interface ITipstaffRecordPresenter
+    public interface ICaseReviewPresenter
     {
-        TipstaffRecord GetTipStaffRecord(string id);
-
-        IEnumerable<TipstaffRecord> GettAllRecords();
-     }
+        void Add(CaseReview caseReview);
+    }
 }

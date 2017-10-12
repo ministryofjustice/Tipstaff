@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 namespace Tipstaff.Services.DynamoTables
 {
     [DynamoDBTable("Tipstaff_Templates")]
-    public class Template
+    public class Template : DynamoTable
     {
-        [DynamoDBHashKey]
-        public string TemplateID { get; set; }
-
-        public string Discriminator { get; set; }
+         public string Discriminator { get; set; }
         
         public string TemplateName { get; set; }
         

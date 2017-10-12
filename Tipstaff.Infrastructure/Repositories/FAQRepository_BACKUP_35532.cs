@@ -40,7 +40,11 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(FAQ faq)
         {
+<<<<<<< HEAD
             var entity = _dynamoAPI.GetEntityByHashKey(faq.Id);
+=======
+            var entity = _dynamoAPI.GetEntityByHashKey(faq.FaqID);
+>>>>>>> 1df7d64cb0c0f334f9ab93eaab05ca2466ed9d49
             entity.Answer = faq.Answer;
             entity.LoggedInUser = faq.LoggedInUser;
             entity.Question = faq.Question;

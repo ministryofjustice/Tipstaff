@@ -24,7 +24,7 @@ namespace Tipstaff.Services.Services
         {
             DynamoTables.Template t = _templateRepo.GetTemplate(id);
             Template template = new Template() {
-                TemplateID = t.TemplateID,
+                TemplateID = t.Id,
                 Discriminator = t.Discriminator,
                 TemplateName = t.TemplateName,
                 FilePath = t.FilePath,
@@ -45,7 +45,7 @@ namespace Tipstaff.Services.Services
             {
                 Template template = new Template()
                 {
-                    TemplateID = t.TemplateID,
+                    TemplateID = t.Id,
                     Discriminator = t.Discriminator,
                     TemplateName = t.TemplateName,
                     FilePath = t.FilePath,
@@ -63,7 +63,7 @@ namespace Tipstaff.Services.Services
         {
             _templateRepo.AddTemplate(new DynamoTables.Template()
             {
-                TemplateID = t.TemplateID,
+                Id = t.TemplateID,
                 Discriminator = t.Discriminator,
                 TemplateName = t.TemplateName,
                 FilePath = t.FilePath,
@@ -78,7 +78,7 @@ namespace Tipstaff.Services.Services
         {
             _templateRepo.Update(new DynamoTables.Template()
             {
-                TemplateID = t.TemplateID,
+                Id = t.TemplateID,
                 Discriminator = t.Discriminator,
                 TemplateName = t.TemplateName,
                 FilePath = t.FilePath,
@@ -94,7 +94,7 @@ namespace Tipstaff.Services.Services
             DynamoTables.TipstaffRecord tr = _tipstaffRepo.GetEntityByHashKey(id);
             dto.Tipstaff t = new dto.Tipstaff()
             {
-                TipstaffRecordID = tr.TipstaffRecordID,
+                TipstaffRecordID = tr.Id,
                 CreatedBy = tr.CreatedBy,
                 CreatedOn = tr.CreatedOn,
                 NextReviewDate = tr.NextReviewDate,
@@ -116,7 +116,7 @@ namespace Tipstaff.Services.Services
         {
             DynamoTables.Applicant a = _appRepo.GetApplicant(id);
             Applicant applicant = new Applicant() {
-                ApplicantID = a.ApplicantID,
+                ApplicantID = a.Id,
                 Salutation = a.Salutation,
                 NameLast = a.NameLast,
                 NameFirst = a.NameFirst,

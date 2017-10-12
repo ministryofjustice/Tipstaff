@@ -68,7 +68,7 @@ namespace Tipstaff.Presenters
                 AddressLine2 = addressModel.addressLine2,
                 AddressLine3 = addressModel.addressLine3,
                 County = addressModel.county,
-                AddressID = addressModel.addressID.ToString(),
+                Id = addressModel.addressID.ToString(),
                 Phone = addressModel.phone,
                 PostCode = addressModel.postcode,
                 TipstaffRecordID = addressModel.tipstaffRecordID.ToString(),
@@ -87,7 +87,7 @@ namespace Tipstaff.Presenters
                 addressLine2 = address.AddressLine2,
                 addressLine3 = address.AddressLine3,
                 county = address.County,
-                addressID = int.Parse(address.AddressID),
+                addressID = address.Id,
                 phone = address.Phone,
                 postcode = address.PostCode,
                 tipstaffRecordID = int.Parse(address.TipstaffRecordID),
@@ -96,7 +96,7 @@ namespace Tipstaff.Presenters
                 {
                     prisonCount = tipstaffRecord.PrisonCount,
                     arrestCount = tipstaffRecord.ArrestCount,
-                    tipstaffRecordID = tipstaffRecord.TipstaffRecordID,
+                    tipstaffRecordID = tipstaffRecord.Id,
                     createdBy = tipstaffRecord.CreatedBy,
                     createdOn = tipstaffRecord.CreatedOn,
                     Descriminator = tipstaffRecord.Discriminator,
@@ -127,7 +127,7 @@ namespace Tipstaff.Presenters
                 addressLine2 = x.AddressLine2,
                 addressLine3 = x.AddressLine3,
                 county = x.County,
-                addressID = int.Parse(x.AddressID),
+                addressID = x.Id,
                 phone = x.Phone,
                 postcode = x.PostCode,
                 tipstaffRecordID = int.Parse(x.TipstaffRecordID),
@@ -156,7 +156,7 @@ namespace Tipstaff.Presenters
                 resultDate = rec.ResultDate,
                 resultEnteredBy = rec.ResultEnteredBy,
                 protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingByDetail(rec.ProtectiveMarking),
-                tipstaffRecordID = rec.TipstaffRecordID,
+                tipstaffRecordID = rec.Id,
             };
 
             return record;
