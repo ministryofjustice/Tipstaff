@@ -41,11 +41,11 @@ namespace Tipstaff.Tests.UnitTests
         {
             _tipstaffRepository.Add(new TipstaffRecord()
             {
-                TipstaffRecordID = tipstaffIndex
+                Id = tipstaffIndex
             });
 
             _docRepository.AddDocument(new Document() {
-                DocumentID = docIndex,
+                Id = docIndex,
                 TipstaffRecordID = tipstaffIndex,
                 Country="UK",
                 CreatedBy="John Doe",

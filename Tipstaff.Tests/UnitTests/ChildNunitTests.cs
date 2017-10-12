@@ -41,11 +41,11 @@ namespace Tipstaff.Tests.UnitTests
         {
             _tipstaffRepository.Add(new TipstaffRecord()
             {
-                TipstaffRecordID = tipstaffIndex
+                Id = tipstaffIndex
             });
 
             _childRepository.AddChild(new Child() {
-                ChildID = childIndex,
+                Id = childIndex,
                 TipstaffRecordID = tipstaffIndex,
                 Build = "average",
                 Country = "Spain",
@@ -78,12 +78,12 @@ namespace Tipstaff.Tests.UnitTests
         {
             _tipstaffRepository.Add(new TipstaffRecord()
             {
-                TipstaffRecordID = tipstaffIndex
+                Id = tipstaffIndex
             });
 
             _childRepository.AddChild(new Child()
             {
-                ChildID = childIndex,
+                Id = childIndex,
                 TipstaffRecordID = tipstaffIndex,
                 Build = "average",
                 Country = "Spain",
@@ -103,7 +103,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _childRepository.Update(new Child()
             {
-                ChildID = childIndex,
+                Id = childIndex,
                 TipstaffRecordID = tipstaffIndex,
                 Build = "average modified",
                 Country = "Spain",

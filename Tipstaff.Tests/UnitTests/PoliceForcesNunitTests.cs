@@ -33,7 +33,7 @@ namespace Tipstaff.Tests.UnitTests
         public void Create_Should_Add_New_Policeforce()
         {
             _pfRepository.AddPoliceForces(new PoliceForces() {
-                PoliceForceID = pfIndex,
+                Id = pfIndex,
                 Active = true,
                 PoliceForceEMail = "pf@test.nunit.com",
                 PoliceForceName = "Police Force name!!",
@@ -52,7 +52,7 @@ namespace Tipstaff.Tests.UnitTests
         {
             _pfRepository.AddPoliceForces(new PoliceForces()
             {
-                PoliceForceID = pfIndex,
+                Id = pfIndex,
                 Active = true,
                 PoliceForceEMail = "pf@test.nunit.com",
                 PoliceForceName = "Police Force name!!",
@@ -61,7 +61,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _pfRepository.Update(new PoliceForces()
             {
-                PoliceForceID = pfIndex,
+                Id = pfIndex,
                 Active = true,
                 PoliceForceEMail = "pf@test.nunit.com modified",
                 PoliceForceName = "Police Force name!! modified",

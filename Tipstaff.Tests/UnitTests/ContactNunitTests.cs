@@ -33,7 +33,7 @@ namespace Tipstaff.Tests.UnitTests
         public void Create_Should_Add_New_Contact()
         {
             _contactRepository.AddContact(new Contact() {
-                ContactID = contactIndex,
+                Id = contactIndex,
                 AddressLine1 = "Line 1",
                 AddressLine2 = "Line 2",
                 AddressLine3 = "Line 3",
@@ -61,7 +61,7 @@ namespace Tipstaff.Tests.UnitTests
         {
             _contactRepository.AddContact(new Contact()
             {
-                ContactID = contactIndex,
+                Id = contactIndex,
                 AddressLine1 = "Line 1",
                 AddressLine2 = "Line 2",
                 AddressLine3 = "Line 3",
@@ -75,7 +75,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _contactRepository.UpdateContact(new Contact()
             {
-                ContactID = contactIndex,
+                Id = contactIndex,
                 AddressLine1 = "Line 1 modified",
                 AddressLine2 = "Line 2 modified",
                 AddressLine3 = "Line 3 modified",

@@ -33,7 +33,7 @@ namespace Tipstaff.Tests.UnitTests
         public void Create_Should_Add_New_SolicitorFirm()
         {
             _firmRepository.AddSolicitorFirm(new SolicitorFirm() {
-                SolicitorFirmID = firmIndex,
+                Id = firmIndex,
                 AddressLine1 = "Line 1",
                 AddressLine2 = "Line 2",
                 AddressLine3 = "Line 3",
@@ -64,7 +64,7 @@ namespace Tipstaff.Tests.UnitTests
         {
             _firmRepository.AddSolicitorFirm(new SolicitorFirm()
             {
-                SolicitorFirmID = firmIndex,
+                Id = firmIndex,
                 AddressLine1 = "Line 1",
                 AddressLine2 = "Line 2",
                 AddressLine3 = "Line 3",
@@ -79,7 +79,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _firmRepository.Update(new SolicitorFirm()
             {
-                SolicitorFirmID = firmIndex,
+                Id = firmIndex,
                 AddressLine1 = "Line 1 modified",
                 AddressLine2 = "Line 2",
                 AddressLine3 = "Line 3 modified",

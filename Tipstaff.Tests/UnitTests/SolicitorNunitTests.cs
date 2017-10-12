@@ -41,12 +41,12 @@ namespace Tipstaff.Tests.UnitTests
         {
             _firmRepository.AddSolicitorFirm(new SolicitorFirm()
             {
-                SolicitorFirmID = firmIndex,
+                Id = firmIndex,
                 FirmName = "Firm"
             });
 
             _solicitorRepository.AddSolicitor(new Solicitor() {
-                SolicitorID = solicitorIndex,
+                Id = solicitorIndex,
                 SolicitorFirmID = firmIndex,
                 FirstName ="Solicitor first name",
                 LastName = "Solicitor last name"
@@ -65,13 +65,13 @@ namespace Tipstaff.Tests.UnitTests
         {
             _firmRepository.AddSolicitorFirm(new SolicitorFirm()
             {
-                SolicitorFirmID = firmIndex,
+                Id = firmIndex,
                 FirmName = "Firm"
             });
 
             _solicitorRepository.AddSolicitor(new Solicitor()
             {
-                SolicitorID = solicitorIndex,
+                Id = solicitorIndex,
                 SolicitorFirmID = firmIndex,
                 FirstName = "Solicitor first name",
                 LastName = "Solicitor last name"
@@ -80,7 +80,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _solicitorRepository.Update(new Solicitor()
             {
-                SolicitorID = solicitorIndex,
+                Id = solicitorIndex,
                 SolicitorFirmID = firmIndex,
                 FirstName = "Solicitor first name modified",
                 LastName = "Solicitor last name modified"

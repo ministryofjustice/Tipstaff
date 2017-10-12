@@ -34,7 +34,7 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Address> GetAddressByTipstaffRecordId(string id)
         {
-            var records = _addressRepository.GetAddresses().Where(x => x.TipstaffRecordID == id);
+            var records = _addressRepository.GetAddresses().Where(x => x.TipstaffRecordId == id);
 
             var addresses = GetAddresses(records);
 
@@ -71,14 +71,14 @@ namespace Tipstaff.Presenters
                 Id = addressModel.addressID.ToString(),
                 Phone = addressModel.phone,
                 PostCode = addressModel.postcode,
-                TipstaffRecordID = addressModel.tipstaffRecordID.ToString(),
+                TipstaffRecordId = addressModel.tipstaffRecordID.ToString(),
                 Town = addressModel.town
             };
         }
 
         private Address GetMdlAddress(Services.DynamoTables.Address address)
         {
-            var tipstaffRecord = _tipstaffRepository.GetEntityByHashKey(address.TipstaffRecordID);
+            var tipstaffRecord = _tipstaffRepository.GetEntityByHashKey(address.TipstaffRecordId);
 
             var add = new Address()
             {
@@ -90,7 +90,7 @@ namespace Tipstaff.Presenters
                 addressID = address.Id,
                 phone = address.Phone,
                 postcode = address.PostCode,
-                tipstaffRecordID = int.Parse(address.TipstaffRecordID),
+                tipstaffRecordID = int.Parse(address.TipstaffRecordId),
                 town = address.Town,
                 TipstaffRecord = new TipstaffRecord()
                 {
@@ -130,7 +130,7 @@ namespace Tipstaff.Presenters
                 addressID = x.Id,
                 phone = x.Phone,
                 postcode = x.PostCode,
-                tipstaffRecordID = int.Parse(x.TipstaffRecordID),
+                tipstaffRecordID = int.Parse(x.TipstaffRecordId),
                 town = x.Town,
                 
             });

@@ -41,11 +41,11 @@ namespace Tipstaff.Tests.UnitTests
         {
             _tipstaffRepository.Add(new TipstaffRecord()
             {
-                TipstaffRecordID = tipstaffIndex
+                Id = tipstaffIndex
             });
 
             _attendanceNoteRepository.AddAttendanceNote(new AttendanceNote() {
-                AttendanceNoteID = attendanceNoteIndex,
+                Id = attendanceNoteIndex,
                 TipstaffRecordID = tipstaffIndex,
                 AttendanceNoteCode = "Attendance Note Code",
                 CallDated = DateTime.Now,

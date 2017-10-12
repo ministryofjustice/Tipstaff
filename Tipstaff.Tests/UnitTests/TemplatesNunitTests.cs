@@ -33,7 +33,7 @@ namespace Tipstaff.Tests.UnitTests
         public void Create_Should_Add_New_Template()
         {
             _templateRepository.AddTemplate(new Template() {
-                TemplateID = templateIndex,
+                Id = templateIndex,
                 TemplateName = "Template name",
                 Discriminator = "Warrant",
                 AddresseeRequired = true,
@@ -52,7 +52,7 @@ namespace Tipstaff.Tests.UnitTests
         {
             _templateRepository.AddTemplate(new Template()
             {
-                TemplateID = templateIndex,
+                Id = templateIndex,
                 TemplateName = "Template name",
                 Discriminator = "Warrant",
                 AddresseeRequired = true,
@@ -61,7 +61,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _templateRepository.Update(new Template()
             {
-                TemplateID = templateIndex,
+                Id = templateIndex,
                 TemplateName = "Template name modified",
                 Discriminator = "Warrant modified",
                 AddresseeRequired = false,
