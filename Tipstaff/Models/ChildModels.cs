@@ -8,7 +8,7 @@ using System.Security;
 
 namespace Tipstaff.Models
 {
-    public class Child
+    public class Child : IModel
     {
         [Key]
         //public int childID { get; set; }
@@ -45,14 +45,8 @@ namespace Tipstaff.Models
         //public virtual Country country { get; set; }
         //[Display(Name = "Nationality")]
         //public virtual Nationality nationality { get; set; }
-        [Required, Display(Name = "Gender")]
-        public int genderID { get; set; }
-        [Required, Display(Name = "Skin colour")]
-        public int? skinColourID { get; set; }
-        [Required, Display(Name = "Country of Origin")]
-        public int countryID { get; set; }
-        [Required, Display(Name = "Nationality")]
-        public int? nationalityID { get; set; }
+        
+        
         [Required, Display(Name = "Gender")]
         public MemoryCollections.Gender gender { get; set; }
         [Required, Display(Name = "Skin colour")]
@@ -64,7 +58,7 @@ namespace Tipstaff.Models
 
 
 
-        public virtual ChildAbduction childAbduction { get; set; }
+        public ChildAbduction childAbduction { get; set; }
         //public virtual TipstaffRecord tipstaffRecord { get; set; }
         [Display(Name="Full name of Child")]
         public virtual string fullname

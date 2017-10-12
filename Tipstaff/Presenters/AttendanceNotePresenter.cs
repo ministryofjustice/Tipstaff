@@ -2,18 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tipstaff.Infrastructure.Services;
+using Tipstaff.Mappers;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    interface IMapper<T, U>
-    {
-        T GetModel(U model);
-
-        U GetDynamoTable(T table);
-    }
-
     public class AttendanceNotePresenter : IMapper<Models.AttendanceNote, Services.DynamoTables.AttendanceNote>, IAttendanceNotePresenter
     {
         private readonly IAttendanceNotesRepository _attendanceNotesRepository;
