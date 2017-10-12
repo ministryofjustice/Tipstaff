@@ -12,5 +12,7 @@ namespace Tipstaff.Presenters
         TipstaffRecord GetTipStaffRecord(string id);
 
         IEnumerable<TipstaffRecord> GettAllRecords();
+
+        void UpdateTipstaffRecord(TipstaffRecord record);
      }
 }

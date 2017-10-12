@@ -27,7 +27,7 @@
     <div class="display-field">
         @Html.DisplayFor(m=>Model.Respondent.DateofBirthDisplay)
     </div>
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.genderID) </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.gender.GenderId) </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.gender.Detail) 
     </div>
@@ -52,7 +52,7 @@
         @Html.DisplayFor(model => Model.Respondent.eyeColour) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.skinColourID) </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.skinColour.SkinColourId) </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.skinColour.Detail) 
     </div>
@@ -62,21 +62,21 @@
         @Html.DisplayFor(model => Model.Respondent.specialfeatures) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.countryID) </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.country.CountryID) </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.country.Detail) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.nationalityID) </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.nationality.NationalityID) </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.nationality.Detail) 
     </div>
     <div class="editor-label">
-        @Html.LabelFor(model => model.DeletedReasonID,true)
+        @Html.LabelFor(model => model.DeletedReason.DeletedReasonID,true)
     </div>
     <div class="editor-field">
-        @Html.DropDownListFor(model => model.DeletedReasons.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
-        @Html.ValidationMessageFor(model => model.DeletedReasonID)
+        @Html.DropDownListFor(model => model.DeletedReason.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.DeletedReason.DeletedReasonID)
     </div>
 </fieldset>
     <p>

@@ -301,12 +301,14 @@
     <Compile Include="Presenters\IApplicantPresenter.cs" />
     <Compile Include="Presenters\IDocumentPresenter.cs" />
     <Compile Include="Presenters\IPoliceForcesPresenter.cs" />
+    <Compile Include="Presenters\IRespondentPresenter.cs" />
     <Compile Include="Presenters\ISolicitorFirmsPresenter.cs" />
     <Compile Include="Presenters\ISolicitorPresenter.cs" />
     <Compile Include="Presenters\ITemplatePresenter.cs" />
     <Compile Include="Presenters\ITipstaffRecordPresenter.cs" />
     <Compile Include="Presenters\IWarrantPresenter.cs" />
     <Compile Include="Presenters\PoliceForcesPresenter.cs" />
+    <Compile Include="Presenters\RespondentPresenter.cs" />
     <Compile Include="Presenters\SolicitorFirmsPresenter.cs" />
     <Compile Include="Presenters\SolicitorPresenter.cs" />
     <Compile Include="Presenters\TemplatePresenter.cs" />

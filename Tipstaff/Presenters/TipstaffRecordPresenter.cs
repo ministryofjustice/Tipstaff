@@ -43,5 +43,10 @@ namespace Tipstaff.Presenters
 
             return model;
         }
+
+        public void UpdateTipstaffRecord(TipstaffRecord record)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

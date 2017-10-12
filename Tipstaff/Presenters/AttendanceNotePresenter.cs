@@ -94,5 +94,10 @@ namespace Tipstaff.Presenters
         {
             throw new NotImplementedException();
         }
+
+        public void UpdateTipstaffRecord(TipstaffRecord record)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
