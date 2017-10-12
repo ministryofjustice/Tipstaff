@@ -20,7 +20,7 @@ namespace Tipstaff.Models
         [Required, MaxLength(50), Display(Name = "Created by")]
         public string createdBy { get; set; }
         [Required, Display(Name = "Created on")]
-        public DateTime createdOn { get; set; }
+        public DateTime? createdOn { get; set; }
 
         [Required, Display(Name = "Protective Marking")]
         public int protectiveMarkingID { get; set; }
@@ -31,7 +31,7 @@ namespace Tipstaff.Models
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Required, Display(Name = "Next review date"),FutureDate(ErrorMessage="The review date must be in the future")]
-        public DateTime nextReviewDate { get; set; }
+        public DateTime? nextReviewDate { get; set; }
         [Display(Name = "Date result entered")]
         public DateTime? resultDate { get; set; }
         [DisplayFormat(DataFormatString = "{0:d}, ApplyFormatInEditMode = true"), Display(Name = "Date of Execution")]
@@ -54,10 +54,10 @@ namespace Tipstaff.Models
         public MemoryCollections.Result result { get; set; }
 
         public virtual ICollection<Document> Documents { get; set; }
-        public virtual ICollection<AttendanceNote> AttendanceNotes { get; set; }
+        public IEnumerable<AttendanceNote> AttendanceNotes { get; set; }
         public virtual ICollection<CaseReview> caseReviews { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
-        public virtual ICollection<Respondent> Respondents { get; set; }
+        public IEnumerable<Respondent> Respondents { get; set; }
 
         public IEnumerable<Address> addresses { get; set; }
         //public virtual CaseStatus caseStatus { get; set; }

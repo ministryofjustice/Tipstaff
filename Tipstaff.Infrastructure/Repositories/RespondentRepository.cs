@@ -32,5 +32,32 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             return _dynamoAPI.GetEntityByHashKey(id);
         }
+
+        public void Update(Respondent respondent)
+        {
+            var entity = _dynamoAPI.GetEntityByHashKey(respondent.Id);
+
+            entity.Build = respondent.Build;
+            entity.ChildRelationship = respondent.ChildRelationship;
+            entity.Country = respondent.Country;
+            entity.DateOfBirth = respondent.DateOfBirth;
+            entity.EyeColour = respondent.EyeColour;
+            entity.Gender = respondent.Gender;
+            entity.HairColour = respondent.HairColour;
+            entity.Height = respondent.Height;
+            entity.Id = respondent.Id;
+            entity.NameFirst = respondent.NameFirst;
+            entity.NameLast = respondent.NameLast;
+            entity.NameMiddle = respondent.NameMiddle;
+            entity.Nationality = respondent.Nationality;
+            entity.PNCID = respondent.PNCID;
+            entity.RiskOfDrugs = respondent.RiskOfDrugs;
+            entity.RiskOfViolence = respondent.RiskOfViolence;
+            entity.SkinColour = respondent.SkinColour;
+            entity.Specialfeatures = respondent.Specialfeatures;
+            entity.TipstaffRecordID = respondent.TipstaffRecordID;
+            
+            _dynamoAPI.Save(entity);
+        }
     }
 }

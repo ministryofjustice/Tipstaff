@@ -17,10 +17,12 @@ namespace Tipstaff.Controllers
         //private TipstaffDB db;//////= myDBContextHelper.CurrentContext;
         
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
 
-        public AttendanceNoteController(IAttendanceNotePresenter attendanceNotePresenter)
+        public AttendanceNoteController(IAttendanceNotePresenter attendanceNotePresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _attendanceNotePresenter = attendanceNotePresenter;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
         
         [HttpGet]
@@ -32,7 +34,7 @@ namespace Tipstaff.Controllers
 
 
             ////AttendanceNote.tipstaffRecord = db.TipstaffRecord.Find(id);
-            AttendanceNote.tipstaffRecord = _attendanceNotePresenter.GetTipStaffRecord(id);
+            AttendanceNote.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             ////////var tipstaffRecord = _tipstaffRecordRepository.GetEntityByHashKey(id);
             ////////AttendanceNote.tipstaffRecord = new TipstaffRecord() { resultID = tipstaffRecord.res}
 
@@ -58,7 +60,7 @@ namespace Tipstaff.Controllers
                 _attendanceNotePresenter.AddAttendanceNote(AttendanceNote);
 
                
-               var area = _attendanceNotePresenter.GetTipStaffRecord(AttendanceNote.tipstaffRecordID);
+               var area = _tipstaffRecordPresenter.GetTipStaffRecord(AttendanceNote.tipstaffRecordID);
 
                //// return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(AttendanceNote.tipstaffRecordID), new { id = AttendanceNote.tipstaffRecordID });
                 return RedirectToAction("Details", area.Descriminator, new { id = AttendanceNote.tipstaffRecordID });
@@ -75,7 +77,7 @@ namespace Tipstaff.Controllers
         public PartialViewResult ListAttendanceNotesByRecord(string id, int? page)
         {
             //////TipstaffRecord w = db.TipstaffRecord.Find(id);
-            TipstaffRecord w = _attendanceNotePresenter.GetTipStaffRecord(id);
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             ListAttendanceNotesByTipstaffRecord model = new ListAttendanceNotesByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.TipstaffRecordClosed = w.caseStatusID > 2;

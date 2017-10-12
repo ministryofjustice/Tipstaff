@@ -14,5 +14,7 @@ namespace Tipstaff.Services.Repositories
         Respondent GetRespondent(string id);
 
         void Delete(Respondent respondent);
+
+        void Update(Respondent respondent);
     }
 }

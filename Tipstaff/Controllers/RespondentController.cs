@@ -88,7 +88,8 @@ namespace Tipstaff.Controllers
                 //////TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
                 TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
                 //if (genericFunctions.TypeOfTipstaffRecord(tr) == "Warrant")
-                if (tr is Warrant)
+                //////if (tr is Warrant)
+                if (tr.Descriminator=="Warrant")
                 {
                     Warrant w = (Warrant)tr;
                     w.RespondentName = model.respondent.PoliceDisplayName;

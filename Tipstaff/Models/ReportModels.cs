@@ -161,7 +161,7 @@ namespace Tipstaff.Models
         public DateTime? ClosedDate { get; set; }
         public string NPO { get; set; }
         public ICollection<Child> children { get; set; }
-        public ICollection<Respondent> respondents { get; set; }
+        public IEnumerable<Respondent> respondents { get; set; }
     }
 
     public class WReportItem
@@ -171,7 +171,7 @@ namespace Tipstaff.Models
         public DateTime? DateCirculated { get; set; }
         public DateTime? ClosedDate { get; set; }
         public string NPO { get; set; }
-        public ICollection<Respondent> respondents { get; set; }
+        public IEnumerable<Respondent> respondents { get; set; }
     }
 
     public class WExcelReportItem

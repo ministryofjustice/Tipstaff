@@ -50,12 +50,6 @@ namespace Tipstaff.Presenters
             return model;
         }
        
-        public Models.TipstaffRecord GetTipStaffRecord(string id)
-        {
-            var record =  _tipstaffRecordPresenter.GetTipStaffRecord(id);
-
-            return record;
-        }
         
         public Models.AttendanceNote GetModel(Services.DynamoTables.AttendanceNote table)
         {
@@ -68,7 +62,7 @@ namespace Tipstaff.Presenters
                 AttendanceNoteCode = MemoryCollections.AttendanceNoteCodeList.GetAttendanceNoteCodeList().FirstOrDefault(x => x.Detail == table.AttendanceNoteCode),
                 AttendanceNoteID = table.Id,
                 tipstaffRecordID = table.TipstaffRecordID,
-                tipstaffRecord = GetTipStaffRecord(table.TipstaffRecordID)
+                tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(table.TipstaffRecordID)
             };
 
             return model;
@@ -90,12 +84,7 @@ namespace Tipstaff.Presenters
             return table;
         }
 
-        public IEnumerable<TipstaffRecord> GettAllRecords()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateTipstaffRecord(TipstaffRecord record)
+        public IEnumerable<AttendanceNote> GetAllById(string id)
         {
             throw new NotImplementedException();
         }

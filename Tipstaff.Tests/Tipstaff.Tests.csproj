@@ -79,6 +79,7 @@
     <Compile Include="Integration\ContactsControllerTests.cs" />
     <Compile Include="Integration\ApplicantControllerTests.cs" />
     <Compile Include="Integration\PoliceForcesControllerTests.cs" />
+    <Compile Include="Integration\RespondentControllerTests.cs" />
     <Compile Include="Integration\TemplatesControllerTests.cs" />
     <Compile Include="Integration\FAQControllerTests.cs" />
     <Compile Include="Integration\SolicitorFirmControllerTests.cs" />

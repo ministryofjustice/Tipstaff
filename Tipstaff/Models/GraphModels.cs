@@ -81,7 +81,7 @@ namespace Tipstaff.Models
             for (int i = 11; i >= 0; i--)
             {
                 DateTime dLoop = DateTime.Today.AddMonths(-i);
-                int? data =  db.TipstaffRecord.Where(t => t.createdOn.Month == dLoop.Month && t.createdOn.Year==dLoop.Year).Count();
+                int? data =  db.TipstaffRecord.Where(t => t.createdOn.Value.Month == dLoop.Month && t.createdOn.Value.Year==dLoop.Year).Count();
                 if (data != null && data == 0)
                 {
                     //data = null;

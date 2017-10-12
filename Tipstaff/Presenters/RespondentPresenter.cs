@@ -31,6 +31,11 @@ namespace Tipstaff.Presenters
             _respondentRepository.Delete(entity);
         }
 
+        public IEnumerable<Models.Respondent> GetAllById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Services.DynamoTables.Respondent GetDynamoTable(Models.Respondent model)
         {
             var table = new Services.DynamoTables.Respondent()
@@ -99,7 +104,7 @@ namespace Tipstaff.Presenters
 
         public void Update(Models.Respondent respondent)
         {
-            throw new NotImplementedException();
+           
         }
     }
 }
