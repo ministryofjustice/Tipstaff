@@ -43,26 +43,26 @@ namespace Tipstaff.Controllers
             if (!string.IsNullOrEmpty(model.NameContains))
             {
                 //TRs = TRs.Where(w=>w.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
-                Contacts = Contacts.Where(w => w.firstName.ToUpper().Contains(model.NameContains.ToUpper()) || w.lastName.ToUpper().Contains(model.NameContains.ToUpper()));
+                Contacts = Contacts.Where(w => w.FirstName.ToUpper().Contains(model.NameContains.ToUpper()) || w.LastName.ToUpper().Contains(model.NameContains.ToUpper()));
             }
-            var col = Contacts.OrderBy(c => c.lastName).ThenBy(c => c.firstName).ThenBy(c => c.salutation);
+            var col = Contacts.OrderBy(c => c.LastName).ThenBy(c => c.FirstName).ThenBy(c => c.Salutation);
             model.Contacts = col.Select(x => new Contact()
             {
-                addressLine1 = x.addressLine1,
-                addressLine2 = x.addressLine2,
-                addressLine3 = x.addressLine3,
+                addressLine1 = x.AddressLine1,
+                addressLine2 = x.AddressLine2,
+                addressLine3 = x.AddressLine3,
                 contactID = x.Id,
-                phoneHome = x.phoneHome,
-                phoneMobile = x.phoneMobile,
-                email = x.email,
-                firstName = x.firstName,
-                lastName = x.lastName,
-                postcode = x.postcode,
-                notes = x.notes,
+                phoneHome = x.PhoneHome,
+                phoneMobile = x.PhoneMobile,
+                email = x.Email,
+                firstName = x.FirstName,
+                lastName = x.LastName,
+                postcode = x.Postcode,
+                notes = x.Notes,
                 DX = x.DX,
-                county = x.county,
-                town = x.town,
-                salutationID  = SalutationList.GetSalutationList().First(z=>z.Detail == x.salutation).SalutationId,
+                county = x.County,
+                town = x.Town,
+                salutationID  = SalutationList.GetSalutationList().First(z=>z.Detail == x.Salutation).SalutationId,
                 contactTypeID = ContactTypeList.GetContactTypeList().First(z => z.Detail == x.ContactType).ContactTypeId,
                 
             }).ToPagedList(model.page, pageSize);
@@ -79,21 +79,21 @@ namespace Tipstaff.Controllers
 
             var mdl = new Contact()
             {
-                addressLine1 = contact.addressLine1,
-                addressLine2 = contact.addressLine2,
-                addressLine3 = contact.addressLine3,
+                addressLine1 = contact.AddressLine1,
+                addressLine2 = contact.AddressLine2,
+                addressLine3 = contact.AddressLine3,
                 contactID = contact.Id,
-                phoneHome = contact.phoneHome,
-                phoneMobile = contact.phoneMobile,
-                email = contact.email,
-                firstName = contact.firstName,
-                lastName = contact.lastName,
-                postcode = contact.postcode,
-                notes = contact.notes,
+                phoneHome = contact.PhoneHome,
+                phoneMobile = contact.PhoneMobile,
+                email = contact.Email,
+                firstName = contact.FirstName,
+                lastName = contact.LastName,
+                postcode = contact.Postcode,
+                notes = contact.Notes,
                 DX = contact.DX,
-                county = contact.county,
-                town = contact.town,
-                salutationID = SalutationList.GetSalutationList().First(z => z.Detail == contact.salutation).SalutationId,
+                county = contact.County,
+                town = contact.Town,
+                salutationID = SalutationList.GetSalutationList().First(z => z.Detail == contact.Salutation).SalutationId,
                 contactTypeID = ContactTypeList.GetContactTypeList().First(z => z.Detail == contact.ContactType).ContactTypeId
             };
 
@@ -120,21 +120,21 @@ namespace Tipstaff.Controllers
                 //////db.SaveChanges();
                 var contact = new Tipstaff.Services.DynamoTables.Contact()
                 {
-                    addressLine1 = model.contact.addressLine1,
-                    addressLine2 = model.contact.addressLine2,
-                    addressLine3 = model.contact.addressLine3,
+                    AddressLine1 = model.contact.addressLine1,
+                    AddressLine2 = model.contact.addressLine2,
+                    AddressLine3 = model.contact.addressLine3,
                     ContactType = ContactTypeList.GetContactTypeList().First(z => z.ContactTypeId == model.contact.contactTypeID).Detail,
-                    phoneHome = model.contact.phoneHome,
-                    phoneMobile = model.contact.phoneMobile,
-                    email = model.contact.email,
-                    firstName = model.contact.firstName,
-                    lastName = model.contact.lastName,
-                    postcode = model.contact.postcode,
-                    notes = model.contact.notes,
+                    PhoneHome = model.contact.phoneHome,
+                    PhoneMobile = model.contact.phoneMobile,
+                    Email = model.contact.email,
+                    FirstName = model.contact.firstName,
+                    LastName = model.contact.lastName,
+                    Postcode = model.contact.postcode,
+                    Notes = model.contact.notes,
                     DX = model.contact.DX,
-                    county = model.contact.county,
-                    town = model.contact.town,
-                    salutation = SalutationList.GetSalutationList().First(z => z.SalutationId == model.contact.salutationID).Detail,
+                    County = model.contact.county,
+                    Town = model.contact.town,
+                    Salutation = SalutationList.GetSalutationList().First(z => z.SalutationId == model.contact.salutationID).Detail,
                 };
 
                 _contactsRepository.AddContact(contact);
@@ -166,21 +166,21 @@ namespace Tipstaff.Controllers
 
                 var contact = new Tipstaff.Services.DynamoTables.Contact()
                 {
-                    addressLine1 = model.contact.addressLine1,
-                    addressLine2 = model.contact.addressLine2,
-                    addressLine3 = model.contact.addressLine3,
+                    AddressLine1 = model.contact.addressLine1,
+                    AddressLine2 = model.contact.addressLine2,
+                    AddressLine3 = model.contact.addressLine3,
                     ContactType = ContactTypeList.GetContactTypeList().First(z => z.ContactTypeId == model.contact.contactTypeID).Detail,
-                    phoneHome = model.contact.phoneHome,
-                    phoneMobile = model.contact.phoneMobile,
-                    email = model.contact.email,
-                    firstName = model.contact.firstName,
-                    lastName = model.contact.lastName,
-                    postcode = model.contact.postcode,
-                    notes = model.contact.notes,
+                    PhoneHome = model.contact.phoneHome,
+                    PhoneMobile = model.contact.phoneMobile,
+                    Email = model.contact.email,
+                    FirstName = model.contact.firstName,
+                    LastName = model.contact.lastName,
+                    Postcode = model.contact.postcode,
+                    Notes = model.contact.notes,
                     DX = model.contact.DX,
-                    county = model.contact.county,
-                    town = model.contact.town,
-                    salutation = SalutationList.GetSalutationList().First(z => z.SalutationId == model.contact.salutationID).Detail,
+                    County = model.contact.county,
+                    Town = model.contact.town,
+                    Salutation = SalutationList.GetSalutationList().First(z => z.SalutationId == model.contact.salutationID).Detail,
                 };
 
                 _contactsRepository.AddContact(contact);
@@ -195,14 +195,14 @@ namespace Tipstaff.Controllers
         {
             var contacts = _contactsRepository.GetContacts();
 
-            var aSols = contacts.Where(s => s.lastName.ToUpper().Contains(term.ToUpper()) || s.firstName.ToUpper().Contains(term.ToUpper())).ToList();
+            var aSols = contacts.Where(s => s.LastName.ToUpper().Contains(term.ToUpper()) || s.FirstName.ToUpper().Contains(term.ToUpper())).ToList();
             //////var aSols = db.Contacts.Where(s => s.lastName.ToUpper().Contains(term.ToUpper()) || s.firstName.ToUpper().Contains(term.ToUpper())).ToList();
 
             var sols = aSols.Select(x => new Contact()
             {
-                firstName = x.firstName,
-                lastName = x.lastName,
-                salutationID = SalutationList.GetSalutationList().First(z => z.Detail == x.salutation).SalutationId
+                firstName = x.FirstName,
+                lastName = x.LastName,
+                salutationID = SalutationList.GetSalutationList().First(z => z.Detail == x.Salutation).SalutationId
             });
 
             var fullNames = sols.Select(a => new { value = a.fullName });

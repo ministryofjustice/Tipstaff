@@ -10,33 +10,33 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_Contact")]
     public class Contact : DynamoTable
     {
-        public string salutation{ get; set; }
+        public string Salutation{ get; set; }
        
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
         
-        public string lastName { get; set; }
+        public string LastName { get; set; }
    
-        public string addressLine1 { get; set; }
+        public string AddressLine1 { get; set; }
        
-        public string addressLine2 { get; set; }
+        public string AddressLine2 { get; set; }
       
-        public string addressLine3 { get; set; }
+        public string AddressLine3 { get; set; }
       
-        public string town { get; set; }
+        public string Town { get; set; }
        
-        public string county { get; set; }
+        public string County { get; set; }
        
-        public string postcode { get; set; }
+        public string Postcode { get; set; }
       
         public string DX { get; set; }
        
-        public string phoneHome { get; set; }
+        public string PhoneHome { get; set; }
        
-        public string phoneMobile { get; set; }
+        public string PhoneMobile { get; set; }
       
-        public string email { get; set; }
+        public string Email { get; set; }
        
-        public string notes { get; set; }
+        public string Notes { get; set; }
      
         public string ContactType { get; set; }
     }

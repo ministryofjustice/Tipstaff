@@ -29,7 +29,7 @@ namespace Tipstaff.Services.DynamoTables
         public string Postcode { get; set; }
         
         public string Phone { get; set; }
-       
+
+        [DynamoDBRangeKey]
         public string TipstaffRecordID { get; set; }
     }
-}

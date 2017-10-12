@@ -10,6 +10,10 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_Documents")]
     public class Document : DynamoTable
     {
+
+        [DynamoDBRangeKey]
+        public string TipstaffRecordID { get; set; }
+
         public string DocumentReference { get; set; }
         
         public string Country { get; set; }
@@ -24,7 +28,7 @@ namespace Tipstaff.Services.DynamoTables
         public DateTime CreatedOn { get; set; }
         
         public string CreatedBy { get; set; }
-        public string TipstaffRecordID { get; set; }
+        
         
         public string FilePath { get; set; }
         

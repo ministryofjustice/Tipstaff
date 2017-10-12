@@ -64,5 +64,10 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public void Delete(TipstaffRecord record)
+        {
+            _dynamoAPI.Delete(record);
+        }
     }
 }
