@@ -2,93 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Tipstaff.Mappers;
 using Tipstaff.Models;
+using Tipstaff.Services.DynamoTables;
+using Tipstaff.Services.Repositories;
 using Tipstaff.Services.Services;
 
 namespace Tipstaff.Presenters
 {
-    public class TemplatePresenter : ITemplatePresenter
+    public class TemplatePresenter : ITemplatePresenter, IMapper<Models.Template, Tipstaff.Services.DynamoTables.Template>, IMapperCollections<Models.Template, Tipstaff.Services.DynamoTables.Template>
     {
-        private readonly ITemplateServices _templateServices;
+        private readonly ITemplateRepository _templateRepository;
+        private readonly ITipstaffRecordRepository _tipstaffRepo;
 
-        public TemplatePresenter(ITemplateServices templateServices)
+        public TemplatePresenter(ITemplateRepository templateRepo)
         {
-            _templateServices = templateServices;
+            _templateRepository = templateRepo;
         }
 
-        public Template GetTemplate(string id)
+        public Models.Template GetTemplate(string id)
         {
-            Services.dto.Template t = _templateServices.GetTemplate(id);
-            Template template = new Template()
-            {
-                templateID = t.TemplateID,
-                Discriminator = t.Discriminator,
-                templateName = t.TemplateName,
-                filePath = t.FilePath,
-                addresseeRequired = t.AddresseeRequired,
-                active = t.Active,
-                deactivated = t.Deactivated,
-                deactivatedBy = t.DeactivatedBy
-            };
-
-            return template;
+            var entity = _templateRepository.GetTemplate(id);
+            return GetModel(entity);
         }
 
-        public IEnumerable<Template> GetAllTemplates()
+        public IEnumerable<Models.Template> GetAllTemplates()
         {
-            IEnumerable<Services.dto.Template> ts = _templateServices.GetAllTemplates();
-            List<Template> templates = new List<Template>();
-            foreach (Services.dto.Template t in ts)
-            {
-                Template template = new Template()
-                {
-                    templateID = t.TemplateID,
-                    Discriminator = t.Discriminator,
-                    templateName = t.TemplateName,
-                    filePath = t.FilePath,
-                    addresseeRequired = t.AddresseeRequired,
-                    active = t.Active,
-                    deactivated = t.Deactivated,
-                    deactivatedBy = t.DeactivatedBy
-                };
-                templates.Add(template);
-            }
-            return templates;
+            var entities = _templateRepository.GetAllTemplates();
+            return GetAll(entities);
         }
 
         public void AddTemplate(TemplateEdit model)
         {
-            _templateServices.AddTemplate(new Services.dto.Template() {
-                TemplateID = model.Template.templateID,
-                Discriminator = model.Template.Discriminator,
-                TemplateName = model.Template.templateName,
-                FilePath = model.Template.filePath,
-                AddresseeRequired = model.Template.addresseeRequired,
-                Active = model.Template.active,
-                Deactivated = model.Template.deactivated,
-                DeactivatedBy = model.Template.deactivatedBy
-            });
+            var entity = GetDynamoTable(model.Template);
+            _templateRepository.AddTemplate(entity);
         }
 
         public void UpdateTemplate(TemplateEdit model)
         {
-            _templateServices.UpdateTemplate(new Services.dto.Template()
-            {
-                TemplateID = model.Template.templateID,
-                Discriminator = model.Template.Discriminator,
-                TemplateName = model.Template.templateName,
-                FilePath = model.Template.filePath,
-                AddresseeRequired = model.Template.addresseeRequired,
-                Active = model.Template.active,
-                Deactivated = model.Template.deactivated,
-                DeactivatedBy = model.Template.deactivatedBy
-            });
+            var entity = GetDynamoTable(model.Template);
+            _templateRepository.Update(entity);
         }
 
-        public TipstaffRecord GetTipstaffRecord(string id)
+        public Models.TipstaffRecord GetTipstaffRecord(string id)
         {
             Services.dto.Tipstaff t = _templateServices.GetTipstaffRecord(id);
-            TipstaffRecord tipstaff = new TipstaffRecord()
+            Models.TipstaffRecord tipstaff = new Models.TipstaffRecord()
             {
                 tipstaffRecordID = t.TipstaffRecordID,
                 createdBy = t.CreatedBy,
@@ -108,10 +67,10 @@ namespace Tipstaff.Presenters
             return tipstaff;
         }
 
-        public Applicant GetApplicant(string id)
+        public Models.Applicant GetApplicant(string id)
         {
             Services.dto.Applicant a = _templateServices.GetApplicant(id);
-            Applicant applicant = new Applicant() {
+            Models.Applicant applicant = new Models.Applicant() {
                 ApplicantID = a.ApplicantID,
                 salutation = MemoryCollections.SalutationList.GetSalutationByDetail(a.Salutation),
                 nameLast = a.NameLast,
@@ -129,13 +88,51 @@ namespace Tipstaff.Presenters
             return applicant;
         }
 
-        public Solicitor GetSolicitor(string id)
+        public Models.Solicitor GetSolicitor(string id)
         {
             throw new NotImplementedException();
         }
-        
-        
 
-        
+        public Models.Template GetModel(Services.DynamoTables.Template table)
+        {
+            var model = new Models.Template() {
+                active = table.Active,
+                addresseeRequired = table.AddresseeRequired,
+                deactivated = table.Deactivated,
+                deactivatedBy = table.DeactivatedBy,
+                Discriminator = table.Discriminator,
+                filePath = table.FilePath,
+                templateID = table.Id,
+                templateName = table.TemplateName
+            };
+
+            return model;
+        }
+
+        public Services.DynamoTables.Template GetDynamoTable(Models.Template model)
+        {
+            var entity = new Services.DynamoTables.Template() {
+                TemplateName=model.templateName,
+                Active = model.active,
+                AddresseeRequired = model.addresseeRequired,
+                Deactivated = model.deactivated,
+                DeactivatedBy = model.deactivatedBy,
+                Discriminator = model.Discriminator,
+                FilePath = model.filePath,
+                Id = model.templateID
+            };
+
+            return entity;
+        }
+
+        public IEnumerable<Models.Template> GetAll(IEnumerable<Services.DynamoTables.Template> entities)
+        {
+            return entities.Select(x => GetModel(x));
+        }
+
+        public IEnumerable<Services.DynamoTables.Template> GetAll(IEnumerable<Models.Template> entities)
+        {
+            return entities.Select(x => GetDynamoTable(x));
+        }
     }
 }
