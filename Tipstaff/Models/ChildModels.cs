@@ -146,11 +146,6 @@ namespace Tipstaff.Models
 
         public ChildCreationModel()
         {
-            //GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x=>x.active==true).ToList(), "genderID", "Detail");
-            //SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
-            //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
-            //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
-
             GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GenderID", "Detail");
             SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourId", "Detail");
             CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
@@ -159,10 +154,6 @@ namespace Tipstaff.Models
         public ChildCreationModel(int id)
         {
             tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
-            //tipstaffRecordID=id; //Commented by CFA as it won't work with new IDs
-            //GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x=>x.active==true).ToList(), "genderID", "Detail");
-            //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail"); //Modify to read from nosql
-            //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail"); //modify to read from nosql
 
             GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GenderID", "Detail");
             SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourId", "Detail");
