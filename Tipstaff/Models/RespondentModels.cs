@@ -11,7 +11,7 @@ namespace Tipstaff.Models
     public class Respondent
     {
         [Key]
-        public int respondentID { get; set; }
+        public string respondentID { get; set; }
         [Required, MaxLength(50), Display(Name = "Last name")]
         public string nameLast { get; set; }
         [MaxLength(50), Display(Name = "First name")]
@@ -21,26 +21,26 @@ namespace Tipstaff.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true),
             Display(Name = "Date of Birth"), PastDateorNull(ErrorMessage = "Birth date cannot be in the future")]
         public DateTime? dateOfBirth { get; set; }
-        [Required, Display(Name = "Gender")]
-        public int genderID { get; set; }
-        [Required, Display(Name="Relationship to child")]
-        public int? childRelationshipID { get; set; }
+        ////////[Required, Display(Name = "Gender")]
+        ////////public int genderID { get; set; }
+        //////[Required, Display(Name="Relationship to child")]
+        //////public int? childRelationshipID { get; set; }
         [Required, MaxLength(50), Display(Name = "Hair colour")]
         public string hairColour { get; set; }
         [Required, MaxLength(50), Display(Name = "Eye colour")]
         public string eyeColour { get; set; }
-        [Required, Display(Name = "Skin colour")]
-        public int skinColourID { get; set; }
+        ////////[Required, Display(Name = "Skin colour")]
+        ////////public int skinColourID { get; set; }
         [Required, MaxLength(50), Display(Name = "Height")]
         public string height { get; set; }
         [Required, MaxLength(50), Display(Name = "Build")]
         public string build { get; set; }
         [Required, MaxLength(250), Display(Name = "Special Features")]
         public string specialfeatures { get; set; }
-        [Required, Display(Name = "Country of Origin")]
-        public int countryID { get; set; }
-        [Required, Display(Name = "Nationality")]
-        public int? nationalityID { get; set; }
+        ////////[Required, Display(Name = "Country of Origin")]
+        ////////public int countryID { get; set; }
+        //////[Required, Display(Name = "Nationality")]
+        //////public int? nationalityID { get; set; }
         [Required, MaxLength(100), Display(Name = "Risk of Violence?")]
         public string riskOfViolence { get; set; }
         [Required, MaxLength(100), Display(Name="Risk of Drugs?")]
@@ -171,7 +171,7 @@ namespace Tipstaff.Models
         }
         public RespondentCreationModel(string id)
         {
-            tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
+           ///// tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
             tipstaffRecordID = id;
             //GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x => x.active == true).ToList(), "genderID", "Detail");
             //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");

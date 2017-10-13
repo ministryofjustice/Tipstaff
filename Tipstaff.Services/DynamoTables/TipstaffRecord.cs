@@ -15,7 +15,7 @@ namespace Tipstaff.Services.DynamoTables
 
         public string CreatedBy { get; set; }
      
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
        
         public string ProtectiveMarking { get; set; }
       
@@ -23,11 +23,11 @@ namespace Tipstaff.Services.DynamoTables
 
         public string Result { get; set; }
 
-        public DateTime NextReviewDate { get; set; }
+        public DateTime? NextReviewDate { get; set; }
     
-        public DateTime ResultDate { get; set; }
+        public DateTime? ResultDate { get; set; }
         
-        public DateTime DateExecuted { get; set; }
+        public DateTime? DateExecuted { get; set; }
 
         public int? ArrestCount { get; set; }
 
