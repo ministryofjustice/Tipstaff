@@ -198,7 +198,7 @@ namespace Tipstaff.Controllers
                 e.DateCirculated = w.DateCirculated;
                 e.ClosedDate = w.ClosedDate;
                 e.NPO = w.NPO;
-                if (w.respondents.Count>0)
+                if (w.respondents.Any())
                 {
                     e.RespondentName = w.respondents.ToList()[0].PoliceDisplayName;
                     e.RespondentDOB = w.respondents.ToList()[0].DateofBirthDisplay;

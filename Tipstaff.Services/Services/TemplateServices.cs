@@ -96,8 +96,8 @@ namespace Tipstaff.Services.Services
             {
                 TipstaffRecordID = tr.Id,
                 CreatedBy = tr.CreatedBy,
-                CreatedOn = tr.CreatedOn,
-                NextReviewDate = tr.NextReviewDate,
+                CreatedOn = tr.CreatedOn.Value,
+                NextReviewDate = tr.NextReviewDate.Value,
                 ResultDate = tr.ResultDate,
                 DateExecuted = tr.DateExecuted,
                 ArrestCount = tr.ArrestCount,

@@ -45,7 +45,7 @@ namespace Tipstaff.Models
         public DeleteRespondent() { }
         public DeleteRespondent(string id)
         {
-            Respondent = myDBContextHelper.CurrentContext.Respondents.Find(id);
+            //////Respondent = myDBContextHelper.CurrentContext.Respondents.Find(id);
             DeleteModelID = id;
         }
     }

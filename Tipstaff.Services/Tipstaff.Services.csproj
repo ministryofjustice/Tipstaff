@@ -59,6 +59,7 @@
     <Compile Include="DynamoTables\Applicant.cs" />
     <Compile Include="DynamoTables\DynamoTable.cs" />
     <Compile Include="DynamoTables\PoliceForces.cs" />
+    <Compile Include="DynamoTables\Respondent.cs" />
     <Compile Include="DynamoTables\Template.cs" />
     <Compile Include="DynamoTables\Solicitor.cs" />
     <Compile Include="DynamoTables\SolicitorFirm.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IAddressRepository.cs" />
     <Compile Include="Repositories\IPoliceForcesRepository.cs" />
+    <Compile Include="Repositories\IRespondentRepository.cs" />
     <Compile Include="Repositories\ITemplateRepository.cs" />
     <Compile Include="Repositories\IDocumentsRepository.cs" />
     <Compile Include="Repositories\IChildRepository.cs" />

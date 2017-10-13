@@ -7,12 +7,14 @@ using Tipstaff.Models;
 
 namespace Tipstaff.Presenters
 {
-    public interface IAttendanceNotePresenter : ITipstaffRecordPresenter
+    public interface IAttendanceNotePresenter 
     {
         void AddAttendanceNote(Tipstaff.Models.AttendanceNote note);
 
         void DeleteAttendanceNote(Tipstaff.Models.AttendanceNote note);
 
         Tipstaff.Models.AttendanceNote GetAttendanceNote(string id);
+
+        IEnumerable<AttendanceNote> GetAllById(string id);
     }
 }
