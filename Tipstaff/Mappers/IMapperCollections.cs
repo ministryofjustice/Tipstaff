@@ -15,4 +15,11 @@ namespace Tipstaff.Mappers
 
         IEnumerable<U> GetAll(IEnumerable<T> entities);
     }
+
+    public interface IMapper<T, U>
+    {
+        T GetModel(U model);
+
+        U GetDynamoTable(T table);
+    }
 }

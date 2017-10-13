@@ -21,12 +21,13 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class ChildController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IChildPresenter _childPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
         public ChildController(IChildPresenter childPresenter, IGuidGenerator guidGenerator)
         {
-            _childPresenter = childPresenter;   
+            _childPresenter = childPresenter;
+            _guidGenerator = guidGenerator;
         }
         //
         // GET: /Child/
@@ -104,7 +105,7 @@ namespace Tipstaff.Controllers
                     }
                 }
                 ca.EldestChild = newSurname;
-
+                model.child.childID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 _childPresenter.UpdateChildAbduction(ca);
                 _childPresenter.AddChild(model);
 

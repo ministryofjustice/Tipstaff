@@ -6,6 +6,7 @@ using Tipstaff.Infrastructure.Repositories;
 using Tipstaff.Infrastructure.S3API;
 using Tipstaff.Infrastructure.Services;
 using Tipstaff.Logger;
+using Tipstaff.Presenters;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Infrastructure
@@ -36,8 +37,7 @@ namespace Tipstaff.Infrastructure
 
             container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
 
-            //container.Register(Component.For<IWarrantRepository>().ImplementedBy<WarrantRepository>());
-
+            container.Register(Component.For<IChildPresenter>().ImplementedBy<ChildPresenter>());
 
             container.Register(Component.For(typeof(IDynamoAPI<>))
                             .ImplementedBy(typeof(DynamoAPI<>)));

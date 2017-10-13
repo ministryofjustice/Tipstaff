@@ -49,7 +49,7 @@
         @Html.DisplayFor(model => Model.Child.eyeColour) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Child.skinColourID) </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Child.skinColour) </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Child.skinColour.Detail) 
     </div>
@@ -59,21 +59,21 @@
         @Html.DisplayFor(model => Model.Child.specialfeatures) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Child.countryID) </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Child.country) </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Child.country.Detail) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Child.nationalityID) </div>
+    <div class="display-label">@Html.LabelFor(model=>Model.Child.nationality) </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Child.nationality.Detail) 
     </div>
     <div class="editor-label">
-        @Html.LabelFor(model => model.DeletedReasonID,true)
+        @Html.LabelFor(model => model.DeletedReason,true)
     </div>
     <div class="editor-field">
-        @Html.DropDownListFor(model => model.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
-        @Html.ValidationMessageFor(model => model.DeletedReasonID)
+        @Html.DropDownListFor(model => model.DeletedReason.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.DeletedReason.DeletedReasonID)
     </div>
 </fieldset>
     <p>

@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dto\Applicant.cs" />
-    <Compile Include="dto\Child.cs" />
     <Compile Include="dto\Address.cs" />
     <Compile Include="dto\Tipstaff.cs" />
     <Compile Include="DynamoTables\Address.cs" />
@@ -79,10 +78,8 @@
     <Compile Include="Repositories\IFAQRepository.cs" />
     <Compile Include="Repositories\ISolicitorRepository.cs" />
     <Compile Include="Repositories\ITipstaffNPORepository.cs" />
-    <Compile Include="Repositories\ITipstaffRecordRepository.cs" />
-    <Compile Include="Services\IChildServices.cs" />
+    <Compile Include="Repositories\ITipstaffRecordRepository.cs" />    
     <Compile Include="Services\ITipstaffService.cs" />
-    <Compile Include="Services\ChildServices.cs" />
     <Compile Include="Services\TipstaffServices.cs" />
   </ItemGroup>
   <ItemGroup>
