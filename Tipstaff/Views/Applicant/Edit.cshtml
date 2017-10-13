@@ -19,11 +19,11 @@
         @Html.HiddenFor(model => model.applicant.tipstaffRecordID)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.applicant.salutationID, true)
+            @Html.LabelFor(model => model.applicant.salutation, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.applicant.salutationID, Model.SalutationList, "Select a Title", new { @class = "required" })            
-            @Html.ValidationMessageFor(model => model.applicant.salutationID)
+            @Html.DropDownListFor(model => model.applicant.salutation.SalutationId, Model.SalutationList, "Select a Title", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.applicant.salutation.SalutationId)
         </div>
 
         <div class="editor-label">

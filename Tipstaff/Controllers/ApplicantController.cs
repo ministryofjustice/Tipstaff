@@ -5,6 +5,7 @@ using System.Web.UI;
 using System.Data.Entity.Infrastructure;
 using Tipstaff.Logger;
 using Tipstaff.Presenters;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
@@ -16,11 +17,13 @@ namespace Tipstaff.Controllers
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IApplicantPresenter _applicantPresenter;
         private readonly ICloudWatchLogger _logger;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantPresenter applicantPresenter)
+        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantPresenter applicantPresenter, IGuidGenerator guidGenerator)
         {
             _logger = telemetryLogger;
             _applicantPresenter = applicantPresenter;
+            _guidGenerator = guidGenerator;
         }
 
 
@@ -28,21 +31,17 @@ namespace Tipstaff.Controllers
         public PartialViewResult ListApplicantsByRecord(string id, int? page)
         {
             ListApplicantsByTipstaffRecord model = new ListApplicantsByTipstaffRecord();
-            //try
-            //{
-            //    ChildAbduction ca = db.ChildAbductions.Find(id);
-            //    model.tipstaffRecordID = ca.tipstaffRecordID;
-            //    model.Applicants = ca.Applicants.ToXPagedList<Applicant>(page ?? 1, 8);
-            //    model.TipstaffRecordClosed = ca.caseStatus.sequence > 3;
-            //}
-            //catch
-            //{
-            //    //do nothing!  Return empty model
-            //}
-            TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(id);
-            model.tipstaffRecordID = id;
-            model.Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(id).ToXPagedList<Applicant>(page ?? 1, 8);
-            model.TipstaffRecordClosed = (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived") ? true : false;
+            try
+            {
+                TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(id);
+                model.tipstaffRecordID = id;
+                model.Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(id).ToXPagedList<Applicant>(page ?? 1, 8);
+                model.TipstaffRecordClosed = (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived") ? true : false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in ApplicantController in ListApplicantsByRecord method, for user {((CPrincipal)User).UserID}");
+            }
 
             return PartialView("_ListApplicantsByRecord", model);
         }
@@ -76,10 +75,7 @@ namespace Tipstaff.Controllers
             }
             try
             {
-
-                //ChildAbduction ca = db.ChildAbductions.Find(model.tipstaffRecordID);
-                //ca.Applicants.Add(model.applicant);
-                //db.SaveChanges();
+                model.applicant.ApplicantID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 _applicantPresenter.AddApplicant(model);
 
                 if (Request.IsAjaxRequest())
@@ -127,8 +123,6 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                //db.Entry(model.applicant).State = EntityState.Modified;
-                //db.SaveChanges();
                 _applicantPresenter.UpdateApplicant(model);
                 return RedirectToAction("Details", "ChildAbduction", new { id = model.applicant.tipstaffRecordID });
             }
@@ -154,9 +148,7 @@ namespace Tipstaff.Controllers
         [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
         public ActionResult DeleteConfirmed(DeleteApplicant model)
         {
-            //model.Applicant = db.Applicants.Find(model.DeleteModelID);
-            //db.Applicants.Remove(model.Applicant);
-            //db.SaveChanges();
+            ////IMPLEMENT AUDIT!!!
             ////get the Audit Event we just created 
             //string recDeleted = model.DeleteModelID.ToString();
             //AuditEvent AE= db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "Applicant deleted" && a.RecordChanged == recDeleted).OrderByDescending(a=>a.EventDate).Single();

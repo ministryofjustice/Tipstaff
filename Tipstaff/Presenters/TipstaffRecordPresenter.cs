@@ -31,7 +31,7 @@ namespace Tipstaff.Presenters
 
             var model = new TipstaffRecord()
             {
-                addresses = _addressPresenter.GetAddressByTipstaffRecordId(id),
+                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(id),
                 arrestCount = record.ArrestCount,
                 createdBy = record.CreatedBy,
                 createdOn = record.CreatedOn,

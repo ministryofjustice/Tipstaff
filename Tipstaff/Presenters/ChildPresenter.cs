@@ -14,11 +14,13 @@ namespace Tipstaff.Presenters
     {
         private readonly IChildRepository _childRepository;
         private readonly ITipstaffRecordPresenter _tipstaffPresenter;
+        private readonly IChildAbductionPresenter _caPresenter;
 
-        public ChildPresenter(IChildRepository childRepo, ITipstaffRecordPresenter tipstaffPresenter)
+        public ChildPresenter(IChildRepository childRepo, ITipstaffRecordPresenter tipstaffPresenter, IChildAbductionPresenter caPresenter)
         {
             _childRepository = childRepo;
             _tipstaffPresenter = tipstaffPresenter;
+            _caPresenter = caPresenter;
         }
 
         public Models.Child GetChild(string id)
@@ -64,7 +66,7 @@ namespace Tipstaff.Presenters
         }
         public void UpdateChildAbduction(ChildAbduction model)
         {
-            throw new NotImplementedException();
+            _caPresenter.UpdateChildAbduction(model);
         }
 
         public Models.Child GetModel(Services.DynamoTables.Child table)

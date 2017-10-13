@@ -14,8 +14,7 @@ namespace Tipstaff.Models
         [Key]
         //public int ApplicantID { get; set; }
         public string ApplicantID { get; set; }
-        [Required, Display(Name = "Title")]
-        public int salutationID { get; set; }
+       
         [Required, MaxLength(50), Display(Name = "Last name")]
         public string nameLast { get; set; }
         [MaxLength(50), Display(Name = "First name")]
@@ -43,8 +42,8 @@ namespace Tipstaff.Models
 
         //public virtual TipstaffRecord tipstaffRecord { get; set; }
         //public virtual Salutation salutation { get; set; }
-
-           public MemoryCollections.Salutation salutation { get; set; }
+        [Required, Display(Name = "Title")]
+        public MemoryCollections.Salutation salutation { get; set; }
 
         [Display(Name = "Full name of Applicant")]
         public virtual string fullname

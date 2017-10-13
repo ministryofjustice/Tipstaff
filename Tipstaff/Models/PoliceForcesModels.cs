@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Tipstaff.Models
 {
-    public class PoliceForces
+    public class PoliceForces:IModel
     {
         [Key]
         public string policeForceID { get; set; }
