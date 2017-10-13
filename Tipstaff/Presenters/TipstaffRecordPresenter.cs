@@ -10,7 +10,7 @@ namespace Tipstaff.Presenters
     public class TipstaffRecordPresenter : ITipstaffRecordPresenter
     {
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
-        private readonly IAddressPresenter _addressPresernter;
+        private readonly IAddressPresenter _addressPresenter;
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
         private readonly IRespondentPresenter _respondentPresenter;
 
@@ -20,7 +20,7 @@ namespace Tipstaff.Presenters
             IRespondentPresenter respondentPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
-            _addressPresernter = addressPresernter;
+            _addressPresenter = addressPresernter;
             _attendanceNotePresenter = attendanceNotePresenter;
             _respondentPresenter = respondentPresenter;
         }
@@ -31,7 +31,7 @@ namespace Tipstaff.Presenters
 
             var model = new TipstaffRecord()
             {
-                addresses = _addressPresernter.GetAddressByTipstaffRecordId(id),
+                addresses = _addressPresenter.GetAddressByTipstaffRecordId(id),
                 arrestCount = record.ArrestCount,
                 createdBy = record.CreatedBy,
                 createdOn = record.CreatedOn,

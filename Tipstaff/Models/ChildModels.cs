@@ -8,7 +8,7 @@ using System.Security;
 
 namespace Tipstaff.Models
 {
-    public class Child
+    public class Child : IModel
     {
         [Key]
         //public int childID { get; set; }
@@ -45,14 +45,8 @@ namespace Tipstaff.Models
         //public virtual Country country { get; set; }
         //[Display(Name = "Nationality")]
         //public virtual Nationality nationality { get; set; }
-        [Required, Display(Name = "Gender")]
-        public int genderID { get; set; }
-        [Required, Display(Name = "Skin colour")]
-        public int? skinColourID { get; set; }
-        [Required, Display(Name = "Country of Origin")]
-        public int countryID { get; set; }
-        [Required, Display(Name = "Nationality")]
-        public int? nationalityID { get; set; }
+        
+        
         [Required, Display(Name = "Gender")]
         public MemoryCollections.Gender gender { get; set; }
         [Required, Display(Name = "Skin colour")]
@@ -64,7 +58,7 @@ namespace Tipstaff.Models
 
 
 
-        public virtual ChildAbduction childAbduction { get; set; }
+        public ChildAbduction childAbduction { get; set; }
         //public virtual TipstaffRecord tipstaffRecord { get; set; }
         [Display(Name="Full name of Child")]
         public virtual string fullname
@@ -152,11 +146,6 @@ namespace Tipstaff.Models
 
         public ChildCreationModel()
         {
-            //GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x=>x.active==true).ToList(), "genderID", "Detail");
-            //SkinColourList = new SelectList(myDBContextHelper.CurrentContext.SkinColours.Where(x => x.active == true).ToList(), "skinColourID", "Detail");
-            //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
-            //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
-
             GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GenderID", "Detail");
             SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourId", "Detail");
             CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
@@ -165,10 +154,6 @@ namespace Tipstaff.Models
         public ChildCreationModel(int id)
         {
             tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
-            //tipstaffRecordID=id; //Commented by CFA as it won't work with new IDs
-            //GenderList = new SelectList(myDBContextHelper.CurrentContext.Genders.Where(x=>x.active==true).ToList(), "genderID", "Detail");
-            //CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail"); //Modify to read from nosql
-            //NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail"); //modify to read from nosql
 
             GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GenderID", "Detail");
             SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourId", "Detail");

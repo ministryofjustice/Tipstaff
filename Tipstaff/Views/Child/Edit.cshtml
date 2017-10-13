@@ -53,8 +53,8 @@
             @Html.LabelFor(model => Model.child.gender, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => Model.child.genderID, Model.GenderList, "Please select a gender", new { @class = "required" })           
-            @Html.ValidationMessageFor(model => Model.child.genderID)
+            @Html.DropDownListFor(model => Model.child.gender.GenderId, Model.GenderList, "Please select a gender", new { @class = "required" })           
+            @Html.ValidationMessageFor(model => Model.child.gender.GenderId)
         </div>
 
         <div class="editor-label">
@@ -90,11 +90,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => Model.child.skinColourID, true)
+            @Html.LabelFor(model => Model.child.skinColour, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => Model.child.skinColourID, Model.SkinColourList, "Please select a skin colour", new { @class = "required" })           
-            @Html.ValidationMessageFor(model => Model.child.skinColourID) 
+            @Html.DropDownListFor(model => Model.child.skinColour.skinColourID, Model.SkinColourList, "Please select a skin colour", new { @class = "required" })           
+            @Html.ValidationMessageFor(model => Model.child.skinColour.skinColourID) 
         </div>
 
         <div class="editor-label">
@@ -106,19 +106,19 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => Model.child.countryID, true)
+            @Html.LabelFor(model => Model.child.country, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => Model.child.countryID, Model.CountryList, "Select a country", new { @class = "required" })            
-            @Html.ValidationMessageFor(model => Model.child.countryID)
+            @Html.DropDownListFor(model => Model.child.country.CountryID, Model.CountryList, "Select a country", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => Model.child.country.CountryID)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => Model.child.nationalityID, true)
+            @Html.LabelFor(model => Model.child.nationality.NationalityID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => Model.child.nationalityID, Model.NationalityList, "Select a Nationality", new { @class = "required" })            
-            @Html.ValidationMessageFor(model => Model.child.nationalityID)
+            @Html.DropDownListFor(model => Model.child.nationality.NationalityID, Model.NationalityList, "Select a Nationality", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => Model.child.nationality.NationalityID)
         </div>
 
         <div class="editor-label">
