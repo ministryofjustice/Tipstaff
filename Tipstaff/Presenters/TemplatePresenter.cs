@@ -13,11 +13,14 @@ namespace Tipstaff.Presenters
     public class TemplatePresenter : ITemplatePresenter, IMapper<Models.Template, Tipstaff.Services.DynamoTables.Template>, IMapperCollections<Models.Template, Tipstaff.Services.DynamoTables.Template>
     {
         private readonly ITemplateRepository _templateRepository;
-        private readonly ITipstaffRecordRepository _tipstaffRepo;
+        private readonly ITipstaffRecordPresenter _tipstaffPresenter;
+        private readonly ISolicitorPresenter _solicitorPresenter;
 
-        public TemplatePresenter(ITemplateRepository templateRepo)
+        public TemplatePresenter(ITemplateRepository templateRepo, ITipstaffRecordPresenter tipstaffPresenter, ISolicitorPresenter solicitorPresenter)
         {
             _templateRepository = templateRepo;
+            _tipstaffPresenter = tipstaffPresenter;
+            _solicitorPresenter = solicitorPresenter;
         }
 
         public Models.Template GetTemplate(string id)
@@ -46,49 +49,15 @@ namespace Tipstaff.Presenters
 
         public Models.TipstaffRecord GetTipstaffRecord(string id)
         {
-            Services.dto.Tipstaff t = _templateServices.GetTipstaffRecord(id);
-            Models.TipstaffRecord tipstaff = new Models.TipstaffRecord()
-            {
-                tipstaffRecordID = t.TipstaffRecordID,
-                createdBy = t.CreatedBy,
-                createdOn = t.CreatedOn,
-                nextReviewDate = t.NextReviewDate,
-                resultDate = t.ResultDate,
-                DateExecuted = t.DateExecuted,
-                arrestCount = t.ArrestCount,
-                prisonCount = t.PrisonCount,
-                resultEnteredBy = t.ResultEnteredBy,
-                NPO = t.NPO,
-                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingByDetail(t.ProtectiveMarking),
-                result = MemoryCollections.ResultsList.GetResultByDetail(t.Result),
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByDetail(t.CaseStatus)
-            };
-
-            return tipstaff;
-        }
-
-        public Models.Applicant GetApplicant(string id)
-        {
-            Services.dto.Applicant a = _templateServices.GetApplicant(id);
-            Models.Applicant applicant = new Models.Applicant() {
-                ApplicantID = a.ApplicantID,
-                salutation = MemoryCollections.SalutationList.GetSalutationByDetail(a.Salutation),
-                nameLast = a.NameLast,
-                nameFirst = a.NameFirst,
-                addressLine1 = a.AddressLine1,
-                addressLine2 = a.AddressLine2,
-                addressLine3 = a.AddressLine3,
-                town = a.Town,
-                county = a.County,
-                postcode = a.Postcode,
-                phone = a.Phone,
-                tipstaffRecordID = a.TipstaffRecordID
-            };
-
-            return applicant;
+            return _tipstaffPresenter.GetTipStaffRecord(id);
         }
 
         public Models.Solicitor GetSolicitor(string id)
+        {
+            return _solicitorPresenter.GetSolicitor(id);
+        }
+
+        public Models.Applicant GetApplicant(string id)
         {
             throw new NotImplementedException();
         }
@@ -134,5 +103,7 @@ namespace Tipstaff.Presenters
         {
             return entities.Select(x => GetDynamoTable(x));
         }
+
+        
     }
 }

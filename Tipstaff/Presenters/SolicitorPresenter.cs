@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tipstaff.Mappers;
+using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
@@ -20,7 +21,13 @@ namespace Tipstaff.Presenters
             var entity = GetDynamoTable(solicitor);
             _solicitorRepository.AddSolicitor(entity);
         }
-        
+
+        public Solicitor GetSolicitor(string id)
+        {
+            var entity = _solicitorRepository.GetSolicitor(id);
+            return GetModel(entity);
+        }
+
         public IEnumerable<Models.Solicitor> GetSolicitors()
         {
             var entities = _solicitorRepository.GetSolicitors();

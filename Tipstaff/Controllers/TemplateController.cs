@@ -18,7 +18,6 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class TemplateController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly ITemplatePresenter _templatePresenter;
 
         private readonly IS3API _s3API;
@@ -124,7 +123,7 @@ namespace Tipstaff.Controllers
 
                 //set fileOutput details
                 // WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
-                WordFile fileOutput = new WordFile(tipstaffRecordID, Server.MapPath("~/Documents/"), templateID, template.templateName, tipstaffRecordID); //INCORRECT! THE LAST TIPSTAFFRECORDID SHOULD BE UNIQUEREFERENCEID
+                WordFile fileOutput = new WordFile(tipstaffRecordID, Server.MapPath("~/Documents/"), templateID, template.templateName, tipstaffRecord.UniqueRecordID); 
                 //Create XML object for Template
                 XmlDocument xDoc = new XmlDocument();
 

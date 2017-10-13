@@ -14,8 +14,6 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class TemplatesController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
-
         private readonly ITemplatePresenter _templatePresenter;
         private readonly IS3API _s3API;
 

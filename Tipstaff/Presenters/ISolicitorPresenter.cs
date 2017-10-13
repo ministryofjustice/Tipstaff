@@ -11,6 +11,8 @@ namespace Tipstaff.Presenters
     {
         IEnumerable<Solicitor> GetSolicitors();
 
+        Solicitor GetSolicitor(string id);
+
         void Update(Solicitor solicitor);
 
         void AddSolicitor(Solicitor solicitor);
