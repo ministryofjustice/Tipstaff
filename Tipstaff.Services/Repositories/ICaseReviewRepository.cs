@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tipstaff.Models;
+using Tipstaff.Services.DynamoTables;
 
-namespace Tipstaff.Presenters
+namespace Tipstaff.Services.Repositories
 {
-    public interface ICaseReviewPresenter
+    public interface ICaseReviewRepository
     {
         void Add(CaseReview caseReview);
 

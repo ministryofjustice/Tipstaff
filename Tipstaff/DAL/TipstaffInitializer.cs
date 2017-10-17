@@ -74,12 +74,12 @@ namespace Tipstaff.Models
             //    new WarrantCaseStatus{Detail="File Closed",active=true},
             //    new WarrantCaseStatus{Detail="File Archived",active=true},
             //};
-            var crS = new List<CaseReviewStatus>
-            {
-                new CaseReviewStatus{Detail="To be reviewed",active=true},
-                new CaseReviewStatus{Detail="File Closed",active=true},
-                new CaseReviewStatus{Detail="File Archived",active=true},
-            };
+            //////var crS = new List<CaseReviewStatus>
+            //////{
+            //////    new CaseReviewStatus{Detail="To be reviewed",active=true},
+            //////    new CaseReviewStatus{Detail="File Closed",active=true},
+            //////    new CaseReviewStatus{Detail="File Archived",active=true},
+            //////};
             //var dT = new List<DocumentType>
             //{
             //    new DocumentType{Detail="Generated",active=true},
@@ -581,7 +581,7 @@ namespace Tipstaff.Models
             //caCS.ForEach(c => context.CaseStatuses.Add(c));
             //caCS.ForEach(c => context.ChildAbductionCaseStatuses.Add(c));
             //wCS.ForEach(c => context.WarrantCaseStatuses.Add(c));
-            crS.ForEach(c => context.CaseReviewStatuses.Add(c));
+            //////crS.ForEach(c => context.CaseReviewStatuses.Add(c));
             //dT.ForEach(c => context.DocumentTypes.Add(c));
             //dS.ForEach(c => context.DocumentStatuses.Add(c));
             //iC.ForEach(c => context.IssuingCountries.Add(c));

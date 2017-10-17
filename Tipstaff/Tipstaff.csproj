@@ -242,6 +242,7 @@
     <Compile Include="Logger\CloudWatchLogger.cs" />
     <Compile Include="Mappers\IMapperCollections.cs" />
     <Compile Include="MemoryCollections\AttendanceNoteCodeList.cs" />
+    <Compile Include="MemoryCollections\CaseReviewStatusList.cs" />
     <Compile Include="MemoryCollections\DeletedReasonList.cs" />
     <Compile Include="MemoryCollections\CaOrderTypeList.cs" />
     <Compile Include="MemoryCollections\ChildRelationshipList.cs" />
