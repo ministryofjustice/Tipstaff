@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Data;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
-using System.Data.Entity;
-using Tipstaff.Services.Repositories;
+using Tipstaff.Presenters.Interfaces;
 
 namespace Tipstaff.Controllers
 {
@@ -14,46 +10,40 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class FAQController : Controller
     {
-        //private TipstaffDB db;//= myDBContextHelper.CurrentContext;
-        private readonly IFAQRepository _faqRepository;
+        private readonly IFAQPresenter _faqPresenter;
 
-        public FAQController(IFAQRepository faqRepository)
+        public FAQController(IFAQPresenter faqPresenter)
         {
-            _faqRepository = faqRepository;
+            _faqPresenter = faqPresenter;
         }
         
-
         [AllowAnonymous]
         public ActionResult Index()
         {
             System.Security.Principal.IIdentity userIdentity = User.Identity;
             Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
+            var faqs = _faqPresenter.GetAll();
             if (thisUser.IsInRole("Admin"))
             {
                 //var faqs = db.FAQs;
-                var faqs = _faqRepository.GetAllFAQ();
-                return View(faqs.ToList());
+                ////var faqs = _faqPresenter.GetAll();
+                return View(faqs);
             }
             else
             {
-                var faqs = _faqRepository.GetAllFAQ().Where(x=>x.LoggedInUser == User.Identity.IsAuthenticated);
+                var filteredFaqs = faqs.Where(x=>x.loggedInUser == User.Identity.IsAuthenticated);
                 //var faqs = db.FAQs.Where(f => f.loggedInUser == User.Identity.IsAuthenticated);
-                return View(faqs.ToList());
+                return View(filteredFaqs);
             }
         }
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             //FAQ faq = db.FAQs.Find(id);
-            var faq = _faqRepository.GetFAQ(id);
+            ////var faq = _faqRepository.GetFAQ(id);
+            var faq =_faqPresenter.GetById(id);
 
-            return View(new FAQ()
-            {
-                faqID = faq.Id,
-                answer = faq.Answer,
-                question = faq.Question,
-               loggedInUser = faq.LoggedInUser
-            });
+            return View(faq);
         }
 
         [AuthorizeRedirect(Roles = "Admin")]
@@ -64,13 +54,14 @@ namespace Tipstaff.Controllers
             {
                 //db.Entry(faq).State = EntityState.Modified;
                 //db.SaveChanges();
-                _faqRepository.Update(new Services.DynamoTables.FAQ()
-                {
-                    Id = faq.faqID,
-                    Answer = faq.answer,
-                    LoggedInUser = faq.loggedInUser,
-                    Question = faq.question
-                });
+                //////_faqRepository.Update(new Services.DynamoTables.FAQ()
+                //////{
+                //////    Id = faq.faqID,
+                //////    Answer = faq.answer,
+                //////    LoggedInUser = faq.loggedInUser,
+                //////    Question = faq.question
+                //////});
+                _faqPresenter.Update(faq);
 
                 return RedirectToAction("Index");
             }
@@ -93,13 +84,14 @@ namespace Tipstaff.Controllers
             {
                 //db.FAQs.Add(faq);
                 //db.SaveChanges();
-                _faqRepository.AddFaQ(new Services.DynamoTables.FAQ()
-                {
-                    Id = faq.faqID,
-                    Answer = faq.answer,
-                    LoggedInUser = faq.loggedInUser,
-                    Question = faq.question
-                });
+                //////_faqRepository.AddFaQ(new Services.DynamoTables.FAQ()
+                //////{
+                //////    Id = faq.faqID,
+                //////    Answer = faq.answer,
+                //////    LoggedInUser = faq.loggedInUser,
+                //////    Question = faq.question
+                //////});
+                _faqPresenter.Add(faq);
 
                 return RedirectToAction("Index");
             }

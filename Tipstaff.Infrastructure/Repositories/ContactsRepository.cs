@@ -53,7 +53,6 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.Email = contact.Email;
             entity.Notes = contact.Notes;
             entity.ContactType = contact.ContactType;
-
             _dynamoAPI.Save(entity);
         }
 
