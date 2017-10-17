@@ -6,6 +6,7 @@ using System.Data;
 using System.IO;
 using Tipstaff.Infrastructure.S3API;
 using Tipstaff.Presenters;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -14,15 +15,15 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class TemplatesController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
-
         private readonly ITemplatePresenter _templatePresenter;
         private readonly IS3API _s3API;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public TemplatesController(ITemplatePresenter templatePresenter, IS3API s3Repo)
+        public TemplatesController(ITemplatePresenter templatePresenter, IS3API s3Repo, IGuidGenerator guidGenerator)
         {
             _templatePresenter = templatePresenter;
             _s3API = s3Repo;
+            _guidGenerator = guidGenerator;
         }
 
         //
@@ -87,7 +88,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                     ////Delete file
                     //System.IO.File.Delete(fileName);
 
-
+                    model.Template.templateID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                     _templatePresenter.AddTemplate(model);
 
                     return RedirectToAction("Index");
@@ -188,9 +189,6 @@ namespace Tipstaff.Areas.Admin.Controllers
             model.Template.deactivatedBy = User.Identity.Name;
             _templatePresenter.UpdateTemplate(model);
 
-            //model.templateXML = null;
-            //db.Entry(model).State = EntityState.Modified;
-            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 

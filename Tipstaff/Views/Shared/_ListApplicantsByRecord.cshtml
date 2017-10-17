@@ -11,7 +11,7 @@
 
 <img style="display:none" id="applicantLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
 
-@if ((Model.Applicants == null) || (Model.Applicants.Count() == 0))
+@if ((Model.Applicants == null) || (Model.Applicants.Any()))
 { 
       <div>No applicants recorded</div>
 }

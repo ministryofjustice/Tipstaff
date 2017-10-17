@@ -19,6 +19,6 @@ namespace Tipstaff.Presenters
 
         void AddAddress(Address address);
 
-        IEnumerable<Address> GetAddressByTipstaffRecordId(string id);
+        IEnumerable<Address> GetAddressesByTipstaffRecordId(string id);
     }
 }

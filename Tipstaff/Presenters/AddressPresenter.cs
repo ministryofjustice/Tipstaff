@@ -2,164 +2,106 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Tipstaff.Mappers;
 using Tipstaff.Models;
+using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class AddressPresenter : IAddressPresenter
+    public class AddressPresenter : IAddressPresenter, IMapper<Models.Address, Services.DynamoTables.Address>, IMapperCollections<Models.Address, Services.DynamoTables.Address>
     {
         private readonly IAddressRepository _addressRepository;
-        private readonly ITipstaffRecordRepository _tipstaffRepository;
+        private readonly ITipstaffRecordPresenter _tipstaffPresenter;
 
-        public AddressPresenter(IAddressRepository addressRepository, ITipstaffRecordRepository tipstaffRepository)
+        public AddressPresenter(IAddressRepository addressRepository, ITipstaffRecordPresenter tipstaffPresenter)
         {
             _addressRepository = addressRepository;
-            _tipstaffRepository = tipstaffRepository;
+            _tipstaffPresenter = tipstaffPresenter;
         }
         
-        public void AddAddress(Address addressMdl)
+        public void AddAddress(Models.Address model)
         {
-            var address = GetDTAddress(addressMdl);
-
+            var address = GetDynamoTable(model);
             _addressRepository.AddAddress(address);
         }
 
-        public Address GetAddress(string id)
+        public Models.Address GetAddress(string id)
         {
             var address = _addressRepository.GetAddress(id);
-            var addressMdl = GetMdlAddress(address);
-            return addressMdl;
+            return GetModel(address);
         }
 
-        public IEnumerable<Address> GetAddressByTipstaffRecordId(string id)
+        public IEnumerable<Models.Address> GetAddressesByTipstaffRecordId(string id)
         {
             var records = _addressRepository.GetAddresses().Where(x => x.TipstaffRecordId == id);
-
-            var addresses = GetAddresses(records);
-
-            return addresses;
+            return GetAll(records);
         }
 
-        public TipstaffRecord GetTipstaffRecord(string id)
+        public Models.TipstaffRecord GetTipstaffRecord(string id)
         {
-            var record = _tipstaffRepository.GetEntityByHashKey(id);
-            return GetMdlTipstaffRecord(record);
+            var tipstaff = _tipstaffPresenter.GetTipStaffRecord(id);
+            return tipstaff;
         }
 
-        public void RemoveAddress(Address address)
+        public void RemoveAddress(Models.Address address)
         {
-            var add = GetDTAddress(address);
+            var add = GetDynamoTable(address);
             _addressRepository.DeleteAddress(add);
         }
 
-        public void UpdateAddress(Address address)
+        public void UpdateAddress(Models.Address address)
         {
-            var add= GetDTAddress(address);
+            var add= GetDynamoTable(address);
             _addressRepository.UpdateRepository(add);
         }
 
-        private Tipstaff.Services.DynamoTables.Address GetDTAddress(Address addressModel)
+        public Models.Address GetModel(Services.DynamoTables.Address table)
         {
-            return new Services.DynamoTables.Address()
+            var add = new Models.Address()
             {
-                AddresseeName = addressModel.addresseeName,
-                AddressLine1 = addressModel.addressLine1,
-                AddressLine2 = addressModel.addressLine2,
-                AddressLine3 = addressModel.addressLine3,
-                County = addressModel.county,
-                Id = addressModel.addressID.ToString(),
-                Phone = addressModel.phone,
-                PostCode = addressModel.postcode,
-                TipstaffRecordId = addressModel.tipstaffRecordID.ToString(),
-                Town = addressModel.town
-            };
-        }
-
-        private Address GetMdlAddress(Services.DynamoTables.Address address)
-        {
-            var tipstaffRecord = _tipstaffRepository.GetEntityByHashKey(address.TipstaffRecordId);
-
-            var add = new Address()
-            {
-                addresseeName = address.AddresseeName,
-                addressLine1 = address.AddressLine1,
-                addressLine2 = address.AddressLine2,
-                addressLine3 = address.AddressLine3,
-                county = address.County,
-                addressID = address.Id,
-                phone = address.Phone,
-                postcode = address.PostCode,
-                tipstaffRecordID = int.Parse(address.TipstaffRecordId),
-                town = address.Town,
-                TipstaffRecord = new TipstaffRecord()
-                {
-                    prisonCount = tipstaffRecord.PrisonCount,
-                    arrestCount = tipstaffRecord.ArrestCount,
-                    tipstaffRecordID = tipstaffRecord.Id,
-                    createdBy = tipstaffRecord.CreatedBy,
-                    createdOn = tipstaffRecord.CreatedOn,
-                    Descriminator = tipstaffRecord.Discriminator,
-                    DateExecuted = tipstaffRecord.DateExecuted,
-                    nextReviewDate = tipstaffRecord.NextReviewDate,
-                    NPO = tipstaffRecord.NPO,
-                    resultDate = tipstaffRecord.ResultDate,
-                    resultEnteredBy = tipstaffRecord.ResultEnteredBy,
-                    caseStatusID = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.Detail == tipstaffRecord.CaseStatus).CaseStatusId,
-                    caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.Detail == tipstaffRecord.CaseStatus),
-                    protectiveMarkingID = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.Detail == tipstaffRecord.CaseStatus).ProtectiveMarkingId, 
-                    protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.Detail == tipstaffRecord.CaseStatus),
-                    resultID = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.Detail == tipstaffRecord.Result).ResultId,
-                    result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.Detail == tipstaffRecord.Result),
-                    
-                 }
+                addresseeName = table.AddresseeName,
+                addressLine1 = table.AddressLine1,
+                addressLine2 = table.AddressLine2,
+                addressLine3 = table.AddressLine3,
+                county = table.County,
+                addressID = table.Id,
+                phone = table.Phone,
+                postcode = table.PostCode,
+                tipstaffRecordID = table.TipstaffRecordId,
+                town = table.Town,
+                TipstaffRecord = GetTipstaffRecord(table.TipstaffRecordId)
             };
 
             return add;
         }
 
-        private IEnumerable<Address> GetAddresses(IEnumerable<Services.DynamoTables.Address> addresses)
+        public Services.DynamoTables.Address GetDynamoTable(Models.Address model)
         {
-            return addresses.Select(x => new Address()
+            var entity = new Services.DynamoTables.Address()
             {
-                addresseeName = x.AddresseeName,
-                addressLine1 = x.AddressLine1,
-                addressLine2 = x.AddressLine2,
-                addressLine3 = x.AddressLine3,
-                county = x.County,
-                addressID = x.Id,
-                phone = x.Phone,
-                postcode = x.PostCode,
-                tipstaffRecordID = int.Parse(x.TipstaffRecordId),
-                town = x.Town,
-                
-            });
+                AddresseeName = model.addresseeName,
+                AddressLine1 = model.addressLine1,
+                AddressLine2 = model.addressLine2,
+                AddressLine3 = model.addressLine3,
+                County = model.county,
+                Id = model.addressID,
+                Phone = model.phone,
+                PostCode = model.postcode,
+                TipstaffRecordId = model.tipstaffRecordID.ToString(),
+                Town = model.town
+            };
+            return entity;
         }
 
-        private TipstaffRecord GetMdlTipstaffRecord(Tipstaff.Services.DynamoTables.TipstaffRecord rec)
+        public IEnumerable<Models.Address> GetAll(IEnumerable<Services.DynamoTables.Address> entities)
         {
-            var addressList = _addressRepository.GetAddresses();
+            return entities.Select(x => GetModel(x));
+        }
 
-            var record = new TipstaffRecord()
-            {
-                Descriminator = rec.Discriminator,
-                arrestCount = rec.ArrestCount,
-                DateExecuted = rec.DateExecuted,
-                NPO = rec.NPO,
-                createdBy = rec.CreatedBy,
-                createdOn = rec.CreatedOn,
-                nextReviewDate = rec.NextReviewDate,
-                prisonCount = rec.PrisonCount,
-                result = MemoryCollections.ResultsList.GetResultByDetail(rec.Result),
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByDetail(rec.CaseStatus),
-                addresses = GetAddresses(addressList) as ICollection<Address>,
-                resultDate = rec.ResultDate,
-                resultEnteredBy = rec.ResultEnteredBy,
-                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingByDetail(rec.ProtectiveMarking),
-                tipstaffRecordID = rec.Id,
-            };
-
-            return record;
+        public IEnumerable<Services.DynamoTables.Address> GetAll(IEnumerable<Models.Address> entities)
+        {
+            return entities.Select(x => GetDynamoTable(x));
         }
     }
 

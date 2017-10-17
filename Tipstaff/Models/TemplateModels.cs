@@ -44,7 +44,7 @@ namespace Tipstaff.Models
         }
     }
 
-    public class Template
+    public class Template:IModel
     {
         [Key]
         //public int templateID { get; set; }

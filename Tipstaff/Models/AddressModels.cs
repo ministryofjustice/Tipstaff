@@ -49,7 +49,7 @@ namespace Tipstaff.Models
         [MaxLength(20), Display(Name = "phone")]
         public string phone { get; set; }
         [Required]
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
 
         //////public virtual TipstaffRecord tipstaffRecord { get; set; }
         public TipstaffRecord TipstaffRecord { get; set; }

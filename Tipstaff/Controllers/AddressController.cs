@@ -165,7 +165,7 @@ namespace Tipstaff.Controllers
             ////////model.Address = db.Addresses.Find(model.DeleteModelID);
             model.Address = _addressPresenter.GetAddress(model.DeleteModelID);
 
-            int tipstaffRecordID = model.Address.tipstaffRecordID;
+            string tipstaffRecordID = model.Address.tipstaffRecordID;
             string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
             //////db.Addresses.Remove(model.Address);
             //////db.SaveChanges();
