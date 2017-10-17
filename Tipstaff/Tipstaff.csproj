@@ -189,6 +189,7 @@
     <Compile Include="Areas\Admin\Controllers\SolicitorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SolicitorFirmsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TemplatesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\AdminEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ListViewModels.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Logger\CloudWatchLogger.cs" />
     <Compile Include="Mappers\IMapperCollections.cs" />
     <Compile Include="MemoryCollections\AttendanceNoteCodeList.cs" />
+    <Compile Include="MemoryCollections\CaseReviewStatusList.cs" />
     <Compile Include="MemoryCollections\DeletedReasonList.cs" />
     <Compile Include="MemoryCollections\CaOrderTypeList.cs" />
     <Compile Include="MemoryCollections\ChildRelationshipList.cs" />
@@ -294,13 +296,17 @@
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
     <Compile Include="Presenters\ApplicantPresenter.cs" />
     <Compile Include="Presenters\ChildPresenter.cs" />
+    <Compile Include="Presenters\ContactPresenter.cs" />
+    <Compile Include="Presenters\FAQPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAttendanceNotePresenter.cs" />
     <Compile Include="Presenters\Interfaces\ICaseReviewPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IChildPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAddressPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IChildAbductionPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IApplicantPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IContactPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IDocumentPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IFAQPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IPoliceForcesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IRespondentPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISolicitorFirmsPresenter.cs" />

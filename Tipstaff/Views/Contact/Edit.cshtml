@@ -18,11 +18,11 @@
         @Html.HiddenFor(model => model.contact.contactID)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.contact.salutationID, true)
+            @Html.LabelFor(model => model.contact.salutation.SalutationId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.contact.salutationID, Model.SalutationList, "Choose a title", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.contact.salutationID)
+            @Html.DropDownListFor(model => model.contact.salutation.SalutationId, Model.SalutationList, "Choose a title", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.contact.salutation.SalutationId)
         </div>
 
         <div class="editor-label">
@@ -130,11 +130,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.contact.contactTypeID, true)
+            @Html.LabelFor(model => model.contact.contactType.ContactTypeId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.contact.contactTypeID, Model.ContactTypeList, "Choose a type", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.contact.contactTypeID)
+            @Html.DropDownListFor(model => model.contact.contactType.ContactTypeId, Model.ContactTypeList, "Choose a type", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.contact.contactType.ContactTypeId)
         </div>
 
         <p>

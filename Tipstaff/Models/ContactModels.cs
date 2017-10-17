@@ -14,8 +14,8 @@ namespace Tipstaff.Models
     {
         [Key]
         public string contactID { get; set; }
-        [Required, Display(Name = "Title")]
-        public int salutationID { get; set; }
+        ////[Required, Display(Name = "Title")]
+        ////public int salutationID { get; set; }
         [MaxLength(50), Display(Name = "First Name")]
         public string firstName { get; set; }
         [Required, MaxLength(50), Display(Name = "Surname")]
@@ -43,8 +43,8 @@ namespace Tipstaff.Models
         public string email { get; set; }
         [MaxLength(2000), Display(Name = "Notes")]
         public string notes { get; set; }
-        [Display(Name = "Contact Type")]
-        public int contactTypeID { get; set; }
+        ////[Display(Name = "Contact Type")]
+        ////public int contactTypeID { get; set; }
         //[Display(Name = "Contact Type")]
         //public virtual ContactType contactType { get; set; }
         //public virtual Salutation salutation { get; set; }
@@ -134,13 +134,13 @@ namespace Tipstaff.Models
             SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
 
-        public ContactModification(int id)
-        {
-            contact = myDBContextHelper.CurrentContext.Contacts.Find(id);
-            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "salutationID", "Detail");
-            //ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "contactTypeID", "Detail");
-            ContactTypeList = new SelectList(MemoryCollections.ContactTypeList.GetContactTypeList().Where(x => x.Active == 1).OrderBy(x => x.Detail).ToList(), "ContactTypeID", "Detail");
-            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
-        }
+        ////public ContactModification()
+        ////{
+        ////   ////// contact = myDBContextHelper.CurrentContext.Contacts.Find(id);
+        ////    //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "salutationID", "Detail");
+        ////    //ContactTypeList = new SelectList(myDBContextHelper.CurrentContext.ContactTypes.Where(x => x.active == true).ToList().OrderBy(x => x.Detail), "contactTypeID", "Detail");
+        ////    ContactTypeList = new SelectList(MemoryCollections.ContactTypeList.GetContactTypeList().Where(x => x.Active == 1).OrderBy(x => x.Detail).ToList(), "ContactTypeID", "Detail");
+        ////    SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
+        ////}
     }
 }

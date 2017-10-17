@@ -13,13 +13,15 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class CaseReviewController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        ///private TipstaffDB db = myDBContextHelper.CurrentContext;
 
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly ICaseReviewPresenter _caseReviewPresenter;
 
-        public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter)
+        public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter, ICaseReviewPresenter caseReviewPresenter)
         {
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _caseReviewPresenter = caseReviewPresenter;
         }
         //
         // GET: /CaseReview/
@@ -49,11 +51,15 @@ namespace Tipstaff.Controllers
                 //if (genericFunctions.isTipstaffRecordChildAbduction){
                 ////TipstaffRecord tr = db.TipstaffRecord.Find(model.CaseReview.tipstaffRecordID);
                 TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.CaseReview.tipstaffRecordID);
-                tr.caseReviews.Add(model.CaseReview);
+                ////tr.caseReviews.Add(model.CaseReview);
+                model.CaseReview.tipstaffRecordID = tr.tipstaffRecordID;
 
-                if (model.CaseReview.caseReviewStatusID == 2 || model.CaseReview.caseReviewStatusID == 3)
+                _caseReviewPresenter.Add(model.CaseReview);
+
+
+                if (model.CaseReview.caseReviewStatus.CaseReviewStatusId == 2 || model.CaseReview.caseReviewStatus.CaseReviewStatusId == 3)
                 {
-                    tr.caseStatusID = model.CaseReview.caseReviewStatusID + 1;
+                    tr.caseStatusID = model.CaseReview.caseReviewStatus.CaseReviewStatusId + 1;
                 }
                 else
                 {
@@ -63,8 +69,10 @@ namespace Tipstaff.Controllers
                 {
                     tr.nextReviewDate = model.CaseReview.nextReviewDate;
                 }
-                db.SaveChanges();
-                if (model.CaseReview.caseReviewStatusID == 2)
+                //////db.SaveChanges();
+                _tipstaffRecordPresenter.UpdateTipstaffRecord(tr);
+
+                if (model.CaseReview.caseReviewStatus.CaseReviewStatusId == 2)
                 {
                     //user picked file closed, so get reasons...
                     return RedirectToAction("EnterResult", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.CaseReview.tipstaffRecordID });
@@ -120,14 +128,22 @@ namespace Tipstaff.Controllers
         {
             OutstandingCaseReviewViewModel model = new OutstandingCaseReviewViewModel();
             DateTime WeekAway = DateTime.Today.AddDays(7);
-            model.DueWithinWeekCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate <= WeekAway && w.nextReviewDate > DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
-            model.OverdueCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate < DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y=>y.tipstaffRecordID).ToList();
-            model.DueTodayCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate == DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+            var tipstaffRecords = _tipstaffRecordPresenter.GetAll();
+            //////model.DueWithinWeekCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate <= WeekAway && w.nextReviewDate > DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+            //////model.OverdueCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate < DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y=>y.tipstaffRecordID).ToList();
+            //////model.DueTodayCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate == DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+            model.DueWithinWeekCaseReviews = tipstaffRecords.Where(w => w.result == null && w.nextReviewDate <= WeekAway && w.nextReviewDate > DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+            model.OverdueCaseReviews = tipstaffRecords.Where(w => w.result == null && w.nextReviewDate < DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+            model.DueTodayCaseReviews = tipstaffRecords.Where(w => w.result == null && w.nextReviewDate == DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+
+
             return PartialView("_OutstandingCaseReviews",model);
         }
-        public PartialViewResult ListCaseReviewsByRecord(int id, int? page)
+        public PartialViewResult ListCaseReviewsByRecord(string id, int? page)
         {
-            TipstaffRecord w = db.TipstaffRecord.Find(id);
+            ////TipstaffRecord w = db.TipstaffRecord.Find(id);
+
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
 
             ListCaseReviewsByTipstaffRecord model = new ListCaseReviewsByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
