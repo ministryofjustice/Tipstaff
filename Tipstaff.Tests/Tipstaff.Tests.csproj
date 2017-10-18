@@ -75,6 +75,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\BaseController.cs" />
+    <Compile Include="Integration\CaseReviewControllerTests.cs" />
     <Compile Include="Integration\ChildControllerTests.cs" />
     <Compile Include="Integration\ContactsControllerTests.cs" />
     <Compile Include="Integration\ApplicantControllerTests.cs" />

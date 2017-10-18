@@ -26,7 +26,7 @@ namespace Tipstaff.Infrastructure.DynamoAPI
                 _awsDynamoDBConfig.ServiceURL = "ec2.eu-west-2.amazonaws.com";
                 _awsDynamoDBConfig.RegionEndpoint = RegionEndpoint.EUWest2;
                 _awsDynamoDBClient = new AmazonDynamoDBClient("AKIAIYOJJPVKTI5E6DLA", "h61Diom/SlmOuHu7LlOLDWsbnHKa6tqnZ0BN+A9C", _awsDynamoDBConfig);
-                if (System.Configuration.ConfigurationSettings.AppSettings["AWS.DynamoDBContext.TableNamePrefix"] is null)
+                if (System.Configuration.ConfigurationManager.AppSettings["AWS.DynamoDBContext.TableNamePrefix"] is null)
                 {
                     _contextConfig.TableNamePrefix = "Dev_";
                 }
@@ -56,7 +56,15 @@ namespace Tipstaff.Infrastructure.DynamoAPI
 
         public T GetEntityByHashKey(object hashKey)
         {
-            return _dynamoDBContext.Load<T>(hashKey);
+            try
+            {
+                return _dynamoDBContext.Load<T>((string)hashKey);
+                
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public IEnumerable<T> GetResultsByCondtion(object key, QueryOperator op, object range)

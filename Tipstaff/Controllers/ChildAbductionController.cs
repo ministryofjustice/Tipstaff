@@ -15,10 +15,13 @@ namespace Tipstaff.Controllers
     public class ChildAbductionController : Controller
     {
         private readonly IChildAbductionPresenter _childAbductionPresenter;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
 
-        public ChildAbductionController(IChildAbductionPresenter childAbbductionPresenter)
+        public ChildAbductionController(IChildAbductionPresenter childAbbductionPresenter, 
+                                        ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _childAbductionPresenter = childAbbductionPresenter;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
         //
         // GET: /ChildAbduction/
@@ -41,7 +44,7 @@ namespace Tipstaff.Controllers
             }
             if (model.caOrderTypeID > -1)
             {
-                TRs = TRs.Where(w => w.caOrderTypeID == model.caOrderTypeID);
+                TRs = TRs.Where(w => w.caOrderType.CAOrderTypeId == model.caOrderTypeID);
             }
             if (!string.IsNullOrEmpty(model.childNameContains))
             {
@@ -181,6 +184,7 @@ namespace Tipstaff.Controllers
             {
                 //////db.TipstaffRecord.Add(childabduction);
                 //////db.SaveChanges();
+                childabduction.Descriminator = "ChildAbduction";
                 _childAbductionPresenter.AddTipstaffRecord(childabduction);
                 return RedirectToAction("Create", "Child", new { id = childabduction.tipstaffRecordID, initial = true });
             }
@@ -188,7 +192,7 @@ namespace Tipstaff.Controllers
             //ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
             // ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
             //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
-            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.caOrderTypeID);
+            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.caOrderType.CAOrderTypeId);
             ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childabduction.caseStatusID);
             ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
             return View(childabduction);
@@ -209,7 +213,7 @@ namespace Tipstaff.Controllers
             //ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
             //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
             //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
-            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childAbduction.caOrderTypeID);
+            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childAbduction.caOrderType.CAOrderTypeId);
             ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childAbduction.caseStatusID);
             ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childAbduction.protectiveMarkingID);
             return View(childAbduction);
@@ -232,7 +236,7 @@ namespace Tipstaff.Controllers
             //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
             //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
             ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childabduction.caseStatusID);
-            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.caOrderTypeID);
+            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.caOrderType.CAOrderTypeId);
             ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
 
             return View(childabduction);
@@ -265,7 +269,7 @@ namespace Tipstaff.Controllers
                 try
                 {
                     ////model.tipstaffRecord = db.TipstaffRecord.Find(model.tipstaffRecordID);
-                    var tipstaffRecord = _childAbductionPresenter.GetTipStaffRecord(model.tipstaffRecordID.ToString());
+                    var tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID.ToString());
                     model.tipstaffRecord = tipstaffRecord;
                     model.tipstaffRecord.nextReviewDate = DateTime.Today.AddDays(1);
                     model.tipstaffRecord.resultDate = DateTime.Now;
@@ -277,7 +281,7 @@ namespace Tipstaff.Controllers
                     model.tipstaffRecord.caseStatusID = 3;
                     //////db.Entry(model.tipstaffRecord).State = EntityState.Modified;
                     //////db.SaveChanges();
-                    _childAbductionPresenter.UpdateTipstaffRecord(model.tipstaffRecord);
+                    _tipstaffRecordPresenter.UpdateTipstaffRecord(model.tipstaffRecord);
                     return RedirectToAction("Details", "ChildAbduction", new { id = model.tipstaffRecordID });
                 }
                 catch (Exception ex)
@@ -297,7 +301,7 @@ namespace Tipstaff.Controllers
             DeleteChildAbductionViewModel model = new DeleteChildAbductionViewModel();
             ////model.ChildAbduction = db.ChildAbductions.Find(id);
             model.ChildAbduction = _childAbductionPresenter.GetChildAbduction(id);
-            model.deletedTipstaffRecord.TipstaffRecordID = int.Parse(id);
+            model.deletedTipstaffRecord.TipstaffRecordID = id;
             if (model.ChildAbduction == null)
             {
                 ErrorModel errModel = new ErrorModel(2);

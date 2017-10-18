@@ -12,5 +12,7 @@ namespace Tipstaff.Presenters
         void Add(CaseReview caseReview);
 
         IEnumerable<CaseReview> GetAllById(string id);
+
+        CaseReview GetCaseReviewByCompositeKey(string hashKey, string rangeKey);
     }
 }

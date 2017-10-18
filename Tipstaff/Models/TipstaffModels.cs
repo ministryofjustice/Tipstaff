@@ -67,7 +67,7 @@ namespace Tipstaff.Models
         public string Descriminator { get; set; }
         
 
-        public virtual string UniqueRecordID
+        public string UniqueRecordID
         {
             get
             {
@@ -124,8 +124,8 @@ namespace Tipstaff.Models
         //[Required,Display(Name = "Current case status")]
         //public int childAbductionCaseStatusID { get; set; }
 
-        [Required,Display(Name = "Order Type")]
-        public int caOrderTypeID { get; set; }
+        ////[Required,Display(Name = "Order Type")]
+        ////public int caOrderTypeID { get; set; }
         //[Display(Name = "Order Type")]
         //public virtual CAOrderType caOrderType { get; set; }
         [Display(Name = "Order Type")]
@@ -133,11 +133,11 @@ namespace Tipstaff.Models
 
         //public virtual ChildAbductionCaseStatus childAbductionCaseStatus { get; set; }
         [Display(Name="Linked Children")]
-        public virtual ICollection<Child> children { get; set; }
+        public IEnumerable<Child> children { get; set; }
         //[Display(Name="Linked Respondents")]
         //public virtual ICollection<Respondent> Respondents { get; set; }
         [Display(Name = "Linked Applicants")]
-        public virtual ICollection<Applicant> Applicants { get; set; }
+        public IEnumerable<Applicant> Applicants { get; set; }
 
 
         public virtual string ListOfChildNames

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Tipstaff.MemoryCollections;
 
 namespace Tipstaff.Models
 {
@@ -30,7 +31,7 @@ namespace Tipstaff.Models
         public int? DeletedReasonID { get; set; }
         public virtual AuditEventDescription auditEventDescription { get; set; }
         public virtual ICollection<AuditEventDataRow> AuditEventDataRows { get; set; }
-        public virtual DeletedReason DeletedReason { get; set; }
+        public  DeletedReason DeletedReason { get; set; }
         [NotMapped]
         public string EventDescription { get; set; }
 

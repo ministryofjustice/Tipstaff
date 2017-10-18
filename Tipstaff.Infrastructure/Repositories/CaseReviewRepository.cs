@@ -23,9 +23,19 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Save(caseReview);
         }
 
+        public void Delete(CaseReview caseReview)
+        {
+            _dynamoAPI.Delete(caseReview);
+        }
+
         public IEnumerable<CaseReview> GetAllById(string id)
         {
             return _dynamoAPI.GetResultsByKey(id);
+        }
+
+        public CaseReview GetEntityByKeys(string hashKey, string rangeKey)
+        {
+            return _dynamoAPI.GetEntity(hashKey, rangeKey);
         }
     }
 }

@@ -26,11 +26,8 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<ISolicitorRepository>().ImplementedBy<SolicitorRepository>());
             container.Register(Component.For<ITemplateRepository>().ImplementedBy<TemplateRepository>());
             container.Register(Component.For<ITipstaffRecordRepository>().ImplementedBy<TipstaffRecordRepository>());
-            //END REPOSITORIES
-
+            container.Register(Component.For<IDeletedTipstaffRecordRepository>().ImplementedBy<DeletedTipstaffRecordRepository>());
             
-
-
             //PRESENTERS
             container.Register(Component.For<IAddressPresenter>().ImplementedBy<AddressPresenter>());
             container.Register(Component.For<IApplicantPresenter>().ImplementedBy<ApplicantPresenter>());

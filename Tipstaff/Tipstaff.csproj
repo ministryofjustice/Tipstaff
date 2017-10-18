@@ -292,7 +292,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Presenters\AddressPresenter.cs" />
     <Compile Include="Presenters\AttendanceNotePresenter.cs" />
-    <Compile Include="Presenters\CaseReviewPresenter.cs.cs" />
+    <Compile Include="Presenters\CaseReviewPresenter.cs" />
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
     <Compile Include="Presenters\ApplicantPresenter.cs" />
     <Compile Include="Presenters\ChildPresenter.cs" />

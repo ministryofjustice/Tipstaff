@@ -33,11 +33,11 @@
             @Html.ValidationMessageFor(model => model.CaseStatusID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.CaseReview.caseReviewStatusID, true)
+            @Html.LabelFor(model => model.CaseReview.caseReviewStatus.CaseReviewStatusId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.CaseReview.caseReviewStatusID, Model.CaseReviewStatusList, "Select a case review status", new { @class = "required" })            
-            @Html.ValidationMessageFor(model => model.CaseReview.caseReviewStatusID) 
+            @Html.DropDownListFor(model => model.CaseReview.caseReviewStatus.CaseReviewStatusId, Model.CaseReviewStatusList, "Select a case review status", new { @class = "required" })            
+            @Html.ValidationMessageFor(model => model.CaseReview.caseReviewStatus.CaseReviewStatusId) 
         </div>
         <div class="editor-label" style="margin-bottom:75px;">
             @Html.LabelFor(model => model.CaseReview.actionTaken, true)

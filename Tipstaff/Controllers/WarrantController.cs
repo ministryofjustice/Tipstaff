@@ -323,7 +323,7 @@ namespace Tipstaff.Controllers
             DeleteWarrantViewModel model = new DeleteWarrantViewModel();
             //////model.Warrant = db.Warrants.Find(id);
             model.Warrant = _warrantPresenter.GetWarrant(id);
-            model.deletedTipstaffRecord.TipstaffRecordID = int.Parse(id);
+            model.deletedTipstaffRecord.TipstaffRecordID = id;
             if (model == null)
             {
                 ErrorModel errModel = new ErrorModel(2);

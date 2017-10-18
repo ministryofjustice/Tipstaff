@@ -2,65 +2,129 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Tipstaff.Mappers;
 using Tipstaff.Models;
+using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class ChildAbductionPresenter : IChildAbductionPresenter
+    public class ChildAbductionPresenter : IChildAbductionPresenter, IMapper<ChildAbduction, Services.DynamoTables.TipstaffRecord>
     {
-        public void AddDeletedTipstaffRecord(DeletedTipstaffRecord record)
+        private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
+        private readonly IDeletedTipstaffRecordRepository _deletedTipstaffRecordRepository;
+        private Object _lock = new Object();
+
+        public ChildAbductionPresenter(ITipstaffRecordRepository tipstaffRecordRepository, IDeletedTipstaffRecordRepository deletedTipstaffRecordRepository)
         {
-            throw new NotImplementedException();
+            _tipstaffRecordRepository = tipstaffRecordRepository;
+            _deletedTipstaffRecordRepository = deletedTipstaffRecordRepository;
         }
 
-        public void AddTipstaffRecord(TipstaffRecord record)
+        public void AddDeletedTipstaffRecord(Models.DeletedTipstaffRecord record)
         {
-            throw new NotImplementedException();
+            var entity = new Services.DynamoTables.DeletedTipstaffRecord()
+            {
+                Id = record.TipstaffRecordID,
+                DeletedReason = MemoryCollections.DeletedReasonList.GetDeletedReasonList().FirstOrDefault(x=>x.Detail == record.deletedReason.Detail).Detail,
+                UniqueRecordID = record.UniqueRecordID,
+                Discriminator = record.discriminator
+            };
+
+            _deletedTipstaffRecordRepository.Add(entity);
         }
 
         public void AddTipstaffRecord(ChildAbduction childabduction)
         {
-            throw new NotImplementedException();
+            lock (_lock)
+            {
+                var entity = GetDynamoTable(childabduction);
+
+                var count = _tipstaffRecordRepository.GetAll().Count();
+
+                entity.Id = $"{count++}";
+                
+                _tipstaffRecordRepository.Add(entity);
+            }
         }
 
-        public void DeletedTipstaffRecords(DeletedTipstaffRecord record)
+        public void DeletedTipstaffRecords(Models.DeletedTipstaffRecord record)
         {
-            throw new NotImplementedException();
+            var entity = new Services.DynamoTables.DeletedTipstaffRecord()
+            {
+                Id = record.TipstaffRecordID,
+                DeletedReason = MemoryCollections.DeletedReasonList.GetDeletedReasonList().FirstOrDefault(x => x.Detail == record.deletedReason.Detail).Detail,
+                UniqueRecordID = record.UniqueRecordID,
+                Discriminator = record.discriminator
+            };
+
+            _deletedTipstaffRecordRepository.Remove(entity);
         }
 
         public IEnumerable<ChildAbduction> GetAllChildAbductions()
         {
-            throw new NotImplementedException();
+            var records = _tipstaffRecordRepository.GetAll();
+
+            var childAbductions = records.Where(x => x.Discriminator == "ChildAbduction").Select(x=> GetModel(x));
+
+            return childAbductions;
         }
 
         public ChildAbduction GetChildAbduction(string id)
         {
-            throw new NotImplementedException();
+            var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
+
+            var childAbduction = GetModel(record);
+
+            return childAbduction;
         }
 
-        public TipstaffRecord GetTipStaffRecord(string id)
+        public Services.DynamoTables.TipstaffRecord GetDynamoTable(ChildAbduction model)
         {
-            throw new NotImplementedException();
-        }
+            var record = new Services.DynamoTables.TipstaffRecord()
+            {
+                Id = model.tipstaffRecordID,
+                SentSCD26 = model.sentSCD26,
+                OfficerDealing = model.officerDealing,
+                OrderDated = model.orderDated,
+                OrderReceived = model.orderReceived,
+                EldestChild = model.EldestChild,
+                CAOrderType = model.caOrderType.Detail
+            };
 
+            return record;
+        }
+        
+        public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table)
+        {
+            var entity = _tipstaffRecordRepository.GetEntityByHashKey(table.Id);
+
+            var model = new Models.ChildAbduction()
+            {
+                sentSCD26 = table.SentSCD26,
+                Descriminator = table.Discriminator,
+                orderDated = table.OrderDated,
+                orderReceived = table.OrderReceived,
+                officerDealing = table.OfficerDealing,
+                EldestChild = table.EldestChild,
+                caOrderType = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.Detail == table.CAOrderType),
+                tipstaffRecordID = table.Id
+            };
+
+            return model;
+        }
+        
         public void RemoveChildAbduction(ChildAbduction childAbduction)
         {
-            throw new NotImplementedException();
+            var entity = GetDynamoTable(childAbduction);
+
+            _tipstaffRecordRepository.Delete(entity);
         }
 
         public void UpdateChildAbduction(ChildAbduction childAbduction)
         {
-            throw new NotImplementedException();
-        }
+            var entity = GetDynamoTable(childAbduction);
 
-        public void UpdateTipstaffRecord(ChildAbduction childabduction)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateTipstaffRecord(TipstaffRecord record)
-        {
-            throw new NotImplementedException();
+            _tipstaffRecordRepository.Update(entity);
         }
     }
 }

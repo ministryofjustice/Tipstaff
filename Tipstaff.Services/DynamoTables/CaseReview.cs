@@ -11,7 +11,7 @@ namespace Tipstaff.Services.DynamoTables
     public class CaseReview : DynamoTable
     {
         [DynamoDBRangeKey]
-        public string TipstaffRecordId { get; set; }
+        public string TipstaffRecordID { get; set; }
 
         public DateTime ReviewDate { get; set; }
 

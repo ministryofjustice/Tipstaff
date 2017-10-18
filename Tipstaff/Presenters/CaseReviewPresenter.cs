@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tipstaff.Mappers;
+using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
@@ -30,6 +32,15 @@ namespace Tipstaff.Presenters
             return caseRevies;
         }
 
+        public CaseReview GetCaseReviewByCompositeKey(string hashKey, string rangeKey)
+        {
+            var entity = _caseReviewRepository.GetEntityByKeys(hashKey, rangeKey);
+
+            var model = GetModel(entity);
+
+            return model;
+        }
+
         public Services.DynamoTables.CaseReview GetDynamoTable(Models.CaseReview model)
         {
             var entity = new Services.DynamoTables.CaseReview()
@@ -38,7 +49,7 @@ namespace Tipstaff.Presenters
                 Id = model.caseReviewID,
                 NextReviewDate = model.nextReviewDate,
                 ReviewDate = model.reviewDate.Value,
-                TipstaffRecordId = model.tipstaffRecordID,
+                TipstaffRecordID = model.tipstaffRecordID,
                 CaseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=> x.Detail == model.caseReviewStatus.Detail).Detail,
             };
 
@@ -53,7 +64,7 @@ namespace Tipstaff.Presenters
                 caseReviewID = table.Id,
                 nextReviewDate = table.NextReviewDate,
                 reviewDate = table.ReviewDate,
-                tipstaffRecordID = table.TipstaffRecordId,
+                tipstaffRecordID = table.TipstaffRecordID,
                 caseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=>x.Detail == table.CaseReviewStatus),
             };
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Tipstaff.Infrastructure.Services;
 using Tipstaff.Models;
 using Tipstaff.Presenters;
 
@@ -13,15 +14,17 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class CaseReviewController : Controller
     {
-        ///private TipstaffDB db = myDBContextHelper.CurrentContext;
-
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
         private readonly ICaseReviewPresenter _caseReviewPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter, ICaseReviewPresenter caseReviewPresenter)
+        public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter, 
+                                    ICaseReviewPresenter caseReviewPresenter, 
+                                    IGuidGenerator guidGenerator)
         {
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _caseReviewPresenter = caseReviewPresenter;
+            _guidGenerator = guidGenerator;
         }
         //
         // GET: /CaseReview/
@@ -53,6 +56,7 @@ namespace Tipstaff.Controllers
                 TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.CaseReview.tipstaffRecordID);
                 ////tr.caseReviews.Add(model.CaseReview);
                 model.CaseReview.tipstaffRecordID = tr.tipstaffRecordID;
+                model.CaseReview.caseReviewID = _guidGenerator.GenerateTimeBasedGuid().ToString();
 
                 _caseReviewPresenter.Add(model.CaseReview);
 
