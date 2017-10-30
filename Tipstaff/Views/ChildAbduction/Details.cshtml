@@ -120,7 +120,7 @@ else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
     </div>
     }
 
-    <div class="display-label">@Html.LabelFor(model=>model.caOrderTypeID)</div>
+    <div class="display-label">@Html.LabelFor(model=>model.caOrderType.CAOrderTypeId)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.caOrderType.Detail)
     </div>
@@ -132,7 +132,7 @@ else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
 
     <div class="display-label">@Html.LabelFor(model=>model.createdBy)</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.ToShortDateString()
+        @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.Value.ToShortDateString()
     </div>
 
     <div class="display-label">@Html.LabelFor(model=>model.protectiveMarking)</div>

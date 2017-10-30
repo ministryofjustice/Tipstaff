@@ -1,0 +1,43 @@
+﻿1>------ Rebuild All started: Project: Tipstaff.Services, Configuration: Debug Any CPU ------
+2>------ Rebuild All started: Project: Tipstaff_Database, Configuration: Release Any CPU ------
+2>	C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702,2008 /nostdlib+ /errorreport:prompt /warn:4 /define:TRACE /errorendlocation /preferreduilang:en-US /highentropyva+ /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\mscorlib.dll" /debug:pdbonly /optimize+ /out:obj\Release\Tipstaff_Database.dll /ruleset:"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Team Tools\Static Analysis Tools\\Rule Sets\MinimumRecommendedRules.ruleset" /subsystemversion:6.00 /target:library /warnaserror- /utf8output "C:\Users\veronicazotali\AppData\Local\Temp\.NETFramework,Version=v4.5.2.SqlClrAttributes.cs"
+2>	Loading project references...
+2>	Loading project files...
+2>	Building the project model and resolving object interdependencies...
+2>	Validating the project model...
+1>  Tipstaff.Services -> C:\Projects\Tipstaff\Tipstaff.Services\bin\Debug\Tipstaff.Services.dll
+2>	Writing model to C:\Projects\Tipstaff\Tipstaff_Database\obj\Release\Model.xml...
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[attendancenotes] differs only by case from the object definition [dbo].[AttendanceNotes].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[TipstaffRecords].[tipstaffrecordid] differs only by case from the object definition [dbo].[TipstaffRecords].[tipstaffRecordID].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[attendancenotes].[tipstaffrecordid] differs only by case from the object definition [dbo].[AttendanceNotes].[tipstaffRecordID].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[TipstaffRecords].[discriminator] differs only by case from the object definition [dbo].[TipstaffRecords].[Discriminator].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[Divisions].[prefix] differs only by case from the object definition [dbo].[Divisions].[Prefix].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[TipstaffRecords].[tipstaffrecordid] differs only by case from the object definition [dbo].[TipstaffRecords].[tipstaffRecordID].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[TipstaffRecords].[respondentname] differs only by case from the object definition [dbo].[TipstaffRecords].[RespondentName].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[attendancenotes].[CallDetails] differs only by case from the object definition [dbo].[AttendanceNotes].[callDetails].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[attendancenotes].[CallDetails] differs only by case from the object definition [dbo].[AttendanceNotes].[callDetails].
+2>C:\Projects\Tipstaff\Tipstaff_Database\dbo\Stored Procedures\GetPNCAttendanceNotes.sql(6,1): Warning:  SQL71558: The object reference [dbo].[TipstaffRecords].[CaseStatusID] differs only by case from the object definition [dbo].[TipstaffRecords].[caseStatusID].
+2>	Tipstaff_Database -> C:\Projects\Tipstaff\Tipstaff_Database\bin\Release\Tipstaff_Database.dll
+2>	Tipstaff_Database -> C:\Projects\Tipstaff\Tipstaff_Database\bin\Release\Tipstaff_Database.dacpac
+3>------ Rebuild All started: Project: Tipstaff.Infrastructure, Configuration: Debug Any CPU ------
+3>C:\Projects\Tipstaff\Tipstaff.Infrastructure\DynamoAPI\DynamoAPI.cs(64,30,64,32): warning CS0168: The variable 'ex' is declared but never used
+3>C:\Projects\Tipstaff\Tipstaff.Infrastructure\S3API\S3API.cs(15,32,15,50): warning CS0649: Field 'S3API._awsAmazonS3Config' is never assigned to, and will always have its default value null
+3>  Tipstaff.Infrastructure -> C:\Projects\Tipstaff\Tipstaff.Infrastructure\bin\Debug\Tipstaff.Infrastructure.dll
+4>------ Rebuild All started: Project: Tipstaff, Configuration: Release Any CPU ------
+4>C:\Projects\Tipstaff\Tipstaff\Areas\Admin\Controllers\TemplatesController.cs(51,30,51,32): warning CS0168: The variable 'ex' is declared but never used
+4>C:\Projects\Tipstaff\Tipstaff\Classes\Excel.cs(14,18,14,22): warning CS0169: The field 'Excel_TS.data' is never used
+4>C:\Projects\Tipstaff\Tipstaff\Models\GraphModels.cs(25,24,25,35): warning CS0649: Field 'DeletionsForLastYear.displayDate' is never assigned to, and will always have its default value null
+4>C:\Projects\Tipstaff\Tipstaff\Models\GraphModels.cs(24,24,24,30): warning CS0649: Field 'DeletionsForLastYear.prefix' is never assigned to, and will always have its default value null
+4>C:\Projects\Tipstaff\Tipstaff\Classes\Excel.cs(12,13,12,23): warning CS0414: The field 'Excel_TS.maxColumns' is assigned but its value is never used
+4>  Tipstaff -> C:\Projects\Tipstaff\Tipstaff\bin\Tipstaff.dll
+5>------ Rebuild All started: Project: Tipstaff.Tests, Configuration: Debug Any CPU ------
+5>C:\Projects\Tipstaff\Tipstaff.Tests\Integration\ChildAbductionControllerTests.cs(19,63,19,78): warning CS0169: The field 'ChildAbductionControllerTests._tipstaffRecord' is never used
+5>C:\Projects\Tipstaff\Tipstaff.Tests\UnitTests\AttendanceNoteNunitTests.cs(25,24,25,26): warning CS0649: Field 'AttendanceNoteNunitTests.tr' is never assigned to, and will always have its default value null
+5>C:\Projects\Tipstaff\Tipstaff.Tests\UnitTests\AddressNunitTests.cs(25,24,25,26): warning CS0649: Field 'AddressNunitTests.tr' is never assigned to, and will always have its default value null
+5>C:\Projects\Tipstaff\Tipstaff.Tests\Integration\ChildAbductionControllerTests.cs(20,59,20,70): warning CS0169: The field 'ChildAbductionControllerTests._caseReview' is never used
+5>C:\Projects\Tipstaff\Tipstaff.Tests\UnitTests\ChildNunitTests.cs(25,24,25,26): warning CS0649: Field 'ChildNunitTests.tr' is never assigned to, and will always have its default value null
+5>C:\Projects\Tipstaff\Tipstaff.Tests\UnitTests\DocumentNunitTests.cs(25,24,25,26): warning CS0649: Field 'DocumentNunitTests.tr' is never assigned to, and will always have its default value null
+5>C:\Projects\Tipstaff\Tipstaff.Tests\Integration\SolicitorFirmControllerTests.cs(29,30,29,43): warning CS0169: The field 'SolicitorFirmControllerTests.solicitorFirm' is never used
+5>C:\Projects\Tipstaff\Tipstaff.Tests\UnitTests\SolicitorNunitTests.cs(25,23,25,25): warning CS0649: Field 'SolicitorNunitTests.sf' is never assigned to, and will always have its default value null
+5>  Tipstaff.Tests -> C:\Projects\Tipstaff\Tipstaff.Tests\bin\Debug\Tipstaff.Tests.dll
+========== Rebuild All: 5 succeeded, 0 failed, 0 skipped ==========

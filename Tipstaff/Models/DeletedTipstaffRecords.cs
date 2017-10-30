@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
+using Tipstaff.MemoryCollections;
 
 namespace Tipstaff.Models
 {
@@ -41,7 +42,7 @@ namespace Tipstaff.Models
     public class DeletedTipstaffRecord
     {
         [Key, Column(Order = 0)]
-        public int TipstaffRecordID { get; set; }
+        public string TipstaffRecordID { get; set; }
         [Key, Column(Order = 1)]
         [Display(Name="Reason for Deletion")]
         public int deletedReasonID { get; set; }
@@ -49,18 +50,18 @@ namespace Tipstaff.Models
         public string discriminator { get; set; }
         [Required, MaxLength(10)]
         public string UniqueRecordID { get; set; }
-        public virtual DeletedReason deletedReason { get; set; }
+        public DeletedReason deletedReason { get; set; }
     }
 
-    public class DeletedReason
-    {
-        public int deletedReasonID { get; set; }
-        [Required, MaxLength(50), Display(Name = "Deleted Reason")]
-        public string Detail { get; set; }
-        [Display(Name = "Active")]
-        public bool active { get; set; }
-        public DateTime? deactivated { get; set; }
-        [MaxLength(50)]
-        public string deactivatedBy { get; set; }
-    }
+    //public class DeletedReason
+    //{
+    //    public int deletedReasonID { get; set; }
+    //    [Required, MaxLength(50), Display(Name = "Deleted Reason")]
+    //    public string Detail { get; set; }
+    //    [Display(Name = "Active")]
+    //    public bool active { get; set; }
+    //    public DateTime? deactivated { get; set; }
+    //    [MaxLength(50)]
+    //    public string deactivatedBy { get; set; }
+    //}
 }

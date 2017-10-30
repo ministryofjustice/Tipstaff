@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
@@ -9,8 +7,6 @@ using System.Data;
 using System.Web.UI;
 using System.Data.Entity.Validation;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
-using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.Services;
 using Tipstaff.Presenters;
 

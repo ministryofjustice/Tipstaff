@@ -28,6 +28,11 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Delete(respondent);
         }
 
+        public IEnumerable<Respondent> GetAll()
+        {
+            return _dynamoAPI.GetAll();
+        }
+
         public Respondent GetRespondent(string id)
         {
             return _dynamoAPI.GetEntityByHashKey(id);

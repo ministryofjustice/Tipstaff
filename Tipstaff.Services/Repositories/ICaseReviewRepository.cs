@@ -12,5 +12,9 @@ namespace Tipstaff.Services.Repositories
         void Add(CaseReview caseReview);
 
         IEnumerable<CaseReview> GetAllById(string id);
+
+        void Delete(CaseReview caseReview);
+
+        CaseReview GetEntityByKeys(string hashKey, string rangeKey);
     }
 }

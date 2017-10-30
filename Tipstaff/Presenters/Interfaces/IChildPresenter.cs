@@ -24,5 +24,7 @@ namespace Tipstaff.Presenters
         void UpdateChildAbduction(ChildAbduction model);
 
         void DeleteChild(DeleteChild model);
+
+        IEnumerable<Child> GetAllChildren();
     }
 }

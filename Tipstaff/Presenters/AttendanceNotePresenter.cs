@@ -12,12 +12,10 @@ namespace Tipstaff.Presenters
     {
         private readonly IAttendanceNotesRepository _attendanceNotesRepository;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
-        private readonly IGuidGenerator _guidGenerator;
-
-        public AttendanceNotePresenter(IAttendanceNotesRepository attendanceNotesRepository, IGuidGenerator guidGenerator, ITipstaffRecordPresenter tipstaffRecordPresenter)
+        
+        public AttendanceNotePresenter(IAttendanceNotesRepository attendanceNotesRepository, ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _attendanceNotesRepository = attendanceNotesRepository;
-            _guidGenerator = guidGenerator;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
 

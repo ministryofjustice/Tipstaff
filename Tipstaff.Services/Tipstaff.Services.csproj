@@ -52,6 +52,7 @@
     <Compile Include="dto\Tipstaff.cs" />
     <Compile Include="DynamoTables\Address.cs" />
     <Compile Include="DynamoTables\CaseReview.cs" />
+    <Compile Include="DynamoTables\DeletedTipstaffRecord.cs" />
     <Compile Include="DynamoTables\Documents.cs" />
     <Compile Include="DynamoTables\Children.cs" />
     <Compile Include="DynamoTables\AttendanceNote.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IAddressRepository.cs" />
     <Compile Include="Repositories\ICaseReviewRepository.cs" />
+    <Compile Include="Repositories\IDeletedTipstaffRecordRepository.cs" />
     <Compile Include="Repositories\IPoliceForcesRepository.cs" />
     <Compile Include="Repositories\IRespondentRepository.cs" />
     <Compile Include="Repositories\ITemplateRepository.cs" />

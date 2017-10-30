@@ -9,7 +9,8 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class TipstaffRecordPresenter : ITipstaffRecordPresenter, IMapper<Models.TipstaffRecord, Tipstaff.Services.DynamoTables.TipstaffRecord>
+    public class TipstaffRecordPresenter : ITipstaffRecordPresenter, 
+        IMapper<Models.TipstaffRecord, Tipstaff.Services.DynamoTables.TipstaffRecord>
     {
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
         private readonly IAddressPresenter _addressPresenter;
@@ -31,6 +32,13 @@ namespace Tipstaff.Presenters
             _caseReviewPresenter = caseReviewPresenter;
         }
 
+        public void AddTipstaffRecord(Models.TipstaffRecord record)
+        {
+            var entity = GetDynamoTable(record);
+
+            _tipstaffRecordRepository.Add(entity);
+        }
+
         public IEnumerable<Models.TipstaffRecord> GetAll()
         {
             var entities = _tipstaffRecordRepository.GetAll();
@@ -40,16 +48,21 @@ namespace Tipstaff.Presenters
             return records;
         }
 
-        public Services.DynamoTables.TipstaffRecord GetDynamoTable(Models.TipstaffRecord table)
+        public Services.DynamoTables.TipstaffRecord GetDynamoTable(Models.TipstaffRecord model)
         {
-            throw new NotImplementedException();
+            var entity = new Services.DynamoTables.TipstaffRecord()
+            {
+                //SentSCD26 = model.
+            };
+
+            return entity;
         }
 
         public Models.TipstaffRecord GetModel(Services.DynamoTables.TipstaffRecord table)
         {
             var model = new Models.TipstaffRecord()
             {
-                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
+               // addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 arrestCount = table.ArrestCount,
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
@@ -59,9 +72,9 @@ namespace Tipstaff.Presenters
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
                 resultEnteredBy = table.ResultEnteredBy,
-                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
-                Respondents = _respondentPresenter.GetAllById(table.Id),
-                caseReviews = _caseReviewPresenter.GetAllById(table.Id),
+               // AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                //Respondents = _respondentPresenter.GetAllById(table.Id),
+                //caseReviews = _caseReviewPresenter.GetAllById(table.Id),
                 Descriminator = table.Discriminator,
                 result = MemoryCollections.ResultsList.GetResultByDetail(table.Result),
                 tipstaffRecordID = table.Id,
@@ -95,8 +108,9 @@ namespace Tipstaff.Presenters
                 NextReviewDate = record.nextReviewDate,
                 PrisonCount = record.prisonCount,
                 ResultDate = record.resultDate,
-                ProtectiveMarking = record.protectiveMarking.Detail,
-                CaseStatus = record.caseStatus.Detail
+                ProtectiveMarking = record.protectiveMarking?.Detail,
+                CaseStatus = record.caseStatus?.Detail,
+                CreatedOn = record.createdOn
             };
             
             _tipstaffRecordRepository.Update(entity);

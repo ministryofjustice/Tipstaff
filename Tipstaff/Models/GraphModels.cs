@@ -15,12 +15,14 @@ namespace Tipstaff.Models
         year
     }
 
-    public class DeletionsForLastYear : IGraphData
+    public class DeletionsForLastYear 
     {
-        TipstaffDB db = myDBContextHelper.CurrentContext;
+       TipstaffDB db = myDBContextHelper.CurrentContext;
         private DateTime startDate { get; set; }
+
         private IDictionary<string, int?> gData = new Dictionary<string, int?>();
         private GraphPeriod graphPeriod { get; set; }
+
         private string prefix;
         private string displayDate;
 
@@ -112,67 +114,74 @@ namespace Tipstaff.Models
 
     }
 
-    public class GraphData : IGraphData
+    public class GraphData 
     {
         TipstaffDB db = myDBContextHelper.CurrentContext;
-        private DateTime startDate { get; set; }
-        private IDictionary<string, int?> gData = new Dictionary<string, int?>();
-        private GraphPeriod graphPeriod { get; set; }
-        private string prefix;
-        private string displayDate;
+        //public DateTime startDate { get; set; }
 
-        public GraphData(GraphPeriod gp)
-        {
-            graphPeriod = gp;
-            IEnumerable<Warrant> w = db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c=>c.division.Detail);
-            switch (graphPeriod)
-            {
-                case GraphPeriod.week:
-                    prefix = "w/c";
-                    startDate = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
-                    displayDate = startDate.ToString("d MMM yyyy");
-                    break;
-                case GraphPeriod.month:
-                    prefix = "";
-                    startDate = DateTime.Today.StartOfMonth();
-                    displayDate = startDate.ToString("MMMM yyyy");
-                    break;
-                case GraphPeriod.year:
-                    prefix = "";
-                    startDate = Convert.ToDateTime(string.Format("1/1/{0}", DateTime.Now.Year.ToString()));
-                    displayDate = startDate.ToString("yyyy");
-                    break;
-                default:
-                    break;
-            }
+        //private IDictionary<string, int?> gData = new Dictionary<string, int?>();
+
+        public  IDictionary<string, int?> gData { get; set; }
+
+
+        ////public GraphPeriod graphPeriod { get; set; }
+
+        public string prefix;
+
+        public string displayDate;
+
+        ////public GraphData(GraphPeriod graphPeriod)
+        ////{
             
-            gData.Add("Child Abductions", db.ChildAbductions.Where(c => c.createdOn >= startDate).Count());
-            gData.Add("Bankruptcy", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(d => d.division.Detail == "Bankruptcy").Count());
-            gData.Add("Chancery", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(e => e.division.Detail == "Chancery").Count());
-            gData.Add("Family", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Family").Count());
-            gData.Add("Insolvency", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Insolvency").Count()); // null);//
-            gData.Add("Queen's Bench", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Queen's Bench").Count());
+        ////    IEnumerable<Warrant> w = db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail);
+        ////    switch (graphPeriod)
+        ////    {
+        ////        case GraphPeriod.week:
+        ////            prefix = "w/c";
+        ////            startDate = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+        ////            displayDate = startDate.ToString("d MMM yyyy");
+        ////            break;
+        ////        case GraphPeriod.month:
+        ////            prefix = "";
+        ////            startDate = DateTime.Today.StartOfMonth();
+        ////            displayDate = startDate.ToString("MMMM yyyy");
+        ////            break;
+        ////        case GraphPeriod.year:
+        ////            prefix = "";
+        ////            startDate = Convert.ToDateTime(string.Format("1/1/{0}", DateTime.Now.Year.ToString()));
+        ////            displayDate = startDate.ToString("yyyy");
+        ////            break;
+        ////        default:
+        ////            break;
+        ////    }
 
-            if (gData["Child Abductions"] == 0) gData["Child Abductions"] = null;
-            if (gData["Bankruptcy"] == 0) gData["Bankruptcy"] = null;
-            if (gData["Chancery"] == 0) gData["Chancery"] = null;
-            if (gData["Family"] == 0) gData["Family"] = null;
-            if (gData["Insolvency"] == 0) gData["Insolvency"] = null;
-            if (gData["Queen's Bench"] == 0) gData["Queen's Bench"] = null;
-        }
+        ////    gData.Add("Child Abductions", db.ChildAbductions.Where(c => c.createdOn >= startDate).Count());
+        ////    gData.Add("Bankruptcy", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(d => d.division.Detail == "Bankruptcy").Count());
+        ////    gData.Add("Chancery", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(e => e.division.Detail == "Chancery").Count());
+        ////    gData.Add("Family", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Family").Count());
+        ////    gData.Add("Insolvency", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Insolvency").Count()); // null);//
+        ////    gData.Add("Queen's Bench", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Queen's Bench").Count());
 
-        public ICollection<string> Keys
-        {
-            get{return gData.Keys;}
-        }
+        ////    if (gData["Child Abductions"] == 0) gData["Child Abductions"] = null;
+        ////    if (gData["Bankruptcy"] == 0) gData["Bankruptcy"] = null;
+        ////    if (gData["Chancery"] == 0) gData["Chancery"] = null;
+        ////    if (gData["Family"] == 0) gData["Family"] = null;
+        ////    if (gData["Insolvency"] == 0) gData["Insolvency"] = null;
+        ////    if (gData["Queen's Bench"] == 0) gData["Queen's Bench"] = null;
+        ////}
 
-        public ICollection<int?> Values
-        {
-            get
-            {
-                return gData.Values;
-            }
-        }
+        ////public IEnumerable<string> Keys
+        ////{
+        ////    get{return gData.Keys;}
+        ////}
+
+        ////public IEnumerable<int?> Values
+        ////{
+        ////    get
+        ////    {
+        ////        return gData.Values;
+        ////    }
+        ////}
 
         public string Title
         {

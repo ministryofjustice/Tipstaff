@@ -14,11 +14,7 @@ namespace Tipstaff.Presenters
         ChildAbduction GetChildAbduction(string id);
 
         void RemoveChildAbduction(ChildAbduction childAbduction);
-
-        TipstaffRecord GetTipStaffRecord(string id);
-
-        void UpdateTipstaffRecord(TipstaffRecord record);
-
+        
         void DeletedTipstaffRecords(DeletedTipstaffRecord record);
 
         void AddDeletedTipstaffRecord(DeletedTipstaffRecord record);

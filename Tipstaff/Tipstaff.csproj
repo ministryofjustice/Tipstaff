@@ -292,12 +292,13 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Presenters\AddressPresenter.cs" />
     <Compile Include="Presenters\AttendanceNotePresenter.cs" />
-    <Compile Include="Presenters\CaseReviewPresenter.cs.cs" />
+    <Compile Include="Presenters\CaseReviewPresenter.cs" />
     <Compile Include="Presenters\ChildAbductionPresenter.cs" />
     <Compile Include="Presenters\ApplicantPresenter.cs" />
     <Compile Include="Presenters\ChildPresenter.cs" />
     <Compile Include="Presenters\ContactPresenter.cs" />
     <Compile Include="Presenters\FAQPresenter.cs" />
+    <Compile Include="Presenters\GraphPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAttendanceNotePresenter.cs" />
     <Compile Include="Presenters\Interfaces\ICaseReviewPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IChildPresenter.cs" />
@@ -307,8 +308,10 @@
     <Compile Include="Presenters\Interfaces\IContactPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IDocumentPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IFAQPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IGraphPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IPoliceForcesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IRespondentPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ISearchPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISolicitorFirmsPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISolicitorPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ITemplatePresenter.cs" />
@@ -316,6 +319,7 @@
     <Compile Include="Presenters\Interfaces\IWarrantPresenter.cs" />
     <Compile Include="Presenters\PoliceForcesPresenter.cs" />
     <Compile Include="Presenters\RespondentPresenter.cs" />
+    <Compile Include="Presenters\SearchPresenter.cs" />
     <Compile Include="Presenters\SolicitorFirmsPresenter.cs" />
     <Compile Include="Presenters\SolicitorPresenter.cs" />
     <Compile Include="Presenters\TemplatePresenter.cs" />

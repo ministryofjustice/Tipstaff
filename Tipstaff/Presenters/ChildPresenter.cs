@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Tipstaff.Mappers;
 using Tipstaff.Models;
-using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
-using Tipstaff.Services.Services;
 
 namespace Tipstaff.Presenters
 {
@@ -59,11 +55,7 @@ namespace Tipstaff.Presenters
 
             return tipstaff;
         }
-
-        public ChildAbduction GetChildAbduction(string id)
-        {
-            return (ChildAbduction)_tipstaffPresenter.GetTipStaffRecord(id);
-        }
+        
         public void UpdateChildAbduction(ChildAbduction model)
         {
             _caPresenter.UpdateChildAbduction(model);
@@ -74,7 +66,7 @@ namespace Tipstaff.Presenters
             var model = new Models.Child()
             {
                 build = table.Build,
-                childAbduction = (ChildAbduction) GetTipstaffRecord(table.TipstaffRecordID),
+                childAbduction = (ChildAbduction) GetTipstaffRecord(table.TipstaffRecordID.ToString()),
                 childID = table.Id,
                 country = MemoryCollections.CountryList.GetCountryByDetail(table.Country),
                 dateOfBirth = table.DateOfBirth,
@@ -89,7 +81,7 @@ namespace Tipstaff.Presenters
                 PNCID = table.PNCID,
                 skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(table.SkinColour),
                 specialfeatures = table.Specialfeatures,
-                tipstaffRecordID = table.TipstaffRecordID
+                tipstaffRecordID = table.TipstaffRecordID.ToString()
             };
 
             return model;
@@ -101,7 +93,7 @@ namespace Tipstaff.Presenters
             {
                 Id = model.childID,
                 Build = model.build,
-                TipstaffRecordID = model.tipstaffRecordID,
+                TipstaffRecordID = int.Parse(model.tipstaffRecordID),
                 Specialfeatures = model.specialfeatures,
                 Country = model.country.Detail,
                 DateOfBirth = model.dateOfBirth,
@@ -128,6 +120,17 @@ namespace Tipstaff.Presenters
         public IEnumerable<Services.DynamoTables.Child> GetAll(IEnumerable<Models.Child> entities)
         {
             return entities.Select(x => GetDynamoTable(x));
+        }
+
+        public IEnumerable<Models.Child> GetAllChildren()
+        {
+            var children = _childRepository.GetAllChildren();
+            return GetAll(children);
+        }
+
+        public ChildAbduction GetChildAbduction(string id)
+        {
+            return (ChildAbduction)_tipstaffPresenter.GetTipStaffRecord(id);
         }
     }
 }

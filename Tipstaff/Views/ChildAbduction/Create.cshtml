@@ -54,11 +54,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.caOrderTypeID, true)
+            @Html.LabelFor(model => model.caOrderType.CAOrderTypeId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.caOrderTypeID, (SelectList)ViewBag.caOrderTypeID, "Please choose an Order type", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.caOrderTypeID)
+            @Html.DropDownListFor(model => model.caOrderType.CAOrderTypeId, (SelectList)ViewBag.caOrderTypeID, "Please choose an Order type", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.caOrderType.CAOrderTypeId)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.caseStatusID, true)

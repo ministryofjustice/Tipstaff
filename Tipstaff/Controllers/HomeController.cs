@@ -10,6 +10,8 @@ using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Web.Security;
+using Tipstaff.Presenters;
+using Tipstaff.Presenters.Interfaces;
 
 namespace Tipstaff.Controllers
 {
@@ -18,7 +20,19 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class HomeController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly ISearchPresenter _searchPresenter;
+        private readonly IGraphPresenter _graphPresenter;
+
+        public HomeController(ITipstaffRecordPresenter tipstaffRecordPresenter, 
+                              ISearchPresenter searchPresenter, 
+                              IGraphPresenter graphPresenter)
+        {
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _searchPresenter = searchPresenter;
+            _graphPresenter = graphPresenter;
+        }
 
         [AllowAnonymous]
         public ActionResult Index()
@@ -29,31 +43,45 @@ namespace Tipstaff.Controllers
 
         public PartialViewResult CaseClosedIssues()
         {
-            TipstaffCaseClosedDataModel data = new TipstaffCaseClosedDataModel();
+            TipstaffCaseClosedDataModel data = new TipstaffCaseClosedDataModel()
+            {
+                TipstaffRecords = _tipstaffRecordPresenter.GetAll().Where(x => x.caseStatus.CaseStatusId > 2 && x.result == null)
+            };
+
             return PartialView("_CaseClosedIssues", data);
         }
 
         [HttpPost]
         public ActionResult Search(string searchRecord)
         {
-            SearchModel sm = new SearchModel(searchRecord);
-            
+            //////var sm = new SearchModel(searchRecord);
+            var sm = _searchPresenter.GetSearchModel(searchRecord);
+
             if (sm.isValid)
             {
                 switch (sm.searchType)
                 {
                     case SearchType.RecordNumber:
-                        using (TipstaffDB db = new TipstaffDB())
+                        ////using (TipstaffDB db = new TipstaffDB())
+                        ////{
+                        ////    var tipstaffRecord = db.TipstaffRecord.Find(sm.search);
+                        ////    if (tipstaffRecord != null)
+                        ////    {
+                        ////        return RedirectToAction("Details", sm.RecordType, new { id = sm.tipstaffRecord.tipstaffRecordID });
+                        ////    }
+                        ////    else
+                        ////    {
+                        ////        return View(sm);
+                        ////    }
+                        ////}
+                        var tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(sm.search.ToString());
+                        if (tipstaffRecord != null)
                         {
-                            var tipstaffRecord = db.TipstaffRecord.Find(sm.search);
-                            if (tipstaffRecord != null)
-                            {
-                                return RedirectToAction("Details", sm.RecordType, new { id = sm.tipstaffRecord.tipstaffRecordID });
-                            }
-                            else
-                            {
-                                return View(sm);
-                            }
+                            return RedirectToAction("Details", sm.RecordType, new { id = sm.tipstaffRecord.tipstaffRecordID });
+                        }
+                        else
+                        {
+                            return View(sm);
                         }
                     case SearchType.Name:
                         return View(sm);
@@ -71,7 +99,8 @@ namespace Tipstaff.Controllers
         public ActionResult Issue(GraphPeriod gp)
         {
 
-            GraphData wg = new GraphData(gp);
+            //////GraphData wg = new GraphData(gp);
+            GraphData wg = _graphPresenter.GetGraphData(gp);
             var Chart1 = new Chart();
             Chart1.Width = 500;
             Chart1.Height = 350;
@@ -82,7 +111,8 @@ namespace Tipstaff.Controllers
             var area = new ChartArea("ChartArea1");
             Chart1.ChartAreas.Add(area);
             Series series = new Series("Issues", 10);
-            series.Points.DataBindXY(wg.Keys, wg.Values);
+            ////series.Points.DataBindXY(wg.Keys, wg.Values);
+            series.Points.DataBindXY(wg.gData.Keys, wg.gData.Values);
             // Populate series data
             series.IsValueShownAsLabel = true;
             //series.LabelBackColor = Color.White;
