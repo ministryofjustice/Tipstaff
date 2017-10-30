@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Tipstaff.Mappers;
-using Tipstaff.Models;
-using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
@@ -32,11 +28,12 @@ namespace Tipstaff.Presenters
             _respondentRepository.Delete(entity);
         }
 
-        public IEnumerable<Models.Respondent> GetAllById(string id)
+        public IEnumerable<Models.Respondent> GetAll()
         {
-            throw new NotImplementedException();
+            var respondents = _respondentRepository.GetAll();
+            return respondents.Select(x=> GetModel(x));
         }
-
+        
         public Services.DynamoTables.Respondent GetDynamoTable(Models.Respondent model)
         {
             var table = new Services.DynamoTables.Respondent()

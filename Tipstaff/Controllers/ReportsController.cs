@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Web.UI;
 using Utils.Excel;
+using Tipstaff.Presenters.Interfaces;
 
 namespace Tipstaff.Controllers
 {
@@ -18,6 +19,12 @@ namespace Tipstaff.Controllers
     public class ReportsController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly IGraphPresenter _graphPresenter;
+
+        public ReportsController(IGraphPresenter graphPresenter)
+        {
+            _graphPresenter = graphPresenter;
+        }
 
         public ActionResult Index()
         {
@@ -76,10 +83,14 @@ namespace Tipstaff.Controllers
         public ActionResult OPTGraph()
         {
 
-            GraphData wD = new GraphData(GraphPeriod.week);
-            GraphData mD = new GraphData(GraphPeriod.month);
-            GraphData yD = new GraphData(GraphPeriod.year);
-            
+            //////GraphData wD = new GraphData(GraphPeriod.week);
+            //////GraphData mD = new GraphData(GraphPeriod.month);
+            //////GraphData yD = new GraphData(GraphPeriod.year);
+
+            GraphData wD = _graphPresenter.GetGraphData(GraphPeriod.week);
+            GraphData mD = _graphPresenter.GetGraphData(GraphPeriod.month);
+            GraphData yD = _graphPresenter.GetGraphData(GraphPeriod.year);
+
             var Chart1 = new Chart();
             Chart1.Width = 500;
             Chart1.Height = 350;
@@ -89,7 +100,13 @@ namespace Tipstaff.Controllers
             var area = new ChartArea("ChartArea1");
             Chart1.ChartAreas.Add(area);
             Series series = new Series(wD.ShortTitle);
-            series.Points.DataBindXY(wD.Keys, wD.Values);
+
+
+            //////series.Points.DataBindXY(wD.Keys, wD.Values);
+            series.Points.DataBindXY(wD.gData.Keys, wD.gData.Values);
+
+
+
             // Populate series data
             series.IsValueShownAsLabel = true;
             series["LabelStyle"] = "Bottom";
@@ -101,7 +118,10 @@ namespace Tipstaff.Controllers
             series.ChartType = SeriesChartType.Column;
             Chart1.Series.Add(series);
             Series series2 = new Series(mD.ShortTitle);
-            series2.Points.DataBindXY(mD.Keys, mD.Values);
+
+            ////////series2.Points.DataBindXY(mD.Keys, mD.Values);
+            series2.Points.DataBindXY(mD.gData.Keys, mD.gData.Values);
+
             // Populate series data
             series2.IsValueShownAsLabel = true;
             //series2.LabelBackColor = Color.White;
@@ -115,7 +135,11 @@ namespace Tipstaff.Controllers
             Chart1.Series.Add(series2);
 
             Series series3 = new Series(yD.ShortTitle);
-            series3.Points.DataBindXY(yD.Keys, yD.Values);
+
+            //////series3.Points.DataBindXY(yD.Keys, yD.Values);
+
+            series3.Points.DataBindXY(yD.gData.Keys, yD.gData.Values);
+
             series3.IsValueShownAsLabel = true;
             series3["LabelStyle"] = "Bottom";
             series3.EmptyPointStyle.IsValueShownAsLabel = false;

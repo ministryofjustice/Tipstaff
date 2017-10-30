@@ -35,7 +35,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public IEnumerable<Child> GetAllChildrenByTipstaffRecordID(string id)
         {
-            return _dynamoAPI.GetAll().Where(c => c.TipstaffRecordID == id);
+            return _dynamoAPI.GetAll().Where(c => c.TipstaffRecordID.ToString() == id);
         }
 
         public Child GetChild(string id)

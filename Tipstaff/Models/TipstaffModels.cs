@@ -250,10 +250,10 @@ namespace Tipstaff.Models
 
     public class TipstaffCaseClosedDataModel
     {
-        public ICollection<TipstaffRecord> TipstaffRecords { get; set; }
+        public IEnumerable<TipstaffRecord> TipstaffRecords { get; set; }
         public TipstaffCaseClosedDataModel()
         {
-            TipstaffRecords = myDBContextHelper.CurrentContext.TipstaffRecord.Where(x => x.caseStatusID > 2 && x.resultID==null).ToList();
+            /////TipstaffRecords = myDBContextHelper.CurrentContext.TipstaffRecord.Where(x => x.caseStatusID > 2 && x.resultID==null).ToList();
         }
     }
 
