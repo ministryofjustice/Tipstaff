@@ -23,6 +23,11 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Save(record);
         }
 
+        public IEnumerable<DeletedTipstaffRecord> GetAll()
+        {
+            return _dynamoAPI.GetAll();
+        }
+
         public void Remove(DeletedTipstaffRecord record)
         {
             _dynamoAPI.Delete(record);

@@ -38,7 +38,7 @@ namespace Tipstaff.Tests.Integration
             {
                 ArrestCount = 1,
                 //TrackItem = _rangeKey,
-                Discriminator = "ChildAbduction",
+                Descriminator = "ChildAbduction",
                 CreatedBy = "VZ",
                 CreatedOn = DateTime.Now,
                 OfficerDealing = "VZ",

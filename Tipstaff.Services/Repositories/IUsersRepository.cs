@@ -7,12 +7,14 @@ using Tipstaff.Services.DynamoTables;
 
 namespace Tipstaff.Services.Repositories
 {
-    public interface IDeletedTipstaffRecordRepository
+    public interface IUsersRepository
     {
-        void Add(DeletedTipstaffRecord record);
+        IEnumerable<User> GetAll();
 
-        void Remove(DeletedTipstaffRecord record);
+        void Update(User user);
 
-        IEnumerable<DeletedTipstaffRecord> GetAll();
+        void Add(User user);
+
+        User GetUserByID(string id);
     }
 }

@@ -38,7 +38,7 @@ namespace Tipstaff
             this.Identity = identity;
             User = db.GetUserByLoginName(Identity.Name.Split('\\').Last());
             this.AccessLevel = (AccessLevel)User.RoleStrength;
-            this.UserID = User.UserID;
+            this.UserID = int.Parse(User.UserID);
         }
 
         public CPrincipal(IIdentity identity, TipstaffDB rep)

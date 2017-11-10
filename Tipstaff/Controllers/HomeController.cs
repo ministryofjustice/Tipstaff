@@ -15,9 +15,9 @@ using Tipstaff.Presenters.Interfaces;
 
 namespace Tipstaff.Controllers
 {
-    [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-    [Authorize]
-    [ValidateAntiForgeryTokenOnAllPosts]
+    //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    //[Authorize]
+    //[ValidateAntiForgeryTokenOnAllPosts]
     public class HomeController : Controller
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;

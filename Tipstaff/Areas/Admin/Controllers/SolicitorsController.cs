@@ -42,7 +42,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                 case "activeCount desc":
                     Solicitors = Solicitors.OrderByDescending(c => c.TipstaffRecords.Count());
                     break;
-                case "activeCount asc":
+                case "activeCount asc": 
                     Solicitors = Solicitors.OrderBy(c => c.TipstaffRecords.Count());
                     break;
                 case "solicitorFirm desc":

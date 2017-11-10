@@ -41,7 +41,7 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.EldestChild = record.EldestChild;
             entity.ArrestCount = record.ArrestCount;
             entity.ProtectiveMarking = record.ProtectiveMarking;
-            entity.Discriminator = record.Discriminator;
+            entity.Descriminator = record.Descriminator;
             entity.Result = record.Result;
             entity.NextReviewDate = record.NextReviewDate;
             entity.ResultDate = record.ResultDate;

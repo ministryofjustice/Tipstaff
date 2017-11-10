@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Tipstaff.Models;
-
+using Tipstaff.Presenters.Interfaces;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -11,22 +11,31 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class UsersController : Controller
     {
-        TipstaffDB db = new TipstaffDB();
-        public UsersController()
-            : this(new TipstaffDB())
-        { }
-        public UsersController(TipstaffDB repository)
-        {
-            db = repository;
-        }
+        ////TipstaffDB db = new TipstaffDB();
+        ////public UsersController()
+        ////    : this(new TipstaffDB())
+        ////{ }
+        ////public UsersController(TipstaffDB repository)
+        ////{
+        ////    db = repository;
+        ////}
 
         //
         // GET: /Admin/Users/
 
+        private readonly IUsersPresenter _usersPresenter;
+
+        public UsersController(IUsersPresenter usersPresenter)
+        {
+            _usersPresenter = usersPresenter;
+        }
+
+
         public ActionResult Index()
         {
             Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
-            IEnumerable<User> allUsers = db.GetAllUsers();
+            //////IEnumerable<User> allUsers = db.GetAllUsers();
+            IEnumerable<User> allUsers = _usersPresenter.GetAllUsers();
             if (thisUser.AccessLevel == AccessLevel.SystemAdmin)
             {
                 return View(allUsers);
@@ -49,7 +58,11 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
             UserAdminVM model = new UserAdminVM();
-            model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
+
+            var roles = _usersPresenter.GetAllRoles();
+
+            //////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
+            model.Roles = new SelectList(roles, "Strength", "Detail");
             return View(model);
         }
 
@@ -61,7 +74,8 @@ namespace Tipstaff.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     {
-                        db.UserAdd(model.User);
+                        //////db.UserAdd(model.User);
+                        _usersPresenter.Add(model.User);
                         return RedirectToAction("Index");
                     }
                 }
@@ -69,18 +83,24 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             catch (Exception)
             {
-                model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
+                var roles = _usersPresenter.GetAllRoles();
+                //////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
+                model.Roles = new SelectList(roles, "Strength", "Detail");
                 return View(model);
             }
         }
 
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             UserAdminVM model = new UserAdminVM();
             Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
-            model.User = db.GetUserByID(id);
-            model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
+            //////model.User = db.GetUserByID(id);
+
+            model.User = _usersPresenter.GetUserByID(id);
+            ////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
+            var roles = _usersPresenter.GetAllRoles();
+            model.Roles = new SelectList(roles, "Strength", "Detail", model.User.RoleStrength);
             return View(model);
         }
         [HttpPost]
@@ -88,10 +108,14 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.UpdateUser(model.User);
+                //////db.UpdateUser(model.User);
+                _usersPresenter.Update(model.User);
                 return RedirectToAction("Index");
             }
-            model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
+
+            var roles = _usersPresenter.GetAllRoles();
+            //////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
+            model.Roles = new SelectList(roles, "Strength", "Detail", model.User.RoleStrength);
             return View(model);
         }
 

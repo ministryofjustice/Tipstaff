@@ -25,7 +25,7 @@ namespace Tipstaff.Infrastructure.DynamoAPI
             {
                 _awsDynamoDBConfig.ServiceURL = "ec2.eu-west-2.amazonaws.com";
                 _awsDynamoDBConfig.RegionEndpoint = RegionEndpoint.EUWest2;
-                _awsDynamoDBClient = new AmazonDynamoDBClient("AKIAIYOJJPVKTI5E6DLA", "h61Diom/SlmOuHu7LlOLDWsbnHKa6tqnZ0BN+A9C", _awsDynamoDBConfig);
+                _awsDynamoDBClient = new AmazonDynamoDBClient(string.Empty, string.Empty, _awsDynamoDBConfig);
                 if (System.Configuration.ConfigurationManager.AppSettings["AWS.DynamoDBContext.TableNamePrefix"] is null)
                 {
                     _contextConfig.TableNamePrefix = "Dev_";

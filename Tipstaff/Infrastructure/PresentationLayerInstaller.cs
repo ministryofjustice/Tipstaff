@@ -7,6 +7,7 @@ using Tipstaff.Infrastructure.S3API;
 using Tipstaff.Infrastructure.Services;
 using Tipstaff.Logger;
 using Tipstaff.Presenters;
+using Tipstaff.Presenters.Interfaces;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Infrastructure
@@ -15,20 +16,9 @@ namespace Tipstaff.Infrastructure
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            //REPOSITORIES
-            container.Register(Component.For<IApplicantRepository>().ImplementedBy<ApplicantRepository>());
-            container.Register(Component.For<IAttendanceNotesRepository>().ImplementedBy<AttendanceNotesRepository>().LifestylePerWebRequest());
-            container.Register(Component.For<IChildRepository>().ImplementedBy<ChildRepository>());
-            container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
-            container.Register(Component.For<IDocumentsRepository>().ImplementedBy<DocumentsRepository>());
-            container.Register(Component.For<IFAQRepository>().ImplementedBy<FAQRepository>());
-            container.Register(Component.For<ISolicitorFirmRepository>().ImplementedBy<SolicitorFirmRepository>());
-            container.Register(Component.For<ISolicitorRepository>().ImplementedBy<SolicitorRepository>());
-            container.Register(Component.For<ITemplateRepository>().ImplementedBy<TemplateRepository>());
-            container.Register(Component.For<ITipstaffRecordRepository>().ImplementedBy<TipstaffRecordRepository>());
-            container.Register(Component.For<IDeletedTipstaffRecordRepository>().ImplementedBy<DeletedTipstaffRecordRepository>());
-            
             //PRESENTERS
+            container.Register(Component.For<IGraphPresenter>().ImplementedBy<GraphPresenter>());
+            container.Register(Component.For<ISearchPresenter>().ImplementedBy<SearchPresenter>());
             container.Register(Component.For<IAddressPresenter>().ImplementedBy<AddressPresenter>());
             container.Register(Component.For<IApplicantPresenter>().ImplementedBy<ApplicantPresenter>());
             container.Register(Component.For<IAttendanceNotePresenter>().ImplementedBy<AttendanceNotePresenter>());
@@ -43,6 +33,20 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<ITipstaffRecordPresenter>().ImplementedBy<TipstaffRecordPresenter>());
             //END PRESENTERS
 
+
+            //REPOSITORIES
+            container.Register(Component.For<IApplicantRepository>().ImplementedBy<ApplicantRepository>());
+            container.Register(Component.For<IAttendanceNotesRepository>().ImplementedBy<AttendanceNotesRepository>().LifestylePerWebRequest());
+            container.Register(Component.For<IChildRepository>().ImplementedBy<ChildRepository>());
+            container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
+            container.Register(Component.For<IDocumentsRepository>().ImplementedBy<DocumentsRepository>());
+            container.Register(Component.For<IFAQRepository>().ImplementedBy<FAQRepository>());
+            container.Register(Component.For<ISolicitorFirmRepository>().ImplementedBy<SolicitorFirmRepository>());
+            container.Register(Component.For<ISolicitorRepository>().ImplementedBy<SolicitorRepository>());
+            container.Register(Component.For<ITemplateRepository>().ImplementedBy<TemplateRepository>());
+            container.Register(Component.For<ITipstaffRecordRepository>().ImplementedBy<TipstaffRecordRepository>());
+            container.Register(Component.For<IDeletedTipstaffRecordRepository>().ImplementedBy<DeletedTipstaffRecordRepository>());
+            
             //MISC
             container.Register(Component.For<IGuidGenerator>().ImplementedBy<GuidGenerator>());
 

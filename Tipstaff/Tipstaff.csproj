@@ -297,6 +297,7 @@
     <Compile Include="Presenters\ApplicantPresenter.cs" />
     <Compile Include="Presenters\ChildPresenter.cs" />
     <Compile Include="Presenters\ContactPresenter.cs" />
+    <Compile Include="Presenters\DeletedTipstaffRecordPresenter.cs" />
     <Compile Include="Presenters\FAQPresenter.cs" />
     <Compile Include="Presenters\GraphPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAttendanceNotePresenter.cs" />
@@ -306,6 +307,7 @@
     <Compile Include="Presenters\Interfaces\IChildAbductionPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IApplicantPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IContactPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IDeletedTipstaffRecordPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IDocumentPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IFAQPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IGraphPresenter.cs" />
@@ -316,6 +318,8 @@
     <Compile Include="Presenters\Interfaces\ISolicitorPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ITemplatePresenter.cs" />
     <Compile Include="Presenters\Interfaces\ITipstaffRecordPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IUserPresenter.cs" />
+    <Compile Include="Presenters\Interfaces\IUsersPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IWarrantPresenter.cs" />
     <Compile Include="Presenters\PoliceForcesPresenter.cs" />
     <Compile Include="Presenters\RespondentPresenter.cs" />
@@ -324,6 +328,8 @@
     <Compile Include="Presenters\SolicitorPresenter.cs" />
     <Compile Include="Presenters\TemplatePresenter.cs" />
     <Compile Include="Presenters\TipstaffRecordPresenter.cs" />
+    <Compile Include="Presenters\UsersPresenter.cs" />
+    <Compile Include="Presenters\WarrantPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\SearchResults.cs" />
     <Compile Include="Classes\SecurityUtils.cs" />

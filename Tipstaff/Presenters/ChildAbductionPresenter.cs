@@ -64,7 +64,7 @@ namespace Tipstaff.Presenters
         {
             var records = _tipstaffRecordRepository.GetAll();
 
-            var childAbductions = records.Where(x => x.Discriminator == "ChildAbduction").Select(x=> GetModel(x));
+            var childAbductions = records.Where(x => x.Descriminator == "ChildAbduction").Select(x=> GetModel(x));
 
             return childAbductions;
         }
@@ -101,7 +101,7 @@ namespace Tipstaff.Presenters
             var model = new Models.ChildAbduction()
             {
                 sentSCD26 = table.SentSCD26,
-                Descriminator = table.Discriminator,
+                Descriminator = table.Descriminator,
                 orderDated = table.OrderDated,
                 orderReceived = table.OrderReceived,
                 officerDealing = table.OfficerDealing,
