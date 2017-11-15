@@ -13,19 +13,10 @@ namespace Tipstaff.Presenters
         IMapper<Models.TipstaffRecord, Tipstaff.Services.DynamoTables.TipstaffRecord>
     {
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
-        //private readonly IAddressPresenter _addressPresenter;
-        //private readonly IAttendanceNotePresenter _attendanceNotePresenter;
-        //private readonly IRespondentPresenter _respondentPresenter;
-        //private readonly ICaseReviewPresenter _caseReviewPresenter;
-
-
+        
         public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
-            //_addressPresenter = addressPresernter;
-            //_attendanceNotePresenter = attendanceNotePresenter;
-            //_respondentPresenter = respondentPresenter;
-           // _caseReviewPresenter = caseReviewPresenter;
         }
 
         public void AddTipstaffRecord(Models.TipstaffRecord record)

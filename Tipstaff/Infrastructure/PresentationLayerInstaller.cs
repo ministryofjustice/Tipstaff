@@ -61,9 +61,6 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<IS3API>().ImplementedBy<S3API.S3API>());
 
             container.Register(Component.For<ICloudWatchLogger>().ImplementedBy<CloudWatchLogger>());
-
-            container.Register(
-                      Types.FromThisAssembly().BasedOn<IController>().LifestyleTransient());
             //END MISC
         }
     }

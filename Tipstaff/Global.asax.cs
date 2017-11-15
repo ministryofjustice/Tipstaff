@@ -26,7 +26,7 @@ namespace Tipstaff
 
         private static void BootstrapContainer()
         {
-            _container = new WindsorContainer().Install(new PresentationLayerInstaller());
+            _container = new WindsorContainer().Install(FromAssembly.This());
 
             ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(_container.Kernel));
         }

@@ -9,9 +9,9 @@ using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
-    //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-    //[Authorize]
-    //[ValidateAntiForgeryTokenOnAllPosts]
+    [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
+    [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class CaseReviewController : Controller
     {
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
