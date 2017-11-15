@@ -62,7 +62,7 @@ namespace Tipstaff.Presenters
                // AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 //Respondents = _respondentPresenter.GetAllById(table.Id),
                 //caseReviews = _caseReviewPresenter.GetAllById(table.Id),
-                Descriminator = table.Discriminator,
+                Discriminator = table.Discriminator,
                 result = MemoryCollections.ResultsList.GetResultByDetail(table.Result),
                 tipstaffRecordID = table.Id,
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByDetail(table.CaseStatus),
@@ -87,7 +87,7 @@ namespace Tipstaff.Presenters
             var entity = new Tipstaff.Services.DynamoTables.TipstaffRecord()
             {
                 ArrestCount = record.arrestCount,
-                Discriminator = record.Descriminator,
+                Discriminator = record.Discriminator,
                 DateExecuted = record.DateExecuted,
                 CreatedBy = record.createdBy,
                 NPO = record.NPO,

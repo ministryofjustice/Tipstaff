@@ -101,7 +101,7 @@ namespace Tipstaff.Presenters
             var model = new Models.ChildAbduction()
             {
                 sentSCD26 = table.SentSCD26,
-                Descriminator = table.Discriminator,
+                Discriminator = table.Discriminator,
                 orderDated = table.OrderDated,
                 orderReceived = table.OrderReceived,
                 officerDealing = table.OfficerDealing,

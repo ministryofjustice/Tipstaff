@@ -108,14 +108,14 @@ namespace Tipstaff.Controllers
                 if (Request.IsAjaxRequest())
                 {
                     //////string url = string.Format("window.location='{0}';", Url.Action("Details", controller, new { id = model.tipstaffRecordID }));
-                    string url = string.Format("window.location='{0}';", Url.Action("Details", tr.Descriminator, new { id = model.tipstaffRecordID }));
+                    string url = string.Format("window.location='{0}';", Url.Action("Details", tr.Discriminator, new { id = model.tipstaffRecordID }));
 
                     return JavaScript(url);
                 }
                 else
                 {
                     ////////return RedirectToAction("Details", controller, new { id = model.tipstaffRecordID });
-                    return RedirectToAction("Details", tr.Descriminator, new { id = model.tipstaffRecordID });
+                    return RedirectToAction("Details", tr.Discriminator, new { id = model.tipstaffRecordID });
                 }
             }
             catch (Exception ex)

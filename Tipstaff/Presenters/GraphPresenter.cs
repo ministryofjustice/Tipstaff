@@ -22,8 +22,8 @@ namespace Tipstaff.Presenters
             DateTime startDate = new DateTime();
             var graphPeriod = gp;
             var all = _tipstaffRecordPresenter.GetAll();
-            var warants = all.Select(x => x.Descriminator == "Warant") as List<Warrant>;
-            var childAbductions = all.Select(x => x.Descriminator == "ChildAbduction") as List<ChildAbduction>;
+            var warants = all.Select(x => x.Discriminator == "Warant") as List<Warrant>;
+            var childAbductions = all.Select(x => x.Discriminator == "ChildAbduction") as List<ChildAbduction>;
             
             ////IEnumerable<Warrant> w = db.Warrants.Where(c => c.createdOn >= graph.startDate).
             ////    OrderBy(c => c.division.Detail);
