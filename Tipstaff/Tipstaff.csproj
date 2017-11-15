@@ -630,17 +630,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Service References\AzureAD\ConnectedService.json" />
-    <None Include="Properties\PublishProfiles\Chaps-Azure - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-T - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-T-Development - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %283%29.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %284%29.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %285%29.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %286%29.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy %287%29.pubxml" />
-    <None Include="Properties\PublishProfiles\Tipstaff-test - Web Deploy.pubxml" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -690,6 +679,26 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

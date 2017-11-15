@@ -13,23 +13,19 @@ namespace Tipstaff.Presenters
         IMapper<Models.TipstaffRecord, Tipstaff.Services.DynamoTables.TipstaffRecord>
     {
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
-        private readonly IAddressPresenter _addressPresenter;
-        private readonly IAttendanceNotePresenter _attendanceNotePresenter;
-        private readonly IRespondentPresenter _respondentPresenter;
-        private readonly ICaseReviewPresenter _caseReviewPresenter;
+        //private readonly IAddressPresenter _addressPresenter;
+        //private readonly IAttendanceNotePresenter _attendanceNotePresenter;
+        //private readonly IRespondentPresenter _respondentPresenter;
+        //private readonly ICaseReviewPresenter _caseReviewPresenter;
 
 
-        public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
-                                       IAddressPresenter addressPresernter, 
-                                       IAttendanceNotePresenter attendanceNotePresenter, 
-                                       IRespondentPresenter respondentPresenter, 
-                                       ICaseReviewPresenter caseReviewPresenter)
+        public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
-            _addressPresenter = addressPresernter;
-            _attendanceNotePresenter = attendanceNotePresenter;
-            _respondentPresenter = respondentPresenter;
-            _caseReviewPresenter = caseReviewPresenter;
+            //_addressPresenter = addressPresernter;
+            //_attendanceNotePresenter = attendanceNotePresenter;
+            //_respondentPresenter = respondentPresenter;
+           // _caseReviewPresenter = caseReviewPresenter;
         }
 
         public void AddTipstaffRecord(Models.TipstaffRecord record)
@@ -75,7 +71,7 @@ namespace Tipstaff.Presenters
                // AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 //Respondents = _respondentPresenter.GetAllById(table.Id),
                 //caseReviews = _caseReviewPresenter.GetAllById(table.Id),
-                Descriminator = table.Descriminator,
+                Descriminator = table.Discriminator,
                 result = MemoryCollections.ResultsList.GetResultByDetail(table.Result),
                 tipstaffRecordID = table.Id,
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByDetail(table.CaseStatus),
@@ -100,7 +96,7 @@ namespace Tipstaff.Presenters
             var entity = new Tipstaff.Services.DynamoTables.TipstaffRecord()
             {
                 ArrestCount = record.arrestCount,
-                Descriminator = record.Descriminator,
+                Discriminator = record.Descriminator,
                 DateExecuted = record.DateExecuted,
                 CreatedBy = record.createdBy,
                 NPO = record.NPO,

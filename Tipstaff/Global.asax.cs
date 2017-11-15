@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Tipstaff.Infrastructure;
+using Castle.MicroKernel.Registration;
 
 namespace Tipstaff
 {
@@ -25,7 +26,7 @@ namespace Tipstaff
 
         private static void BootstrapContainer()
         {
-            _container = new WindsorContainer().Install(FromAssembly.This(), new PresentationLayerInstaller());
+            _container = new WindsorContainer().Install(new PresentationLayerInstaller());
 
             ControllerBuilder.Current.SetControllerFactory(new ControllerFactory(_container.Kernel));
         }

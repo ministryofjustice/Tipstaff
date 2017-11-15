@@ -49,7 +49,7 @@ namespace Tipstaff
             ITipstaffRecordRepository _repository = new TipstaffRecordRepository(new DynamoAPI<Services.DynamoTables.TipstaffRecord>());
             var t = _repository.GetEntityByHashKey(id);
 
-            return t.Descriminator; 
+            return t.Discriminator; 
 
         }
         public static bool isTipstaffRecordChildAbduction(TipstaffRecord obj)
