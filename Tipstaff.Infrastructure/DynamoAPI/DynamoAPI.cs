@@ -25,7 +25,8 @@ namespace Tipstaff.Infrastructure.DynamoAPI
             {
                 _awsDynamoDBClient = new AmazonDynamoDBClient(_awsDynamoDBConfig);
                
-                if (System.Configuration.ConfigurationManager.AppSettings["AWS.DynamoDBContext.TableNamePrefix"] is null)
+                //if (System.Configuration.ConfigurationManager.AppSettings["AWS.DynamoDBContext.TableNamePrefix"] is null)
+                if (string.IsNullOrEmpty(System.Configuration.ConfigurationManager.AppSettings["AWS.DynamoDBContext.TableNamePrefix"]))
                 {
                     _contextConfig.TableNamePrefix = "Dev_";
                 }
