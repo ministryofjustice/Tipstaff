@@ -47,9 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dto\Applicant.cs" />
-    <Compile Include="dto\Address.cs" />
-    <Compile Include="dto\Tipstaff.cs" />
     <Compile Include="DynamoTables\Address.cs" />
     <Compile Include="DynamoTables\CaseReview.cs" />
     <Compile Include="DynamoTables\DeletedTipstaffRecord.cs" />
@@ -85,8 +82,6 @@
     <Compile Include="Repositories\ITipstaffNPORepository.cs" />
     <Compile Include="Repositories\ITipstaffRecordRepository.cs" />
     <Compile Include="Repositories\IUsersRepository.cs" />
-    <Compile Include="Services\ITipstaffService.cs" />
-    <Compile Include="Services\TipstaffServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -184,7 +184,7 @@ namespace Tipstaff.Controllers
             {
                 //////db.TipstaffRecord.Add(childabduction);
                 //////db.SaveChanges();
-                childabduction.Descriminator = "ChildAbduction";
+                childabduction.Discriminator = "ChildAbduction";
                 _childAbductionPresenter.AddTipstaffRecord(childabduction);
                 return RedirectToAction("Create", "Child", new { id = childabduction.tipstaffRecordID, initial = true });
             }

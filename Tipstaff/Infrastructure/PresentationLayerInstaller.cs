@@ -1,6 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using System.Web.Mvc;
 using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Infrastructure.Repositories;
 using Tipstaff.Infrastructure.S3API;
@@ -31,6 +32,7 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<ISolicitorPresenter>().ImplementedBy<SolicitorPresenter>());
             container.Register(Component.For<ITemplatePresenter>().ImplementedBy<TemplatePresenter>());
             container.Register(Component.For<ITipstaffRecordPresenter>().ImplementedBy<TipstaffRecordPresenter>());
+            container.Register(Component.For<IFAQPresenter>().ImplementedBy<FAQPresenter>());
             //END PRESENTERS
 
 
@@ -46,7 +48,11 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<ITemplateRepository>().ImplementedBy<TemplateRepository>());
             container.Register(Component.For<ITipstaffRecordRepository>().ImplementedBy<TipstaffRecordRepository>());
             container.Register(Component.For<IDeletedTipstaffRecordRepository>().ImplementedBy<DeletedTipstaffRecordRepository>());
-            
+            container.Register(Component.For<ICaseReviewRepository>().ImplementedBy<CaseReviewRepository>());
+            container.Register(Component.For<IAddressRepository>().ImplementedBy<AddressRepository>());
+            container.Register(Component.For<IRespondentRepository>().ImplementedBy<RespondentRepository>());
+
+
             //MISC
             container.Register(Component.For<IGuidGenerator>().ImplementedBy<GuidGenerator>());
 

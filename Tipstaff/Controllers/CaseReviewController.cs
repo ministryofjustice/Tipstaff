@@ -19,8 +19,7 @@ namespace Tipstaff.Controllers
         private readonly IGuidGenerator _guidGenerator;
 
         public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter, 
-                                    ICaseReviewPresenter caseReviewPresenter, 
-                                    IGuidGenerator guidGenerator)
+                                    ICaseReviewPresenter caseReviewPresenter, IGuidGenerator guidGenerator)
         {
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _caseReviewPresenter = caseReviewPresenter;

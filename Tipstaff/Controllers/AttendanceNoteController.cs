@@ -63,7 +63,7 @@ namespace Tipstaff.Controllers
                var area = _tipstaffRecordPresenter.GetTipStaffRecord(AttendanceNote.tipstaffRecordID);
 
                //// return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(AttendanceNote.tipstaffRecordID), new { id = AttendanceNote.tipstaffRecordID });
-                return RedirectToAction("Details", area.Descriminator, new { id = AttendanceNote.tipstaffRecordID });
+                return RedirectToAction("Details", area.Discriminator, new { id = AttendanceNote.tipstaffRecordID });
 
             }
 
