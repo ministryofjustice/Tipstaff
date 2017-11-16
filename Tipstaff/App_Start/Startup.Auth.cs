@@ -1,37 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
-using System.Web;
+﻿using System.Configuration;
 using Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
+using Microsoft.Owin.Host.SystemWeb;
 
 namespace Tipstaff
 {
     public partial class Startup
     {
-        private static string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
-        private static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
-        private static string tenantId = ConfigurationManager.AppSettings["ida:TenantId"];
-        private static string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
-        private static string authority = aadInstance + tenantId;
+        private string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
+        private string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
+        private string tenantId = ConfigurationManager.AppSettings["ida:TenantId"];
+        private string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
+        private string RedirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
+        //private string authority = aadInstance + tenantId;
+
 
         public void ConfigureAuth(IAppBuilder app)
         {
+            if (string.IsNullOrEmpty(RedirectUri))
+            {
+                RedirectUri = "https://localhost:44300/";
+            }
+
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = "Cookies",
+                CookieManager = new SystemWebChunkingCookieManager()
+            });
 
-            app.UseOpenIdConnectAuthentication(
-                new OpenIdConnectAuthenticationOptions
-                {
-                    ClientId = clientId,
-                    Authority = authority,
-                    PostLogoutRedirectUri = postLogoutRedirectUri
-                });
+            OpenIdConnectAuthenticationOptions options = new OpenIdConnectAuthenticationOptions
+            {
+                ClientId = clientId,
+                Authority = aadInstance + tenantId,
+                //PostLogoutRedirectUri = postLogoutRedirectUri,
+                //RedirectUri = RedirectUri
+            };
+
+            app.UseOpenIdConnectAuthentication(options);
+
+
+
         }
     }
 }
