@@ -20,8 +20,8 @@ namespace Tipstaff.Infrastructure.S3API
             try
             {
                 _awsAmazonS3Config.RegionEndpoint = Amazon.RegionEndpoint.EUWest2;
-                //Using Veronica Credentials...
-                _awsAmazonS3Client = new AmazonS3Client("AKIAIYOJJPVKTI5E6DLA", "h61Diom/SlmOuHu7LlOLDWsbnHKa6tqnZ0BN+A9C", _awsAmazonS3Config); 
+                
+                _awsAmazonS3Client = new AmazonS3Client( _awsAmazonS3Config); 
                 
             }
             catch (Exception ex)
