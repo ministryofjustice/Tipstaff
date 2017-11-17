@@ -7,6 +7,9 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Security.Principal;
 using Tipstaff.Models;
+using Tipstaff.Services.Repositories;
+using Tipstaff.Infrastructure.Repositories;
+using Tipstaff.Infrastructure.DynamoAPI;
 
 namespace Tipstaff
 {
@@ -26,26 +29,39 @@ namespace Tipstaff
         public IIdentity Identity { get; private set; }
         public AccessLevel AccessLevel { get; private set; }
         public int UserID { get; private set; }
-        private TipstaffDB db { get; set; }
+        /////private TipstaffDB db { get; set; }
+        private readonly IUsersRepository _usersRepository;
 
         #region Constructors
-        public CPrincipal(TipstaffDB repository)
-        {
-            db = repository;
-        }
-        public CPrincipal(IIdentity identity): this(new TipstaffDB())
+        ////public CPrincipal(TipstaffDB repository)
+        ////{
+        ////    db = repository;
+        ////}
+        public CPrincipal(IIdentity identity)//: this(new TipstaffDB())
         {
             this.Identity = identity;
-            User = db.GetUserByLoginName(Identity.Name.Split('\\').Last());
+            _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>());
+            var users = _usersRepository.GetAll().Select(x=> new User()
+            { 
+                DisplayName = x.DisplayName,
+                LastActive = x.LastActive,
+                Name = x.Name,
+                RoleStrength = x.RoleStrength,
+                UserID = x.Id
+
+            });
+            ////User = db.GetUserByLoginName(Identity.Name.Split('\\').Last());
+
+            User = users.FirstOrDefault(x=>x.Name == Identity.Name.Split('\\').Last());
             this.AccessLevel = (AccessLevel)User.RoleStrength;
             this.UserID = int.Parse(User.UserID);
         }
 
-        public CPrincipal(IIdentity identity, TipstaffDB rep)
-        {
-            db = rep;
-            this.Identity = identity;
-        }
+        //////public CPrincipal(IIdentity identity, TipstaffDB rep)
+        //////{
+        //////    db = rep;
+        //////    this.Identity = identity;
+        //////}
         #endregion Constructors
         public bool IsInRole(string role)
         {
