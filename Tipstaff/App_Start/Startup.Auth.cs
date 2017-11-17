@@ -9,11 +9,11 @@ namespace Tipstaff
 {
     public partial class Startup
     {
-        private string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
-        private string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
-        private string tenantId = ConfigurationManager.AppSettings["ida:TenantId"];
-        private string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
-        private string RedirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
+        private static string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
+        private static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
+        private static string tenantId = ConfigurationManager.AppSettings["ida:TenantId"];
+        private static string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
+        private static string RedirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
         //private string authority = aadInstance + tenantId;
 
 
