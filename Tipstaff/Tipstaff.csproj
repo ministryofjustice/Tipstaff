@@ -226,7 +226,6 @@
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="FilterConfig.cs" />
     <Compile Include="Helpers\CustomAttributes.cs" />
-    <Compile Include="DAL\TipstaffInitializer.cs" />
     <Compile Include="Classes\email.cs" />
     <Compile Include="Classes\generic.cs" />
     <Compile Include="Classes\genericFunctions.cs" />
@@ -238,6 +237,7 @@
     <Compile Include="Infrastructure\ControllerFactory.cs" />
     <Compile Include="Infrastructure\ControllersInstaller.cs" />
     <Compile Include="Infrastructure\PresentationLayerInstaller.cs" />
+    <Compile Include="Infrastructure\RepositoriesInstaller.cs" />
     <Compile Include="Logger\ICloudWatchLogger.cs" />
     <Compile Include="Logger\CloudWatchLogger.cs" />
     <Compile Include="Mappers\IMapperCollections.cs" />
