@@ -34,16 +34,6 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<ITipstaffRecordPresenter>().ImplementedBy<TipstaffRecordPresenter>());
             container.Register(Component.For<IFAQPresenter>().ImplementedBy<FAQPresenter>());
             //END PRESENTERS
-           
-            //MISC
-            container.Register(Component.For<IGuidGenerator>().ImplementedBy<GuidGenerator>());
-
-            container.Register(Component.For(typeof(IDynamoAPI<>)).ImplementedBy(typeof(DynamoAPI<>)));
-
-            container.Register(Component.For<IS3API>().ImplementedBy<S3API.S3API>());
-
-            container.Register(Component.For<ICloudWatchLogger>().ImplementedBy<CloudWatchLogger>());
-            //END MISC
         }
     }
 }
