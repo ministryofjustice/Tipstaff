@@ -36,7 +36,7 @@ namespace Tipstaff
             OpenIdConnectAuthenticationOptions options = new OpenIdConnectAuthenticationOptions
             {
                 ClientId = clientId,
-                Authority = aadInstance + tenantId,
+                Authority = aadInstance + tenantId//,
                 //PostLogoutRedirectUri = postLogoutRedirectUri,
                 //RedirectUri = RedirectUri
             };
