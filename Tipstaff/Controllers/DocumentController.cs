@@ -16,7 +16,7 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class DocumentController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
 
         private readonly IDocumentPresenter _docPresenter;
         private readonly IS3API _s3API;

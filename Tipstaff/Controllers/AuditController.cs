@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using Tipstaff.Models;
 using PagedList;
 using System.Configuration;
+using Tipstaff.Presenters.Interfaces;
+
 namespace Tipstaff.Controllers
 {
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
@@ -11,7 +13,13 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class AuditController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly IAuditEventPresenter _auditEventPresenter;
+
+        public AuditController(IAuditEventPresenter auditEventPresenter)
+        {
+            _auditEventPresenter = auditEventPresenter;
+        }
 
         public ActionResult Audit(string auditType, int id, int? page)
         {
@@ -24,15 +32,19 @@ namespace Tipstaff.Controllers
 
             string stringID = id.ToString();
             string AuditName = string.Format("{0}", auditType);
-            var AuditMatches = db.AuditDescriptions.Where(a => a.AuditDescription.StartsWith(AuditName));
-            IQueryable<AuditEvent> auditEvents = null;
+            ///var AuditMatches = db.AuditDescriptions.Where(a => a.AuditDescription.StartsWith(AuditName));
+
+            var AuditMatches = MemoryCollections.AuditEventDescriptionList.GetAuditEventDescriptionList().Where(a => a.AuditDescription.StartsWith(AuditName));
+            //////IQueryable<AuditEvent> auditEvents = null;
+            var auditEvents = _auditEventPresenter.GetAuditEvents();
             if (AuditName == "Warrant" || AuditName == "ChildAbduction")
             {
-                auditEvents = db.AuditEvents.Where(s => s.RecordAddedTo == id).Union(db.AuditEvents.Where(s => s.auditEventDescription.AuditDescription.StartsWith(AuditName) && s.RecordChanged == stringID));
+                auditEvents = auditEvents.Where(s => s.RecordAddedTo == id).Union(auditEvents.Where(s => s.auditEventDescription.AuditDescription.StartsWith(AuditName) && s.RecordChanged == stringID));
             }
             else
             {
-                auditEvents = db.AuditEvents.Where(s => s.RecordChanged == stringID && AuditMatches.Select(d => d.idAuditEventDescription).Contains(s.idAuditEventDescription));
+                auditEvents = auditEvents.Where(s => s.RecordChanged == stringID && AuditMatches.Select(d => d.Id).Contains(s.auditEventDescription.Id));
+                //auditEvents = auditEvents.Where(s => s.RecordChanged == stringID && AuditMatches.Select(d => d.AuditDescription).Contains(s.idAuditEventDescription));
             }
             model.auditType = auditType;
             model.itemID = stringID;

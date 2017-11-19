@@ -23,13 +23,13 @@ namespace Tipstaff.Models
         public DateTime EventDate { get; set; }
         [Required, MaxLength(40)]
         public string UserID { get; set; }
-        [Required]
-        public int idAuditEventDescription { get; set; }
+        //[Required]
+        //public int idAuditEventDescription { get; set; }
         [Required, MaxLength(256)]
         public string RecordChanged { get; set; }
         public int? RecordAddedTo { get; set; }
         public int? DeletedReasonID { get; set; }
-        public virtual AuditEventDescription auditEventDescription { get; set; }
+        public AuditEventDescription auditEventDescription { get; set; }
         public virtual ICollection<AuditEventDataRow> AuditEventDataRows { get; set; }
         public  DeletedReason DeletedReason { get; set; }
         [NotMapped]
@@ -37,14 +37,14 @@ namespace Tipstaff.Models
 
     }
 
-    public class AuditEventDescription
-    {
-        [Key]
-        public int idAuditEventDescription { get; set; }
-        [Required, MaxLength(40)]
-        public string AuditDescription { get; set; }
-        public virtual ICollection<AuditEvent> AuditEvents { get; set; }
-    }
+    //////public class AuditEventDescription
+    //////{
+    //////    [Key]
+    //////    public int idAuditEventDescription { get; set; }
+    //////    [Required, MaxLength(40)]
+    //////    public string AuditDescription { get; set; }
+    //////    public virtual ICollection<AuditEvent> AuditEvents { get; set; }
+    //////}
 
     public class AuditEventDataRow
     {

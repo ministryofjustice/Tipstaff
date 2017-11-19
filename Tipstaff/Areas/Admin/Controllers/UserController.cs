@@ -13,7 +13,7 @@ namespace Tipstaff.Areas.Admin.Controllers
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     public class UserController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private const string ResetPasswordBody = "Your new password is: {0}";
         private const string ResetPasswordSubject = "Your new TipstaffDB password";
 
@@ -211,7 +211,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     MembershipUser user = Membership.GetUser(model.UserName);
-                    db.SaveChanges();
+                    ////////////db.SaveChanges();
                     ViewData["newAccount"] = "newAccount";
                     return RedirectToAction("Roles", "User", new { id = user.ProviderUserKey });
                 }

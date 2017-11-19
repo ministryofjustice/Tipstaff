@@ -17,7 +17,7 @@ namespace Tipstaff.Models
 
     public class DeletionsForLastYear 
     {
-       TipstaffDB db = myDBContextHelper.CurrentContext;
+        ////TipstaffDB db = myDBContextHelper.CurrentContext;
         private DateTime startDate { get; set; }
 
         private IDictionary<string, int?> gData = new Dictionary<string, int?>();
@@ -28,18 +28,18 @@ namespace Tipstaff.Models
 
         public DeletionsForLastYear()
         {
-            startDate = DateTime.Today.StartOfMonth().AddMonths(-11);
+            //////////startDate = DateTime.Today.StartOfMonth().AddMonths(-11);
 
-            for (int i = 11; i >= 0; i--)
-            {
-                DateTime dLoop = DateTime.Today.AddMonths(-i);
-                int? data = db.AuditEvents.Where(a => a.EventDate.Month == dLoop.Month && a.EventDate.Year == dLoop.Year && (a.idAuditEventDescription == 8 || a.idAuditEventDescription == 12)).Count();
-                if (data!=null && data == 0)
-                {
-                    data = null;
-                }
-                gData.Add(dLoop.ToString("MMM yyyy"), data);
-            }
+            //////////for (int i = 11; i >= 0; i--)
+            //////////{
+            //////////    DateTime dLoop = DateTime.Today.AddMonths(-i);
+            //////////    int? data = db.AuditEvents.Where(a => a.EventDate.Month == dLoop.Month && a.EventDate.Year == dLoop.Year && (a.idAuditEventDescription == 8 || a.idAuditEventDescription == 12)).Count();
+            //////////    if (data!=null && data == 0)
+            //////////    {
+            //////////        data = null;
+            //////////    }
+            //////////    gData.Add(dLoop.ToString("MMM yyyy"), data);
+            //////////}
         }
 
         public ICollection<string> Keys
@@ -73,7 +73,7 @@ namespace Tipstaff.Models
 
     public class IssuesForLastYear :IGraphData
     {
-        TipstaffDB db = myDBContextHelper.CurrentContext;
+        //////TipstaffDB db = myDBContextHelper.CurrentContext;
         private IDictionary<string, int?> gData = new Dictionary<string, int?>();
         private DateTime startDate;
         public IssuesForLastYear()
@@ -83,7 +83,9 @@ namespace Tipstaff.Models
             for (int i = 11; i >= 0; i--)
             {
                 DateTime dLoop = DateTime.Today.AddMonths(-i);
-                int? data =  db.TipstaffRecord.Where(t => t.createdOn.Value.Month == dLoop.Month && t.createdOn.Value.Year==dLoop.Year).Count();
+                /////int? data =  db.TipstaffRecord.Where(t => t.createdOn.Value.Month == dLoop.Month && t.createdOn.Value.Year==dLoop.Year).Count();
+                int? data = 0;
+
                 if (data != null && data == 0)
                 {
                     //data = null;

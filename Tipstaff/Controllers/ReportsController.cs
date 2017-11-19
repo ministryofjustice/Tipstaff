@@ -10,20 +10,23 @@ using System.IO;
 using System.Web.UI;
 using Utils.Excel;
 using Tipstaff.Presenters.Interfaces;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
-    [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
     [Authorize]
     [ValidateAntiForgeryTokenOnAllPosts]
     public class ReportsController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        ///////private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IGraphPresenter _graphPresenter;
+        private readonly IChildAbductionPresenter _childAbductionPresenter;
+        private readonly IWarrantPresenter _warrantPresenter;
 
-        public ReportsController(IGraphPresenter graphPresenter)
+        public ReportsController(IGraphPresenter graphPresenter, IChildAbductionPresenter childAbductionPresenter)
         {
             _graphPresenter = graphPresenter;
+            _childAbductionPresenter = childAbductionPresenter;
         }
 
         public ActionResult Index()
@@ -303,7 +306,11 @@ namespace Tipstaff.Controllers
         private List<WReportItem> GetActiveWarrants()
         {
             List<WReportItem> results = new List<WReportItem>();
-            List<Warrant> activeWs = db.Warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+            var warrants = _warrantPresenter.GetAllWarrants();
+            ////////List<Warrant> activeWs = db.Warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+
+            List<Warrant> activeWs = warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+
             foreach (Warrant w in activeWs)
             {
                 WReportItem i = new WReportItem();
@@ -321,7 +328,12 @@ namespace Tipstaff.Controllers
         private List<WReportItem> GetClosedWarrants(DateTime start, DateTime end)
         {
             List<WReportItem> results = new List<WReportItem>();
-            List<Warrant> closedWs = db.Warrants.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
+            var warrants = _warrantPresenter.GetAllWarrants();
+
+            ////List<Warrant> closedWs = db.Warrants.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
+
+            List<Warrant> closedWs = warrants.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
+
             foreach (Warrant w in closedWs)
             {
                 WReportItem i = new WReportItem();
@@ -339,7 +351,11 @@ namespace Tipstaff.Controllers
         private List<CAReportItem> GetActiveChildAbductions()
         {
             List<CAReportItem> results = new List<CAReportItem>();
-            List<ChildAbduction> activeCAs = db.ChildAbductions.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+            var childAbductions = _childAbductionPresenter.GetAllChildAbductions();
+
+           //// List<ChildAbduction> activeCAs = db.ChildAbductions.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+
+            List<ChildAbduction> activeCAs = childAbductions.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
             foreach (ChildAbduction c in activeCAs)
             {
                 CAReportItem i = new CAReportItem();
@@ -358,7 +374,10 @@ namespace Tipstaff.Controllers
         private List<CAReportItem> GetClosedChildAbductions(DateTime start, DateTime end)
         {
             List<CAReportItem> results = new List<CAReportItem>();
-            List<ChildAbduction> activeCAs = db.ChildAbductions.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
+            ////////List<ChildAbduction> activeCAs = db.ChildAbductions.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
+            var childAbductions = _childAbductionPresenter.GetAllChildAbductions();
+
+            List<ChildAbduction> activeCAs = childAbductions.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
             foreach (ChildAbduction c in activeCAs)
             {
                 CAReportItem i = new CAReportItem();

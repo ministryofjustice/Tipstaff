@@ -110,157 +110,158 @@ namespace Tipstaff.Models
                         }
                     }
                 }
-                if (!entry.IsRelationship && !objType.StartsWith("Audit") && objType != "EdmMetadata")
-                {
-                    switch (entry.State)
-                    {
-                        case EntityState.Added:
-                            {
-                                //result = base.SaveChanges();
-                                string objName = string.Format("{0} Added", objType);
-                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
-                                auditRecord.EventDescription = objName;
-                                auditRecord.idAuditEventDescription = AuditType;
-                                auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
-                                try
-                                {
-                                    int ord = entry.CurrentValues.GetOrdinal("tipstaffRecordID");
-                                    string value = entry.CurrentValues.GetValue(ord).ToString();
-                                    auditRecord.RecordAddedTo = Int32.Parse(value);
-                                }
-                                catch
-                                {
-                                    try
-                                    {
-                                        int ord = entry.CurrentValues.GetOrdinal("warrantID");
-                                        string value = entry.CurrentValues.GetValue(ord).ToString();
-                                        auditRecord.RecordAddedTo = Int32.Parse(value);
-                                    }
-                                    catch
-                                    {
-                                        try
-                                        {
-                                            int ord = entry.CurrentValues.GetOrdinal("childAbductionID");
-                                            string value = entry.CurrentValues.GetValue(ord).ToString();
-                                            auditRecord.RecordAddedTo = Int32.Parse(value);
-                                        }
-                                        catch
-                                        {
-                                            auditRecord.RecordAddedTo = null;
-                                        }
-                                    }
-                                }
-                                break;
-                            }
-                        case EntityState.Deleted:
-                            {
-                                string objName = string.Format("{0} Deleted", objType);
-                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
-                                auditRecord.EventDescription = objName;
-                                auditRecord.idAuditEventDescription = AuditType;
-                                auditRecord.RecordChanged = entry.OriginalValues.GetValue(0).ToString();
-                                try
-                                {
-                                    int ord = entry.OriginalValues.GetOrdinal("tipstaffRecordID");
-                                    string value = entry.OriginalValues.GetValue(ord).ToString();
-                                    auditRecord.RecordAddedTo = Int32.Parse(value);
-                                }
-                                catch
-                                {
-                                    try
-                                    {
-                                        int ord = entry.OriginalValues.GetOrdinal("warrantID");
-                                        string value = entry.OriginalValues.GetValue(ord).ToString();
-                                        auditRecord.RecordAddedTo = Int32.Parse(value);
-                                    }
-                                    catch
-                                    {
-                                        try
-                                        {
-                                            int ord = entry.OriginalValues.GetOrdinal("childAbductionID");
-                                            string value = entry.OriginalValues.GetValue(ord).ToString();
-                                            auditRecord.RecordAddedTo = Int32.Parse(value);
-                                        }
-                                        catch
-                                        {
-                                            auditRecord.RecordAddedTo = null;
-                                        }
-                                    }
-                                }
-                                // Iterate over the members (i.e. properties (including complex properties), references, collections) of the entity type
-                                List<AuditEventDataRow> data = new List<AuditEventDataRow>();
-                                foreach (EdmMember member in entry.EntitySet.ElementType.Members)
-                                {
-                                    string propertyName = member.Name.ToString();
-                                    DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
-                                    string oldValue = "";
-                                    string newValue = "deleted";
-                                    try
-                                    {
-                                        oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
-                                        if (oldValue == "") oldValue = "Empty";
-                                    }
-                                    catch
-                                    { oldValue = "Could not be mapped"; }
+                ////////////if (!entry.IsRelationship && !objType.StartsWith("Audit") && objType != "EdmMetadata")
+                ////////////{
+                ////////////    switch (entry.State)
+                ////////////    {
+                ////////////        case EntityState.Added:
+                ////////////            {
+                ////////////                //result = base.SaveChanges();
+                ////////////                string objName = string.Format("{0} Added", objType);
+                ////////////                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
+                ////////////                auditRecord.EventDescription = objName;
+                ////////////                //////auditRecord.idAuditEventDescription = AuditType;
+                ////////////                auditRecord.auditEventDescription.Id = AuditType;
+                ////////////                auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
+                ////////////                try
+                ////////////                {
+                ////////////                    int ord = entry.CurrentValues.GetOrdinal("tipstaffRecordID");
+                ////////////                    string value = entry.CurrentValues.GetValue(ord).ToString();
+                ////////////                    auditRecord.RecordAddedTo = Int32.Parse(value);
+                ////////////                }
+                ////////////                catch
+                ////////////                {
+                ////////////                    try
+                ////////////                    {
+                ////////////                        int ord = entry.CurrentValues.GetOrdinal("warrantID");
+                ////////////                        string value = entry.CurrentValues.GetValue(ord).ToString();
+                ////////////                        auditRecord.RecordAddedTo = Int32.Parse(value);
+                ////////////                    }
+                ////////////                    catch
+                ////////////                    {
+                ////////////                        try
+                ////////////                        {
+                ////////////                            int ord = entry.CurrentValues.GetOrdinal("childAbductionID");
+                ////////////                            string value = entry.CurrentValues.GetValue(ord).ToString();
+                ////////////                            auditRecord.RecordAddedTo = Int32.Parse(value);
+                ////////////                        }
+                ////////////                        catch
+                ////////////                        {
+                ////////////                            auditRecord.RecordAddedTo = null;
+                ////////////                        }
+                ////////////                    }
+                ////////////                }
+                ////////////                break;
+                ////////////            }
+                ////////////        case EntityState.Deleted:
+                ////////////            {
+                ////////////                string objName = string.Format("{0} Deleted", objType);
+                ////////////                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
+                ////////////                auditRecord.EventDescription = objName;
+                ////////////                auditRecord.idAuditEventDescription = AuditType;
+                ////////////                auditRecord.RecordChanged = entry.OriginalValues.GetValue(0).ToString();
+                ////////////                try
+                ////////////                {
+                ////////////                    int ord = entry.OriginalValues.GetOrdinal("tipstaffRecordID");
+                ////////////                    string value = entry.OriginalValues.GetValue(ord).ToString();
+                ////////////                    auditRecord.RecordAddedTo = Int32.Parse(value);
+                ////////////                }
+                ////////////                catch
+                ////////////                {
+                ////////////                    try
+                ////////////                    {
+                ////////////                        int ord = entry.OriginalValues.GetOrdinal("warrantID");
+                ////////////                        string value = entry.OriginalValues.GetValue(ord).ToString();
+                ////////////                        auditRecord.RecordAddedTo = Int32.Parse(value);
+                ////////////                    }
+                ////////////                    catch
+                ////////////                    {
+                ////////////                        try
+                ////////////                        {
+                ////////////                            int ord = entry.OriginalValues.GetOrdinal("childAbductionID");
+                ////////////                            string value = entry.OriginalValues.GetValue(ord).ToString();
+                ////////////                            auditRecord.RecordAddedTo = Int32.Parse(value);
+                ////////////                        }
+                ////////////                        catch
+                ////////////                        {
+                ////////////                            auditRecord.RecordAddedTo = null;
+                ////////////                        }
+                ////////////                    }
+                ////////////                }
+                ////////////                // Iterate over the members (i.e. properties (including complex properties), references, collections) of the entity type
+                ////////////                List<AuditEventDataRow> data = new List<AuditEventDataRow>();
+                ////////////                foreach (EdmMember member in entry.EntitySet.ElementType.Members)
+                ////////////                {
+                ////////////                    string propertyName = member.Name.ToString();
+                ////////////                    DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
+                ////////////                    string oldValue = "";
+                ////////////                    string newValue = "deleted";
+                ////////////                    try
+                ////////////                    {
+                ////////////                        oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
+                ////////////                        if (oldValue == "") oldValue = "Empty";
+                ////////////                    }
+                ////////////                    catch
+                ////////////                    { oldValue = "Could not be mapped"; }
 
-                                    if ((oldValue != newValue) && (oldValue != "Could not be mapped")) // probably not necessary
-                                    {
-                                        AuditEventDataRow newAuditRow = new AuditEventDataRow();
-                                        newAuditRow.ColumnName = propertyName;
-                                        newAuditRow.Was = oldValue;
-                                        newAuditRow.Now = newValue;
-                                        data.Add(newAuditRow);
-                                    }
+                ////////////                    if ((oldValue != newValue) && (oldValue != "Could not be mapped")) // probably not necessary
+                ////////////                    {
+                ////////////                        AuditEventDataRow newAuditRow = new AuditEventDataRow();
+                ////////////                        newAuditRow.ColumnName = propertyName;
+                ////////////                        newAuditRow.Was = oldValue;
+                ////////////                        newAuditRow.Now = newValue;
+                ////////////                        data.Add(newAuditRow);
+                ////////////                    }
 
-                                }
-                                if (data.Count() > 0)
-                                {
-                                    auditRecord.AuditEventDataRows = data;
-                                }
-                                break;
-                            }
-                        case EntityState.Modified:
-                            {
-                                string objName = string.Format("{0} Amended", objType);
-                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
-                                auditRecord.EventDescription = objName;
-                                auditRecord.idAuditEventDescription = AuditType;
-                                auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
-                                List<AuditEventDataRow> data = new List<AuditEventDataRow>();
-                                foreach (string propertyName in entry.GetModifiedProperties())
-                                {
+                ////////////                }
+                ////////////                if (data.Count() > 0)
+                ////////////                {
+                ////////////                    auditRecord.AuditEventDataRows = data;
+                ////////////                }
+                ////////////                break;
+                ////////////            }
+                ////////////        case EntityState.Modified:
+                ////////////            {
+                ////////////                string objName = string.Format("{0} Amended", objType);
+                ////////////                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
+                ////////////                auditRecord.EventDescription = objName;
+                ////////////                auditRecord.idAuditEventDescription = AuditType;
+                ////////////                auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
+                ////////////                List<AuditEventDataRow> data = new List<AuditEventDataRow>();
+                ////////////                foreach (string propertyName in entry.GetModifiedProperties())
+                ////////////                {
 
-                                    DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
-                                    string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
-                                    if (oldValue == "") oldValue = "Empty";
+                ////////////                    DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
+                ////////////                    string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
+                ////////////                    if (oldValue == "") oldValue = "Empty";
 
-                                    CurrentValueRecord current = entry.CurrentValues;
-                                    string newValue = (current.GetValue(current.GetOrdinal(propertyName)) != null) ? current.GetValue(current.GetOrdinal(propertyName)).ToString() : "Empty";
-                                    if (newValue == "") newValue = "Empty";
+                ////////////                    CurrentValueRecord current = entry.CurrentValues;
+                ////////////                    string newValue = (current.GetValue(current.GetOrdinal(propertyName)) != null) ? current.GetValue(current.GetOrdinal(propertyName)).ToString() : "Empty";
+                ////////////                    if (newValue == "") newValue = "Empty";
 
-                                    if (objType == "Template" && propertyName == "templateXML")
-                                    {
-                                        oldValue = "XML";
-                                        newValue = "XML - Too long to record new version";
-                                    }
+                ////////////                    if (objType == "Template" && propertyName == "templateXML")
+                ////////////                    {
+                ////////////                        oldValue = "XML";
+                ////////////                        newValue = "XML - Too long to record new version";
+                ////////////                    }
 
-                                    if (oldValue != newValue) // probably not necessary
-                                    {
-                                        AuditEventDataRow newAuditRow = new AuditEventDataRow();
-                                        newAuditRow.ColumnName = propertyName;
-                                        newAuditRow.Was = oldValue;
-                                        newAuditRow.Now = newValue;
-                                        data.Add(newAuditRow);
-                                    }
-                                }
-                                if (data.Count() > 0)
-                                {
-                                    auditRecord.AuditEventDataRows = data;
-                                }
-                                break;
-                            }
-                    }
-                }
+                ////////////                    if (oldValue != newValue) // probably not necessary
+                ////////////                    {
+                ////////////                        AuditEventDataRow newAuditRow = new AuditEventDataRow();
+                ////////////                        newAuditRow.ColumnName = propertyName;
+                ////////////                        newAuditRow.Was = oldValue;
+                ////////////                        newAuditRow.Now = newValue;
+                ////////////                        data.Add(newAuditRow);
+                ////////////                    }
+                ////////////                }
+                ////////////                if (data.Count() > 0)
+                ////////////                {
+                ////////////                    auditRecord.AuditEventDataRows = data;
+                ////////////                }
+                ////////////                break;
+                ////////////            }
+                ////////////    }
+                ////////////}
 
                 if (auditRecord.RecordChanged == "0" && auditRecord.RecordAddedTo == 0 && auditRecord.EventDescription.Contains("Added"))
                 {
