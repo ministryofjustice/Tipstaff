@@ -33,6 +33,7 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<ITemplatePresenter>().ImplementedBy<TemplatePresenter>());
             container.Register(Component.For<ITipstaffRecordPresenter>().ImplementedBy<TipstaffRecordPresenter>());
             container.Register(Component.For<IFAQPresenter>().ImplementedBy<FAQPresenter>());
+            container.Register(Component.For<IAuditEventPresenter>().ImplementedBy<AuditEventPresenter>());
             //END PRESENTERS
         }
     }

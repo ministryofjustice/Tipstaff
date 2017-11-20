@@ -15,7 +15,7 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Services.Infrastructure
 {
-    class RepositoriesInstaller : IWindsorInstaller
+    public class RepositoriesInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
@@ -35,7 +35,7 @@ namespace Tipstaff.Services.Infrastructure
             container.Register(Component.For<ICaseReviewRepository>().ImplementedBy<CaseReviewRepository>());
             container.Register(Component.For<IAddressRepository>().ImplementedBy<AddressRepository>());
             container.Register(Component.For<IRespondentRepository>().ImplementedBy<RespondentRepository>());
-
+            container.Register(Component.For<IAuditEventRepository>().ImplementedBy<AuditEventRepository>());
 
             //MISC
             container.Register(Component.For<IGuidGenerator>().ImplementedBy<GuidGenerator>());
