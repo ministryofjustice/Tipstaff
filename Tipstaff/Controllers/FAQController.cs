@@ -3,18 +3,21 @@ using System.Data;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using Tipstaff.Presenters.Interfaces;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
-    [Authorize]
-    [ValidateAntiForgeryTokenOnAllPosts]
+    //[Authorize]
+    //[ValidateAntiForgeryTokenOnAllPosts]
     public class FAQController : Controller
     {
         private readonly IFAQPresenter _faqPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public FAQController(IFAQPresenter faqPresenter)
+        public FAQController(IFAQPresenter faqPresenter, IGuidGenerator guidGenerator)
         {
             _faqPresenter = faqPresenter;
+            _guidGenerator = guidGenerator;
         }
         
         [AllowAnonymous]
@@ -36,7 +39,7 @@ namespace Tipstaff.Controllers
                 return View(filteredFaqs);
             }
         }
-        [AuthorizeRedirect(Roles = "Admin")]
+        //[AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             //FAQ faq = db.FAQs.Find(id);
@@ -46,7 +49,7 @@ namespace Tipstaff.Controllers
             return View(faq);
         }
 
-        [AuthorizeRedirect(Roles = "Admin")]
+        //[AuthorizeRedirect(Roles = "Admin")]
         [HttpPost, ValidateInput(false)]
         public ActionResult Edit(FAQ faq)
         {
@@ -67,7 +70,7 @@ namespace Tipstaff.Controllers
             }
             return View(faq);
         }
-        [AuthorizeRedirect(Roles = "Admin")]
+        //[AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -76,7 +79,7 @@ namespace Tipstaff.Controllers
         //
         // POST: /BusinessArea/Create
 
-        [AuthorizeRedirect(Roles = "Admin")]
+        //[AuthorizeRedirect(Roles = "Admin")]
         [HttpPost, ValidateInput(false)]
         public ActionResult Create(FAQ faq)
         {
@@ -91,6 +94,7 @@ namespace Tipstaff.Controllers
                 //////    LoggedInUser = faq.loggedInUser,
                 //////    Question = faq.question
                 //////});
+                faq.faqID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 _faqPresenter.Add(faq);
 
                 return RedirectToAction("Index");
