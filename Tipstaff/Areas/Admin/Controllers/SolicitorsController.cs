@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Configuration;
 using PagedList;
-using System.Data.Entity;
 using System.Data;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -16,8 +14,14 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class SolicitorsController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
         //
+        private readonly ISolicitorPresenter _solicitorPresenter;
+
+        public SolicitorsController(ISolicitorPresenter solicitorPresenter)
+        {
+            _solicitorPresenter = solicitorPresenter;
+        }
         // GET: /Admin/Solicitor/
         public ViewResult Index(SolicitorListView model)
         {
@@ -26,7 +30,9 @@ namespace Tipstaff.Areas.Admin.Controllers
                 model.page = 1;
             }
 
-            IEnumerable<Solicitor> Solicitors = db.Solicitors.Include(s=>s.salutation).Include(f => f.SolicitorFirm);//needed?
+
+            var Solicitors = _solicitorPresenter.GetSolicitors();
+            ////////IEnumerable<Solicitor> Solicitors = db.Solicitors.Include(s=>s.salutation).Include(f => f.SolicitorFirm);//needed?
 
             if (model.onlyActive == true)
             {
@@ -63,9 +69,11 @@ namespace Tipstaff.Areas.Admin.Controllers
             return View(model);
         }
         // GET: /Admin/Solicitor/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            Solicitor model = db.Solicitors.Find(id);
+            ////////Solicitor model = db.Solicitors.Find(id);
+            Solicitor model = _solicitorPresenter.GetSolicitor(id);
+
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -90,8 +98,9 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.solicitor.active = true;
-                db.Solicitors.Add(model.solicitor);
-                db.SaveChanges();
+                //////db.Solicitors.Add(model.solicitor);
+                //////db.SaveChanges();
+                _solicitorPresenter.AddSolicitor(model.solicitor);
                 return RedirectToAction("Index");
             }
 
@@ -119,8 +128,9 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
 
-                db.Entry(model.solicitor).State = EntityState.Modified;
-                db.SaveChanges();
+                //////db.Entry(model.solicitor).State = EntityState.Modified;
+                //////db.SaveChanges();
+                _solicitorPresenter.Update(model.solicitor);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -128,7 +138,9 @@ namespace Tipstaff.Areas.Admin.Controllers
         // GET: /Admin/Solicitor/Delete/5
         public ActionResult Deactivate(int id)
         {
-            Solicitor model = db.Solicitors.Find(id);
+            ///Solicitor model = db.Solicitors.Find(id);
+            Solicitor model = _solicitorPresenter.GetSolicitor(id.ToString());
+
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -150,12 +162,15 @@ namespace Tipstaff.Areas.Admin.Controllers
         [HttpPost, ActionName("Deactivate")]
         public ActionResult DeactivateConfirmed(int id)
         {
-            Solicitor model = db.Solicitors.Find(id);
+            //Solicitor model = db.Solicitors.Find(id);
+            Solicitor model = _solicitorPresenter.GetSolicitor(id.ToString());
             model.active = false;
             model.deactivated = DateTime.Now;
             model.deactivatedBy = User.Identity.Name;
-            db.Entry(model).State = EntityState.Modified;
-            db.SaveChanges();
+
+            //db.Entry(model).State = EntityState.Modified;
+            //db.SaveChanges();
+            _solicitorPresenter.Update(model);
             return RedirectToAction("Index");
         }
 

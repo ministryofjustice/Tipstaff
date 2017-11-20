@@ -13,17 +13,21 @@ namespace Tipstaff.Presenters
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
         private readonly IChildPresenter _childPresenter;
         private readonly IRespondentPresenter _respondentPresenter;
+        private readonly IWarrantPresenter _warrantPresenter;
+        
 
         Regex rxNumeric = new Regex(@"^[0-9]+$");
         Regex rxText = new Regex(@"^[a-z,A-Z]+$");
         
         public SearchPresenter(ITipstaffRecordPresenter tipstaffRecordPresenter, 
                                IChildPresenter childPresenter, 
-                               IRespondentPresenter respondentPresenter)
+                               IRespondentPresenter respondentPresenter, 
+                               IWarrantPresenter warrantPresenter)
         {
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _childPresenter = childPresenter;
             _respondentPresenter = respondentPresenter;
+            _warrantPresenter = warrantPresenter;
         }
 
         public SearchModel GetSearchModel(string searchRecord)
@@ -170,11 +174,12 @@ namespace Tipstaff.Presenters
                     foreach (Child child in children)
                     {
                         string uniqID = "";
-                        using (TipstaffDB tempDB = new TipstaffDB())
-                        {
-                            TipstaffRecord TR = tempDB.TipstaffRecord.Find(child.tipstaffRecordID);
-                            uniqID = TR.UniqueRecordID;
-                        };
+                        //////using (TipstaffDB tempDB = new TipstaffDB())
+                        //////{
+                        //////    TipstaffRecord TR = tempDB.TipstaffRecord.Find(child.tipstaffRecordID);
+                        //////    uniqID = TR.UniqueRecordID;
+                        //////};
+                        TipstaffRecord TR = _tipstaffRecordPresenter.GetTipStaffRecord(child.tipstaffRecordID);
 
                         Results.Add(new SearchResultRow
                         {
@@ -195,11 +200,15 @@ namespace Tipstaff.Presenters
                     foreach (Respondent resp in Resps)
                     {
                         string uniqID = "";
-                        using (TipstaffDB tempDB = new TipstaffDB())
-                        {
-                            TipstaffRecord TR = tempDB.TipstaffRecord.Find(resp.tipstaffRecordID);
-                            uniqID = TR.UniqueRecordID;
-                        };
+                        ////////using (TipstaffDB tempDB = new TipstaffDB())
+                        ////////{
+                        ////////    TipstaffRecord TR = tempDB.TipstaffRecord.Find(resp.tipstaffRecordID);
+                        ////////    uniqID = TR.UniqueRecordID;
+                        ////////};
+
+                        TipstaffRecord TR = _tipstaffRecordPresenter.GetTipStaffRecord(resp.tipstaffRecordID);
+                        uniqID = TR.UniqueRecordID;
+
                         Results.Add(new SearchResultRow
                         {
                             name = resp.fullname,
@@ -223,21 +232,31 @@ namespace Tipstaff.Presenters
         }
         private List<SearchResultRow> GetMatches(string Name)
         {
-            TipstaffDB db = myDBContextHelper.CurrentContext;
+            ///////TipstaffDB db = myDBContextHelper.CurrentContext;
             try
             {
                 List<SearchResultRow> Results = new List<SearchResultRow>();
-                var kids = db.Children.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
+                ////////var kids = db.Children.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
+                var children = _childPresenter.GetAllChildren();
+
+                var kids = children.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
                 if (kids != null)
                 {
                     foreach (Child child in kids)
                     {
                         string uniqID = "";
-                        using (TipstaffDB tempDB = new TipstaffDB())
-                        {
-                            TipstaffRecord TR = tempDB.TipstaffRecord.Find(child.tipstaffRecordID);
-                            uniqID = TR.UniqueRecordID;
-                        };
+
+
+                        ////using (TipstaffDB tempDB = new TipstaffDB())
+                        ////{
+                        ////    TipstaffRecord TR = tempDB.TipstaffRecord.Find(child.tipstaffRecordID);
+                        ////    uniqID = TR.UniqueRecordID;
+                        ////};
+
+                        TipstaffRecord TR = _tipstaffRecordPresenter.GetTipStaffRecord(child.tipstaffRecordID);
+                        uniqID = TR.UniqueRecordID;
+
+
                         Results.Add(new SearchResultRow
                         {
                             name = child.fullname,
@@ -250,7 +269,10 @@ namespace Tipstaff.Presenters
                         });
                     }
                 }
-                var Resps = db.Respondents.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
+                ////////////var Resps = db.Respondents.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
+                var respondents =_respondentPresenter.GetAll();
+                var Resps = respondents.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
+
                 System.Diagnostics.Debug.Print(Resps.Count().ToString());
                 if (Resps != null)
                 {
@@ -258,16 +280,21 @@ namespace Tipstaff.Presenters
                     {
                         string typePart2 = "";
                         string uniqID = "";
-                        using (TipstaffDB tempDB = new TipstaffDB())
-                        {
+                        //using (TipstaffDB tempDB = new TipstaffDB())
+                        //{
                             if (genericFunctions.TypeOfTipstaffRecord(resp.tipstaffRecordID) == "Warrant")
                             {
-                                Warrant temp = tempDB.Warrants.Find(resp.tipstaffRecordID);
-                                typePart2 = string.Format(" ({0})", temp.division.Detail);
+                            //////////Warrant temp = tempDB.Warrants.Find(resp.tipstaffRecordID);
+                            Warrant temp = _warrantPresenter.GetWarrant(resp.tipstaffRecordID);
+                            typePart2 = string.Format(" ({0})", temp.division.Detail);
                             }
-                            TipstaffRecord TR = tempDB.TipstaffRecord.Find(resp.tipstaffRecordID);
-                            uniqID = TR.UniqueRecordID;
-                        };
+                        ////////TipstaffRecord TR = tempDB.TipstaffRecord.Find(resp.tipstaffRecordID);
+                        ////////uniqID = TR.UniqueRecordID;
+
+                        TipstaffRecord TR = _tipstaffRecordPresenter.GetTipStaffRecord(resp.tipstaffRecordID);
+                        uniqID = TR.UniqueRecordID;
+
+
                         Results.Add(new SearchResultRow
                         {
                             name = resp.fullname,

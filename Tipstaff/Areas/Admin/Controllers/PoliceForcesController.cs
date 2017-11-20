@@ -8,6 +8,7 @@ using PagedList;
 using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -17,9 +18,17 @@ namespace Tipstaff.Areas.Admin.Controllers
 
     public class PoliceForcesController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly IPoliceForcesPresenter _policeForcesPresenter;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        
+        //private TipstaffDB db = myDBContextHelper.CurrentContext;
         //
         // GET: /Admin/PoliceForces/
+        public PoliceForcesController(IPoliceForcesPresenter policeForcesPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
+        {
+            _policeForcesPresenter = policeForcesPresenter;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
+        }
 
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
         public ActionResult Index(PoliceForcesListView model)
@@ -29,7 +38,8 @@ namespace Tipstaff.Areas.Admin.Controllers
                 model.page = 1;
             }
 
-            IEnumerable<PoliceForces> PoliceForces = db.PoliceForces;
+            ////IEnumerable<PoliceForces> PoliceForces = db.PoliceForces;
+            IEnumerable<PoliceForces> PoliceForces = _policeForcesPresenter.GetAllPoliceForces();
 
             //if (model.onlyActive == true)
             //{
@@ -42,9 +52,11 @@ namespace Tipstaff.Areas.Admin.Controllers
         //
         // GET: /Admin/PoliceForces/Details/5
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            PoliceForces model = db.PoliceForces.Find(id);
+            //////PoliceForces model = db.PoliceForces.Find(id);
+
+            PoliceForces model = _policeForcesPresenter.GetPoliceForces(id);
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -72,8 +84,10 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.active = true;
-                db.PoliceForces.Add(model);
-                db.SaveChanges();
+                //////db.PoliceForces.Add(model);
+                //////db.SaveChanges();
+                _policeForcesPresenter.AddPoliceForces(model);
+
                 return RedirectToAction("Index");
             }
 
@@ -82,9 +96,10 @@ namespace Tipstaff.Areas.Admin.Controllers
 
         // GET: /Admin/PoliceForce/Edit/5
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            PoliceForces model = db.PoliceForces.Find(id);
+            //////PoliceForces model = db.PoliceForces.Find(id);
+            PoliceForces model = _policeForcesPresenter.GetPoliceForces(id);
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -103,8 +118,9 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(model).State = EntityState.Modified;
-                db.SaveChanges();
+                ////db.Entry(model).State = EntityState.Modified;
+                ////db.SaveChanges();
+                _policeForcesPresenter.Update(model);
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -113,9 +129,10 @@ namespace Tipstaff.Areas.Admin.Controllers
         //
         // GET: /Admin/PoliceForces/Delete/5
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
-        public ActionResult Deactivate(int id)
+        public ActionResult Deactivate(string id)
         {
-            PoliceForces model = db.PoliceForces.Find(id);
+            ////PoliceForces model = db.PoliceForces.Find(id);
+            PoliceForces model = _policeForcesPresenter.GetPoliceForces(id);
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -130,14 +147,16 @@ namespace Tipstaff.Areas.Admin.Controllers
         // POST: /Admin/PoliceForces/Delete/5
 
         [HttpPost, ActionName("Deactivate"),AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
-        public ActionResult DeactivateConfirmed(int id)
+        public ActionResult DeactivateConfirmed(string id)
         {
-            PoliceForces model = db.PoliceForces.Find(id);
+            //////PoliceForces model = db.PoliceForces.Find(id);
+            PoliceForces model = _policeForcesPresenter.GetPoliceForces(id);
             model.active = false;
             model.deactivated = DateTime.Now;
             model.deactivatedBy = User.Identity.Name;
-            db.Entry(model).State = EntityState.Modified;
-            db.SaveChanges();
+            //////db.Entry(model).State = EntityState.Modified;
+            //////db.SaveChanges();
+            _policeForcesPresenter.Update(model);
             return RedirectToAction("Index");
         }
 
@@ -147,7 +166,8 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Add(int id)
         {
             PoliceForceCreation model = new PoliceForceCreation();
-            model.TS_PoliceForce.tipstaffRecord = db.TipstaffRecord.Find(id);
+            //////model.TS_PoliceForce.tipstaffRecord = db.TipstaffRecord.Find(id);
+            model.TS_PoliceForce.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id.ToString());
             model.TS_PoliceForce.tipstaffRecordID = id;
             return View(model);
         }
@@ -157,18 +177,21 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                TipstaffRecord tr = db.TipstaffRecord.Find(model.TS_PoliceForce.tipstaffRecordID);
-                model.TS_PoliceForce.policeForceID = model.policeForceID;
-                tr.policeForces.Add(model.TS_PoliceForce);
-                db.SaveChanges();
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.TS_PoliceForce.tipstaffRecordID, Area="" });
+                //REVISIT THIS ONE!!!!
+                //////TipstaffRecord tr = db.TipstaffRecord.Find(model.TS_PoliceForce.tipstaffRecordID);
+                ////////////////TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.TS_PoliceForce.tipstaffRecordID.ToString());
+                ////////////////model.TS_PoliceForce.policeForceID = model.policeForceID;
+                ////////////////tr.policeForces.Add(model.TS_PoliceForce);
+                ////////////////db.SaveChanges();
+                ////////////////return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.TS_PoliceForce.tipstaffRecordID, Area="" });
             }
             return View(model);
         }
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
         public PartialViewResult ListPoliceForcesByRecord(int id, int? page)
         {
-            TipstaffRecord w = db.TipstaffRecord.Find(id);
+            //////TipstaffRecord w = db.TipstaffRecord.Find(id);
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id.ToString());
 
             ListPoliceForcesByTipstaffRecord model = new ListPoliceForcesByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
