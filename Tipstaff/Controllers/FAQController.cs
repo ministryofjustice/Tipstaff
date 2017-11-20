@@ -7,8 +7,8 @@ using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
-    //[Authorize]
-    //[ValidateAntiForgeryTokenOnAllPosts]
+    [Authorize]
+    [ValidateAntiForgeryTokenOnAllPosts]
     public class FAQController : Controller
     {
         private readonly IFAQPresenter _faqPresenter;
@@ -39,7 +39,7 @@ namespace Tipstaff.Controllers
                 return View(filteredFaqs);
             }
         }
-        //[AuthorizeRedirect(Roles = "Admin")]
+        [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             //FAQ faq = db.FAQs.Find(id);
@@ -49,7 +49,7 @@ namespace Tipstaff.Controllers
             return View(faq);
         }
 
-        //[AuthorizeRedirect(Roles = "Admin")]
+        [AuthorizeRedirect(Roles = "Admin")]
         [HttpPost, ValidateInput(false)]
         public ActionResult Edit(FAQ faq)
         {
@@ -70,7 +70,7 @@ namespace Tipstaff.Controllers
             }
             return View(faq);
         }
-        //[AuthorizeRedirect(Roles = "Admin")]
+        [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -79,7 +79,7 @@ namespace Tipstaff.Controllers
         //
         // POST: /BusinessArea/Create
 
-        //[AuthorizeRedirect(Roles = "Admin")]
+        [AuthorizeRedirect(Roles = "Admin")]
         [HttpPost, ValidateInput(false)]
         public ActionResult Create(FAQ faq)
         {

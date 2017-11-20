@@ -62,7 +62,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public IEnumerable<TipstaffRecord> GetAll()
         {
-            throw new NotImplementedException();
+            return _dynamoAPI.GetAll();
         }
 
         public void Delete(TipstaffRecord record)
