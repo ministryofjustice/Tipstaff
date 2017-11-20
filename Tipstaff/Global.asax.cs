@@ -198,9 +198,5 @@ namespace Tipstaff
             BootstrapContainer();
             //ConfigurationManager.AppSettings["CurServer"] = ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString.Split(';').First().Split('=').Last();
         }
-        protected void Application_AuthenticateRequest()
-        {
-            //if (HttpContext.Current.User != null) Membership.GetUser(true);
-        }
     }
 }
