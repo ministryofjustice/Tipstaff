@@ -80,6 +80,7 @@ namespace Tipstaff
         public string RedirectUnAuthUrl = "~/Error/Unauthorised";
         public string RedirectWrongTeam = "~/Error/WrongTeam";
         public AccessLevel MinimumRequiredAccessLevel { get; set; }
+        private IUsersRepository _usersRepository;
 
 
         public override void OnAuthorization(AuthorizationContext filterContext)
@@ -111,10 +112,16 @@ namespace Tipstaff
             _isAuthorized = false;
             UserAccessLevel = AccessLevel.Denied;
             //check groups (strart with them for a bigger group target!)
-            using (TipstaffDB db = new TipstaffDB())
-            {
-                UserAccessLevel = (AccessLevel)db.UserAccessLevel(httpContext.User);
-            }
+            _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>());
+
+            var usr = _usersRepository.GetUserByName(httpContext.User.Identity.Name.Split('\\').Last());
+
+            UserAccessLevel = (AccessLevel)usr.RoleStrength;
+
+            ////using (TipstaffDB db = new TipstaffDB())
+            ////{
+            ////    UserAccessLevel = (AccessLevel)db.UserAccessLevel(httpContext.User);
+            ////}
             _isAuthorized = (UserAccessLevel > AccessLevel.Denied && UserAccessLevel >= MinimumRequiredAccessLevel);
 
 

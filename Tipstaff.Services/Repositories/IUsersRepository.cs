@@ -16,5 +16,7 @@ namespace Tipstaff.Services.Repositories
         void Add(User user);
 
         User GetUserByID(string id);
+
+        User GetUserByName(string name);
     }
 }
