@@ -41,13 +41,15 @@ namespace Tipstaff
         {
             this.Identity = identity;
             _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>());
-            var users = _usersRepository.GetAll().Select(x=> new User()
+            var allUsers = _usersRepository.GetAll();
+            var users = allUsers.Select(x=> new User()
             { 
                 DisplayName = x.DisplayName,
                 LastActive = x.LastActive,
                 Name = x.Name,
                 RoleStrength = x.RoleStrength,
-                UserID = x.Id
+                UserID = x.Id,
+                Role = MemoryCollections.RolesList.GetRoleByDetail(x.Role)
 
             });
             ////User = db.GetUserByLoginName(Identity.Name.Split('\\').Last());
