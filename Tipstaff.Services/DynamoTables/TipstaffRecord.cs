@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_TipstaffRecord")]
+    [DynamoDBTable("Tipstaff_TipstaffRecords")]
     public class TipstaffRecord : DynamoTable
     {
         public string CreatedBy { get; set; }

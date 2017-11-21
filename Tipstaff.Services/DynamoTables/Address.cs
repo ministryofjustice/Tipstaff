@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_Address")]
+    [DynamoDBTable("Tipstaff_Addresses")]
     public class Address : DynamoTable
     {
         [DynamoDBRangeKey]

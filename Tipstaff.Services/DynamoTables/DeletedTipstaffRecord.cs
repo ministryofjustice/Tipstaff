@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_DeletedTipstaffRecord")]
+    [DynamoDBTable("Tipstaff_DeletedTipstaffRecords")]
     public class DeletedTipstaffRecord : DynamoTable
     {
         public string DeletedReason { get; set; }

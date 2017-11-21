@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_FAQ")]
+    [DynamoDBTable("Tipstaff_FAQs")]
     public class FAQ : DynamoTable
     {
         public bool LoggedInUser { get; set; }

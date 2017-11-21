@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_CaseReview")]
+    [DynamoDBTable("Tipstaff_CaseReviews")]
     public class CaseReview : DynamoTable
     {
         [DynamoDBRangeKey]

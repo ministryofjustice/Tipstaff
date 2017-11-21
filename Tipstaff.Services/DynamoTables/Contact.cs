@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_Contact")]
+    [DynamoDBTable("Tipstaff_Contacts")]
     public class Contact : DynamoTable
     {
         public string Salutation{ get; set; }

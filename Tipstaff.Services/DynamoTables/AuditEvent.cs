@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_AuditEvent")]
+    [DynamoDBTable("Tipstaff_AuditEvents")]
     public class AuditEvent : DynamoTable
     {
         public DateTime EventDate { get; set; }
