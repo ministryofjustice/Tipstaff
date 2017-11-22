@@ -40,23 +40,11 @@ namespace Tipstaff
         ////}
         public CPrincipal(IIdentity identity)//: this(new TipstaffDB())
         {
-            string message = "On CPrincipal constructor";
-            LogError(message);
             try
             {
                 this.Identity = identity;
-                message = "Before instantiating UsersRepository";
-                LogError(message);
                 _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>());
-                message = "UsersRepository instantiated correctly";
-                LogError(message);
-                message = "Before getting all users";
-                LogError(message);
                 var allUsers = _usersRepository.GetAll();
-                message = "After getting all users";
-                LogError(message);
-                message = "Before creating a list of User models";
-                LogError(message);
                 var users = allUsers.Select(x => new User()
                 {
                     DisplayName = x.DisplayName,
@@ -67,23 +55,13 @@ namespace Tipstaff
                     Role = MemoryCollections.RolesList.GetRoleByDetail(x.Role)
 
                 });
-                message = "After creating list of Model Users";
-                LogError(message);
-                ////User = db.GetUserByLoginName(Identity.Name.Split('\\').Last());
-                message = "Before getting the first user based on name: " + Identity.Name.Split('\\').Last();
-                LogError(message);
-                User = users.FirstOrDefault(x => x.Name == Identity.Name.Split('\\').Last());
-                message = "After getting the first user based on name";
-                LogError(message);
-                message = "Before getting the RoleStrength (" + (AccessLevel)User.RoleStrength + ") and UserID (" + User.UserID + ")";
-                LogError(message);
+                User = users.FirstOrDefault(x => string.Equals(x.Name, Identity.Name.Split('\\').Last(), StringComparison.OrdinalIgnoreCase));
                 this.AccessLevel = (AccessLevel)User.RoleStrength;
                 this.UserID = int.Parse(User.UserID);
             }
             catch (Exception ex)
             {
-                message = "Exception caught (full exception): " + ex.ToString() + "  Inner Exception: " + ex.InnerException.ToString() + "  Stack Trace: " + ex.StackTrace;
-                LogError(message);
+                throw ex;
             }
             
         }
@@ -99,16 +77,16 @@ namespace Tipstaff
             return (this.User.Role.Detail == role);
         }
 
-        private void LogError(string message)
-        {
+        //private void LogError(string message)
+        //{
 
-            string path = HttpContext.Current.Server.MapPath("~/ErrorLog.txt");
-            using (StreamWriter writer = new StreamWriter(path, true))
-            {
-                writer.WriteLine(message);
-                writer.Close();
-            }
-        }
+        //    string path = HttpContext.Current.Server.MapPath("~/ErrorLog.txt");
+        //    using (StreamWriter writer = new StreamWriter(path, true))
+        //    {
+        //        writer.WriteLine(message);
+        //        writer.Close();
+        //    }
+        //}
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
@@ -154,14 +132,10 @@ namespace Tipstaff
             //check groups (strart with them for a bigger group target!)
             _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>());
 
-            var usr = _usersRepository.GetUserByName(httpContext.User.Identity.Name.Split('\\').Last());
-
+            var allUsers = _usersRepository.GetAll();
+            var usr = allUsers.FirstOrDefault(x => string.Equals(x.Name, httpContext.User.Identity.Name.Split('\\').Last(), StringComparison.OrdinalIgnoreCase));
             UserAccessLevel = (AccessLevel)usr.RoleStrength;
 
-            ////using (TipstaffDB db = new TipstaffDB())
-            ////{
-            ////    UserAccessLevel = (AccessLevel)db.UserAccessLevel(httpContext.User);
-            ////}
             _isAuthorized = (UserAccessLevel > AccessLevel.Denied && UserAccessLevel >= MinimumRequiredAccessLevel);
 
 
