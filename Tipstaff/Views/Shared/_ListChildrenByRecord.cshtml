@@ -26,9 +26,9 @@ else
         <th>
             @Html.LabelFor(model => model.Children.First().fullname)
         </th>
-        <th>
+        @*<th>
             @Html.LabelFor(model => model.Children.First().nationality)/@Html.LabelFor(model => model.Children.First().country)
-        </th>
+        </th>*@
         <th>
             @Html.LabelFor(model => model.Children.First().dateOfBirth)
         </th>
@@ -55,14 +55,14 @@ else
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.PoliceDisplayName), "Details", "Child", new { id = item.childID }, null, null, "createButton") 
         </td>
         <td>
-            @if (item.nationality == null)
+            @*@if (item.nationality == null)
             {
             @Html.DisplayFor(modelItem => item.country.Detail)
             }
             else
             {
             @Html.DisplayFor(modelItem => item.nationality.Detail)
-            }
+            }*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.dateOfBirth)

@@ -10,13 +10,14 @@ namespace Tipstaff.Presenters
     {
         private readonly IChildRepository _childRepository;
         private readonly ITipstaffRecordPresenter _tipstaffPresenter;
-        private readonly IChildAbductionPresenter _caPresenter;
+        private readonly ITipstaffRecordRepository _tipstaffRepository;
 
-        public ChildPresenter(IChildRepository childRepo, ITipstaffRecordPresenter tipstaffPresenter, IChildAbductionPresenter caPresenter)
+        public ChildPresenter(IChildRepository childRepo, ITipstaffRecordRepository tipstaffRepository, ITipstaffRecordPresenter tipstaffPresenter)
         {
             _childRepository = childRepo;
+            _tipstaffRepository = tipstaffRepository;
+           
             _tipstaffPresenter = tipstaffPresenter;
-            _caPresenter = caPresenter;
         }
 
         public Models.Child GetChild(string id)
@@ -28,7 +29,7 @@ namespace Tipstaff.Presenters
         public IEnumerable<Models.Child> GetAllChildrenByTipstaffRecordID(string id)
         {
             var children = _childRepository.GetAllChildrenByTipstaffRecordID(id);
-            return GetAll(children);
+            return children.Select(x=> GetModel(x));
         }
 
         public void AddChild(ChildCreationModel model)
@@ -56,17 +57,18 @@ namespace Tipstaff.Presenters
             return tipstaff;
         }
         
-        public void UpdateChildAbduction(ChildAbduction model)
-        {
-            _caPresenter.UpdateChildAbduction(model);
-        }
+        //public void UpdateChildAbduction(ChildAbduction model)
+        //{
+        //    _caPresenter.UpdateChildAbduction(model);
+        //}
 
         public Models.Child GetModel(Services.DynamoTables.Child table)
         {
+            var tipstaffRecord = GetTipstaffRecord(table.TipstaffRecordID.ToString());
             var model = new Models.Child()
             {
                 build = table.Build,
-                childAbduction = (ChildAbduction) GetTipstaffRecord(table.TipstaffRecordID.ToString()),
+                childAbduction = tipstaffRecord as ChildAbduction,
                 childID = table.Id,
                 country = MemoryCollections.CountryList.GetCountryByDetail(table.Country),
                 dateOfBirth = table.DateOfBirth,
@@ -77,11 +79,12 @@ namespace Tipstaff.Presenters
                 nameFirst = table.NameFirst,
                 nameLast = table.NameLast,
                 nameMiddle = table.NameMiddle,
-                nationality = MemoryCollections.NationalityList.GetNationalityByDetail(table.Nationality),
+                nationality = MemoryCollections.NationalityList.GetNationalityList().FirstOrDefault(x=>x.Detail == table.Nationality),
                 PNCID = table.PNCID,
                 skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(table.SkinColour),
                 specialfeatures = table.Specialfeatures,
-                tipstaffRecordID = table.TipstaffRecordID.ToString()
+                tipstaffRecordID = table.TipstaffRecordID.ToString(),
+                
             };
 
             return model;
@@ -93,7 +96,7 @@ namespace Tipstaff.Presenters
             {
                 Id = model.childID,
                 Build = model.build,
-                TipstaffRecordID = int.Parse(model.tipstaffRecordID),
+                TipstaffRecordID = model.tipstaffRecordID,
                 Specialfeatures = model.specialfeatures,
                 Country = model.country.Detail,
                 DateOfBirth = model.dateOfBirth,
@@ -104,7 +107,7 @@ namespace Tipstaff.Presenters
                 NameFirst = model.nameFirst,
                 NameLast = model.nameLast,
                 NameMiddle = model.nameMiddle,
-                Nationality = model.nationality.Detail,
+                //Nationality = MemoryCollections.NationalityList.GetNationalityList().FirstOrDefault(x=>x.Detail == model.nationality.Detail)?.Detail,
                 PNCID = model.PNCID,
                 SkinColour = model.skinColour.Detail
             };
@@ -130,7 +133,28 @@ namespace Tipstaff.Presenters
 
         public ChildAbduction GetChildAbduction(string id)
         {
-            return (ChildAbduction)_tipstaffPresenter.GetTipStaffRecord(id);
+            var record = _tipstaffRepository.GetEntityByHashKey(id);
+
+            var childAbduction = new ChildAbduction()
+            {
+                sentSCD26 = record.SentSCD26,
+                orderDated = record.OrderDated,
+                orderReceived = record.OrderReceived,
+                officerDealing = record.OfficerDealing,
+                EldestChild = record.EldestChild,
+                caOrderType = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x=>x.CAOrderTypeId == record.CAOrderTypeId),
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == record.CaseStatusId),
+                tipstaffRecordID = record.Id,
+                Discriminator = record.Discriminator,
+               // children = GetAllChildrenByTipstaffRecordID(record.Id),
+              
+                
+            };
+
+            childAbduction.children = GetAllChildrenByTipstaffRecordID(record.Id);
+            
+
+            return childAbduction;
         }
     }
 }

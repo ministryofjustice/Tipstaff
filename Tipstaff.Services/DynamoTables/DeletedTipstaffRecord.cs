@@ -10,7 +10,7 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_DeletedTipstaffRecords")]
     public class DeletedTipstaffRecord : DynamoTable
     {
-        public string DeletedReason { get; set; }
+        public int DeletedReasonId { get; set; }
 
         public string Discriminator { get; set; }
 

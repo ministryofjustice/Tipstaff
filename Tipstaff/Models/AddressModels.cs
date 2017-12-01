@@ -19,7 +19,10 @@ namespace Tipstaff.Models
         public TipstaffRecord tipstaffRecord { get; set; }
         public Address address { get; set; }
 
-        public AddressCreationModel() { }
+        public AddressCreationModel()
+        {
+            
+        }
 
         //////public AddressCreationModel(int id)
         //////{

@@ -144,7 +144,7 @@
             }</td>
         <td>@Html.DisplayFor(modelItem => item.expiryDate)</td>
         <td>@Html.DisplayFor(modelItem => item.division.Detail)</td>
-        <td>@Html.DisplayFor(modelItem => item.createdBy) on @item.createdOn.ToShortDateString()</td>
+        <td>@Html.DisplayFor(modelItem => item.createdBy) on @item.createdOn.Value.ToShortDateString()</td>
         <td>@Html.DisplayFor(modelItem => item.protectiveMarking.Detail)</td>
         <td>@Html.DisplayFor(modelItem => item.caseStatus.Detail)</td>
         @if (item.resultID == null)

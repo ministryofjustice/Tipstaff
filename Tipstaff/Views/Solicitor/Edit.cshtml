@@ -30,11 +30,11 @@
         @Html.HiddenFor(model => model.Solicitor.solicitorID)
         @Html.HiddenFor(model => model.Solicitor.active)
         <div class="editor-label">
-            @Html.LabelFor(model => model.Solicitor.salutationID, true)
+            @Html.LabelFor(model => model.Solicitor.salutation.SalutationId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.Solicitor.salutationID, Model.SalutationList, "Select a salutation", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.Solicitor.salutationID)
+            @Html.DropDownListFor(model => model.Solicitor.salutation.SalutationId, Model.SalutationList, "Select a salutation", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.Solicitor.salutation.SalutationId)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.Solicitor.firstName, true)

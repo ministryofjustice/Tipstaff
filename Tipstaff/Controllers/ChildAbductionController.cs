@@ -164,7 +164,7 @@ namespace Tipstaff.Controllers
         public ActionResult Create()
         {
             ViewBag.protectiveMarkingList = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "protectiveMarkingID", "Detail");
-            ViewBag.childAbductionCaseStatusList = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1).OrderBy(x => x.Sequence), "caseStatusID", "Detail");
+            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1).OrderBy(x => x.Sequence), "caseStatusID", "Detail");
             ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "caOrderTypeID", "Detail");
             ChildAbduction model = new ChildAbduction();
             model.nextReviewDate = DateTime.Today.AddMonths(1);
@@ -184,6 +184,15 @@ namespace Tipstaff.Controllers
             {
                 //////db.TipstaffRecord.Add(childabduction);
                 //////db.SaveChanges();
+                ////try
+                ////{
+                ////    childabduction.Discriminator = "ChildAbduction";
+                ////    _childAbductionPresenter.AddTipstaffRecord(childabduction);
+                ////}
+                ////catch (Exception ex)
+                ////{
+                ////    throw;
+                ////}
                 childabduction.Discriminator = "ChildAbduction";
                 _childAbductionPresenter.AddTipstaffRecord(childabduction);
                 return RedirectToAction("Create", "Child", new { id = childabduction.tipstaffRecordID, initial = true });

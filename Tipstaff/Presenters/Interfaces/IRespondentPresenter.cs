@@ -17,6 +17,6 @@ namespace Tipstaff.Presenters
 
         void Update(Respondent respondent);
         
-        IEnumerable<Respondent> GetAll();
+        IEnumerable<Respondent> GetAllById(string id);
     }
 }

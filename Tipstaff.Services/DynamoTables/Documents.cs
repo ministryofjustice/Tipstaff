@@ -10,7 +10,6 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_Documents")]
     public class Document : DynamoTable
     {
-
         [DynamoDBRangeKey]
         public string TipstaffRecordID { get; set; }
 

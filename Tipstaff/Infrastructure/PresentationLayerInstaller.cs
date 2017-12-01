@@ -19,7 +19,7 @@ namespace Tipstaff.Infrastructure
         {
             //PRESENTERS
             container.Register(Component.For<IGraphPresenter>().ImplementedBy<GraphPresenter>());
-            container.Register(Component.For<ISearchPresenter>().ImplementedBy<SearchPresenter>());
+            //container.Register(Component.For<ISearchPresenter>().ImplementedBy<SearchPresenter>());
             container.Register(Component.For<IAddressPresenter>().ImplementedBy<AddressPresenter>());
             container.Register(Component.For<IApplicantPresenter>().ImplementedBy<ApplicantPresenter>());
             container.Register(Component.For<IAttendanceNotePresenter>().ImplementedBy<AttendanceNotePresenter>());

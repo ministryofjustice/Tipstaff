@@ -36,14 +36,14 @@ namespace Tipstaff
         {
             return isTipstaffRecordChildAbduction(obj) ? "ChildAbduction" : "Warrant";
         }
-        public static string TypeOfTipstaffRecord(int id)
-        {
-            using (TipstaffDB tempDB = new TipstaffDB())
-            {
-                TipstaffRecord obj = tempDB.TipstaffRecord.Find(id);
-                return isTipstaffRecordChildAbduction(obj) ? "ChildAbduction" : "Warrant";
-            }
-        }
+        //public static string TypeOfTipstaffRecord(int id)
+        //{
+        //    using (TipstaffDB tempDB = new TipstaffDB())
+        //    {
+        //        TipstaffRecord obj = tempDB.TipstaffRecord.Find(id);
+        //        return isTipstaffRecordChildAbduction(obj) ? "ChildAbduction" : "Warrant";
+        //    }
+        //}
         public static string TypeOfTipstaffRecord(string id)
         {
             ITipstaffRecordRepository _repository = new TipstaffRecordRepository(new DynamoAPI<Services.DynamoTables.TipstaffRecord>());
@@ -54,15 +54,7 @@ namespace Tipstaff
         }
         public static bool isTipstaffRecordChildAbduction(TipstaffRecord obj)
         {
-            try
-            {
-                ChildAbduction CA = (ChildAbduction)obj;
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return obj.Discriminator=="ChildAbduction";
         }
         public static byte[] ConvertToBytes(XmlDocument doc)
         {

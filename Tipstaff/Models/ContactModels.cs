@@ -51,16 +51,16 @@ namespace Tipstaff.Models
         [Display(Name = "Contact Type")]
         public MemoryCollections.ContactType contactType { get; set; }
         public MemoryCollections.Salutation salutation { get; set; }
-        
+
 
         //[Display(Name = "Full name of Child")]
-        //public virtual string PoliceDisplayName
-        //{
-        //    get
-        //    {
-        //        return string.Format("{0}, {1} {2}", lastName.ToUpper(), salutation.Detail ?? "", firstName).Replace("  ", " ");
-        //    }
-        //}
+        public  string PoliceDisplayName
+        {
+            get
+            {
+                return string.Format("{0}, {1} {2}", lastName.ToUpper(), salutation.Detail ?? "", firstName).Replace("  ", " ");
+            }
+        }
         [Display(Name = "Name")]
         public virtual string fullName
         {

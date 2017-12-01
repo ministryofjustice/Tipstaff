@@ -13,10 +13,16 @@ namespace Tipstaff.Presenters
         IMapper<Models.TipstaffRecord, Tipstaff.Services.DynamoTables.TipstaffRecord>
     {
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
+        private readonly IRespondentPresenter _respondentPresenter;
+        private readonly ICaseReviewPresenter _caseReviewPresenter;
         
-        public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository)
+        public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
+                                       IRespondentPresenter respondentPresenter, 
+                                       ICaseReviewPresenter caseReviewPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
+            _respondentPresenter = respondentPresenter;
+            _caseReviewPresenter = caseReviewPresenter;
         }
 
         public void AddTipstaffRecord(Models.TipstaffRecord record)
@@ -28,7 +34,7 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Models.TipstaffRecord> GetAll()
         {
-            var entities = _tipstaffRecordRepository.GetAll();
+            var entities = _tipstaffRecordRepository.GetAllByCondition<int>("CaseStatus", 2);
 
             var records = entities.Select(x => GetModel(x));
 
@@ -49,7 +55,6 @@ namespace Tipstaff.Presenters
         {
             var model = new Models.TipstaffRecord()
             {
-               // addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 arrestCount = table.ArrestCount,
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
@@ -58,17 +63,18 @@ namespace Tipstaff.Presenters
                 DateExecuted = table.DateExecuted,
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
-                resultEnteredBy = table.ResultEnteredBy,
-               // AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
-                //Respondents = _respondentPresenter.GetAllById(table.Id),
-                //caseReviews = _caseReviewPresenter.GetAllById(table.Id),
-                Discriminator = table.Discriminator,
-                result = MemoryCollections.ResultsList.GetResultByDetail(table.Result),
                 tipstaffRecordID = table.Id,
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByDetail(table.CaseStatus),
-                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingByDetail(table.ProtectiveMarking)
-            };
+                resultEnteredBy = table.ResultEnteredBy,
 
+                /////addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
+                ////AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                caseReviews = _caseReviewPresenter.GetAllById(table.Id),
+                Respondents = _respondentPresenter.GetAllById(table.Id),
+                Discriminator = table.Discriminator,
+                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId == table.ResultId),
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == table.CaseStatusId),
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=>x.ProtectiveMarkingId == table.ProtectiveMarkingId)
+            };
 
             return model;
         }
@@ -95,8 +101,8 @@ namespace Tipstaff.Presenters
                 NextReviewDate = record.nextReviewDate,
                 PrisonCount = record.prisonCount,
                 ResultDate = record.resultDate,
-                ProtectiveMarking = record.protectiveMarking?.Detail,
-                CaseStatus = record.caseStatus?.Detail,
+                ProtectiveMarkingId = record.protectiveMarking.ProtectiveMarkingId,
+                CaseStatusId = record.caseStatus.CaseStatusId,
                 CreatedOn = record.createdOn
             };
             

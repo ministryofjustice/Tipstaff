@@ -46,7 +46,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _addressRepository.AddAddress(new Address() {
                 Id = addressIndex,
-                TipstaffRecordId = tipstaffIndex,
+                //TipstaffRecordId = tipstaffIndex,
                 AddresseeName = "Addressee",
                 AddressLine1 = "Line 1",
                 AddressLine2 = "Line 2",
@@ -60,7 +60,7 @@ namespace Tipstaff.Tests.UnitTests
 
             address = _addressRepository.GetAddress(addressIndex);
 
-            Assert.AreEqual(tipstaffIndex, address.TipstaffRecordId);
+            //Assert.AreEqual(tipstaffIndex, address.TipstaffRecordId);
             Assert.AreEqual("Addressee", address.AddresseeName);
             Assert.AreEqual("Line 1", address.AddressLine1);
             Assert.AreEqual("Line 2", address.AddressLine2);
@@ -82,7 +82,7 @@ namespace Tipstaff.Tests.UnitTests
             _addressRepository.AddAddress(new Address()
             {
                 Id = addressIndex,
-                TipstaffRecordId = tipstaffIndex,
+                //TipstaffRecordId = tipstaffIndex,
                 AddresseeName = "Addressee",
                 AddressLine1 = "Line 1",
                 AddressLine2 = "Line 2",
@@ -97,7 +97,7 @@ namespace Tipstaff.Tests.UnitTests
             _addressRepository.UpdateRepository(new Address()
             {
                 Id = addressIndex,
-                TipstaffRecordId = tipstaffIndex,
+                //TipstaffRecordId = tipstaffIndex,
                 AddresseeName = "Addressee modified",
                 AddressLine1 = "Line 1 modified",
                 AddressLine2 = "Line 2 modified",
@@ -111,7 +111,7 @@ namespace Tipstaff.Tests.UnitTests
 
             address = _addressRepository.GetAddress(addressIndex);
             
-            Assert.AreEqual(tipstaffIndex, address.TipstaffRecordId);
+            //Assert.AreEqual(tipstaffIndex, address.TipstaffRecordId);
             Assert.AreEqual("Addressee modified", address.AddresseeName);
             Assert.AreEqual("Line 1 modified", address.AddressLine1);
             Assert.AreNotEqual("Line 2", address.AddressLine2);

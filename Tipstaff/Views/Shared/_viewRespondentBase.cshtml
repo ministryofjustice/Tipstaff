@@ -26,7 +26,7 @@
 
     @if (genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) != "Warrant")
     {
-    <div class="display-label">@Html.LabelFor(model=>model.childRelationshipID)</div>
+    <div class="display-label">@Html.LabelFor(model=>model.childRelationship.ChildRelationshipID)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.childRelationship.Detail)
     </div>
@@ -41,7 +41,7 @@
         @Html.DisplayFor(model => model.eyeColour)
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.skinColourID)</div>
+    <div class="display-label">@Html.LabelFor(model=>model.skinColour.SkinColourId)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.skinColour.Detail)
     </div>

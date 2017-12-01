@@ -59,17 +59,17 @@ else
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.documentType.Detail) 
-            @if (item.documentTypeID > 1 && item.fileName != null)
+            @if (item.documentType.DocumentTypeID > 1 && item.fileName != null)
             {
             @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => item.fileName)
             }
         </td>
         <td>
-            @if (item.binaryFile != null && item.documentStatusID > 1)
+            @if (item.binaryFile != null && item.documentStatus.DocumentStatusID > 1)
             { 
                 @Html.DisplayFor(modelitem => item.documentStatus.Detail)  @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton") 
             }
-            else if (item.binaryFile != null && item.documentStatusID == 1)
+            else if (item.binaryFile != null && item.documentStatus.DocumentStatusID == 1)
             { 
                 @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton") 
             }

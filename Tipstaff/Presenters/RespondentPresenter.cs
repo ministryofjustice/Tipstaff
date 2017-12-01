@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tipstaff.Mappers;
 using Tipstaff.Services.Repositories;
@@ -7,19 +8,26 @@ namespace Tipstaff.Presenters
 {
     public class RespondentPresenter : IRespondentPresenter , IMapper<Models.Respondent, Tipstaff.Services.DynamoTables.Respondent>
     {
-        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        //private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
         private readonly IRespondentRepository _respondentRepository;
 
-        public RespondentPresenter(ITipstaffRecordPresenter tipstaffRecordPresenter, IRespondentRepository respondentRepository)
+        public RespondentPresenter(IRespondentRepository respondentRepository)
         {
-            _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            
             _respondentRepository = respondentRepository;
         }
 
         public void Add(Models.Respondent respondent)
         {
-            var entity = GetDynamoTable(respondent);
-            _respondentRepository.Add(entity);
+            try
+            {
+                var entity = GetDynamoTable(respondent);
+                _respondentRepository.Add(entity);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
         public void Delete(Models.Respondent respondent)
@@ -27,13 +35,13 @@ namespace Tipstaff.Presenters
             var entity = GetDynamoTable(respondent);
             _respondentRepository.Delete(entity);
         }
-
-        public IEnumerable<Models.Respondent> GetAll()
-        {
-            var respondents = _respondentRepository.GetAll();
-            return respondents.Select(x=> GetModel(x));
-        }
         
+        public IEnumerable<Models.Respondent> GetAllById(string id)
+        {
+            var respondents = _respondentRepository.GetAllRespondentsByTipstaffRecordID(id);
+            return respondents.Select(x => GetModel(x));
+        }
+
         public Services.DynamoTables.Respondent GetDynamoTable(Models.Respondent model)
         {
             var table = new Services.DynamoTables.Respondent()
@@ -55,7 +63,7 @@ namespace Tipstaff.Presenters
                 RiskOfDrugs = model.riskOfDrugs,
                 RiskOfViolence = model.riskOfViolence,
                 SkinColour = model.skinColour.Detail,
-                Id = model.respondentID,
+                Id = Guid.NewGuid().ToString(),
                 TipstaffRecordID = model.tipstaffRecordID,
              };
 
@@ -85,7 +93,8 @@ namespace Tipstaff.Presenters
                 respondentID = table.Id,
                 skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(table.SkinColour),
                 tipstaffRecordID = table.TipstaffRecordID,
-                tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(table.TipstaffRecordID)
+                
+                //tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(table.TipstaffRecordID)
              };
 
             return model;

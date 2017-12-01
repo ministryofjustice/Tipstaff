@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,9 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tipstaff.Services</RootNamespace>
     <AssemblyName>Tipstaff.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,21 +52,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DynamoTables\Address.cs" />
+    <Compile Include="DynamoTables\Applicant.cs" />
+    <Compile Include="DynamoTables\AttendanceNote.cs" />
     <Compile Include="DynamoTables\AuditEvent.cs" />
     <Compile Include="DynamoTables\CaseReview.cs" />
+    <Compile Include="DynamoTables\Children.cs" />
+    <Compile Include="DynamoTables\Contact.cs" />
     <Compile Include="DynamoTables\DeletedTipstaffRecord.cs" />
     <Compile Include="DynamoTables\Documents.cs" />
-    <Compile Include="DynamoTables\Children.cs" />
-    <Compile Include="DynamoTables\AttendanceNote.cs" />
-    <Compile Include="DynamoTables\Contact.cs" />
-    <Compile Include="DynamoTables\Applicant.cs" />
     <Compile Include="DynamoTables\DynamoTable.cs" />
+    <Compile Include="DynamoTables\FAQ.cs" />
     <Compile Include="DynamoTables\PoliceForces.cs" />
     <Compile Include="DynamoTables\Respondent.cs" />
-    <Compile Include="DynamoTables\Template.cs" />
     <Compile Include="DynamoTables\Solicitor.cs" />
     <Compile Include="DynamoTables\SolicitorFirm.cs" />
-    <Compile Include="DynamoTables\FAQ.cs" />
+    <Compile Include="DynamoTables\Template.cs" />
     <Compile Include="DynamoTables\TipstaffRecord.cs" />
     <Compile Include="DynamoTables\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,4 +97,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
 </Project>

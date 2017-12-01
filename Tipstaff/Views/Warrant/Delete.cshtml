@@ -44,7 +44,7 @@
             {
                 <dd>        
                 @Html.DisplayFor(modelItem => item.documentType.Detail)
-                @if (item.documentTypeID > 1 && item.fileName != null){
+                @if (item.documentType.DocumentTypeID > 1 && item.fileName != null){
                     @Html.Raw("&ndash;&nbsp;")@Html.DisplayFor(modelItem => item.fileName)
                 }
                 else

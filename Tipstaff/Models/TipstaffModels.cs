@@ -78,7 +78,8 @@ namespace Tipstaff.Models
                 }
                 else
                 {
-                    prefix = ((Warrant)this).division.Prefix;
+                    if((this) is Warrant) //division.Prefix; 
+                         prefix = ((Warrant)this).division.Prefix;
                 }
                 //return string.Format("{0}{1}",prefix, tipstaffRecordID.ToString("D6"));
                 return string.Format("{0}{1}", prefix, tipstaffRecordID);
@@ -140,7 +141,7 @@ namespace Tipstaff.Models
         public IEnumerable<Applicant> Applicants { get; set; }
 
 
-        public virtual string ListOfChildNames
+        public string ListOfChildNames
         {
             get
             {
@@ -161,7 +162,7 @@ namespace Tipstaff.Models
                 return result;
             }
         }
-        public virtual string MultiChildDescriptor
+        public  string MultiChildDescriptor
         {
             get { return this.children.Count() > 1 ? "children" : "child"; }
         }

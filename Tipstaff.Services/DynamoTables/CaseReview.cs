@@ -17,7 +17,7 @@ namespace Tipstaff.Services.DynamoTables
 
         public string ActionTaken { get; set; }
 
-        public string CaseReviewStatus { get; set; }
+        public int? CaseReviewStatusId { get; set; }
 
         public DateTime NextReviewDate { get; set; }
     }

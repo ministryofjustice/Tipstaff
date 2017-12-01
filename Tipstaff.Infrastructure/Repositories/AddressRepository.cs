@@ -33,15 +33,16 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             return _dynamoAPI.GetEntityByHashKey(id);
         }
-
-        public IEnumerable<Address> GetAddresses()
-        {
-            return _dynamoAPI.GetAll();
-        }
+        
 
         public void UpdateRepository(Address address)
         {
           // _dynamoAPI.
+        }
+
+        public IEnumerable<Address> GetAllByCondition<T>(string name, T value)
+        {
+            return _dynamoAPI.GetResultsByCondition(name, Amazon.DynamoDBv2.DocumentModel.ScanOperator.GreaterThan, value);
         }
     }
 }

@@ -10,6 +10,9 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_Applicants")]
     public class Applicant : DynamoTable
     {
+        [DynamoDBRangeKey]
+        public string TipstaffRecordID { get; set; }
+
         public string Salutation { get; set; }
 
         public string NameLast { get; set; }
@@ -29,8 +32,5 @@ namespace Tipstaff.Services.DynamoTables
         public string Postcode { get; set; }
 
         public string Phone { get; set; }
-
-        [DynamoDBRangeKey]
-        public string TipstaffRecordID { get; set; }
     }
 }

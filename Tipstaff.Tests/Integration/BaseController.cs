@@ -44,9 +44,9 @@ namespace Tipstaff.Tests.Integration
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
             _addressPresenter = new AddressPresenter(_addressRepository, _tipstaffRecordPresenter);
             _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository, _tipstaffRecordPresenter);
-            _respondentPresenter = new RespondentPresenter(_tipstaffRecordPresenter, _respondentRepository);
-            _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository);
-            _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, _deleteTipstaffRecordRepository);
+           // _respondentPresenter = new RespondentPresenter(_tipstaffRecordPresenter, _respondentRepository);
+           // _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository);
+           // _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, _deleteTipstaffRecordRepository);
         }
         
     }

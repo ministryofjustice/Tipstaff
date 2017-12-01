@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.TipstaffCaseClosedDataModel
 
 
-@if (Model.TipstaffRecords != null && Model.TipstaffRecords.Count() > 0)
+@if (Model.TipstaffRecords != null && Model.TipstaffRecords.Any())
 { 
     <fieldset class="FieldsetCR" style="width:462px;vertical-align:top;">
         <legend>Case closure issues</legend>
