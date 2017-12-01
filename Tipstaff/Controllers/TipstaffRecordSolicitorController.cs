@@ -102,21 +102,21 @@ namespace Tipstaff.Controllers
         //
         // POST: /TipstaffRecordSolicitor/Delete/5/5
 
-        [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
-        public ActionResult DeleteConfirmed(DeleteTipstaffRecordSolicitor model)
-        {
+        ////////[HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
+        ////////public ActionResult DeleteConfirmed(DeleteTipstaffRecordSolicitor model)
+        ////////{
 
-            model.TipstaffRecordSolicitor = db.TipstaffRecordSolicitors.Single(t => t.tipstaffRecordID == model.TipstaffRecordSolicitor.tipstaffRecordID && t.solicitorID == model.TipstaffRecordSolicitor.solicitorID);
-            string controller = genericFunctions.TypeOfTipstaffRecord(model.TipstaffRecordSolicitor.tipstaffRecordID);
-            db.TipstaffRecordSolicitors.Remove(model.TipstaffRecordSolicitor);
-            db.SaveChanges();
-            string recDeleted = model.DeleteModelID.ToString();
-            var AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "TipstaffRecordSolicitor deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
-            //add a deleted reason
-            AE.DeletedReasonID = model.DeletedReason.DeletedReasonID;
-            //and save again
-            db.SaveChanges();
-            return RedirectToAction("Details", controller, new { id = model.TipstaffRecordSolicitor.tipstaffRecordID });
-        }
+        ////////    model.TipstaffRecordSolicitor = db.TipstaffRecordSolicitors.Single(t => t.tipstaffRecordID == model.TipstaffRecordSolicitor.tipstaffRecordID && t.solicitorID == model.TipstaffRecordSolicitor.solicitorID);
+        ////////    string controller = genericFunctions.TypeOfTipstaffRecord(model.TipstaffRecordSolicitor.tipstaffRecordID);
+        ////////    db.TipstaffRecordSolicitors.Remove(model.TipstaffRecordSolicitor);
+        ////////    db.SaveChanges();
+        ////////    string recDeleted = model.DeleteModelID.ToString();
+        ////////    var AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "TipstaffRecordSolicitor deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
+        ////////    //add a deleted reason
+        ////////    AE.DeletedReasonID = model.DeletedReason.DeletedReasonID;
+        ////////    //and save again
+        ////////    db.SaveChanges();
+        ////////    return RedirectToAction("Details", controller, new { id = model.TipstaffRecordSolicitor.tipstaffRecordID });
+        ////////}
     }
 }

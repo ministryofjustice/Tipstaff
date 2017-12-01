@@ -14,11 +14,11 @@ namespace Tipstaff.Services.DynamoTables
 
         public DateTime? CreatedOn { get; set; }
 
-        public string ProtectiveMarking { get; set; }
+        public int? ProtectiveMarkingId { get; set; }
 
         public string Discriminator { get; set; }
 
-        public string Result { get; set; }
+        public int? ResultId { get; set; }
 
         public DateTime? NextReviewDate { get; set; }
 
@@ -34,13 +34,10 @@ namespace Tipstaff.Services.DynamoTables
 
         public string NPO { get; set; }
 
-        public string CaseStatus { get; set; }
+        public int? CaseStatusId { get; set; }
 
-        public string Division { get; set; }
-
-
-
-
+        public int? DivisionId { get; set; }
+        
         //Child Abduction
         public DateTime? SentSCD26 { get; set; }
 
@@ -52,7 +49,7 @@ namespace Tipstaff.Services.DynamoTables
 
         public string EldestChild { get; set; }
 
-        public string CAOrderType { get; set; }
+        public int? CAOrderTypeId { get; set; }
 
         public string CaseNumber { get; set; }
 

@@ -47,17 +47,17 @@ namespace Tipstaff.Tests.Integration
                 PrisonCount = 1,
                 SentSCD26 = DateTime.Now,
                 OrderReceived = DateTime.Now.AddDays(-1),
-                Division = "Division-Test",
+                DivisionId = 1,
                 ResultDate = DateTime.Now.AddDays(10),
                 Id = _record,
                 DateExecuted = DateTime.Now.AddDays(-30),
                 NextReviewDate = DateTime.Now.AddDays(90),
                 ResultEnteredBy = "VZ",
                 OrderDated = DateTime.Now,
-                ProtectiveMarking = "Unclassified",
-                CAOrderType = "Location",
-                CaseStatus = "Active",
-                Result = "Executed"
+                ProtectiveMarkingId = 1,
+                CAOrderTypeId = 2,
+                CaseStatusId = 3,
+                ResultId = 4
             });
 
             _tipstaffRecord = _tipstaffRecordRepository.GetEntityByHashKey(_record);

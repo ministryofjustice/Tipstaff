@@ -27,15 +27,15 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             _dynamoAPI.Delete(respondent);
         }
-
-        public IEnumerable<Respondent> GetAll()
-        {
-            return _dynamoAPI.GetAll();
-        }
-
+        
         public Respondent GetRespondent(string id)
         {
             return _dynamoAPI.GetEntityByHashKey(id);
+        }
+
+        public IEnumerable<Respondent> GetAllRespondentsByTipstaffRecordID(string id)
+        {
+            return _dynamoAPI.GetResultsByCondition("TipstaffRecordID", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, id);
         }
 
         public void Update(Respondent respondent)

@@ -57,15 +57,7 @@ namespace Tipstaff.Infrastructure.DynamoAPI
 
         public T GetEntityByHashKey(object hashKey)
         {
-            try
-            {
-                return _dynamoDBContext.Load<T>((string)hashKey);
-                
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return _dynamoDBContext.Load<T>((string)hashKey);
         }
 
         public IEnumerable<T> GetResultsByCondtion(object key, QueryOperator op, object range)
@@ -80,7 +72,15 @@ namespace Tipstaff.Infrastructure.DynamoAPI
         
         public IEnumerable<T> GetResultsByCondition(string name, ScanOperator scanOp, object value)
         {
-            return _dynamoDBContext.Scan<T>(new ScanCondition(name, scanOp, value));
+            return _dynamoDBContext.Scan<T>(new List<ScanCondition>
+            {
+                new ScanCondition(name, scanOp, value), new ScanCondition(name, scanOp, value)
+            },
+                new DynamoDBOperationConfig()
+                {
+                    ConditionalOperator = ConditionalOperatorValues.And
+
+                });
         }
 
         public IEnumerable<T> GetAll()

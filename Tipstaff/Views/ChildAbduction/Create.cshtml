@@ -61,10 +61,10 @@
             @Html.ValidationMessageFor(model => model.caOrderType.CAOrderTypeId)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.caseStatusID, true)
+            @Html.LabelFor(model => model.caseStatus.CaseStatusId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.caseStatusID, (SelectList)ViewBag.childAbductionCaseStatusList, "Please choose a status", new { @class = "required" },"1")
+            @Html.DropDownListFor(model => model.caseStatus.CaseStatusId, (SelectList)ViewBag.caseStatusID, "Please choose a status", new { @class = "required" },"1")
             @Html.ValidationMessageFor(model => model.caseStatusID)
         </div>
 

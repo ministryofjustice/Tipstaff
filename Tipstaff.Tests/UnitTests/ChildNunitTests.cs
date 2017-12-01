@@ -46,7 +46,7 @@ namespace Tipstaff.Tests.UnitTests
 
             _childRepository.AddChild(new Child() {
                 Id = childIndex,
-                TipstaffRecordID = int.Parse(tipstaffIndex),
+                TipstaffRecordID = tipstaffIndex,
                 Build = "average",
                 Country = "Spain",
                 DateOfBirth = DateTime.Now.AddYears(-10),
@@ -84,7 +84,7 @@ namespace Tipstaff.Tests.UnitTests
             _childRepository.AddChild(new Child()
             {
                 Id = childIndex,
-                TipstaffRecordID = int.Parse(tipstaffIndex),
+                TipstaffRecordID = tipstaffIndex,
                 Build = "average",
                 Country = "Spain",
                 DateOfBirth = DateTime.Now.AddYears(-10),
@@ -104,7 +104,7 @@ namespace Tipstaff.Tests.UnitTests
             _childRepository.Update(new Child()
             {
                 Id = childIndex,
-                TipstaffRecordID = int.Parse(tipstaffIndex),
+                TipstaffRecordID = tipstaffIndex,
                 Build = "average modified",
                 Country = "Spain",
                 DateOfBirth = DateTime.Now.AddYears(-10),

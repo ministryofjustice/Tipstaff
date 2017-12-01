@@ -10,7 +10,7 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_Contacts")]
     public class Contact : DynamoTable
     {
-        public string Salutation{ get; set; }
+        public int SalutationId{ get; set; }
        
         public string FirstName { get; set; }
         

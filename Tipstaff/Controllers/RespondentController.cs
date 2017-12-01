@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using PagedList;
-
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
 using System.Web.UI;
 using Tipstaff.Logger;
-using Tipstaff.Services.Repositories;
 using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
@@ -34,8 +26,8 @@ namespace Tipstaff.Controllers
             
         {
             _logger = logger;
-            _respondentPresenter = respondentPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _respondentPresenter = respondentPresenter;
         }
         //
         // GET: /Respondent/Details/5
@@ -49,18 +41,20 @@ namespace Tipstaff.Controllers
 
         //
         // GET: /Respondent/Create
-
+        
         public ActionResult Create(string id, bool initial=false)
         {
+
             RespondentCreationModel model = new RespondentCreationModel(id);
             model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
 
-            if (model.tipstaffRecord.caseStatus.Sequence > 3)
+            if (model?.tipstaffRecord?.caseStatus?.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
-            if (genericFunctions.TypeOfTipstaffRecord(model.tipstaffRecord) == "Warrant" && model.tipstaffRecord.Respondents.Count() == 1)
+
+            if (genericFunctions.TypeOfTipstaffRecord(model.tipstaffRecord) == "Warrant" && model.tipstaffRecord.Respondents.Count()>1)
             {
                 //redirect to error
                 ErrorModel errModel = new ErrorModel(2);
@@ -68,6 +62,7 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
+
             model.initial = initial;
             return View(model);
         } 
@@ -78,13 +73,13 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Create(RespondentCreationModel model, string submitButton)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            
             try
             {
-
+                //if (!ModelState.IsValid)
+                //{
+                //    return View(model);
+                //}
                 //////TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
                 TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
                 //if (genericFunctions.TypeOfTipstaffRecord(tr) == "Warrant")
@@ -101,7 +96,10 @@ namespace Tipstaff.Controllers
                 else
                 {
                     //////tr.Respondents.Add(model.respondent);
+                    model.respondent.tipstaffRecordID = model.tipstaffRecordID;
+                    model.tipstaffRecord = tr;
                     _respondentPresenter.Add(model.respondent);
+                    
                 }
                 //////db.SaveChanges();
                 if (Request.IsAjaxRequest())
@@ -114,7 +112,7 @@ namespace Tipstaff.Controllers
                     switch (submitButton)
                     {
                         case "Save,add new Respondent":
-                            return RedirectToAction("Create", "Respondent", new { id = model.tipstaffRecordID, initial = model.initial });
+                            return RedirectToAction("Create", "Respondent", new { id = model.tipstaffRecordID });
                         case null:
                         default:
                             return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.tipstaffRecordID });
@@ -138,7 +136,6 @@ namespace Tipstaff.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception in RespondentController in Create method, for user {((CPrincipal)User).UserID}");
-
                 ErrorModel errModel = new ErrorModel(2);
                 errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                 TempData["ErrorModel"] = errModel;
@@ -194,7 +191,7 @@ namespace Tipstaff.Controllers
             try
             {
                 //////ChildAbduction ca = db.ChildAbductions.Find(id);
-                ChildAbduction ca = (ChildAbduction)_tipstaffRecordPresenter.GetTipStaffRecord(id);
+                var ca = _tipstaffRecordPresenter.GetTipStaffRecord(id);
                 model.tipstaffRecordID = ca.tipstaffRecordID;
                 model.Respondents = ca.Respondents.ToXPagedList<Respondent>(page ?? 1, 8);
             }

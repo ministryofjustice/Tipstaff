@@ -11,7 +11,7 @@ namespace Tipstaff.Services.DynamoTables
     public class Address : DynamoTable
     {
         [DynamoDBRangeKey]
-        public string TipstaffRecordId { get; set; }
+        public string TipstaffRecordID { get; set; }
 
         public string AddressLine1 { get; set; }
 

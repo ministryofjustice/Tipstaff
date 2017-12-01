@@ -60,7 +60,7 @@ namespace Tipstaff.Presenters
                 PhoneHome = model.phoneHome,
                 PhoneMobile = model.phoneMobile,
                 Postcode = model.postcode,
-                Salutation = MemoryCollections.SalutationList.GetSalutationByDetail(model.salutation.Detail).Detail,
+                SalutationId = MemoryCollections.SalutationList.GetSalutationByDetail(model.salutation.Detail).SalutationId,
                 Town = model.town
             };
 
@@ -86,7 +86,7 @@ namespace Tipstaff.Presenters
                 phoneMobile = table.PhoneMobile,
                 contactID = table.Id,
                 contactType = MemoryCollections.ContactTypeList.GetContactTypeList().FirstOrDefault(x=>x.Detail == table.ContactType),
-                salutation = MemoryCollections.SalutationList.GetSalutationByDetail(table.Salutation)
+                salutation = MemoryCollections.SalutationList.GetSalutationByID(table.SalutationId)
             };
 
             return model;

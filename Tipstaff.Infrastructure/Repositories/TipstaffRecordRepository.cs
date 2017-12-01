@@ -40,29 +40,34 @@ namespace Tipstaff.Infrastructure.Repositories
             var entity = _dynamoAPI.GetEntityByHashKey(record.Id);
             entity.EldestChild = record.EldestChild;
             entity.ArrestCount = record.ArrestCount;
-            entity.ProtectiveMarking = record.ProtectiveMarking;
+            entity.ProtectiveMarkingId = record.ProtectiveMarkingId;
             entity.Discriminator = record.Discriminator;
-            entity.Result = record.Result;
+            entity.ResultId = record.ResultId;
             entity.NextReviewDate = record.NextReviewDate;
             entity.ResultDate = record.ResultDate;
             entity.DateExecuted = record.DateExecuted;
             entity.PrisonCount = record.PrisonCount;
             entity.ResultEnteredBy = record.ResultEnteredBy;
             entity.NPO = record.NPO;
-            entity.Division = record.Division;
-            entity.CaseStatus = record.CaseStatus;
+            entity.DivisionId = record.DivisionId;
+            entity.CaseStatusId = record.CaseStatusId;
             entity.SentSCD26 = record.SentSCD26;
             entity.OrderDated = record.OrderDated;
             entity.OrderReceived = record.OrderReceived;
             entity.OfficerDealing = record.OfficerDealing;
             entity.EldestChild = record.EldestChild;
-            entity.CAOrderType = record.CAOrderType;
+            entity.CAOrderTypeId = record.CAOrderTypeId;
             _dynamoAPI.Save(entity);
         }
 
         public IEnumerable<TipstaffRecord> GetAll()
         {
             return _dynamoAPI.GetAll();
+        }
+
+        public IEnumerable<TipstaffRecord> GetAllByCondition<T>(string name, T value)
+        {
+            return _dynamoAPI.GetResultsByCondition(name, Amazon.DynamoDBv2.DocumentModel.ScanOperator.GreaterThan, value);
         }
 
         public void Delete(TipstaffRecord record)

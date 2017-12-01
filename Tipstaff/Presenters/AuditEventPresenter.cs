@@ -38,7 +38,7 @@ namespace Tipstaff.Presenters
                 UserID = dynamo.UserId.ToString(),
                 RecordAddedTo = dynamo.RecordAddedTo,
                 idAuditEvent = int.Parse(dynamo.Id),
-                auditEventDescription = MemoryCollections.AuditEventDescriptionList.GetAuditEventDescriptionList().FirstOrDefault(x=> x.AuditDescription == dynamo.AuditEventDescription),
+                auditEventDescription = MemoryCollections.AuditEventDescriptionList.GetAuditEventDescriptionList().FirstOrDefault(x=> x.Id == dynamo.AuditEventDescriptionId),
 
                 
                 

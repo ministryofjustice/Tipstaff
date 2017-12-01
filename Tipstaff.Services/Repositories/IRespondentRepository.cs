@@ -16,7 +16,7 @@ namespace Tipstaff.Services.Repositories
         void Delete(Respondent respondent);
 
         void Update(Respondent respondent);
-
-        IEnumerable<Respondent> GetAll();
+        
+        IEnumerable<Respondent> GetAllRespondentsByTipstaffRecordID(string id);
     }
 }

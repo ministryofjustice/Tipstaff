@@ -33,7 +33,7 @@ namespace Tipstaff.Presenters
                 discriminator = table.Discriminator,
                 TipstaffRecordID = table.Id,
                 UniqueRecordID = table.UniqueRecordID,
-                deletedReason = MemoryCollections.DeletedReasonList.GetDeletedReasonList().FirstOrDefault(x=>x.Detail == table.DeletedReason)
+                deletedReason = MemoryCollections.DeletedReasonList.GetDeletedReasonList().FirstOrDefault(x=>x.DeletedReasonID == table.DeletedReasonId)
             };
 
             return model;

@@ -14,7 +14,7 @@ namespace Tipstaff.Services.DynamoTables
 
         public int UserId { get; set; }
 
-        public string AuditEventDescription { get; set; }
+        public int AuditEventDescriptionId { get; set; }
 
         public string RecordChanged { get; set; }
 

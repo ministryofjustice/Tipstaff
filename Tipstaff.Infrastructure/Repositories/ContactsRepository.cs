@@ -38,7 +38,7 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             var entity = _dynamoAPI.GetEntityByHashKey(contact.Id);
 
-            entity.Salutation = contact.Salutation;
+            entity.SalutationId = contact.SalutationId;
             entity.FirstName = contact.FirstName;
             entity.LastName = contact.LastName;
             entity.AddressLine1 = contact.AddressLine1;

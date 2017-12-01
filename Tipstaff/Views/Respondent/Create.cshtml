@@ -20,6 +20,6 @@
     @Html.AntiForgeryToken();
     <fieldset>
         <legend>Enter @(genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID)=="Warrant"?"Contemnor":"Respondent") details</legend>
-        @Html.Partial("_createRespondentBase")
+        @Html.Partial("_createRespondentBase", Model)
     </fieldset>
 }

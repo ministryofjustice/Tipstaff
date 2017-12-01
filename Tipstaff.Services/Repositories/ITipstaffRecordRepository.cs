@@ -21,5 +21,7 @@ namespace Tipstaff.Services.Repositories
         IEnumerable<TipstaffRecord> GetAll();
 
         void Delete(TipstaffRecord record);
+
+        IEnumerable<TipstaffRecord> GetAllByCondition<T>(string name, T value);
     }
 }

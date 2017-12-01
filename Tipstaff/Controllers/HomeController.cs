@@ -43,9 +43,10 @@ namespace Tipstaff.Controllers
 
         public PartialViewResult CaseClosedIssues()
         {
+            var records = _tipstaffRecordPresenter.GetAll().Where(x => x.caseStatus.CaseStatusId > 2 && x.result == null);
             TipstaffCaseClosedDataModel data = new TipstaffCaseClosedDataModel()
             {
-                TipstaffRecords = _tipstaffRecordPresenter.GetAll().Where(x => x.caseStatus.CaseStatusId > 2 && x.result == null)
+                TipstaffRecords = records
             };
 
             return PartialView("_CaseClosedIssues", data);

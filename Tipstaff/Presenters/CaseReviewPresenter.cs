@@ -50,7 +50,7 @@ namespace Tipstaff.Presenters
                 NextReviewDate = model.nextReviewDate,
                 ReviewDate = model.reviewDate.Value,
                 TipstaffRecordID = model.tipstaffRecordID,
-                CaseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=> x.Detail == model.caseReviewStatus.Detail).Detail,
+                CaseReviewStatusId = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=> x.Detail == model.caseReviewStatus.Detail).CaseReviewStatusId,
             };
 
             return entity;
@@ -65,7 +65,7 @@ namespace Tipstaff.Presenters
                 nextReviewDate = table.NextReviewDate,
                 reviewDate = table.ReviewDate,
                 tipstaffRecordID = table.TipstaffRecordID,
-                caseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=>x.Detail == table.CaseReviewStatus),
+                caseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=>x.CaseReviewStatusId == table.CaseReviewStatusId),
             };
 
             return model;

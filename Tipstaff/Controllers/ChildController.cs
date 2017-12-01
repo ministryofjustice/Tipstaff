@@ -19,11 +19,13 @@ namespace Tipstaff.Controllers
     {
         private readonly IChildPresenter _childPresenter;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly IChildAbductionPresenter _childAbductionPresenter;
 
-        public ChildController(IChildPresenter childPresenter, IGuidGenerator guidGenerator)
+        public ChildController(IChildPresenter childPresenter, IGuidGenerator guidGenerator, IChildAbductionPresenter childAbductionPresenter)
         {
             _childPresenter = childPresenter;
             _guidGenerator = guidGenerator;
+            _childAbductionPresenter = childAbductionPresenter;
         }
         //
         // GET: /Child/
@@ -71,7 +73,7 @@ namespace Tipstaff.Controllers
             model.tipstaffRecordID = id;
             model.initial = initial;
 
-            if (model.tipstaffRecord.caseStatus.Detail == "File Closed" || model.tipstaffRecord.caseStatus.Detail == "File Archived")
+            if (model.tipstaffRecord?.caseStatus?.Detail == "File Closed" || model.tipstaffRecord?.caseStatus?.Detail == "File Archived")
             {
                 TempData["UID"] =  model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -79,6 +81,7 @@ namespace Tipstaff.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public ActionResult Create(ChildCreationModel model, string submitButton)
         {
@@ -102,7 +105,7 @@ namespace Tipstaff.Controllers
                 }
                 ca.EldestChild = newSurname;
                 model.child.childID = _guidGenerator.GenerateTimeBasedGuid().ToString();
-                _childPresenter.UpdateChildAbduction(ca);
+                _childAbductionPresenter.UpdateChildAbduction(ca);
                 _childPresenter.AddChild(model);
 
 
@@ -165,7 +168,7 @@ namespace Tipstaff.Controllers
             ListChildrenByTipstaffRecord model = new ListChildrenByTipstaffRecord();
             try
             {
-                ChildAbduction ca = _childPresenter.GetChildAbduction(id);
+                var ca = _childPresenter.GetChildAbduction(id);
                 model.tipstaffRecordID = ca.tipstaffRecordID;
                 model.TipstaffRecordClosed = (ca.caseStatus.Detail == "File Closed" || ca.caseStatus.Detail == "File Archived");
                 model.Children = ca.children.ToXPagedList<Child>(page ?? 1, 8);

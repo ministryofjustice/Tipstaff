@@ -4,6 +4,7 @@ using Tipstaff.Models;
 using System.Web.UI;
 using Tipstaff.Logger;
 using Tipstaff.Presenters;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
@@ -15,13 +16,15 @@ namespace Tipstaff.Controllers
         /////private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly ICloudWatchLogger _logger;
         private readonly IAddressPresenter _addressPresenter;
+        private readonly IGuidGenerator _guidGenerator;
         
         // GET: /Address/
 
-        public AddressController(ICloudWatchLogger telemetryLogger, IAddressPresenter addressPresenter)
+        public AddressController(ICloudWatchLogger telemetryLogger, IAddressPresenter addressPresenter, IGuidGenerator guidGenerator)
         {
             _logger = telemetryLogger;
             _addressPresenter = addressPresenter;
+            _guidGenerator = guidGenerator;
         }
         
         public ActionResult Details(string id)
@@ -70,7 +73,10 @@ namespace Tipstaff.Controllers
 
             AddressCreationModel model = new AddressCreationModel()
             {
-                tipstaffRecord = _addressPresenter.GetTipstaffRecord(id)
+                tipstaffRecord = _addressPresenter.GetTipstaffRecord(id),
+                tipstaffRecordID = int.Parse(id),
+                address = new Address() { tipstaffRecordID = id }
+               
             };
 
             if (model.tipstaffRecord.caseStatus.Sequence > 3)
@@ -102,6 +108,7 @@ namespace Tipstaff.Controllers
                 //////db.SaveChanges();
                 model.tipstaffRecord = tr;
                 model.tipstaffRecordID = int.Parse(tr.tipstaffRecordID);
+                model.address.addressID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 _addressPresenter.AddAddress(model.address);
 
 

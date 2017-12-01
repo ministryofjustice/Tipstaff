@@ -34,7 +34,7 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Models.Address> GetAddressesByTipstaffRecordId(string id)
         {
-            var records = _addressRepository.GetAddresses().Where(x => x.TipstaffRecordId == id);
+            var records = _addressRepository.GetAllByCondition("TipstaffRecordID", id);
             return GetAll(records);
         }
 
@@ -68,9 +68,9 @@ namespace Tipstaff.Presenters
                 addressID = table.Id,
                 phone = table.Phone,
                 postcode = table.PostCode,
-                tipstaffRecordID = table.TipstaffRecordId,
+                tipstaffRecordID = table.TipstaffRecordID,
                 town = table.Town,
-                TipstaffRecord = GetTipstaffRecord(table.TipstaffRecordId)
+                TipstaffRecord = GetTipstaffRecord(table.TipstaffRecordID)
             };
 
             return add;
@@ -88,7 +88,7 @@ namespace Tipstaff.Presenters
                 Id = model.addressID,
                 Phone = model.phone,
                 PostCode = model.postcode,
-                TipstaffRecordId = model.tipstaffRecordID.ToString(),
+                TipstaffRecordID = model.tipstaffRecordID.ToString(),
                 Town = model.town
             };
             return entity;

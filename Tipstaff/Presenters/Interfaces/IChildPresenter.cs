@@ -21,7 +21,7 @@ namespace Tipstaff.Presenters
 
         void UpdateChild(ChildCreationModel model);
 
-        void UpdateChildAbduction(ChildAbduction model);
+        //void UpdateChildAbduction(ChildAbduction model);
 
         void DeleteChild(DeleteChild model);
 
