@@ -55,8 +55,14 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.OrderDated = record.OrderDated;
             entity.OrderReceived = record.OrderReceived;
             entity.OfficerDealing = record.OfficerDealing;
-            entity.EldestChild = record.EldestChild;
+            entity.ExpiryDate = record.ExpiryDate;
             entity.CAOrderTypeId = record.CAOrderTypeId;
+            entity.CreatedOn = record.CreatedOn;
+            entity.CreatedBy = record.CreatedBy;
+            entity.DateCirculated = record.DateCirculated;
+            entity.RespondentName = entity.RespondentName;
+            entity.CaseNumber = entity.CaseNumber;
+            entity.DivisionId = entity.DivisionId;
             _dynamoAPI.Save(entity);
         }
 

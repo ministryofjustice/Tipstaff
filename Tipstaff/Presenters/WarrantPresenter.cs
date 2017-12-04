@@ -108,5 +108,12 @@ namespace Tipstaff.Presenters
 
             return model;
         }
+
+        public void UpdateWarrant(Warrant warrant)
+        {
+            var entity = GetDynamoTable(warrant);
+
+            _tipstaffRecordRepository.Update(entity);
+        }
     }
 }
