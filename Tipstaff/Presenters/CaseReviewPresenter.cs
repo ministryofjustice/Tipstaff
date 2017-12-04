@@ -66,6 +66,7 @@ namespace Tipstaff.Presenters
                 reviewDate = table.ReviewDate,
                 tipstaffRecordID = table.TipstaffRecordID,
                 caseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=>x.CaseReviewStatusId == table.CaseReviewStatusId),
+
             };
 
             return model;

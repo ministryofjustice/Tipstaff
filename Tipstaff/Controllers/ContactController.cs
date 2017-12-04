@@ -7,6 +7,7 @@ using PagedList;
 using Tipstaff.Models;
 using Tipstaff.MemoryCollections;
 using Tipstaff.Presenters.Interfaces;
+using Tipstaff.Infrastructure.Services;
 
 namespace Tipstaff.Controllers
 {
@@ -18,10 +19,12 @@ namespace Tipstaff.Controllers
         ////private TipstaffDB db = new TipstaffDB();
         /// private readonly IContactsRepository _contactsRepository;
         private readonly IContactPresenter _contactPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public ContactController(IContactPresenter contactPresenter)
+        public ContactController(IContactPresenter contactPresenter, IGuidGenerator guidGenerator)
         {
             _contactPresenter = contactPresenter;
+            _guidGenerator = guidGenerator;
         }
         //
         // GET: /Contacts/
@@ -79,7 +82,7 @@ namespace Tipstaff.Controllers
             {
                 //////db.Contacts.Add(model.contact);
                 //////db.SaveChanges();
-
+                model.contact.contactID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 _contactPresenter.AddContact(model.contact);
 
                 return RedirectToAction("Index");

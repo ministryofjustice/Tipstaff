@@ -48,14 +48,14 @@ namespace Tipstaff.Presenters
                     break;
             }
             
-            var w = warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail);
+            var w = warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.Division.Detail);
 
             graph.gData.Add("Child Abductions", childAbductions.Where(c => c.createdOn >= startDate).Count());
-            graph.gData.Add("Bankruptcy", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(d => d.division.Detail == "Bankruptcy").Count());
-            graph.gData.Add("Chancery", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(e => e.division.Detail == "Chancery").Count());
-            graph.gData.Add("Family", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Family").Count());
-            graph.gData.Add("Insolvency", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Insolvency").Count()); // null);//
-            graph.gData.Add("Queen's Bench", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Queen's Bench").Count());
+            graph.gData.Add("Bankruptcy", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.Division.Detail).Where(d => d.Division.Detail == "Bankruptcy").Count());
+            graph.gData.Add("Chancery", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.Division.Detail).Where(e => e.Division.Detail == "Chancery").Count());
+            graph.gData.Add("Family", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.Division.Detail).Where(c => c.Division.Detail == "Family").Count());
+            graph.gData.Add("Insolvency", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.Division.Detail).Where(c => c.Division.Detail == "Insolvency").Count()); // null);//
+            graph.gData.Add("Queen's Bench", warants.Where(c => c.createdOn >= startDate).OrderBy(c => c.Division.Detail).Where(c => c.Division.Detail == "Queen's Bench").Count());
 
             if (graph.gData["Child Abductions"] == 0) graph.gData["Child Abductions"] = null;
             if (graph.gData["Bankruptcy"] == 0) graph.gData["Bankruptcy"] = null;

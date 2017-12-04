@@ -31,18 +31,20 @@ namespace Tipstaff
             {
                 AuthenticationType = "Cookies",
                 CookieManager = new SystemWebChunkingCookieManager()
+                
             });
 
             OpenIdConnectAuthenticationOptions options = new OpenIdConnectAuthenticationOptions
             {
                 ClientId = clientId,
+               
                 Authority = aadInstance + tenantId//,
                 //PostLogoutRedirectUri = postLogoutRedirectUri,
                 //RedirectUri = RedirectUri
             };
 
             app.UseOpenIdConnectAuthentication(options);
-
+            
 
 
         }
