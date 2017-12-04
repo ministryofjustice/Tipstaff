@@ -35,6 +35,7 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<IFAQPresenter>().ImplementedBy<FAQPresenter>());
             container.Register(Component.For<IAuditEventPresenter>().ImplementedBy<AuditEventPresenter>());
             container.Register(Component.For<IWarrantPresenter>().ImplementedBy<WarrantPresenter>());
+            container.Register(Component.For<IContactPresenter>().ImplementedBy<ContactPresenter>());
             //END PRESENTERS
         }
     }

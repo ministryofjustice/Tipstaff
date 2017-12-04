@@ -14,11 +14,11 @@
         @Html.HiddenFor(model => model.createdBy)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.divisionID, true)
+            @Html.LabelFor(model => model.Division.DivisionId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.divisionID, (SelectList)ViewBag.divisions, "Select a Division")
-            @Html.ValidationMessageFor(model => model.divisionID) 
+            @Html.DropDownListFor(model => model.Division.DivisionId, (SelectList)ViewBag.divisions, "Select a Division")
+            @Html.ValidationMessageFor(model => model.Division.DivisionId) 
         </div>
 
         <div class="editor-label">

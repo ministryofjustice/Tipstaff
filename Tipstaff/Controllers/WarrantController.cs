@@ -18,10 +18,12 @@ namespace Tipstaff.Controllers
     {
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IWarrantPresenter _warrantPresenter;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
 
-        public WarrantController(IWarrantPresenter warrantPresenter)
+        public WarrantController(IWarrantPresenter warrantPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _warrantPresenter = warrantPresenter;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
 
         public ViewResult Index(WarrantListViewModel model)
@@ -41,7 +43,7 @@ namespace Tipstaff.Controllers
             }
             if (model.divisionID > -1)
             {
-                TRs = TRs.Where(w => w.divisionID == model.divisionID);
+                TRs = TRs.Where(w => w.Division.DivisionId == model.divisionID);
 
             }
             if (!string.IsNullOrEmpty(model.caseNumberContains))
@@ -74,10 +76,10 @@ namespace Tipstaff.Controllers
                     model.Warrants = TRs.OrderByDescending(a => a.caseNumber).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
                 case "division asc":
-                    model.Warrants = TRs.OrderBy(a => a.division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    model.Warrants = TRs.OrderBy(a => a.Division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
                 case "division desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    model.Warrants = TRs.OrderByDescending(a => a.Division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
                 case "reviewDate asc":
                     model.Warrants = TRs.OrderBy(a => a.nextReviewDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
@@ -182,7 +184,7 @@ namespace Tipstaff.Controllers
                 //ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail", warrant.resultID);
                 //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
                 ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
-                ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
+                ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.Division.DivisionId);
                 ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
                 ViewBag.resultID = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(x => x.Active == 1), "ResultID", "Detail", warrant.resultID);
 
@@ -216,7 +218,7 @@ namespace Tipstaff.Controllers
                 //ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail", warrant.resultID);
                 //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
                 ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
-                ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
+                ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.Division.DivisionId);
                 ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
                 ViewBag.resultID = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(x => x.Active == 1), "ResultID", "Detail", warrant.resultID);
                 return View(warrant);
@@ -238,7 +240,7 @@ namespace Tipstaff.Controllers
             //ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
             //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
             ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
-            ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
+            ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.Division.DivisionId);
             ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
             return View(warrant);
         }
@@ -294,7 +296,7 @@ namespace Tipstaff.Controllers
             {
                 try
                 {
-                    var tipstaffRecord = _warrantPresenter.GetTipstaffRecord(model.tipstaffRecordID.ToString());
+                    var tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID.ToString());
                     //////model.tipstaffRecord = db.TipstaffRecord.Find(model.tipstaffRecordID);
                     model.tipstaffRecord = tipstaffRecord;
                     model.tipstaffRecord.resultDate = DateTime.Now;
@@ -306,7 +308,7 @@ namespace Tipstaff.Controllers
                     model.tipstaffRecord.caseStatusID = 3;
                     ////db.Entry(model.tipstaffRecord).State = EntityState.Modified;
                     ////db.SaveChanges();
-                    _warrantPresenter.UpdateTipstaffRecord(model.tipstaffRecord);
+                    _tipstaffRecordPresenter.UpdateTipstaffRecord(model.tipstaffRecord);
                     return RedirectToAction("Details", "Warrant", new { id = model.tipstaffRecordID });
                 }
                 catch (Exception ex)
@@ -350,7 +352,7 @@ namespace Tipstaff.Controllers
             _warrantPresenter.RemoveWarrant(model.Warrant);
             //////db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
             //////db.SaveChanges();
-            _warrantPresenter.AddDeletedTipstaffRecord(model.deletedTipstaffRecord);
+            //////_tipstaffRecordPresenter.AddDeletedTipstaffRecord(model.deletedTipstaffRecord);
             return RedirectToAction("Index", "Warrant");
         }
 

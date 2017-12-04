@@ -19,7 +19,7 @@ namespace Tipstaff.Models
         public string tipstaffRecordID { get; set; }
         [Required, MaxLength(50), Display(Name = "Created by")]
         public string createdBy { get; set; }
-        [Required, Display(Name = "Created on")]
+       // [Required, Display(Name = "Created on")]
         public DateTime? createdOn { get; set; }
 
         [Required, Display(Name = "Protective Marking")]
@@ -79,7 +79,7 @@ namespace Tipstaff.Models
                 else
                 {
                     if((this) is Warrant) //division.Prefix; 
-                         prefix = ((Warrant)this).division.Prefix;
+                         prefix = ((Warrant)this).Division.Prefix;
                 }
                 //return string.Format("{0}{1}",prefix, tipstaffRecordID.ToString("D6"));
                 return string.Format("{0}{1}", prefix, tipstaffRecordID);
@@ -188,11 +188,11 @@ namespace Tipstaff.Models
         [MaxLength(153), Display(Name = "Full name of respondent")]
         public string RespondentName { get; set; }
         [Required, Display(Name = "Division")]
-        public int divisionID { get; set; }
+        public MemoryCollections.Division Division { get; set; }
         //[Display(Name = "Division")]
         //public virtual Division division { get; set; }
-        [Display(Name = "Division")]
-        public MemoryCollections.Division division { get; set; }
+        ////[Display(Name = "Division")]
+        ////public MemoryCollections.Division division { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Circulated")]

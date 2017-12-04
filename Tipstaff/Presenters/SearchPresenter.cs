@@ -14,14 +14,14 @@
 //        private readonly IChildPresenter _childPresenter;
 //        private readonly IRespondentPresenter _respondentPresenter;
 //        private readonly IWarrantPresenter _warrantPresenter;
-        
+
 
 //        Regex rxNumeric = new Regex(@"^[0-9]+$");
 //        Regex rxText = new Regex(@"^[a-z,A-Z]+$");
-        
-//        public SearchPresenter(ITipstaffRecordPresenter tipstaffRecordPresenter, 
-//                               IChildPresenter childPresenter, 
-//                               IRespondentPresenter respondentPresenter, 
+
+//        public SearchPresenter(ITipstaffRecordPresenter tipstaffRecordPresenter,
+//                               IChildPresenter childPresenter,
+//                               IRespondentPresenter respondentPresenter,
 //                               IWarrantPresenter warrantPresenter)
 //        {
 //            _tipstaffRecordPresenter = tipstaffRecordPresenter;
@@ -193,7 +193,7 @@
 //                        });
 //                    }
 //                }
-//                var respondents = _respondentPresenter.GetAll();
+//                var respondents = _respondentPresenter.Get
 //                var Resps = respondents.Where(f => f.dateOfBirth == DoB);
 //                if (Resps != null)
 //                {
@@ -270,7 +270,7 @@
 //                    }
 //                }
 //                ////////////var Resps = db.Respondents.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
-//                var respondents =_respondentPresenter.GetAll();
+//                var respondents = _respondentPresenter.GetAll();
 //                var Resps = respondents.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
 
 //                System.Diagnostics.Debug.Print(Resps.Count().ToString());
@@ -282,12 +282,12 @@
 //                        string uniqID = "";
 //                        //using (TipstaffDB tempDB = new TipstaffDB())
 //                        //{
-//                            if (genericFunctions.TypeOfTipstaffRecord(resp.tipstaffRecordID) == "Warrant")
-//                            {
+//                        if (genericFunctions.TypeOfTipstaffRecord(resp.tipstaffRecordID) == "Warrant")
+//                        {
 //                            //////////Warrant temp = tempDB.Warrants.Find(resp.tipstaffRecordID);
 //                            Warrant temp = _warrantPresenter.GetWarrant(resp.tipstaffRecordID);
 //                            typePart2 = string.Format(" ({0})", temp.division.Detail);
-//                            }
+//                        }
 //                        ////////TipstaffRecord TR = tempDB.TipstaffRecord.Find(resp.tipstaffRecordID);
 //                        ////////uniqID = TR.UniqueRecordID;
 

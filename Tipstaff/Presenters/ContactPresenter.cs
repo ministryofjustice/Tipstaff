@@ -53,14 +53,14 @@ namespace Tipstaff.Presenters
                 AddressLine1 = model.addressLine1,
                 AddressLine2 = model.addressLine2,
                 AddressLine3 = model.addressLine3,
-                ContactType = MemoryCollections.ContactTypeList.GetContactTypeList().FirstOrDefault(x=>x.Detail == model.contactType.Detail).Detail,
+                ContactType = MemoryCollections.ContactTypeList.GetContactTypeList().FirstOrDefault(x=>x.ContactTypeId == model.contactType.ContactTypeId).Detail,
                 Email = model.email,
                 LastName = model.lastName,
                 Notes = model.notes,
                 PhoneHome = model.phoneHome,
                 PhoneMobile = model.phoneMobile,
                 Postcode = model.postcode,
-                SalutationId = MemoryCollections.SalutationList.GetSalutationByDetail(model.salutation.Detail).SalutationId,
+                SalutationId = MemoryCollections.SalutationList.GetSalutationByID(model.salutation.SalutationId).SalutationId,
                 Town = model.town
             };
 
