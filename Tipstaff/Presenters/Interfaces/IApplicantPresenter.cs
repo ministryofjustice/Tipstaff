@@ -11,7 +11,7 @@ namespace Tipstaff.Presenters
     {
         Applicant GetApplicant(string id);
 
-        TipstaffRecord GetTipstaffRecord(string id);
+       // TipstaffRecord GetTipstaffRecord(string id);
 
         IEnumerable<Applicant> GetAllApplicantsByTipstaffRecordID(string id);
 

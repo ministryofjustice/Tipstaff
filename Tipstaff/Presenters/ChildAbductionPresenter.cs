@@ -16,6 +16,7 @@ namespace Tipstaff.Presenters
         private readonly IRespondentPresenter _respondentPresenter;
         private readonly IChildPresenter _childPresenter;
         private readonly IAddressPresenter _addressPresenter;
+        private readonly IApplicantPresenter _applicantPresenter;
         private Object _lock = new Object();
 
         public ChildAbductionPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
@@ -23,7 +24,8 @@ namespace Tipstaff.Presenters
             ICaseReviewPresenter caseReviewsPresenter, 
             IRespondentPresenter respondentPresenter, 
             IChildPresenter childPresenter, 
-            IAddressPresenter addressPresenter)
+            IAddressPresenter addressPresenter, 
+            IApplicantPresenter applicantPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _deletedTipstaffRecordRepository = deletedTipstaffRecordRepository;
@@ -31,6 +33,7 @@ namespace Tipstaff.Presenters
             _respondentPresenter = respondentPresenter;
             _childPresenter = childPresenter;
             _addressPresenter = addressPresenter;
+            _applicantPresenter = applicantPresenter;
         }
 
         public void AddDeletedTipstaffRecord(Models.DeletedTipstaffRecord record)
@@ -131,7 +134,7 @@ namespace Tipstaff.Presenters
 
         public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table)
         {
-            var entity = _tipstaffRecordRepository.GetEntityByHashKey(table.Id);
+            //var entity = _tipstaffRecordRepository.GetEntityByHashKey(table.Id);
 
             var model = new Models.ChildAbduction()
             {
@@ -149,7 +152,8 @@ namespace Tipstaff.Presenters
                 createdOn = table.CreatedOn,
                 Respondents = _respondentPresenter.GetAllById(table.Id),
                 children = _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id),
-                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id)
+                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
+                Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id)
             };
 
             return model;

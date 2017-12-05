@@ -15,13 +15,9 @@ namespace Tipstaff.Presenters
 
         IEnumerable<Child> GetAllChildrenByTipstaffRecordID(string id);
 
-        ChildAbduction GetChildAbduction(string id);
-
-        void AddChild(ChildCreationModel model);
+         void AddChild(ChildCreationModel model);
 
         void UpdateChild(ChildCreationModel model);
-
-        //void UpdateChildAbduction(ChildAbduction model);
 
         void DeleteChild(DeleteChild model);
 

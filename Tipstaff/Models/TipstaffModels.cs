@@ -210,7 +210,7 @@ namespace Tipstaff.Models
     public class TipstaffRecordResolutionModel
     {
         public TipstaffRecord tipstaffRecord { get; set; }
-        public int tipstaffRecordID { get; set; }
+        public string tipstaffRecordID { get; set; }
         public MemoryCollections.Result result { get; set; }
 
         [Display(Name="Result Type")]
@@ -225,37 +225,17 @@ namespace Tipstaff.Models
         [Display(Name = "People arrested")]
         public int? aCount { get; set; }
 
-        public TipstaffRecordResolutionModel(int TipstaffRecordID)
-        {
-            tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(TipstaffRecordID);
-            tipstaffRecordID = TipstaffRecordID;
-            //resultList = new SelectList(myDBContextHelper.CurrentContext.Results.Where(r => r.active == true).ToList(), "resultID", "Detail");
-            resultList = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(r => r.Active == 1).ToList(), "ResultID", "Detail");
-            int respCount = tipstaffRecord.Respondents.Count();
-            
-            Dictionary<int, string> resp = new Dictionary<int, string>();
-            for (int i = 0; i <= respCount; i++)
-            {
-                resp.Add(i,i.ToString());
-            }
-            this.prisonDict = resp;
-            this.arrestDict = resp;
-        }
-        
         public TipstaffRecordResolutionModel()
         {
-            //resultList = new SelectList(myDBContextHelper.CurrentContext.Results.Where(r=>r.active==true).ToList(), "resultID", "Detail");
-            resultList = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(r => r.Active == 1).ToList(), "ResultID", "Detail");
+            resultList = new SelectList(MemoryCollections.ResultsList.GetResultList().Where(r => r.Active == 1), "ResultID", "Detail");
         }
+        
     }
 
     public class TipstaffCaseClosedDataModel
     {
         public IEnumerable<TipstaffRecord> TipstaffRecords { get; set; }
-        public TipstaffCaseClosedDataModel()
-        {
-            /////TipstaffRecords = myDBContextHelper.CurrentContext.TipstaffRecord.Where(x => x.caseStatusID > 2 && x.resultID==null).ToList();
-        }
+       
     }
 
     public abstract class ListViewModel

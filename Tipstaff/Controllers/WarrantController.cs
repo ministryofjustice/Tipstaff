@@ -270,9 +270,12 @@ namespace Tipstaff.Controllers
         //////////    return View(warrant);
         //////////}
 
-        public ActionResult EnterResult(int id)
+        public ActionResult EnterResult(string id)
         {
-            TipstaffRecordResolutionModel model = new TipstaffRecordResolutionModel(id);
+            TipstaffRecordResolutionModel model = new TipstaffRecordResolutionModel();
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            model.tipstaffRecordID = id;
+
             if (model.tipstaffRecord.caseStatusID > 2 && model.tipstaffRecord.resultID != null)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;

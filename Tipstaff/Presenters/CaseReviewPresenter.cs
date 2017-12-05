@@ -50,7 +50,7 @@ namespace Tipstaff.Presenters
                 NextReviewDate = model.nextReviewDate,
                 ReviewDate = model.reviewDate.Value,
                 TipstaffRecordID = model.tipstaffRecordID,
-                CaseReviewStatusId = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=> x.Detail == model.caseReviewStatus.Detail).CaseReviewStatusId,
+                CaseReviewStatusId = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().FirstOrDefault(x=> x.CaseReviewStatusId == model.caseReviewStatus.CaseReviewStatusId).CaseReviewStatusId,
             };
 
             return entity;

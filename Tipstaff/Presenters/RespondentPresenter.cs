@@ -65,6 +65,7 @@ namespace Tipstaff.Presenters
                 SkinColour = model.skinColour.Detail,
                 Id = Guid.NewGuid().ToString(),
                 TipstaffRecordID = model.tipstaffRecordID,
+                
              };
 
             return table;

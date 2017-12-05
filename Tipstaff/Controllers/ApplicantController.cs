@@ -18,14 +18,15 @@ namespace Tipstaff.Controllers
         private readonly IApplicantPresenter _applicantPresenter;
         private readonly ICloudWatchLogger _logger;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
 
-        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantPresenter applicantPresenter, IGuidGenerator guidGenerator)
+        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantPresenter applicantPresenter, IGuidGenerator guidGenerator, ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _logger = telemetryLogger;
             _applicantPresenter = applicantPresenter;
             _guidGenerator = guidGenerator;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
-
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListApplicantsByRecord(string id, int? page)
@@ -33,9 +34,11 @@ namespace Tipstaff.Controllers
             ListApplicantsByTipstaffRecord model = new ListApplicantsByTipstaffRecord();
             try
             {
-                TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(id);
+                TipstaffRecord tipstaff = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+                var applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(id);
                 model.tipstaffRecordID = id;
-                model.Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(id).ToXPagedList<Applicant>(page ?? 1, 8);
+
+                model.Applicants = applicants.ToXPagedList<Applicant>(page ?? 1, 8);
                 model.TipstaffRecordClosed = (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived") ? true : false;
             }
             catch (Exception ex)
@@ -45,6 +48,7 @@ namespace Tipstaff.Controllers
 
             return PartialView("_ListApplicantsByRecord", model);
         }
+
         public ActionResult Details(string id)
         {
             //Applicant model = db.Applicants.Find(id);
@@ -55,10 +59,10 @@ namespace Tipstaff.Controllers
         public ActionResult Create(string id)
         {
             ApplicantCreationModel model = new ApplicantCreationModel(id);
-            TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
 
             //if (model.tipstaffRecord.caseStatus.sequence > 3)
-            if (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived")
+            if (model.tipstaffRecord.caseStatus.Detail == "File Closed" || model.tipstaffRecord.caseStatus.Detail == "File Archived")
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -107,7 +111,7 @@ namespace Tipstaff.Controllers
         {
             ApplicantEditModel model = new ApplicantEditModel();
             model.applicant = _applicantPresenter.GetApplicant(id);
-            TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(model.applicant.tipstaffRecordID);
+            TipstaffRecord tipstaff = _tipstaffRecordPresenter.GetTipStaffRecord(model.applicant.tipstaffRecordID);
 
             //if (model.applicant.childAbduction.caseStatus.sequence > 3)
             if (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived")

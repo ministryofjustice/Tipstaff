@@ -169,6 +169,7 @@ else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
 		@*<li><a href="@Url.Action("ListChildrenByRecord", "Child", new { id = Model.tipstaffRecordID })">Children (@Model.children.Count())</a></li>*@
 		<li><a href="@Url.Action("ListRespondentsByRecord", "Respondent", new { id = Model.tipstaffRecordID })">Respondents (@Model.Respondents.Count())</a></li>
 		<li><a href="@Url.Action("ListAddressesByRecord", "Address", new { id = Model.tipstaffRecordID })">Addresses (@Model.addresses.Count())</a></li>
+        <li><a href="@Url.Action("ListApplicantsByRecord", "Applicant", new { id = Model.tipstaffRecordID })">Applicants (@Model.Applicants.Count())</a></li>
 		@*<li><a href="@Url.Action("ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID })">Attendance notes (@Model.AttendanceNotes.Count())</a></li>
 		<li><a href="@Url.Action("ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID })">Documents (@Model.Documents.Count())</a></li>
 		<li><a href="@Url.Action("ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID })">Solicitors (@Model.LinkedSolicitors.Count())</a></li>
