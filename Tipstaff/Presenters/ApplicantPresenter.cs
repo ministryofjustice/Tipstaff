@@ -6,7 +6,7 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class ApplicantPresenter : IApplicantPresenter, IMapper<Models.Applicant, Tipstaff.Services.DynamoTables.Applicant>, IMapperCollections<Models.Applicant, Tipstaff.Services.DynamoTables.Applicant>
+    public class ApplicantPresenter : IApplicantPresenter, IMapper<Models.Applicant, Tipstaff.Services.DynamoTables.Applicant>
     {
         private readonly IApplicantRepository _appRepository;
         private readonly ITipstaffRecordPresenter _tipstaffPresenter;
@@ -26,7 +26,7 @@ namespace Tipstaff.Presenters
         public IEnumerable<Models.Applicant> GetAllApplicantsByTipstaffRecordID(string id)
         {
             var applicants = _appRepository.GetAllApplicantsByTipstaffRecordID(id);
-            return GetAll(applicants);
+            return applicants.Select(x => GetModel(x));
         }
 
         public void AddApplicant(ApplicantCreationModel model)
@@ -62,7 +62,7 @@ namespace Tipstaff.Presenters
                 addressLine2 = table.AddressLine2,
                 addressLine3 = table.AddressLine3,
                 ApplicantID = table.Id,
-                childAbduction = (ChildAbduction) _tipstaffPresenter.GetTipStaffRecord(table.TipstaffRecordID),
+                childAbduction = _tipstaffPresenter.GetTipStaffRecord(table.TipstaffRecordID) as ChildAbduction,
                 county = table.County,
                 nameFirst = table.NameFirst,
                 nameLast = table.NameLast,
@@ -96,16 +96,5 @@ namespace Tipstaff.Presenters
 
             return entity;
         }
-
-        public IEnumerable<Models.Applicant> GetAll(IEnumerable<Services.DynamoTables.Applicant> entities)
-        {
-            return entities.Select(x => GetModel(x));
-        }
-
-        public IEnumerable<Services.DynamoTables.Applicant> GetAll(IEnumerable<Models.Applicant> entities)
-        {
-            return entities.Select(x => GetDynamoTable(x));
-        }
-
     }
 }

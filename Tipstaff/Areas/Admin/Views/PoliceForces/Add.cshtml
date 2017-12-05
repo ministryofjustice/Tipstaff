@@ -4,7 +4,7 @@
     ViewBag.Title = "Add Police Force";
 }
 @{ 
-    string controller = genericFunctions.TypeOfTipstaffRecord(Model.TS_PoliceForce.tipstaffRecordID);
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.TS_PoliceForce.tipstaffRecord);
     string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
     }

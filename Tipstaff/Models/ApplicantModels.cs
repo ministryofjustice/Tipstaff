@@ -146,7 +146,7 @@ namespace Tipstaff.Models
         }
         public ApplicantCreationModel(string id)
         {
-            tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
+            //tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
             tipstaffRecordID = id;
             //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail");
             SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");

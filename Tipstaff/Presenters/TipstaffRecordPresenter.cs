@@ -101,7 +101,7 @@ namespace Tipstaff.Presenters
                 NextReviewDate = record.nextReviewDate,
                 PrisonCount = record.prisonCount,
                 ResultDate = record.resultDate,
-                ProtectiveMarkingId = record.protectiveMarking.ProtectiveMarkingId,
+                ProtectiveMarkingId = record.protectiveMarking?.ProtectiveMarkingId,
                 CaseStatusId = record.caseStatus.CaseStatusId,
                 CreatedOn = record.createdOn
             };

@@ -130,31 +130,5 @@ namespace Tipstaff.Presenters
             var children = _childRepository.GetAllChildren();
             return GetAll(children);
         }
-
-        public ChildAbduction GetChildAbduction(string id)
-        {
-            var record = _tipstaffRepository.GetEntityByHashKey(id);
-
-            var childAbduction = new ChildAbduction()
-            {
-                sentSCD26 = record.SentSCD26,
-                orderDated = record.OrderDated,
-                orderReceived = record.OrderReceived,
-                officerDealing = record.OfficerDealing,
-                EldestChild = record.EldestChild,
-                caOrderType = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x=>x.CAOrderTypeId == record.CAOrderTypeId),
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == record.CaseStatusId),
-                tipstaffRecordID = record.Id,
-                Discriminator = record.Discriminator,
-               // children = GetAllChildrenByTipstaffRecordID(record.Id),
-              
-                
-            };
-
-            childAbduction.children = GetAllChildrenByTipstaffRecordID(record.Id);
-            
-
-            return childAbduction;
-        }
     }
 }

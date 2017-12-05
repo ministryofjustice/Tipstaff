@@ -56,7 +56,7 @@ namespace Tipstaff.Controllers
                 ////tr.caseReviews.Add(model.CaseReview);
                 model.CaseReview.tipstaffRecordID = tr.tipstaffRecordID;
                 model.CaseReview.caseReviewID = _guidGenerator.GenerateTimeBasedGuid().ToString();
-
+               
                 _caseReviewPresenter.Add(model.CaseReview);
 
 
@@ -75,7 +75,7 @@ namespace Tipstaff.Controllers
                 //////db.SaveChanges();
                 _tipstaffRecordPresenter.UpdateTipstaffRecord(tr);
 
-                if (model.CaseReview.caseReviewStatus.CaseReviewStatusId == 2)
+                if (model.CaseReview?.caseReviewStatus?.CaseReviewStatusId == 2)
                 {
                     //user picked file closed, so get reasons...
                     return RedirectToAction("EnterResult", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.CaseReview.tipstaffRecordID });

@@ -166,6 +166,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Add(int id)
         {
             PoliceForceCreation model = new PoliceForceCreation();
+            model.PoliceForceList = new SelectList(_policeForcesPresenter.GetAllPoliceForces().Where(x => x.active == true).OrderBy(x => x.policeForceName).ToList(), "policeForceID", "policeForceName");
             //////model.TS_PoliceForce.tipstaffRecord = db.TipstaffRecord.Find(id);
             model.TS_PoliceForce.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id.ToString());
             model.TS_PoliceForce.tipstaffRecordID = id;
@@ -178,12 +179,13 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 //REVISIT THIS ONE!!!!
-                //////TipstaffRecord tr = db.TipstaffRecord.Find(model.TS_PoliceForce.tipstaffRecordID);
-                ////////////////TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.TS_PoliceForce.tipstaffRecordID.ToString());
-                ////////////////model.TS_PoliceForce.policeForceID = model.policeForceID;
-                ////////////////tr.policeForces.Add(model.TS_PoliceForce);
-                ////////////////db.SaveChanges();
-                ////////////////return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.TS_PoliceForce.tipstaffRecordID, Area="" });
+                /////TipstaffRecord tr = db.TipstaffRecord.Find(model.TS_PoliceForce.tipstaffRecordID);
+                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.TS_PoliceForce.tipstaffRecordID.ToString());
+                model.TS_PoliceForce.policeForceID = model.policeForceID;
+                //////tr.policeForces.Add(model.TS_PoliceForce);
+                //////db.SaveChanges();
+                ////_policeForcesPresenter.AddPoliceForces(model.);
+                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.TS_PoliceForce.tipstaffRecordID, Area = "" });
             }
             return View(model);
         }

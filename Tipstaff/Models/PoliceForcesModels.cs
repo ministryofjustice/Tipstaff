@@ -53,7 +53,7 @@ namespace Tipstaff.Models
         public PoliceForceCreation()
         {
             TS_PoliceForce = new TipstaffPoliceForce();
-            PoliceForceList = new SelectList(myDBContextHelper.CurrentContext.PoliceForces.Where(x => x.active == true).OrderBy(x => x.policeForceName).ToList(), "policeForceID", "policeForceName");
+            ////PoliceForceList = new SelectList(myDBContextHelper.CurrentContext.PoliceForces.Where(x => x.active == true).OrderBy(x => x.policeForceName).ToList(), "policeForceID", "policeForceName");
         }
     }
 

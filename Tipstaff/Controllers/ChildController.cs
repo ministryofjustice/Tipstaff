@@ -91,7 +91,7 @@ namespace Tipstaff.Controllers
             }
             try
             {
-                ChildAbduction ca = _childPresenter.GetChildAbduction(model.tipstaffRecordID);
+                ChildAbduction ca = _childAbductionPresenter.GetChildAbduction(model.tipstaffRecordID);
                 Child eldestChild = _childPresenter.GetAllChildrenByTipstaffRecordID(model.tipstaffRecordID).OrderBy(c => c.dateOfBirth).FirstOrDefault();
 
                 string newSurname = model.child.nameLast; //by default set to new childs name
@@ -168,7 +168,7 @@ namespace Tipstaff.Controllers
             ListChildrenByTipstaffRecord model = new ListChildrenByTipstaffRecord();
             try
             {
-                var ca = _childPresenter.GetChildAbduction(id);
+                var ca = _childAbductionPresenter.GetChildAbduction(id);
                 model.tipstaffRecordID = ca.tipstaffRecordID;
                 model.TipstaffRecordClosed = (ca.caseStatus.Detail == "File Closed" || ca.caseStatus.Detail == "File Archived");
                 model.Children = ca.children.ToXPagedList<Child>(page ?? 1, 8);

@@ -26,7 +26,6 @@ namespace Tipstaff.Controllers
             _guidGenerator = guidGenerator;
         }
 
-
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListApplicantsByRecord(string id, int? page)
         {
@@ -34,8 +33,10 @@ namespace Tipstaff.Controllers
             try
             {
                 TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(id);
+                var applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(id);
                 model.tipstaffRecordID = id;
-                model.Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(id).ToXPagedList<Applicant>(page ?? 1, 8);
+
+                model.Applicants = applicants.ToXPagedList<Applicant>(page ?? 1, 8);
                 model.TipstaffRecordClosed = (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived") ? true : false;
             }
             catch (Exception ex)
@@ -45,6 +46,7 @@ namespace Tipstaff.Controllers
 
             return PartialView("_ListApplicantsByRecord", model);
         }
+
         public ActionResult Details(string id)
         {
             //Applicant model = db.Applicants.Find(id);
@@ -55,10 +57,10 @@ namespace Tipstaff.Controllers
         public ActionResult Create(string id)
         {
             ApplicantCreationModel model = new ApplicantCreationModel(id);
-            TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecord = _applicantPresenter.GetTipstaffRecord(id);
 
             //if (model.tipstaffRecord.caseStatus.sequence > 3)
-            if (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived")
+            if (model.tipstaffRecord.caseStatus.Detail == "File Closed" || model.tipstaffRecord.caseStatus.Detail == "File Archived")
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
