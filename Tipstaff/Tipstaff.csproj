@@ -268,7 +268,6 @@
     <Compile Include="Models\DeletedTipstaffRecords.cs" />
     <Compile Include="Models\DeleteModel.cs" />
     <Compile Include="Models\DocumentModels.cs" />
-    <Compile Include="DAL\TipstaffDB.cs" />
     <Compile Include="Models\ErrorModels.cs" />
     <Compile Include="Models\FAQModels.cs" />
     <Compile Include="Models\GraphModels.cs" />

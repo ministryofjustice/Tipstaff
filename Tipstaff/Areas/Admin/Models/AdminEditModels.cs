@@ -15,15 +15,13 @@ namespace Tipstaff.Models
 
         public SolicitorAdmin(int id)
         {
-            solicitor = myDBContextHelper.CurrentContext.Solicitors.Find(id);
-            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail", solicitor.salutationID);
-            SolicitorFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s=>s.firmName), "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
+           ///// solicitor = myDBContextHelper.CurrentContext.Solicitors.Find(id);
+            /////SolicitorFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s=>s.firmName), "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
             SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail", solicitor.salutation.SalutationId);
         }
         public SolicitorAdmin()
         {
-            //SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail");
-            SolicitorFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
+           ///// SolicitorFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
             SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");
         }
     }

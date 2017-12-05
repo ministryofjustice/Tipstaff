@@ -86,27 +86,27 @@ namespace Tipstaff.Models
             }
         }
 
-        public virtual string GetLastStatusChangeDetails
-        {
-            get
-            {
-                string recID = tipstaffRecordID.ToString();
-                try
-                {
-                    var status = myDBContextHelper.CurrentContext.AuditEventRows.Where(x => x.ColumnName == "CaseStatusID" && x.Now == "3" && x.auditEvent.RecordChanged == recID)
-                                                    .OrderByDescending(a => a.auditEvent.EventDate).Take(1).SingleOrDefault();
-                    if (status != null)
-                    {
-                        return string.Format("was closed by {0} on {1}", status.auditEvent.UserID, status.auditEvent.EventDate.ToShortDateString());
-                    }
-                    return "";
-                }
-                catch
-                {
-                    return "";
-                }
-            }
-        }
+        //////////public virtual string GetLastStatusChangeDetails
+        //////////{
+        //////////    get
+        //////////    {
+        //////////        string recID = tipstaffRecordID.ToString();
+        //////////        try
+        //////////        {
+        //////////            var status = myDBContextHelper.CurrentContext.AuditEventRows.Where(x => x.ColumnName == "CaseStatusID" && x.Now == "3" && x.auditEvent.RecordChanged == recID)
+        //////////                                            .OrderByDescending(a => a.auditEvent.EventDate).Take(1).SingleOrDefault();
+        //////////            if (status != null)
+        //////////            {
+        //////////                return string.Format("was closed by {0} on {1}", status.auditEvent.UserID, status.auditEvent.EventDate.ToShortDateString());
+        //////////            }
+        //////////            return "";
+        //////////        }
+        //////////        catch
+        //////////        {
+        //////////            return "";
+        //////////        }
+        //////////    }
+        //////////}
     }
 
     public class ChildAbduction : TipstaffRecord

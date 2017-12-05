@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
 using Tipstaff.Logger;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers
 {
@@ -14,21 +15,27 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class TipstaffRecordSolicitorController : Controller
     {
-        private TipstaffDB db = myDBContextHelper.CurrentContext;
+        //.private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly ICloudWatchLogger _logger;
+        private readonly ISolicitorPresenter _solicitorPresenter;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
 
-        public TipstaffRecordSolicitorController(ICloudWatchLogger logger)
+        public TipstaffRecordSolicitorController(ICloudWatchLogger logger, ISolicitorPresenter solicitorPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _logger = logger;
+            _solicitorPresenter = solicitorPresenter;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
         
         // POST: /TipstaffRecordSolicitor/Create
 
-        public ActionResult Create(int tipstaffRecord, int solicitor)
+        public ActionResult Create(string tipstaffRecord, string solicitor)
         {
             TipstaffRecordSolicitor tipstaffrecordsolicitor=new TipstaffRecordSolicitor();
-            tipstaffrecordsolicitor.solicitor=db.Solicitors.Find(solicitor);
-            tipstaffrecordsolicitor.tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecord);
+            //////tipstaffrecordsolicitor.solicitor=db.Solicitors.Find(solicitor);
+            tipstaffrecordsolicitor.solicitor = _solicitorPresenter.GetSolicitor(solicitor);
+            //////tipstaffrecordsolicitor.tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecord);
+            tipstaffrecordsolicitor.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecord);
             if (tipstaffrecordsolicitor.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = tipstaffrecordsolicitor.tipstaffRecord.UniqueRecordID;
@@ -38,8 +45,8 @@ namespace Tipstaff.Controllers
             try
             {
                 //throw new DbUpdateException(");
-                db.TipstaffRecordSolicitors.Add(tipstaffrecordsolicitor);
-                db.SaveChanges();
+                //////////db.TipstaffRecordSolicitors.Add(tipstaffrecordsolicitor);
+                //////////db.SaveChanges();
                 if (Request.IsAjaxRequest())
                 {
                     string url = string.Format("window.location='{0}';", Url.Action("Details", genericFunctions.TypeOfTipstaffRecord(tipstaffrecordsolicitor.tipstaffRecord), new { id = tipstaffRecord }));
@@ -88,7 +95,7 @@ namespace Tipstaff.Controllers
         public ActionResult Delete(int tipstaffRecordID, int solicitorID)
         {
             DeleteTipstaffRecordSolicitor model = new DeleteTipstaffRecordSolicitor();
-            model.TipstaffRecordSolicitor = db.TipstaffRecordSolicitors.Single(t=>t.tipstaffRecordID==tipstaffRecordID && t.solicitorID==solicitorID);
+            ////////////////model.TipstaffRecordSolicitor = db.TipstaffRecordSolicitors.Single(t=>t.tipstaffRecordID==tipstaffRecordID && t.solicitorID==solicitorID);
             model.DeleteModelID = tipstaffRecordID.ToString();
             if (model.TipstaffRecordSolicitor == null)
             {

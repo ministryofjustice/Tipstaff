@@ -27,7 +27,7 @@ namespace Tipstaff.Models
         }
         public DeleteApplicant(string id)
         {
-            Applicant = myDBContextHelper.CurrentContext.Applicants.Find(id);
+            ////////Applicant = myDBContextHelper.CurrentContext.Applicants.Find(id);
             DeleteModelID = id;
         }
     }
@@ -57,7 +57,7 @@ namespace Tipstaff.Models
         }
         public DeleteAddress(string id)
         {
-            Address = myDBContextHelper.CurrentContext.Addresses.Find(id);
+            //////Address = myDBContextHelper.CurrentContext.Addresses.Find(id);
             DeleteModelID = id;
         }
     }
@@ -67,7 +67,7 @@ namespace Tipstaff.Models
         public DeleteAttendanceNote() { }
         public DeleteAttendanceNote(string id)
         {
-            AttendanceNote = myDBContextHelper.CurrentContext.AttendanceNotes.Find(id);
+            //////AttendanceNote = myDBContextHelper.CurrentContext.AttendanceNotes.Find(id);
             DeleteModelID = id;
         }
     }
@@ -90,7 +90,7 @@ namespace Tipstaff.Models
         public DeleteTipstaffRecordSolicitor() { }
         public DeleteTipstaffRecordSolicitor(string id)
         {
-            TipstaffRecordSolicitor = myDBContextHelper.CurrentContext.TipstaffRecordSolicitors.Find(id);
+            ///////TipstaffRecordSolicitor = myDBContextHelper.CurrentContext.TipstaffRecordSolicitors.Find(id);
             DeleteModelID = id;
         }
     }

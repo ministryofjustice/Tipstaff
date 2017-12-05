@@ -78,20 +78,4 @@ namespace Tipstaff
 
 
     }
-    internal static class myDBContextHelper
-    {
-        public static TipstaffDB CurrentContext
-        {
-            get
-            {
-                if (ServiceLayer.UnitOfWorkHelper.CurrentDataStore["myHAPDBContext"] == null)
-                {
-                    ServiceLayer.UnitOfWorkHelper.CurrentDataStore["myHAPDBContext"] = new TipstaffDB();
-                }
-                return (TipstaffDB)ServiceLayer.UnitOfWorkHelper.CurrentDataStore["myHAPDBContext"];
-            }
-        }
-    }
-
-
 }
