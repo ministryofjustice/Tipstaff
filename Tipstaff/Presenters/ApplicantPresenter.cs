@@ -46,13 +46,7 @@ namespace Tipstaff.Presenters
             var entity = GetDynamoTable(model.Applicant);
             _appRepository.Delete(entity);
         }
-
-        public Models.TipstaffRecord GetTipstaffRecord(string id)
-        {
-            var tipstaff = _tipstaffPresenter.GetTipStaffRecord(id);
-
-            return tipstaff;
-        }
+        
 
         public Models.Applicant GetModel(Services.DynamoTables.Applicant table)
         {

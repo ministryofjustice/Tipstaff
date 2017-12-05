@@ -18,12 +18,14 @@ namespace Tipstaff.Controllers
         private readonly IApplicantPresenter _applicantPresenter;
         private readonly ICloudWatchLogger _logger;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
 
-        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantPresenter applicantPresenter, IGuidGenerator guidGenerator)
+        public ApplicantController(ICloudWatchLogger telemetryLogger, IApplicantPresenter applicantPresenter, IGuidGenerator guidGenerator, ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _logger = telemetryLogger;
             _applicantPresenter = applicantPresenter;
             _guidGenerator = guidGenerator;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
@@ -32,7 +34,7 @@ namespace Tipstaff.Controllers
             ListApplicantsByTipstaffRecord model = new ListApplicantsByTipstaffRecord();
             try
             {
-                TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(id);
+                TipstaffRecord tipstaff = _tipstaffRecordPresenter.GetTipStaffRecord(id);
                 var applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(id);
                 model.tipstaffRecordID = id;
 
@@ -57,7 +59,7 @@ namespace Tipstaff.Controllers
         public ActionResult Create(string id)
         {
             ApplicantCreationModel model = new ApplicantCreationModel(id);
-            model.tipstaffRecord = _applicantPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
 
             //if (model.tipstaffRecord.caseStatus.sequence > 3)
             if (model.tipstaffRecord.caseStatus.Detail == "File Closed" || model.tipstaffRecord.caseStatus.Detail == "File Archived")
@@ -109,7 +111,7 @@ namespace Tipstaff.Controllers
         {
             ApplicantEditModel model = new ApplicantEditModel();
             model.applicant = _applicantPresenter.GetApplicant(id);
-            TipstaffRecord tipstaff = _applicantPresenter.GetTipstaffRecord(model.applicant.tipstaffRecordID);
+            TipstaffRecord tipstaff = _tipstaffRecordPresenter.GetTipStaffRecord(model.applicant.tipstaffRecordID);
 
             //if (model.applicant.childAbduction.caseStatus.sequence > 3)
             if (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived")
