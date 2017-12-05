@@ -118,7 +118,7 @@ namespace Tipstaff.Models
 
     public class GraphData 
     {
-        TipstaffDB db = myDBContextHelper.CurrentContext;
+        ////TipstaffDB db = myDBContextHelper.CurrentContext;
         //public DateTime startDate { get; set; }
 
         //private IDictionary<string, int?> gData = new Dictionary<string, int?>();

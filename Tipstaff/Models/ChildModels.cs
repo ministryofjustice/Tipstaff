@@ -151,28 +151,28 @@ namespace Tipstaff.Models
             CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
             NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
         }
-        public ChildCreationModel(int id)
-        {
-            tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
+        ////public ChildCreationModel(int id)
+        ////{
+        ////    tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
 
-            GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GenderID", "Detail");
-            SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourId", "Detail");
-            CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
-            NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
-            //Note: ChildCreationModel working dropdown validation (partially, no specific message)
-        }
+        ////    GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1).ToList(), "GenderID", "Detail");
+        ////    SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1).ToList(), "SkinColourId", "Detail");
+        ////    CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
+        ////    NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
+        ////    //Note: ChildCreationModel working dropdown validation (partially, no specific message)
+        ////}
 
-        public ChildCreationModel(string id)
-        {
-            tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
-            tipstaffRecordID = id;
+        ////public ChildCreationModel(string id)
+        ////{
+        ////    tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
+        ////    tipstaffRecordID = id;
 
-            GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1));
-            CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
-            NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
-            SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1), "SkinColourID", "Detail");
-            //Note: ChildCreationModel working dropdown validation (partially, no specific message)
-        }
+        ////    GenderList = new SelectList(MemoryCollections.GenderList.GetGenderList().Where(x => x.Active == 1));
+        ////    CountryList = new SelectList(MemoryCollections.CountryList.GetCountryList().Where(x => x.Active == 1).ToList(), "CountryID", "Detail");
+        ////    NationalityList = new SelectList(MemoryCollections.NationalityList.GetNationalityList().Where(x => x.Active == 1).ToList(), "NationalityID", "Detail");
+        ////    SkinColourList = new SelectList(MemoryCollections.SkinColourList.GetSkinColourList().Where(x => x.Active == 1), "SkinColourID", "Detail");
+        ////    //Note: ChildCreationModel working dropdown validation (partially, no specific message)
+        ////}
 
     }
     public class ListChildrenByTipstaffRecord:IListByTipstaffRecord
