@@ -1,17 +1,12 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Infrastructure.Repositories;
-using Tipstaff.Infrastructure.S3API;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Logger;
 using Tipstaff.Services.Repositories;
+using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
+using TPLibrary.S3API;
 
 namespace Tipstaff.Services.Infrastructure
 {

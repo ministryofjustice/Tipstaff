@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Configuration;
 using System.Web.Mvc;
-using System.Web.Security;
 using System.Security.Principal;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.Repositories;
-using Tipstaff.Infrastructure.DynamoAPI;
-using System.IO;
+using TPLibrary.DynamoAPI;
 
 namespace Tipstaff
 {

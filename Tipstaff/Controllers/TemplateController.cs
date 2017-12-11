@@ -8,8 +8,8 @@ using System.Reflection;
 using System.Security;
 using System.Data.Entity.Validation;
 using Tipstaff.Logger;
-using Tipstaff.Infrastructure.S3API;
 using Tipstaff.Presenters;
+using TPLibrary.S3API;
 
 namespace Tipstaff.Controllers
 {

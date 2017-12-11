@@ -1,15 +1,8 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using System.Web.Mvc;
-using Tipstaff.Infrastructure.DynamoAPI;
-using Tipstaff.Infrastructure.Repositories;
-using Tipstaff.Infrastructure.S3API;
-using Tipstaff.Infrastructure.Services;
-using Tipstaff.Logger;
 using Tipstaff.Presenters;
 using Tipstaff.Presenters.Interfaces;
-using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Infrastructure
 {

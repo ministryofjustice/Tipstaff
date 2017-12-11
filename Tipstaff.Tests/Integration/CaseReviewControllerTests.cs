@@ -3,8 +3,8 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using Tipstaff.Controllers;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Models;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Tests.Integration
 {

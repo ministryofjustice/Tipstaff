@@ -4,9 +4,9 @@ using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Data;
 using System.IO;
-using Tipstaff.Infrastructure.S3API;
 using Tipstaff.Presenters;
-using Tipstaff.Infrastructure.Services;
+using TPLibrary.GuidGenerator;
+using TPLibrary.S3API;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Tipstaff;
 using Tipstaff.Models;
 using System.Xml;
 using System.Text;
@@ -10,7 +6,7 @@ using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
 using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.Repositories;
-using Tipstaff.Infrastructure.DynamoAPI;
+using TPLibrary.DynamoAPI;
 
 namespace Tipstaff
 {

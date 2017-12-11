@@ -3,7 +3,7 @@ using System.Data;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using Tipstaff.Presenters.Interfaces;
-using Tipstaff.Infrastructure.Services;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {

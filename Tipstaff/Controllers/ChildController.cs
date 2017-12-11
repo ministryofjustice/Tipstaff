@@ -7,8 +7,8 @@ using System.Data;
 using System.Web.UI;
 using System.Data.Entity.Validation;
 using System.ComponentModel.DataAnnotations;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {

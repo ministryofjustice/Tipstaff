@@ -8,6 +8,7 @@ using Tipstaff.Infrastructure.Repositories;
 using Tipstaff.Presenters;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
+using TPLibrary.DynamoAPI;
 
 namespace Tipstaff.Tests.Integration
 {
@@ -33,12 +34,12 @@ namespace Tipstaff.Tests.Integration
         public void SetUp()
         {
             //Repositories
-            _caseReviewRepository = new CaseReviewRepository(new Infrastructure.DynamoAPI.DynamoAPI<CaseReview>());
-            _tipstaffRecordRepository = new TipstaffRecordRepository(new Infrastructure.DynamoAPI.DynamoAPI<TipstaffRecord>());
-            _addressRepository = new AddressRepository(new Infrastructure.DynamoAPI.DynamoAPI<Address>());
-            _attendanceNotesRepository = new AttendanceNotesRepository(new Infrastructure.DynamoAPI.DynamoAPI<AttendanceNote>());
-            _respondentRepository = new RespondentRepository(new Infrastructure.DynamoAPI.DynamoAPI<Respondent>());
-            _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new Infrastructure.DynamoAPI.DynamoAPI<DeletedTipstaffRecord>());
+            _caseReviewRepository = new CaseReviewRepository(new DynamoAPI<CaseReview>());
+            _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<TipstaffRecord>());
+            _addressRepository = new AddressRepository(new DynamoAPI<Address>());
+            _attendanceNotesRepository = new AttendanceNotesRepository(new DynamoAPI<AttendanceNote>());
+            _respondentRepository = new RespondentRepository(new DynamoAPI<Respondent>());
+            _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new DynamoAPI<DeletedTipstaffRecord>());
 
             //Presenters
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
