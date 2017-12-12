@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Mappers;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;

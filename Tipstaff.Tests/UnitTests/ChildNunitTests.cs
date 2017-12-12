@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Tipstaff.Services.Repositories;
-using Tipstaff.Infrastructure.DynamoAPI;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Infrastructure.Repositories;
 using Tipstaff.Services.DynamoTables;
+using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Tests.UnitTests
 {

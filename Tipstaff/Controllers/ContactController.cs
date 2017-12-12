@@ -7,7 +7,7 @@ using PagedList;
 using Tipstaff.Models;
 using Tipstaff.MemoryCollections;
 using Tipstaff.Presenters.Interfaces;
-using Tipstaff.Infrastructure.Services;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {

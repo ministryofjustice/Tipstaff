@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
+using TPLibrary.DynamoAPI;
 
 namespace Tipstaff.Infrastructure.Repositories
 {

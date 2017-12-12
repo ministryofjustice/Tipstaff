@@ -1,20 +1,15 @@
 ﻿using Moq;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Tipstaff.Controllers;
-using Tipstaff.Infrastructure.DynamoAPI;
 using Tipstaff.Infrastructure.Repositories;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Models;
-using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
+using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Tests.Integration
 {

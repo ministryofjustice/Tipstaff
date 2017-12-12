@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;

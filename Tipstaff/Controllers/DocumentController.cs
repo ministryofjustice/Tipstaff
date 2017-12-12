@@ -5,9 +5,9 @@ using System;
 using System.IO;
 using System.Web.UI;
 using Tipstaff.Logger;
-using Tipstaff.Infrastructure.S3API;
-using Tipstaff.Infrastructure.Services;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
+using TPLibrary.S3API;
 
 namespace Tipstaff.Controllers
 {

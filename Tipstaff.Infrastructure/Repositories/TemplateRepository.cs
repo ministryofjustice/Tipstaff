@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tipstaff.Infrastructure.DynamoAPI;
+﻿using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
+using TPLibrary.DynamoAPI;
 
 namespace Tipstaff.Infrastructure.Repositories
 {

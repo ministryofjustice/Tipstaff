@@ -5,7 +5,7 @@ using System.Web.UI;
 using System.Data.Entity.Infrastructure;
 using Tipstaff.Logger;
 using Tipstaff.Presenters;
-using Tipstaff.Infrastructure.Services;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {

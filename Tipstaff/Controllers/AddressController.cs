@@ -4,7 +4,7 @@ using Tipstaff.Models;
 using System.Web.UI;
 using Tipstaff.Logger;
 using Tipstaff.Presenters;
-using Tipstaff.Infrastructure.Services;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {

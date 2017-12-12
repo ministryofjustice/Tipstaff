@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Amazon.DynamoDBv2.Model;
+﻿using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
-using Tipstaff.Infrastructure.DynamoAPI;
+using TPLibrary.DynamoAPI;
 
 namespace Tipstaff.Infrastructure.Repositories
 {
