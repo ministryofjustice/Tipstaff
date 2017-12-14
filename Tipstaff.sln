@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tipstaff", "Tipstaff\Tipstaff.csproj", "{0E4112EF-E6F0-4E05-9323-621C31D122F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E0B7903A-57C6-4E12-A747-A3DA4CA02BAB}"
+	ProjectSection(SolutionItems) = preProject
+		TestSettings.testsettings = TestSettings.testsettings
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tipstaff.Infrastructure", "Tipstaff.Infrastructure\Tipstaff.Infrastructure.csproj", "{55B3EA41-D787-437B-913A-560193C00F98}"
 EndProject
@@ -74,5 +77,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CABA65DA-C0EC-44D4-966E-4B2706CB90DD}
 	EndGlobalSection
 EndGlobal
