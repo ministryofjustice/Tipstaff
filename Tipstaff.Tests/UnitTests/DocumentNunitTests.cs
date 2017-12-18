@@ -32,37 +32,37 @@ namespace Tipstaff.Tests.UnitTests
             tipstaffIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 
-        [Test]
-        public void Create_Should_Add_New_Document()
-        {
-            _tipstaffRepository.Add(new TipstaffRecord()
-            {
-                Id = tipstaffIndex
-            });
+        //[Test]
+        //public void Create_Should_Add_New_Document()
+        //{
+        //    _tipstaffRepository.Add(new TipstaffRecord()
+        //    {
+        //        Id = tipstaffIndex
+        //    });
 
-            _docRepository.AddDocument(new Document() {
-                Id = docIndex,
-                TipstaffRecordID = tipstaffIndex,
-                Country="UK",
-                CreatedBy="John Doe",
-                CreatedOn=DateTime.Now,
-                DocumentReference="12",
-                DocumentStatus="Open",
-                DocumentType="Warning",
-                FileName="test.docx",
-                FilePath="any path",
-                MimeType="word",
-                Nationality="British",
-                TemplateID="1234"
-            });
+        //    _docRepository.AddDocument(new Document() {
+        //        Id = docIndex,
+        //        TipstaffRecordID = tipstaffIndex,
+        //        Country="UK",
+        //        CreatedBy="John Doe",
+        //        CreatedOn=DateTime.Now,
+        //        DocumentReference="12",
+        //        DocumentStatus="Open",
+        //        DocumentType="Warning",
+        //        FileName="test.docx",
+        //        FilePath="any path",
+        //        MimeType="word",
+        //        Nationality="British",
+        //        TemplateID="1234"
+        //    });
 
-            doc = _docRepository.GetDocument(docIndex);
+        //    doc = _docRepository.GetDocument(docIndex);
 
-            Assert.AreEqual(tipstaffIndex, doc.TipstaffRecordID);
-            Assert.AreEqual("word", doc.MimeType);
-            Assert.AreEqual("Warning", doc.DocumentType);
-            Assert.AreEqual("12", doc.DocumentReference);
-        }
+        //    Assert.AreEqual(tipstaffIndex, doc.TipstaffRecordID);
+        //    Assert.AreEqual("word", doc.MimeType);
+        //    Assert.AreEqual("Warning", doc.DocumentType);
+        //    Assert.AreEqual("12", doc.DocumentReference);
+        //}
 
         [TearDown]
         public void TearDown()

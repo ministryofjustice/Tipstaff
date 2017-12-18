@@ -31,63 +31,63 @@ namespace Tipstaff.Tests.UnitTests
             firmIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 
-        [Test]
-        public void Create_Should_Add_New_Solicitor()
-        {
-            _firmRepository.AddSolicitorFirm(new SolicitorFirm()
-            {
-                Id = firmIndex,
-                FirmName = "Firm"
-            });
+        //[Test]
+        //public void Create_Should_Add_New_Solicitor()
+        //{
+        //    _firmRepository.AddSolicitorFirm(new SolicitorFirm()
+        //    {
+        //        Id = firmIndex,
+        //        FirmName = "Firm"
+        //    });
 
-            _solicitorRepository.AddSolicitor(new Solicitor() {
-                Id = solicitorIndex,
-                SolicitorFirmID = firmIndex,
-                FirstName ="Solicitor first name",
-                LastName = "Solicitor last name"
+        //    _solicitorRepository.AddSolicitor(new Solicitor() {
+        //        Id = solicitorIndex,
+        //        SolicitorFirmID = firmIndex,
+        //        FirstName ="Solicitor first name",
+        //        LastName = "Solicitor last name"
 
-            });
+        //    });
 
-            sol = _solicitorRepository.GetSolicitor(solicitorIndex);
+        //    sol = _solicitorRepository.GetSolicitor(solicitorIndex);
 
-            Assert.AreEqual(firmIndex, sol.SolicitorFirmID);
-            Assert.AreEqual("Solicitor last name", sol.LastName);
-            Assert.AreEqual("Solicitor first name", sol.FirstName);
-        }
+        //    Assert.AreEqual(firmIndex, sol.SolicitorFirmID);
+        //    Assert.AreEqual("Solicitor last name", sol.LastName);
+        //    Assert.AreEqual("Solicitor first name", sol.FirstName);
+        //}
 
-        [Test]
-        public void Update_Should_Update_Solicitor()
-        {
-            _firmRepository.AddSolicitorFirm(new SolicitorFirm()
-            {
-                Id = firmIndex,
-                FirmName = "Firm"
-            });
+        //[Test]
+        //public void Update_Should_Update_Solicitor()
+        //{
+        //    _firmRepository.AddSolicitorFirm(new SolicitorFirm()
+        //    {
+        //        Id = firmIndex,
+        //        FirmName = "Firm"
+        //    });
 
-            _solicitorRepository.AddSolicitor(new Solicitor()
-            {
-                Id = solicitorIndex,
-                SolicitorFirmID = firmIndex,
-                FirstName = "Solicitor first name",
-                LastName = "Solicitor last name"
+        //    _solicitorRepository.AddSolicitor(new Solicitor()
+        //    {
+        //        Id = solicitorIndex,
+        //        SolicitorFirmID = firmIndex,
+        //        FirstName = "Solicitor first name",
+        //        LastName = "Solicitor last name"
 
-            });
+        //    });
 
-            _solicitorRepository.Update(new Solicitor()
-            {
-                Id = solicitorIndex,
-                SolicitorFirmID = firmIndex,
-                FirstName = "Solicitor first name modified",
-                LastName = "Solicitor last name modified"
+        //    _solicitorRepository.Update(new Solicitor()
+        //    {
+        //        Id = solicitorIndex,
+        //        SolicitorFirmID = firmIndex,
+        //        FirstName = "Solicitor first name modified",
+        //        LastName = "Solicitor last name modified"
 
-            });
+        //    });
 
-            sol = _solicitorRepository.GetSolicitor(solicitorIndex);
+        //    sol = _solicitorRepository.GetSolicitor(solicitorIndex);
 
-            Assert.AreEqual(firmIndex, sol.SolicitorFirmID);
-            Assert.AreEqual("Solicitor last name modified", sol.LastName);
-            Assert.AreNotEqual("Solicitor first name", sol.FirstName);
-        }
+        //    Assert.AreEqual(firmIndex, sol.SolicitorFirmID);
+        //    Assert.AreEqual("Solicitor last name modified", sol.LastName);
+        //    Assert.AreNotEqual("Solicitor first name", sol.FirstName);
+        //}
 
         [TearDown]
         public void TearDown()

@@ -32,33 +32,33 @@ namespace Tipstaff.Tests.UnitTests
             tipstaffIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 
-        [Test]
-        public void Create_Should_Add_New_AttendanceNote()
-        {
-            _tipstaffRepository.Add(new TipstaffRecord()
-            {
-                Id = tipstaffIndex
-            });
+        //[Test]
+        //public void Create_Should_Add_New_AttendanceNote()
+        //{
+        //    _tipstaffRepository.Add(new TipstaffRecord()
+        //    {
+        //        Id = tipstaffIndex
+        //    });
 
-            _attendanceNoteRepository.AddAttendanceNote(new AttendanceNote() {
-                Id = attendanceNoteIndex,
-                TipstaffRecordID = tipstaffIndex,
-                AttendanceNoteCode = "Attendance Note Code",
-                CallDated = DateTime.Now,
-                CallDetails = "Call details",
-                CallEnded = DateTime.Now,
-                CallStarted = DateTime.Now
+        //    _attendanceNoteRepository.AddAttendanceNote(new AttendanceNote() {
+        //        Id = attendanceNoteIndex,
+        //        TipstaffRecordID = tipstaffIndex,
+        //        AttendanceNoteCode = "Attendance Note Code",
+        //        CallDated = DateTime.Now,
+        //        CallDetails = "Call details",
+        //        CallEnded = DateTime.Now,
+        //        CallStarted = DateTime.Now
 
-            });
+        //    });
 
-            attendanceNote = _attendanceNoteRepository.GetAttendanceNote(attendanceNoteIndex);
+        //    attendanceNote = _attendanceNoteRepository.GetAttendanceNote(attendanceNoteIndex);
 
-            Assert.AreEqual(tipstaffIndex, attendanceNote.TipstaffRecordID);
-            Assert.AreEqual("Attendance Note Code", attendanceNote.AttendanceNoteCode);
-            Assert.AreEqual("Call details", attendanceNote.CallDetails);
+        //    Assert.AreEqual(tipstaffIndex, attendanceNote.TipstaffRecordID);
+        //    Assert.AreEqual("Attendance Note Code", attendanceNote.AttendanceNoteCode);
+        //    Assert.AreEqual("Call details", attendanceNote.CallDetails);
 
 
-        }
+        //}
 
         [TearDown]
         public void TearDown()
