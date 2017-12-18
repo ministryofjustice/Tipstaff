@@ -13,6 +13,8 @@ namespace Tipstaff.Services.Repositories
 
         Child GetChild(string id);
 
+        Child GetChildByIdAndRange(string id, string range);
+
         IEnumerable<Child> GetAllChildrenByTipstaffRecordID(string id);
 
         IEnumerable<Child> GetAllChildren();

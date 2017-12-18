@@ -34,12 +34,28 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void UpdateRepository(Address address)
         {
-          // _dynamoAPI.
+            var entity = _dynamoAPI.GetEntity(address.Id, address.TipstaffRecordID);
+
+            entity.AddresseeName = address.AddresseeName;
+            entity.AddressLine1 = address.AddressLine1;
+            entity.AddressLine2 = address.AddressLine2;
+            entity.AddressLine3 = address.AddressLine3;
+            entity.County = address.County;
+            entity.Phone = address.Phone;
+            entity.PostCode = address.PostCode;
+            entity.Town = address.Town;
+
+            _dynamoAPI.Save(entity);
         }
 
         public IEnumerable<Address> GetAllByCondition<T>(string name, T value)
         {
             return _dynamoAPI.GetResultsByCondition(name, Amazon.DynamoDBv2.DocumentModel.ScanOperator.GreaterThan, value);
+        }
+
+        public Address GetAddressByIDAndRange(string id, string range)
+        {
+            return _dynamoAPI.GetEntity(id, range);
         }
     }
 }

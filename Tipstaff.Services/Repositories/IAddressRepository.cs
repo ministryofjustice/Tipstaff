@@ -10,7 +10,9 @@ namespace Tipstaff.Services.Repositories
     public interface IAddressRepository
     {
         Address GetAddress(string id);
-        
+
+        Address GetAddressByIDAndRange(string id, string range);
+
         void DeleteAddress(Address address);
 
         void AddAddress(Address address);
