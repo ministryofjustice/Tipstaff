@@ -12,8 +12,10 @@ namespace Tipstaff.Services.Repositories
         void AddDocument(Document doc);
 
         void DeleteDocument(Document doc);
-    
+
         Document GetDocument(string id);
+
+        Document GetDocumentByIdAndRange(string id, string range);
 
         IEnumerable<Document> GetAllDocumentssByTipstaffRecordID(string id);
 

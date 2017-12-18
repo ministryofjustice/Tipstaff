@@ -14,6 +14,8 @@ namespace Tipstaff.Services.Repositories
 
         Solicitor GetSolicitor(string id);
 
+        Solicitor GetSolicitorByIdAndRange(string id, string range);
+
         void Update(Solicitor solicitor);
 
         void AddSolicitor(Solicitor solicitor);

@@ -39,9 +39,14 @@ namespace Tipstaff.Infrastructure.Repositories
             return _dynamoAPI.GetEntityByHashKey(id);
         }
 
+        public Child GetChildByIdAndRange(string id, string range)
+        {
+            return _dynamoAPI.GetEntity(id, range);
+        }
+
         public void Update(Child child)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(child.Id);
+            var entity = _dynamoAPI.GetEntity(child.Id, child.TipstaffRecordID);
             entity.NameFirst = child.NameFirst;
             entity.NameLast = child.NameLast;
             entity.NameMiddle = child.NameMiddle;
@@ -56,7 +61,7 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.Country = child.Country;
             entity.Nationality = child.Nationality;
             entity.PNCID = child.PNCID;
-            entity.TipstaffRecordID = child.TipstaffRecordID;
+            //entity.TipstaffRecordID = child.TipstaffRecordID;
             _dynamoAPI.Save(entity);
         }
     }
