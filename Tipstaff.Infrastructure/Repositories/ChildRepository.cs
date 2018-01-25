@@ -45,6 +45,11 @@ namespace Tipstaff.Infrastructure.Repositories
             return _dynamoAPI.GetEntityByKey(id);
         }
 
+        public Child GetChildByIdAndRange(string id, string range)
+        {
+            return _dynamoAPI.GetEntity(id, range);
+        }
+
         public void Update(Child child)
         {
             var entity = _dynamoAPI.GetEntityByKey(child.Id);
@@ -62,7 +67,7 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.Country = child.Country;
             entity.Nationality = child.Nationality;
             entity.PNCID = child.PNCID;
-            entity.TipstaffRecordID = child.TipstaffRecordID;
+            //entity.TipstaffRecordID = child.TipstaffRecordID;
             _dynamoAPI.Save(entity);
         }
     }

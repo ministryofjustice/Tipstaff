@@ -35,6 +35,11 @@ namespace Tipstaff.Infrastructure.Repositories
             return _dynamoAPI.GetEntityByKey(id);
         }
 
+        public Document GetDocumentByIdAndRange(string id, string range)
+        {
+            return _dynamoAPI.GetEntity(id, range);
+        }
+
         public Document GetEntityByObjectKey(object hashKey, object rangeKey)
         {
             return _dynamoAPI.GetEntityByKeys(hashKey, rangeKey);

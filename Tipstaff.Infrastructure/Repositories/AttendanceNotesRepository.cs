@@ -28,6 +28,11 @@ namespace Tipstaff.Infrastructure.Repositories
             return _dynamoAPI.GetEntityByKey(id);
         }
 
+        public AttendanceNote GetAttendanceNoteByIdAndRange(string id, string range)
+        {
+            return _dynamoAPI.GetEntity(id, range);
+        }
+
         public AttendanceNote GetEntityByObjectKey(object hashKey, object rangeKey)
         {
             return _dynamoAPI.GetEntityByKeys(hashKey, rangeKey);
