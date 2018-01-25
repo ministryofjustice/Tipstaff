@@ -25,17 +25,17 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public AttendanceNote GetAttendanceNote(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public AttendanceNote GetEntityByObjectKey(object hashKey, object rangeKey)
         {
-            return _dynamoAPI.GetEntity(hashKey, rangeKey);
+            return _dynamoAPI.GetEntityByKeys(hashKey, rangeKey);
         }
 
         public AttendanceNote GetEntityByObjectKey(object key)
         {
-            return _dynamoAPI.GetEntityByHashKey(key);
+            return _dynamoAPI.GetEntityByKey(key);
         }
     }
 }

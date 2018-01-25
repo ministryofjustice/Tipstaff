@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
@@ -22,17 +24,17 @@ namespace Tipstaff.Infrastructure.Repositories
         
         public TipstaffRecord GetEntityByObjectKey(object hashKey, object rangeKey)
         {
-            return _dynamoAPI.GetEntity(hashKey, rangeKey);
+            return _dynamoAPI.GetEntityByKeys(hashKey, rangeKey);
         }
 
         public TipstaffRecord GetEntityByHashKey(object hashKey)
         {
-            return _dynamoAPI.GetEntityByHashKey(hashKey);
+            return _dynamoAPI.GetEntityByKey(hashKey);
         }
 
         public void Update(TipstaffRecord record)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(record.Id);
+            var entity = _dynamoAPI.GetEntityByKey(record.Id);
             entity.EldestChild = record.EldestChild;
             entity.ArrestCount = record.ArrestCount;
             entity.ProtectiveMarkingId = record.ProtectiveMarkingId;
@@ -68,7 +70,12 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public IEnumerable<TipstaffRecord> GetAllByCondition<T>(string name, T value)
         {
-            return _dynamoAPI.GetResultsByCondition(name, Amazon.DynamoDBv2.DocumentModel.ScanOperator.GreaterThan, value);
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition(name, ScanOperator.GreaterThan, value)
+                }
+                );
         }
 
         public void Delete(TipstaffRecord record)

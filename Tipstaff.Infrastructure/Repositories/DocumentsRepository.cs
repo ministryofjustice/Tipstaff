@@ -32,17 +32,17 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public Document GetDocument(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public Document GetEntityByObjectKey(object hashKey, object rangeKey)
         {
-            return _dynamoAPI.GetEntity(hashKey, rangeKey);
+            return _dynamoAPI.GetEntityByKeys(hashKey, rangeKey);
         }
 
         public Document GetEntityByObjectKey(object key)
         {
-            return _dynamoAPI.GetEntityByHashKey(key);
+            return _dynamoAPI.GetEntityByKey(key);
         }
     }
 }

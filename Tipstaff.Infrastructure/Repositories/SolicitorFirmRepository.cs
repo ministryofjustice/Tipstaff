@@ -31,12 +31,12 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public SolicitorFirm GetSolicitorFirm(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public void Update(SolicitorFirm solicitorFirm)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(solicitorFirm.Id);
+            var entity = _dynamoAPI.GetEntityByKey(solicitorFirm.Id);
             entity.FirmName = solicitorFirm.FirmName;
             entity.AddressLine1 = solicitorFirm.AddressLine1;
             entity.AddressLine2 = solicitorFirm.AddressLine2;

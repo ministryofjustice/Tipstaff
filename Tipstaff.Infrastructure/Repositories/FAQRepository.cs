@@ -31,12 +31,12 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public FAQ GetFAQ(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public void Update(FAQ faq)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(faq.Id);
+            var entity = _dynamoAPI.GetEntityByKey(faq.Id);
             entity.Answer = faq.Answer;
             entity.LoggedInUser = faq.LoggedInUser;
             entity.Question = faq.Question;

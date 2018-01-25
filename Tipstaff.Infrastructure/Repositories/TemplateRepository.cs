@@ -31,12 +31,12 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public Template GetTemplate(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public void Update(Template template)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(template.Id);
+            var entity = _dynamoAPI.GetEntityByKey(template.Id);
             entity.Discriminator = template.Discriminator;
             entity.TemplateName = template.TemplateName;
             entity.FilePath = template.FilePath;

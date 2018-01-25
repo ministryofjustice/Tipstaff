@@ -26,7 +26,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public Solicitor GetSolicitor(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public IEnumerable<Solicitor> GetSolicitors()
@@ -36,7 +36,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(Solicitor solicitor)
         {
-            var entity = _dynamoAPI.GetEntity(solicitor.Id, solicitor.SolicitorFirmID);
+            var entity = _dynamoAPI.GetEntityByKeys(solicitor.Id, solicitor.SolicitorFirmID);
             entity.Active = solicitor.Active;
             entity.FirstName = solicitor.FirstName;
             entity.LastName = solicitor.LastName;

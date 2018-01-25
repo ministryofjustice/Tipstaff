@@ -32,12 +32,12 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public PoliceForces GetPoliceForces(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public void Update(PoliceForces policeforces)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(policeforces.Id);
+            var entity = _dynamoAPI.GetEntityByKey(policeforces.Id);
             entity.Active= policeforces.Active;
             entity.Deactivated = policeforces.Deactivated;
             entity.DeactivatedBy = policeforces.DeactivatedBy;

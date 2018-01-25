@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
@@ -31,17 +33,21 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public IEnumerable<Child> GetAllChildrenByTipstaffRecordID(string id)
         {
-            return _dynamoAPI.GetResultsByCondition("TipstaffRecordID", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, id);
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition("TipstaffRecordID", ScanOperator.Equal, id)
+                });
         }
 
         public Child GetChild(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public void Update(Child child)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(child.Id);
+            var entity = _dynamoAPI.GetEntityByKey(child.Id);
             entity.NameFirst = child.NameFirst;
             entity.NameLast = child.NameLast;
             entity.NameMiddle = child.NameMiddle;

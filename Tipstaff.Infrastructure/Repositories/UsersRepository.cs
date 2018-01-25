@@ -3,6 +3,8 @@ using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using System.Linq;
 using TPLibrary.DynamoAPI;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
 
 namespace Tipstaff.Infrastructure.Repositories
 {
@@ -27,18 +29,22 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public User GetUserByID(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
 
         public User GetUserByName(string name)
         {
-            var users =  _dynamoAPI.GetResultsByCondition("Name",Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal,name);
+            var users =  _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition("Name", ScanOperator.Equal, name)
+                });
             return users.FirstOrDefault();
         }
 
         public void Update(User user)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(user.Id);
+            var entity = _dynamoAPI.GetEntityByKey(user.Id);
             entity.DisplayName = user.DisplayName;
             entity.Id = user.Id;
             entity.LastActive = user.LastActive;

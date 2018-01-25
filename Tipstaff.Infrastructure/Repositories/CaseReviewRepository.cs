@@ -31,7 +31,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public CaseReview GetEntityByKeys(string hashKey, string rangeKey)
         {
-            return _dynamoAPI.GetEntity(hashKey, rangeKey);
+            return _dynamoAPI.GetEntityByKeys(hashKey, rangeKey);
         }
     }
 }

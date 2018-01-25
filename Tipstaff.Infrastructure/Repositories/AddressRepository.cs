@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using System;
 using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
@@ -28,7 +30,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public Address GetAddress(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
         
 
@@ -39,7 +41,11 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public IEnumerable<Address> GetAllByCondition<T>(string name, T value)
         {
-            return _dynamoAPI.GetResultsByCondition(name, Amazon.DynamoDBv2.DocumentModel.ScanOperator.GreaterThan, value);
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition(name, ScanOperator.GreaterThan, value)
+                });
         }
     }
 }

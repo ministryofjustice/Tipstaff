@@ -21,7 +21,7 @@ namespace Tipstaff.Infrastructure.Repositories
         
         public Contact GetContact(string id)
         {
-            return _dynamoAPI.GetEntityByHashKey(id);
+            return _dynamoAPI.GetEntityByKey(id);
         }
         
         public IEnumerable<Contact> GetContacts()
@@ -31,7 +31,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void UpdateContact(Contact contact)
         {
-            var entity = _dynamoAPI.GetEntityByHashKey(contact.Id);
+            var entity = _dynamoAPI.GetEntityByKey(contact.Id);
 
             entity.SalutationId = contact.SalutationId;
             entity.FirstName = contact.FirstName;
