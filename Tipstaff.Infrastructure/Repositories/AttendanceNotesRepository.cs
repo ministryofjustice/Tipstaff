@@ -30,7 +30,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public AttendanceNote GetAttendanceNoteByIdAndRange(string id, string range)
         {
-            return _dynamoAPI.GetEntity(id, range);
+            return _dynamoAPI.GetEntityByKeys(id, range);
         }
 
         public AttendanceNote GetEntityByObjectKey(object hashKey, object rangeKey)

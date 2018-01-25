@@ -31,7 +31,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public Solicitor GetSolicitorByIdAndRange(string id, string range)
         {
-            return _dynamoAPI.GetEntity(id, range);
+            return _dynamoAPI.GetEntityByKeys(id, range);
         }
 
         public IEnumerable<Solicitor> GetSolicitors()

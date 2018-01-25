@@ -47,12 +47,12 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public Child GetChildByIdAndRange(string id, string range)
         {
-            return _dynamoAPI.GetEntity(id, range);
+            return _dynamoAPI.GetEntityByKeys(id, range);
         }
 
         public void Update(Child child)
         {
-            var entity = _dynamoAPI.GetEntityByKey(child.Id);
+            var entity = _dynamoAPI.GetEntityByKeys(child.Id, child.TipstaffRecordID);
             entity.NameFirst = child.NameFirst;
             entity.NameLast = child.NameLast;
             entity.NameMiddle = child.NameMiddle;

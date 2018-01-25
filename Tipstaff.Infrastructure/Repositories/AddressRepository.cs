@@ -36,7 +36,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void UpdateRepository(Address address)
         {
-            var entity = _dynamoAPI.GetEntity(address.Id, address.TipstaffRecordID);
+            var entity = _dynamoAPI.GetEntityByKeys(address.Id, address.TipstaffRecordID);
 
             entity.AddresseeName = address.AddresseeName;
             entity.AddressLine1 = address.AddressLine1;
@@ -61,7 +61,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public Address GetAddressByIDAndRange(string id, string range)
         {
-            return _dynamoAPI.GetEntity(id, range);
+            return _dynamoAPI.GetEntityByKeys(id, range);
         }
     }
 }
