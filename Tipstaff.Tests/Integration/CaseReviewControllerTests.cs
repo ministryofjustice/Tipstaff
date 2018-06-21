@@ -30,60 +30,60 @@ namespace Tipstaff.Tests.Integration
          }
 
 
-        //[Test]
-        //public void Create_Should_Add_New_Case_Review()
-        //{
-        //    //Add TipStaff
-        //    _tipstaffRecordRepository.Add(new Services.DynamoTables.TipstaffRecord()
-        //    {
-        //        ArrestCount = 1,
-        //        //TrackItem = _rangeKey,
-        //        Discriminator = "ChildAbduction",
-        //        CreatedBy = "VZ",
-        //        CreatedOn = DateTime.Now,
-        //        OfficerDealing = "VZ",
-        //        EldestChild = "John Doe",
-        //        NPO = "NPO-Test",
-        //        PrisonCount = 1,
-        //        SentSCD26 = DateTime.Now,
-        //        OrderReceived = DateTime.Now.AddDays(-1),
-        //        DivisionId = 1,
-        //        ResultDate = DateTime.Now.AddDays(10),
-        //        Id = _record,
-        //        DateExecuted = DateTime.Now.AddDays(-30),
-        //        NextReviewDate = DateTime.Now.AddDays(90),
-        //        ResultEnteredBy = "VZ",
-        //        OrderDated = DateTime.Now,
-        //        ProtectiveMarkingId = 1,
-        //        CAOrderTypeId = 2,
-        //        CaseStatusId = 3,
-        //        ResultId = 4
-        //    });
+        [Test]
+        public void Create_Should_Add_New_Case_Review()
+        {
+            //Add TipStaff
+            _tipstaffRecordRepository.Add(new Services.DynamoTables.TipstaffRecord()
+            {
+                ArrestCount = 1,
+                //TrackItem = _rangeKey,
+                Discriminator = "ChildAbduction",
+                CreatedBy = "VZ",
+                CreatedOn = DateTime.Now,
+                OfficerDealing = "VZ",
+                EldestChild = "John Doe",
+                NPO = "NPO-Test",
+                PrisonCount = 1,
+                SentSCD26 = DateTime.Now,
+                OrderReceived = DateTime.Now.AddDays(-1),
+                DivisionId = 1,
+                ResultDate = DateTime.Now.AddDays(10),
+                Id = _record,
+                DateExecuted = DateTime.Now.AddDays(-30),
+                NextReviewDate = DateTime.Now.AddDays(90),
+                ResultEnteredBy = "VZ",
+                OrderDated = DateTime.Now,
+                ProtectiveMarkingId = 1,
+                CAOrderTypeId = 2,
+                CaseStatusId = 3,
+                ResultId = 4
+            });
 
-        //    _tipstaffRecord = _tipstaffRecordRepository.GetEntityByHashKey(_record);
+            _tipstaffRecord = _tipstaffRecordRepository.GetEntityByHashKey(_record);
 
-        //    //CreateModel
-        //    _guidGenerator.Setup(x => x.GenerateTimeBasedGuid()).Returns(_id);
+            //CreateModel
+            _guidGenerator.Setup(x => x.GenerateTimeBasedGuid()).Returns(_id);
 
-        //    var model = new CaseReviewCreation()
-        //    {
-        //        CaseReview = new CaseReview()
-        //        {
-        //            reviewDate = DateTime.Now.AddDays(2),
-        //            nextReviewDate = DateTime.Now.AddDays(10),
-        //            actionTaken = "ActionTaken - Test",
-        //            caseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().First(),
-        //            tipstaffRecordID = _tipstaffRecord.Id
-        //        }
-        //    };
+            var model = new CaseReviewCreation()
+            {
+                CaseReview = new CaseReview()
+                {
+                    reviewDate = DateTime.Now.AddDays(2),
+                    nextReviewDate = DateTime.Now.AddDays(10),
+                    actionTaken = "ActionTaken - Test",
+                    caseReviewStatus = MemoryCollections.CaseReviewStatusList.GetCaseReviewStatusList().First(),
+                    tipstaffRecordID = _tipstaffRecord.Id
+                }
+            };
 
-        //    _sub.Create(model);
+            _sub.Create(model);
 
-        //    _caseReview = _caseReviewRepository.GetEntityByKeys(_id.ToString(),_tipstaffRecord.Id);
+            _caseReview = _caseReviewRepository.GetEntityByKeys(_id.ToString(), _tipstaffRecord.Id);
 
-        //    Assert.That(_caseReview != null);
-        //    Assert.AreEqual(_caseReview.Id, _id.ToString());
-        //}
+            Assert.That(_caseReview != null);
+            Assert.AreEqual(_caseReview.Id, _id.ToString());
+        }
 
         [TearDown]
         public void TearDown()
