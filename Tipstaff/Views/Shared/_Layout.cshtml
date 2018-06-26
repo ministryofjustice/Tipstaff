@@ -47,7 +47,7 @@
         <div id="header">
             @{
                 string logo = "";
-                switch (System.Configuration.ConfigurationManager.AppSettings["CurServer"].ToUpper())
+                switch (System.Configuration.ConfigurationManager.AppSettings["CurServer"])
 	            {
                     case "PRODUCTION":
                         logo = "";
