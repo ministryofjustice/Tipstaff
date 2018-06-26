@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -20,14 +21,16 @@ namespace Tipstaff.Areas.Admin.Controllers
     {
         private readonly IPoliceForcesPresenter _policeForcesPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly IGuidGenerator _guidGenerator;
         
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         //
         // GET: /Admin/PoliceForces/
-        public PoliceForcesController(IPoliceForcesPresenter policeForcesPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
+        public PoliceForcesController(IPoliceForcesPresenter policeForcesPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, IGuidGenerator guidGenerator)
         {
             _policeForcesPresenter = policeForcesPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _guidGenerator = guidGenerator;
         }
 
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
@@ -84,6 +87,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.active = true;
+                model.policeForceID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 //////db.PoliceForces.Add(model);
                 //////db.SaveChanges();
                 _policeForcesPresenter.AddPoliceForces(model);
