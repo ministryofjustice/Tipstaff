@@ -43,7 +43,6 @@ namespace Tipstaff.Controllers
             }
             if (!string.IsNullOrEmpty(model.NameContains))
             {
-                //TRs = TRs.Where(w=>w.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
                 Contacts = Contacts.Where(w => w.firstName.ToUpper().Contains(model.NameContains.ToUpper()) || w.lastName.ToUpper().Contains(model.NameContains.ToUpper()));
             }
             var col = Contacts.OrderBy(c => c.lastName).ThenBy(c => c.firstName).ThenBy(c => c.salutation);
