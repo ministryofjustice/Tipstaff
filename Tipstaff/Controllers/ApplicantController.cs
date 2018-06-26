@@ -3,9 +3,9 @@ using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Web.UI;
 using System.Data.Entity.Infrastructure;
-using Tipstaff.Logger;
 using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
