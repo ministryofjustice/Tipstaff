@@ -4,7 +4,7 @@ using Tipstaff.Models;
 using System;
 using System.IO;
 using System.Web.UI;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
 using TPLibrary.S3API;

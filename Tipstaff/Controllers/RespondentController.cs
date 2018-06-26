@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
 using System.Web.UI;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 using Tipstaff.Presenters;
 
 namespace Tipstaff.Controllers

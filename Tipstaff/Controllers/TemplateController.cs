@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Security;
 using System.Data.Entity.Validation;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 using Tipstaff.Presenters;
 using TPLibrary.S3API;
 

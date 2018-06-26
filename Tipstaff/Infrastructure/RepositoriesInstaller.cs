@@ -2,7 +2,7 @@
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Tipstaff.Infrastructure.Repositories;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
 using TPLibrary.GuidGenerator;
