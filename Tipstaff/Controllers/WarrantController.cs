@@ -30,6 +30,8 @@ namespace Tipstaff.Controllers
         {
             //////IQueryable<Warrant> TRs = myDBContextHelper.CurrentContext.Warrants;
             var TRs = _warrantPresenter.GetAllWarrants();
+
+
             model.TotalRecordCount = TRs.Count();
 
             if (!model.includeFinal)
