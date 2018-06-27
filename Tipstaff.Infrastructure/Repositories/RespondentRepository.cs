@@ -36,7 +36,7 @@ namespace Tipstaff.Infrastructure.Repositories
             return _dynamoAPI.GetResultsByConditions(
                 new ScanCondition[]
                 {
-                    new ScanCondition("TipstaffRecordID", ScanOperator.GreaterThan, id)
+                    new ScanCondition("TipstaffRecordID", ScanOperator.Equal, id)
                 });
         }
 

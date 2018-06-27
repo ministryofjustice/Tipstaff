@@ -47,7 +47,6 @@ namespace Tipstaff.Presenters
 
             return warrants;
         }
-        
 
         public Services.DynamoTables.TipstaffRecord GetDynamoTable(Warrant model)
         {
@@ -89,19 +88,19 @@ namespace Tipstaff.Presenters
         {
             var entity = _tipstaffRecordRepository.GetEntityByHashKey(table.Id);
 
-            var model = new Models.Warrant()
+            var model = new Warrant()
             {
                 Discriminator = table.Discriminator,
                 tipstaffRecordID = table.Id,
-                Division = MemoryCollections.DivisionsList.GetResultList().FirstOrDefault(x => x.DivisionId == table.DivisionId),
+                Division = MemoryCollections.DivisionsList.GetDivisionByID(table.DivisionId.Value),
                 caseNumber = table.CaseNumber,
                 expiryDate = table.ExpiryDate,
                 RespondentName = table.RespondentName,
                 DateCirculated = table.DateCirculated,
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 caseReviews = _casereviewPresenter.GetAllById(table.Id),
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == table.CaseStatusId),
-                Respondents   = _respondentPresenter.GetAllById(table.Id),
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByID(table.CaseStatusId.Value),
+                Respondents = _respondentPresenter.GetAllById(table.Id),
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn
             };

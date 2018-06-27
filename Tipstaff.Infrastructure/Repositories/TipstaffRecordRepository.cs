@@ -73,9 +73,9 @@ namespace Tipstaff.Infrastructure.Repositories
             return _dynamoAPI.GetResultsByConditions(
                 new ScanCondition[]
                 {
-                    new ScanCondition(name, ScanOperator.GreaterThan, value)
+                    new ScanCondition(name, ScanOperator.Equal, value)
                 }
-                );
+            );
         }
 
         public void Delete(TipstaffRecord record)
