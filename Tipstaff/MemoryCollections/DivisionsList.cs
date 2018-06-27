@@ -31,7 +31,7 @@ namespace Tipstaff.MemoryCollections
         }
         public static Division GetDivisionByID(int id)
         {
-            return GetResultList().Where(x => x.DivisionId == id).FirstOrDefault();
+            return GetResultList().FirstOrDefault(x => x.DivisionId == id);
         }
     }
 }

@@ -32,7 +32,12 @@ namespace Tipstaff.MemoryCollections
 
         public static CaseStatus GetCaseStatusByDetail(string c)
         {
-            return GetCaseStatusList().Where(x => x.Detail == c).FirstOrDefault();
+            return GetCaseStatusList().FirstOrDefault(x => x.Detail == c);
+        }
+
+        public static CaseStatus GetCaseStatusByID(int id)
+        {
+            return GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == id);
         }
     }
 }

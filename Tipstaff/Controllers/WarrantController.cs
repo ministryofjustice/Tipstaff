@@ -30,6 +30,7 @@ namespace Tipstaff.Controllers
         {
             //////IQueryable<Warrant> TRs = myDBContextHelper.CurrentContext.Warrants;
             var TRs = _warrantPresenter.GetAllWarrants();
+
             model.TotalRecordCount = TRs.Count();
 
             if (!model.includeFinal)
@@ -38,7 +39,7 @@ namespace Tipstaff.Controllers
             }
             if (model.caseStatusID > -1)
             {
-                TRs = TRs.Where(w => w.caseStatusID == model.caseStatusID);
+                TRs = TRs.Where(w => w.caseStatus.CaseStatusId == model.caseStatusID);
 
             }
             if (model.divisionID > -1)
@@ -52,91 +53,81 @@ namespace Tipstaff.Controllers
             }
             if (!string.IsNullOrEmpty(model.respondentNameContains))
             {
-                //TRs = TRs.Where(w=>w.Respondents.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.respondentID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
-                TRs = TRs.Where(w => w.RespondentName.Contains(model.respondentNameContains.ToUpper()));
+                TRs = TRs.Where(w => string.IsNullOrEmpty(w.RespondentName)?false:w.RespondentName.Contains(model.respondentNameContains.ToUpper()));
             }
             switch (model.sortOrder)
             {
                 case "created asc":
-                    model.Warrants = TRs.OrderBy(a => a.createdOn).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.createdOn);
                     break;
                 case "created desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.createdOn).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.createdOn);
                     break;
                 case "uniqueid asc":
-                    model.Warrants = TRs.OrderBy(a => a.tipstaffRecordID).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.tipstaffRecordID);
                     break;
                 case "uniqueid desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.tipstaffRecordID).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.tipstaffRecordID);
                     break;
                 case "casenumber asc":
-                    model.Warrants = TRs.OrderBy(a => a.caseNumber).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.caseNumber);
                     break;
                 case "casenumber desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.caseNumber).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.caseNumber);
                     break;
                 case "division asc":
-                    model.Warrants = TRs.OrderBy(a => a.Division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.Division.Detail);
                     break;
                 case "division desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.Division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.Division.Detail);
                     break;
                 case "reviewDate asc":
-                    model.Warrants = TRs.OrderBy(a => a.nextReviewDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.nextReviewDate);
                     break;
                 case "reviewDate desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.nextReviewDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.nextReviewDate);
                     break;
                 case "displayName asc":
-                    model.Warrants = TRs.OrderBy(a => a.RespondentName).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
-                    /*
-                     * This cannot work in SQL 2000 - SQL>LINQ and LINQ>Entities build SQl queries with APPLY operators 
-                     * with APPLY operators these do not work in SQL 2000 - restore if backend moved to 2005 or newer
-                     */
-                    //model.Warrants = TRs.OrderBy(a => a.Respondents.FirstOrDefault().nameLast).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.RespondentName);
                     break;
                 case "displayName desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.RespondentName).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
-                    /*
-                    * This cannot work in SQL 2000 - SQL>LINQ and LINQ>Entities build SQl queries with APPLY operators 
-                    * with APPLY operators these do not work in SQL 2000 - restore if backend moved to 2005 or newer
-                    */
-                    //model.Warrants = TRs.OrderByDescending(a => a.Respondents.OrderBy(b=>b.nameLast).Take(1)).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.RespondentName);
                     break;
                 case "expiryDate asc":
-                    model.Warrants = TRs.OrderBy(a => a.expiryDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.expiryDate);
                     break;
                 case "expiryDate desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.expiryDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.expiryDate);
                     break;
                 case "protMark asc":
-                    model.Warrants = TRs.OrderBy(a => a.protectiveMarking.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.protectiveMarking.Detail);
                     break;
                 case "protMark desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.protectiveMarking.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.protectiveMarking.Detail);
                     break;
                 case "caseStatus asc":
-                    model.Warrants = TRs.OrderBy(a => a.caseStatus.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.caseStatus.Detail);
                     break;
                 case "caseStatus desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.caseStatus.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.caseStatus.Detail);
                     break;
                 case "result asc":
-                    model.Warrants = TRs.OrderBy(a => a.result.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.result.Detail);
                     break;
                 case "result desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.result.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.result.Detail);
                     break;
                 case "resultEnter asc":
-                    model.Warrants = TRs.OrderBy(a => a.resultEnteredBy).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.resultEnteredBy);
                     break;
                 case "resultEnter desc":
-                    model.Warrants = TRs.OrderByDescending(a => a.resultEnteredBy).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderByDescending(a => a.resultEnteredBy);
                     break;
                 default:
-                    model.Warrants = TRs.OrderBy(a => a.tipstaffRecordID).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+                    TRs = TRs.OrderBy(a => a.tipstaffRecordID);
                     break;
             }
+            model.Warrants = TRs.ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
             return View(model);
         }
         //
