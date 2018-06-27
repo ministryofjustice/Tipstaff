@@ -9,7 +9,7 @@
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
 }
 <h6>@Html.ActionLink(display,"Index",controller) 
-> @Html.ActionLink(Model.respondent.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
 > @Html.ActionLink(string.Format("({0}) {1}",nameType ,Model.respondent.PoliceDisplayName),"Details","Respondent",new{id=Model.respondent.respondentID},null) 
 > Edit</h6>
 @using (Html.BeginForm())

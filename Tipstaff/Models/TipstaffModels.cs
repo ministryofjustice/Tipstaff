@@ -197,6 +197,12 @@ namespace Tipstaff.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Circulated")]
         public DateTime? DateCirculated { get; set; }
+
+        public int RespondentsCount
+        {
+            get { return Respondents.Count(); }
+            set { }
+        }
     }
     #endregion
 

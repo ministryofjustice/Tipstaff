@@ -86,8 +86,6 @@ namespace Tipstaff.Presenters
 
         public Warrant GetModel(Services.DynamoTables.TipstaffRecord table)
         {
-            var entity = _tipstaffRecordRepository.GetEntityByHashKey(table.Id);
-
             var model = new Warrant()
             {
                 Discriminator = table.Discriminator,
