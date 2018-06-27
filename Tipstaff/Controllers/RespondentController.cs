@@ -149,10 +149,13 @@ namespace Tipstaff.Controllers
         public ActionResult Edit(string id)
         {
             RespondentCreationModel model = new RespondentCreationModel();
-            //////model.respondent = db.Respondents.Find(id);
+            
+
             model.respondent = _respondentPresenter.GetRespondent(id);
 
             model.tipstaffRecordID = model.respondent.tipstaffRecordID;
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
+
             if (model.respondent == null)
             {
                 ErrorModel errModel = new ErrorModel();
@@ -160,9 +163,9 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
-            if (model.respondent.tipstaffRecord.caseStatus.Sequence > 3)
+            if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
-                TempData["UID"] = model.respondent.tipstaffRecord.UniqueRecordID;
+                TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
             return View(model);

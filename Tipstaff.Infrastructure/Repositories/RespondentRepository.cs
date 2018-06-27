@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
+using System.Linq;
 
 namespace Tipstaff.Infrastructure.Repositories
 {
@@ -28,7 +29,13 @@ namespace Tipstaff.Infrastructure.Repositories
         
         public Respondent GetRespondent(string id)
         {
-            return _dynamoAPI.GetEntityByKey(id);
+            //return _dynamoAPI.GetEntityByKey(id);
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition("Id", ScanOperator.Equal, id)
+                }).FirstOrDefault();
+            
         }
 
         public IEnumerable<Respondent> GetAllRespondentsByTipstaffRecordID(string id)
@@ -42,7 +49,8 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(Respondent respondent)
         {
-            var entity = _dynamoAPI.GetEntityByKey(respondent.Id);
+            //var entity = _dynamoAPI.GetEntityByKey(respondent.Id);
+            var entity = _dynamoAPI.GetEntityByKeys(respondent.Id, respondent.TipstaffRecordID);
 
             entity.Build = respondent.Build;
             entity.ChildRelationship = respondent.ChildRelationship;

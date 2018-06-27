@@ -135,8 +135,7 @@ namespace Tipstaff.Controllers
         public ViewResult Details(string id)
         {
             var warrant = _warrantPresenter.GetWarrant(id);
-            ////Warrant warrant = db.Warrants.Find(id);
-            //Warrant warrant = db
+
             return View(warrant);
         }
 

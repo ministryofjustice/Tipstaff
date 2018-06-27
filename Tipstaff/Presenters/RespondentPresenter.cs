@@ -63,7 +63,7 @@ namespace Tipstaff.Presenters
                 RiskOfDrugs = model.riskOfDrugs,
                 RiskOfViolence = model.riskOfViolence,
                 SkinColour = model.skinColour.Detail,
-                Id = Guid.NewGuid().ToString(),
+                Id = model.respondentID, //Guid.NewGuid().ToString(),
                 TipstaffRecordID = model.tipstaffRecordID,
                 
              };
@@ -112,7 +112,8 @@ namespace Tipstaff.Presenters
 
         public void Update(Models.Respondent respondent)
         {
-           
+            var resp = GetDynamoTable(respondent);
+            _respondentRepository.Update(resp);
         }
     }
 }

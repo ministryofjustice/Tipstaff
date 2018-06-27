@@ -15,235 +15,242 @@
 <h6>@Html.ActionLink("Warrants","Index") > @Model.UniqueRecordID</h6>
 @if (ViewBag.ErrorMessage != null)
 { <H2 class='Error'>@ViewBag.ErrorMessage </H2>}
-<fieldset>
-    <legend>File: @Model.UniqueRecordID</legend>
-@if (Model.resultID != null)
-{
-    <ul class="recordMenu-tabs">
-        @if (User.IsInRole("Admin"))
-        { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
-    </ul>    
-}
-else if (Model.resultID == null && Model.caseStatus.Sequence > 3)
-{ 
-    <ul class="recordMenu-tabs">
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        @if (User.IsInRole("Admin"))
-        { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
-    </ul>    
-}
-else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
-{
-    <ul class="recordMenu-tabs">
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/phone_add.png"), "Add attendance note", "Add attendance note", "Create", "AttendanceNote", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add solicitor", "Add solictitor", "Select", "Solicitor", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        @if (Model.Respondents.Count() == 0)
-        {
-            <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_add.png"), "Add Contemnor", "Add Contemnor", "Create", "Respondent", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        }
-        else if (Model.Respondents.Count() == 1)
-        {
-            <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_amend.png"), "Amend Contemnor", "Amend Contemnor", "Edit", "Respondent", new { id = Model.Respondents.FirstOrDefault().respondentID }, null, null, "createButton")</li>
-        }
-    </ul>
-    <ul class="recordMenu-tabs">
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/page_add.png"), "Generate Documents", "Generate Documents", "Select", "Document", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/page_upload.png"), "Add document reference", "Add document reference", "Upload", "Document", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Police Force", "Add Police Force", "Add", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" }, null, null, "createButton")</li>
-    </ul>
-    <ul class="recordMenu-tabs">
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Case Review", "Add Case Review", "Create", "CaseReview", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        <li>
-            @if (Model.nextReviewDate >= DateTime.Today)
-            {
-                @Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend Warrant", "Amend Warrant", "Edit", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")
-            }
-            else
-            {
-                <a title="Amend Warrant disabled while review date is overdue" class="spanDisabled createButton"><img src="@Url.Content("~/Images/arrow_refresh_grey.png")" alt="Disabled"/> Amend Warrant</a>
-            }
-        </li>
-    </ul>
-    
-    <ul class="recordMenu-tabs">
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/house_add.png"), "Add address", "Add address", "Create", "Address", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-    </ul>
-    <ul class="recordMenu-tabs">
-        @if (User.IsInRole("Admin"))
-        {<li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
-        @if (Model.NPO == null)
-        {
-            <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add NPO", "Add NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        }
-        else
-        {
-            <li>@Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend NPO", "Amend NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        }
-                                                                                                                                                                                                                  
-    </ul>
-}
-<div id="WarrantData" style="width:33%;float:left;">
+  <fieldset>
+      <legend>File: @Model.UniqueRecordID</legend>
+      @if (Model.resultID != null)
+      {
+          <ul class="recordMenu-tabs">
+              @if (User.IsInRole("Admin"))
+              {
+                  <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
+          </ul>
+      }
+      else if (Model.resultID == null && Model.caseStatus.Sequence > 3)
+      {
+          <ul class="recordMenu-tabs">
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              @if (User.IsInRole("Admin"))
+              {
+                  <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
+          </ul>
+      }
+      else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
+      {
+          <ul class="recordMenu-tabs">
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/phone_add.png"), "Add attendance note", "Add attendance note", "Create", "AttendanceNote", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add solicitor", "Add solictitor", "Select", "Solicitor", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              @if (Model.Respondents.Count() == 0)
+              {
+                  <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_add.png"), "Add Contemnor", "Add Contemnor", "Create", "Respondent", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              }
+              else if (Model.Respondents.Count() == 1)
+              {
+                  <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_amend.png"), "Amend Contemnor", "Amend Contemnor", "Edit", "Respondent", new { id = Model.Respondents.FirstOrDefault().respondentID }, null, null, "createButton")</li>
+              }
+          </ul>
+          <ul class="recordMenu-tabs">
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/page_add.png"), "Generate Documents", "Generate Documents", "Select", "Document", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/page_upload.png"), "Add document reference", "Add document reference", "Upload", "Document", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Police Force", "Add Police Force", "Add", "PoliceForces", new { id = Model.tipstaffRecordID, Area = "Admin" }, null, null, "createButton")</li>
+          </ul>
+          <ul class="recordMenu-tabs">
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Case Review", "Add Case Review", "Create", "CaseReview", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              <li>
+                  @if (Model.nextReviewDate >= DateTime.Today)
+                  {
+                      @Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend Warrant", "Amend Warrant", "Edit", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")
+                  }
+                  else
+                  {
+                      <a title="Amend Warrant disabled while review date is overdue" class="spanDisabled createButton"><img src="@Url.Content("~/Images/arrow_refresh_grey.png")" alt="Disabled" /> Amend Warrant</a>
+                  }
+              </li>
+          </ul>
 
-    <div class="display-label">@Html.LabelFor(model => model.expiryDate)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.expiryDate)
-    </div>
+          <ul class="recordMenu-tabs">
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/house_add.png"), "Add address", "Add address", "Create", "Address", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+          </ul>
+          <ul class="recordMenu-tabs">
+              @if (User.IsInRole("Admin"))
+              {
+                  <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
+              @if (Model.NPO == null)
+              {
+                  <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add NPO", "Add NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              }
+              else
+              {
+                  <li>@Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend NPO", "Amend NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+              }
 
-    <div class="display-label">@Html.LabelFor(model => model.caseNumber)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.caseNumber)
-    </div>
+          </ul>
+      }
+      <div id="WarrantData" style="width:33%;float:left;">
 
-    <div class="display-label">@Html.LabelFor(model => model.Division.Detail)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Division.Detail)
-    </div>
+          <div class="display-label">@Html.LabelFor(model => model.expiryDate)</div>
+          <div class="display-field">
+              @Html.DisplayFor(model => model.expiryDate)
+          </div>
 
-    @if (Model.resultID == null)
-    {
-    <div class="display-label">            
-        @if (Model.caseReviews.Count() == 0)
-        {
-            <span>Initial review date</span>
-        }
-        else
-        {
-            @Html.LabelFor(model => model.nextReviewDate)
-        }
-    </div>
-    <div class="display-field @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
-        @Html.DisplayFor(model => model.nextReviewDate)
-    </div>
-    }
+          <div class="display-label">@Html.LabelFor(model => model.caseNumber)</div>
+          <div class="display-field">
+              @Html.DisplayFor(model => model.caseNumber)
+          </div>
 
-    <div class="display-label">@Html.LabelFor(model => model.caseStatusID)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.caseStatus.Detail)
-    </div>
+          <div class="display-label">@Html.LabelFor(model => model.Division.Detail)</div>
+          <div class="display-field">
+              @Html.DisplayFor(model => model.Division.Detail)
+          </div>
 
-    <div class="display-label">@Html.LabelFor(model => model.createdBy)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.Value.ToShortDateString()
-    </div>
+          @if (Model.resultID == null)
+          {
+              <div class="display-label">
+                  @if (Model.caseReviews.Count() == 0)
+                  {
+                      <span>Initial review date</span>
+                  }
+                  else
+                  {
+                      @Html.LabelFor(model => model.nextReviewDate)
+                  }
+              </div>
+              <div class="display-field @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
+                  @Html.DisplayFor(model => model.nextReviewDate)
+              </div>
+          }
 
-    <div class="display-label">@Html.LabelFor(model => model.protectiveMarking)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.protectiveMarking.Detail)
-    </div>
+          <div class="display-label">@Html.LabelFor(model => model.caseStatusID)</div>
+          <div class="display-field">
+              @Html.DisplayFor(model => model.caseStatus.Detail)
+          </div>
 
-    <div class="display-label">@Html.LabelFor(model => model.DateCirculated)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.DateCirculated)
-    </div>
+          <div class="display-label">@Html.LabelFor(model => model.createdBy)</div>
+          <div class="display-field">
+              @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.Value.ToShortDateString()
+          </div>
 
-    @if (Model.result != null)
-    {
-        <div class="display-label">@Html.LabelFor(model => model.result)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.result.Detail) <strong>on</strong> @(((DateTime)Model.DateExecuted).ToShortDateString())
-        </div>
+          <div class="display-label">@Html.LabelFor(model => model.protectiveMarking)</div>
+          <div class="display-field">
+              @Html.DisplayFor(model => model.protectiveMarking.Detail)
+          </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.resultDate)</div>
-        <div class="display-field">@Html.DisplayFor(model => model.resultDate) <strong>by</strong> @Model.resultEnteredBy</div>
-    }
-</div>
-@switch (Model.Respondents.Count())
-{
-    case 0: 
-    <h2><img alt="Alert" src="@Url.Content("~/Images/error.png")" /> Please enter the Contemnor's details</h2>
-                         break;
-    case 1: 
-    <div id="respdataPt1" style="width:33%;float:right;clear:none">
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().hairColour)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().hairColour)
-        </div>
+          <div class="display-label">@Html.LabelFor(model => model.DateCirculated)</div>
+          <div class="display-field">
+              @Html.DisplayFor(model => model.DateCirculated)
+          </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().eyeColour)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().eyeColour)
-        </div>
+          @if (Model.result != null)
+          {
+              <div class="display-label">@Html.LabelFor(model => model.result)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.result.Detail) <strong>on</strong> @(((DateTime)Model.DateExecuted).ToShortDateString())
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().skinColour.SkinColourId)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().skinColour.Detail)
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.resultDate)</div>
+              <div class="display-field">@Html.DisplayFor(model => model.resultDate) <strong>by</strong> @Model.resultEnteredBy</div>
+          }
+      </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().height)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().height)
-        </div>
+      @if (Model.Respondents.Count() == 1)
+      {
+          <div id="respdataPt1" style="width:33%;float:right;clear:none">
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().hairColour)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().hairColour)
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().build)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().build)
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().eyeColour)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().eyeColour)
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().specialfeatures)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().specialfeatures)
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().skinColour.SkinColourId)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().skinColour.Detail)
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfViolence)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfViolence)
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().height)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().height)
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)
-        </div>
-    </div>
-    <div id="respdataPt2" style="width:33%;float:right;clear:none">
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameLast)</div>
-        <div class="display-field">
-            @Model.Respondents.SingleOrDefault().nameLast.ToUpper() 
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().build)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().build)
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameFirst)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameFirst)
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().specialfeatures)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().specialfeatures)
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameMiddle) </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameMiddle)
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfViolence)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfViolence)
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)
-        </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)
+              </div>
+          </div>
+          <div id="respdataPt2" style="width:33%;float:right;clear:none">
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameLast)</div>
+              <div class="display-field">
+                  @Model.Respondents.SingleOrDefault().nameLast.ToUpper()
+              </div>
 
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().gender.GenderId)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().gender.Detail)
-        </div>
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().country)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().country.Detail)
-        </div>
-        <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nationality)</div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nationality.Detail)
-        </div>
-        
-        @if (Model.Respondents.SingleOrDefault().PNCID != null)
-        { 
-            <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().PNCID)</div>
-            <div class="display-field">
-                @Html.DisplayFor(model => model.Respondents.SingleOrDefault().PNCID)
-            </div>
-        }
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameFirst)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameFirst)
+              </div>
 
-    </div>
-       break;
-    default:
-    <div><h2 class="error">An error has occurred, more than one Contemnor is recorded for this warrant, please raise a help desk call</h2></div>
-       break;
-}
-</fieldset>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameMiddle) </div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameMiddle)
+              </div>
+
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)
+              </div>
+
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().gender.GenderId)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().gender.Detail)
+              </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().country)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().country.Detail)
+              </div>
+              <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nationality)</div>
+              <div class="display-field">
+                  @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nationality.Detail)
+              </div>
+
+              @if (Model.Respondents.SingleOrDefault().PNCID != null)
+              {
+                  <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().PNCID)</div>
+                  <div class="display-field">
+                      @Html.DisplayFor(model => model.Respondents.SingleOrDefault().PNCID)
+                  </div>
+              }
+
+          </div>
+      }
+      @switch (Model.Respondents.Count())
+      {
+          case 0:
+              <h2><img alt="Alert" src="@Url.Content("~/Images/error.png")" /> Please enter the Contemnor's details</h2>
+                      break;
+                  case 1:
+                      break;
+                  default:
+              <div><h2 class="error">An error has occurred, more than one Contemnor is recorded for this warrant, please raise a help desk call</h2></div>
+              break;
+      }
+  </fieldset>
 <script type="text/javascript">
     $(function () {
         $("#tabs").tabs({
