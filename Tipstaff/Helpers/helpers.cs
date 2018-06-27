@@ -504,11 +504,21 @@ namespace Tipstaff.Helpers
                     resetForm.MergeAttribute("controllerName", controllerName);
                     resetForm.MergeAttribute("Method", FormMethod.Post.ToString());
 
+                    if (token != "")
+                    {
+                        TagBuilder csrfToken = new TagBuilder("input");
+                        csrfToken.Attributes.Add("id", "__RequestVerificationToken");
+                        csrfToken.Attributes.Add("name", "__RequestVerificationToken");
+                        csrfToken.MergeAttribute("type", "hidden");
+                        csrfToken.MergeAttribute("value", token);
+                        resetForm.InnerHtml += csrfToken;
+                    }
+
                     recCount += " (filtered)";
                     string img = string.Format("<img src=\"{0}arrow_undo.png\" alt=\"Clear filters\">", imagePath);
                     recBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton text\" disabled=\"disabled\">{0}</button>", recCount));
                     undoBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton undo\"  alt=\"{0}\" title=\"{0}\">{0}</button>", "clear filters"));
-                    resetForm.InnerHtml = recBtn.ToString();
+                    resetForm.InnerHtml += recBtn.ToString();
                     resetForm.InnerHtml += undoBtn.ToString();
                     recBtn = MvcHtmlString.Create(resetForm.InnerHtml);
                     form.InnerHtml += nextBtn;
@@ -536,6 +546,20 @@ namespace Tipstaff.Helpers
             }
             else
             {
+                TagBuilder resetForm = new TagBuilder("form");
+                resetForm.MergeAttribute("actionName", actionName);
+                resetForm.MergeAttribute("controllerName", controllerName);
+                resetForm.MergeAttribute("Method", FormMethod.Post.ToString());
+
+                if (token != "")
+                {
+                    TagBuilder csrfToken = new TagBuilder("input");
+                    csrfToken.Attributes.Add("id", "__RequestVerificationToken");
+                    csrfToken.Attributes.Add("name", "__RequestVerificationToken");
+                    csrfToken.MergeAttribute("type", "hidden");
+                    csrfToken.MergeAttribute("value", token);
+                    resetForm.InnerHtml += csrfToken;
+                }
                 MvcHtmlString recBtn;
                 MvcHtmlString undoBtn;
                 TagBuilder divTag = new TagBuilder("div");
@@ -547,8 +571,10 @@ namespace Tipstaff.Helpers
                     string img = string.Format("<img src=\"{0}arrow_undo.png\" alt=\"Clear filters\">",imagePath);
                     recBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton text\" disabled=\"disabled\">{0}</button>", recCount));
                     undoBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton undo\"  alt=\"{0}\" title=\"{0}\">{0}</button>", "clear filters"));
-                    divTag.InnerHtml = recBtn.ToString();
-                    divTag.InnerHtml += undoBtn.ToString();
+
+                    resetForm.InnerHtml += recBtn.ToString();
+                    resetForm.InnerHtml += undoBtn.ToString();
+                    divTag.InnerHtml += resetForm.ToString();
                     recBtn = MvcHtmlString.Create(divTag.InnerHtml);
                 }
                 else
