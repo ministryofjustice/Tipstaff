@@ -15,14 +15,17 @@ namespace Tipstaff.Presenters
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
         private readonly IRespondentPresenter _respondentPresenter;
         private readonly ICaseReviewPresenter _caseReviewPresenter;
+        private readonly IAddressPresenter _addressPresenter;
         
         public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
                                        IRespondentPresenter respondentPresenter, 
-                                       ICaseReviewPresenter caseReviewPresenter)
+                                       ICaseReviewPresenter caseReviewPresenter, 
+                                       IAddressPresenter addressPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _respondentPresenter = respondentPresenter;
             _caseReviewPresenter = caseReviewPresenter;
+            _addressPresenter = addressPresenter;
         }
 
         public void AddTipstaffRecord(Models.TipstaffRecord record)
@@ -65,8 +68,8 @@ namespace Tipstaff.Presenters
                 resultDate = table.ResultDate,
                 tipstaffRecordID = table.Id,
                 resultEnteredBy = table.ResultEnteredBy,
-
-                /////addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
+               
+                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 ////AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 caseReviews = _caseReviewPresenter.GetAllById(table.Id),
                 Respondents = _respondentPresenter.GetAllById(table.Id),

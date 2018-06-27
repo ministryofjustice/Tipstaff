@@ -17,14 +17,16 @@ namespace Tipstaff.Controllers
         private readonly ICloudWatchLogger _logger;
         private readonly IAddressPresenter _addressPresenter;
         private readonly IGuidGenerator _guidGenerator;
-        
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+
         // GET: /Address/
 
-        public AddressController(ICloudWatchLogger telemetryLogger, IAddressPresenter addressPresenter, IGuidGenerator guidGenerator)
+        public AddressController(ICloudWatchLogger telemetryLogger, IAddressPresenter addressPresenter, IGuidGenerator guidGenerator, ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
             _logger = telemetryLogger;
             _addressPresenter = addressPresenter;
             _guidGenerator = guidGenerator;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
         
         public ActionResult Details(string id)
@@ -73,7 +75,7 @@ namespace Tipstaff.Controllers
 
             AddressCreationModel model = new AddressCreationModel()
             {
-                tipstaffRecord = _addressPresenter.GetTipstaffRecord(id),
+                tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id),
                 tipstaffRecordID = int.Parse(id),
                 address = new Address() { tipstaffRecordID = id }
                
@@ -99,7 +101,7 @@ namespace Tipstaff.Controllers
             {
                 ////TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
                 ////string controller = genericFunctions.TypeOfTipstaffRecord(tr);
-                TipstaffRecord tr = _addressPresenter.GetTipstaffRecord(model.tipstaffRecordID.ToString());
+                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID.ToString());
 
                 //do stuff
                 ////// VERONICA - INVESTIGATE THIS LOGIC!!! SOS
@@ -139,7 +141,7 @@ namespace Tipstaff.Controllers
         public PartialViewResult ListAddressesByRecord(string id, int? page)
         {
             //////TipstaffRecord w = db.TipstaffRecord.Find(id);
-            TipstaffRecord w = _addressPresenter.GetTipstaffRecord(id);
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);;
 
             ListAddressesByTipstaffRecord model = new ListAddressesByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;

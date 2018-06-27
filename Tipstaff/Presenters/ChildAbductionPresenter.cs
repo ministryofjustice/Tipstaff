@@ -17,6 +17,8 @@ namespace Tipstaff.Presenters
         private readonly IChildPresenter _childPresenter;
         private readonly IAddressPresenter _addressPresenter;
         private readonly IApplicantPresenter _applicantPresenter;
+        private readonly ISolicitorPresenter _solicitorPresenter;
+
         private Object _lock = new Object();
 
         public ChildAbductionPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
@@ -25,7 +27,8 @@ namespace Tipstaff.Presenters
             IRespondentPresenter respondentPresenter, 
             IChildPresenter childPresenter, 
             IAddressPresenter addressPresenter, 
-            IApplicantPresenter applicantPresenter)
+            IApplicantPresenter applicantPresenter, 
+            ISolicitorPresenter solicitorPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _deletedTipstaffRecordRepository = deletedTipstaffRecordRepository;
@@ -34,6 +37,7 @@ namespace Tipstaff.Presenters
             _childPresenter = childPresenter;
             _addressPresenter = addressPresenter;
             _applicantPresenter = applicantPresenter;
+            _solicitorPresenter = solicitorPresenter;
         }
 
         public void AddDeletedTipstaffRecord(Models.DeletedTipstaffRecord record)
@@ -134,7 +138,7 @@ namespace Tipstaff.Presenters
 
         public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table)
         {
-            //var entity = _tipstaffRecordRepository.GetEntityByHashKey(table.Id);
+            
 
             var model = new Models.ChildAbduction()
             {
@@ -147,13 +151,16 @@ namespace Tipstaff.Presenters
                 caOrderType = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == table.CAOrderTypeId),
                 tipstaffRecordID = table.Id,
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == table.CaseStatusId),
-                caseReviews = new List<CaseReview>(),
+                caseReviews = _caseReviewsPresenter.GetAllById(table.Id),
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
                 Respondents = _respondentPresenter.GetAllById(table.Id),
                 children = _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id),
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
-                Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id)
+                Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
+               
+                
+                
             };
 
             return model;

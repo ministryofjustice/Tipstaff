@@ -43,7 +43,7 @@ namespace Tipstaff.Tests.Integration
 
             //Presenters
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
-            _addressPresenter = new AddressPresenter(_addressRepository, _tipstaffRecordPresenter);
+            _addressPresenter = new AddressPresenter(_addressRepository);
             _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository, _tipstaffRecordPresenter);
            // _respondentPresenter = new RespondentPresenter(_tipstaffRecordPresenter, _respondentRepository);
            // _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository);
