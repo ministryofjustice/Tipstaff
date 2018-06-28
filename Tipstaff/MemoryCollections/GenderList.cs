@@ -28,7 +28,12 @@ namespace Tipstaff.MemoryCollections
 
         public static Gender GetGenderByDetail(string d)
         {
-            return GetGenderList().Where(x => x.Detail == d).FirstOrDefault();
+            return GetGenderList().FirstOrDefault(x => x.Detail == d);
+        }
+
+        public static Gender GetGenderById(int id)
+        {
+            return GetGenderList().FirstOrDefault(x => x.GenderId == id);
         }
     }
 }

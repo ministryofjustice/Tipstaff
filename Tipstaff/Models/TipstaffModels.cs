@@ -122,13 +122,7 @@ namespace Tipstaff.Models
         public string officerDealing { get; set; }
         [MaxLength(50), Display(Name="Eldest Child")]
         public string EldestChild { get; set; }
-        //[Required,Display(Name = "Current case status")]
-        //public int childAbductionCaseStatusID { get; set; }
 
-        ////[Required,Display(Name = "Order Type")]
-        ////public int caOrderTypeID { get; set; }
-        //[Display(Name = "Order Type")]
-        //public virtual CAOrderType caOrderType { get; set; }
         [Display(Name = "Order Type")]
         public MemoryCollections.CaOrderType caOrderType { get; set;}
 
@@ -189,20 +183,12 @@ namespace Tipstaff.Models
         public string RespondentName { get; set; }
         [Required, Display(Name = "Division")]
         public MemoryCollections.Division Division { get; set; }
-        //[Display(Name = "Division")]
-        //public virtual Division division { get; set; }
-        ////[Display(Name = "Division")]
-        ////public MemoryCollections.Division division { get; set; }
+
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Circulated")]
         public DateTime? DateCirculated { get; set; }
 
-        public int RespondentsCount
-        {
-            get { return Respondents.Count(); }
-            set { }
-        }
     }
     #endregion
 

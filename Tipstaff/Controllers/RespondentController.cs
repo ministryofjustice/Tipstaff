@@ -152,6 +152,7 @@ namespace Tipstaff.Controllers
             
 
             model.respondent = _respondentPresenter.GetRespondent(id);
+            model.respondent.childRelationship = new MemoryCollections.ChildRelationship() { ChildRelationshipID = 1 };
 
             model.tipstaffRecordID = model.respondent.tipstaffRecordID;
             model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
@@ -179,8 +180,6 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                //////db.Entry(model.respondent).State = EntityState.Modified;
-                //////db.SaveChanges();
                 _respondentPresenter.Update(model.respondent);
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.respondent.tipstaffRecordID), new { id = model.respondent.tipstaffRecordID });
             }

@@ -8,9 +8,12 @@
     string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
 }
-<h6>@Html.ActionLink(display,"Index",controller)
-> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null)
-> (Respondent) @Model.PoliceDisplayName</h6>
+<h6>
+    @Html.ActionLink(display, "Index", controller)
+@*> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null)*@
+    > @Html.ActionLink(Model.tipstaffRecordID, "Details", controller, new { id = Model.tipstaffRecordID }, null)
+    > (Respondent) @Model.PoliceDisplayName
+</h6>
 
 <fieldset>
     <legend>Details for @nameType record @Model.fullname</legend>

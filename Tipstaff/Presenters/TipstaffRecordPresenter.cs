@@ -93,7 +93,7 @@ namespace Tipstaff.Presenters
 
         public void UpdateTipstaffRecord(Models.TipstaffRecord record)
         {
-            var entity = new Tipstaff.Services.DynamoTables.TipstaffRecord()
+            var entity = new Services.DynamoTables.TipstaffRecord()
             {
                 ArrestCount = record.arrestCount,
                 Discriminator = record.Discriminator,
