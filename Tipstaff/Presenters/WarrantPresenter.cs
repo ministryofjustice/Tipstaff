@@ -61,7 +61,16 @@ namespace Tipstaff.Presenters
                 DateCirculated = model.DateCirculated,
                 CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == model.caseStatusID)?.CaseStatusId,
                 CreatedOn = model.createdOn,
-                CreatedBy = model.createdBy
+                CreatedBy = model.createdBy,
+                ArrestCount = model.arrestCount,
+                DateExecuted = model.DateExecuted,
+                NextReviewDate = model.nextReviewDate,
+                NPO = model.NPO,
+                PrisonCount = model.prisonCount,
+                ProtectiveMarkingId = model.protectiveMarkingID,
+                ResultDate = model.resultDate,
+                ResultEnteredBy = model.resultEnteredBy,
+                ResultId = model.resultID
             };
 
             return record;
@@ -70,6 +79,7 @@ namespace Tipstaff.Presenters
         public Warrant GetWarrant(string id)
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
+
 
             var warrant = GetModel(record);
 
@@ -100,7 +110,18 @@ namespace Tipstaff.Presenters
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByID(table.CaseStatusId.Value),
                 Respondents = _respondentPresenter.GetAllById(table.Id),
                 createdBy = table.CreatedBy,
-                createdOn = table.CreatedOn
+                createdOn = table.CreatedOn,
+                arrestCount = table.ArrestCount,
+                //AttendanceNotes = get attendance notes?
+                DateExecuted = table.DateExecuted,
+                //Documents = get documents?
+                //LinkedSolicitors = get solicitors?
+                nextReviewDate = table.NextReviewDate,
+                NPO = table.NPO,
+                //policeForces = get police forces?
+                prisonCount = table.PrisonCount,
+                resultDate = table.ResultDate,
+                resultEnteredBy = table.ResultEnteredBy
             };
 
             return model;

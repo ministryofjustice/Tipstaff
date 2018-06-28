@@ -33,7 +33,12 @@ namespace Tipstaff.MemoryCollections
 
         public static SkinColour GetSkinColourByDetail(string d)
         {
-            return GetSkinColourList().Where(x => x.Detail == d).FirstOrDefault();
+            return GetSkinColourList().FirstOrDefault(x => x.Detail == d);
+        }
+
+        public static SkinColour GetSkinColourById(int id)
+        {
+            return GetSkinColourList().FirstOrDefault(x => x.SkinColourId == id);
         }
     }
 }

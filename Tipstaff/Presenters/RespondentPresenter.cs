@@ -47,8 +47,8 @@ namespace Tipstaff.Presenters
             var table = new Services.DynamoTables.Respondent()
             {
                 Build = model.build,
-                ChildRelationship = model.childRelationship.Detail,
-                Country = model.country.Detail,
+                ChildRelationship = MemoryCollections.ChildRelationshipList.GetChildRelationshipList().FirstOrDefault(c => c.ChildRelationshipID == model.childRelationship.ChildRelationshipID).Detail,
+                Country = MemoryCollections.CountryList.GetCountryByID(model.country.CountryID).Detail,
                 DateOfBirth = model.dateOfBirth,
                 EyeColour = model.eyeColour,
                 HairColour = model.hairColour,
@@ -57,12 +57,12 @@ namespace Tipstaff.Presenters
                 NameMiddle = model.nameMiddle,
                 Height = model.height,
                 PNCID = model.PNCID,
-                Nationality = model.nationality.Detail,
+                Nationality = MemoryCollections.NationalityList.GetNationalityByID(model.nationality.NationalityID).Detail,
                 Specialfeatures = model.specialfeatures,
-                Gender = model.gender.Detail,
+                Gender = MemoryCollections.GenderList.GetGenderById(model.gender.GenderId).Detail,
                 RiskOfDrugs = model.riskOfDrugs,
                 RiskOfViolence = model.riskOfViolence,
-                SkinColour = model.skinColour.Detail,
+                SkinColour = MemoryCollections.SkinColourList.GetSkinColourById(model.skinColour.SkinColourId).Detail,
                 Id = model.respondentID, //Guid.NewGuid().ToString(),
                 TipstaffRecordID = model.tipstaffRecordID,
                 

@@ -13,13 +13,18 @@ namespace Tipstaff.Controllers
     public class CaseReviewController : Controller
     {
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly IWarrantPresenter _warrantPresenter;
+        private readonly IChildAbductionPresenter _childAbductionPresenter;
         private readonly ICaseReviewPresenter _caseReviewPresenter;
+
         private readonly IGuidGenerator _guidGenerator;
 
-        public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter, 
+        public CaseReviewController(ITipstaffRecordPresenter tipstaffRecordPresenter, IWarrantPresenter warrantPresenter, IChildAbductionPresenter childAbductionPresenter,
                                     ICaseReviewPresenter caseReviewPresenter, IGuidGenerator guidGenerator)
         {
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _warrantPresenter = warrantPresenter;
+            _childAbductionPresenter = childAbductionPresenter;
             _caseReviewPresenter = caseReviewPresenter;
             _guidGenerator = guidGenerator;
         }
@@ -50,38 +55,60 @@ namespace Tipstaff.Controllers
             {
                 //if (genericFunctions.isTipstaffRecordChildAbduction){
                 ////TipstaffRecord tr = db.TipstaffRecord.Find(model.CaseReview.tipstaffRecordID);
-                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.CaseReview.tipstaffRecordID);
+                //TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.CaseReview.tipstaffRecordID);
                 ////tr.caseReviews.Add(model.CaseReview);
-                model.CaseReview.tipstaffRecordID = tr.tipstaffRecordID;
+                //model.CaseReview.tipstaffRecordID = tr.tipstaffRecordID;
                 model.CaseReview.caseReviewID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                
                 _caseReviewPresenter.Add(model.CaseReview);
 
+                string discriminator = genericFunctions.TypeOfTipstaffRecord(model.CaseReview.tipstaffRecordID);
 
-                if (model.CaseReview.caseReviewStatus.CaseReviewStatusId == 2 || model.CaseReview.caseReviewStatus.CaseReviewStatusId == 3)
+                if (discriminator == "Warrant")
                 {
-                    tr.caseStatusID = model.CaseReview.caseReviewStatus.CaseReviewStatusId + 1;
+                    var tr = _warrantPresenter.GetWarrant(model.CaseReview.tipstaffRecordID);
+                    if (model.CaseReview.caseReviewStatus.CaseReviewStatusId == 2 || model.CaseReview.caseReviewStatus.CaseReviewStatusId == 3)
+                    {
+                        tr.caseStatusID = model.CaseReview.caseReviewStatus.CaseReviewStatusId + 1;
+                    }
+                    else
+                    {
+                        tr.caseStatusID = model.CaseStatusID;
+                    }
+                    if (model.CaseReview.nextReviewDate != null)
+                    {
+                        tr.nextReviewDate = model.CaseReview.nextReviewDate;
+                    }
+                    _warrantPresenter.UpdateWarrant(tr);
                 }
                 else
                 {
-                    tr.caseStatusID = model.CaseStatusID;
+                    var tr = _childAbductionPresenter.GetChildAbduction(model.CaseReview.tipstaffRecordID);
+                    if (model.CaseReview.caseReviewStatus.CaseReviewStatusId == 2 || model.CaseReview.caseReviewStatus.CaseReviewStatusId == 3)
+                    {
+                        tr.caseStatusID = model.CaseReview.caseReviewStatus.CaseReviewStatusId + 1;
+                    }
+                    else
+                    {
+                        tr.caseStatusID = model.CaseStatusID;
+                    }
+                    if (model.CaseReview.nextReviewDate != null)
+                    {
+                        tr.nextReviewDate = model.CaseReview.nextReviewDate;
+                    }
+                    _childAbductionPresenter.UpdateChildAbduction(tr);
                 }
-                if (model.CaseReview.nextReviewDate != null)
-                {
-                    tr.nextReviewDate = model.CaseReview.nextReviewDate;
-                }
-                //////db.SaveChanges();
-                _tipstaffRecordPresenter.UpdateTipstaffRecord(tr);
-
+                
                 if (model.CaseReview?.caseReviewStatus?.CaseReviewStatusId == 2)
                 {
                     //user picked file closed, so get reasons...
-                    return RedirectToAction("EnterResult", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.CaseReview.tipstaffRecordID });
+                    return RedirectToAction("EnterResult", discriminator, new { id = model.CaseReview.tipstaffRecordID });
                 }
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.CaseReview.tipstaffRecordID });
+                return RedirectToAction("Details", discriminator, new { id = model.CaseReview.tipstaffRecordID });
             }
             return View(model);
         }
+
         //public ActionResult Create(int id)
         //{
         //    CaseReview caseReview = new CaseReview();
