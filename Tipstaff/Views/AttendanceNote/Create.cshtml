@@ -40,7 +40,7 @@
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.AttendanceNoteCode.Id,
-                new SelectList(ViewBag.AttendanceNoteCodes, "AttendanceNoteCodeID", "Detail"), "Select a type")
+                new SelectList(ViewBag.AttendanceNoteCodes, "Id", "Detail"), "Select a type")
             @Html.ValidationMessageFor(model => model.AttendanceNoteCode.Id) 
         </div>
 

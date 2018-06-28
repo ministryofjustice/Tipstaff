@@ -11,7 +11,7 @@ namespace Tipstaff.Presenters
     {
         Address GetAddress(string id);
 
-        TipstaffRecord GetTipstaffRecord(string id);
+        //TipstaffRecord GetTipstaffRecord(string id);
 
         void RemoveAddress(Address address);
 

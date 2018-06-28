@@ -8,41 +8,44 @@
     string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
 }
-<h6>@Html.ActionLink(display,"Index",controller)
-> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new { id = Model.tipstaffRecordID },null) 
-> Enter result</h6>
+<h6>
+    @Html.ActionLink(display, "Index", controller)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.tipstaffRecordID }, null)
+> Enter result
+</h6>
 
 
 @using (Html.BeginForm())
-{ 
+{
+    @Html.AntiForgeryToken();
     @Html.ValidationSummary(true)
     <fieldset>
-    <legend>@ViewBag.Title</legend>
+        <legend>@ViewBag.Title</legend>
         <div class="editor-label">
             @Html.LabelFor(model => model.DateExecuted, true)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model=>model.DateExecuted)
+            @Html.EditorFor(model => model.DateExecuted)
             @Html.ValidationMessageFor(model => model.DateExecuted)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.resultID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.resultID, Model.resultList, "Please select a result", new { @class = "required" })           
+            @Html.DropDownListFor(model => model.resultID, Model.resultList, "Please select a result", new { @class = "required" })
             @Html.ValidationMessageFor(model => model.resultID)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.pCount, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model=>model.pCount,Model.prisonDict)
+            @Html.DropDownListFor(model => model.pCount, Model.prisonDict)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.aCount, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model=>model.aCount,Model.arrestDict)
+            @Html.DropDownListFor(model => model.aCount, Model.arrestDict)
         </div>
 
         @Html.HiddenFor(model => model.tipstaffRecordID)

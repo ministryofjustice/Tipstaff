@@ -12,12 +12,12 @@ namespace Tipstaff.Presenters
     public class AddressPresenter : IAddressPresenter, IMapper<Models.Address, Services.DynamoTables.Address>, IMapperCollections<Models.Address, Services.DynamoTables.Address>
     {
         private readonly IAddressRepository _addressRepository;
-        private readonly ITipstaffRecordPresenter _tipstaffPresenter;
+        //private readonly ITipstaffRecordPresenter _tipstaffPresenter;
 
-        public AddressPresenter(IAddressRepository addressRepository, ITipstaffRecordPresenter tipstaffPresenter)
+        public AddressPresenter(IAddressRepository addressRepository)
         {
             _addressRepository = addressRepository;
-            _tipstaffPresenter = tipstaffPresenter;
+           // _tipstaffPresenter = tipstaffPresenter;
         }
         
         public void AddAddress(Models.Address model)
@@ -38,11 +38,11 @@ namespace Tipstaff.Presenters
             return GetAll(records);
         }
 
-        public Models.TipstaffRecord GetTipstaffRecord(string id)
-        {
-            var tipstaff = _tipstaffPresenter.GetTipStaffRecord(id);
-            return tipstaff;
-        }
+        //public Models.TipstaffRecord GetTipstaffRecord(string id)
+        //{
+        //    var tipstaff = _tipstaffPresenter.GetTipStaffRecord(id);
+        //    return tipstaff;
+        //}
 
         public void RemoveAddress(Models.Address address)
         {
@@ -70,7 +70,7 @@ namespace Tipstaff.Presenters
                 postcode = table.PostCode,
                 tipstaffRecordID = table.TipstaffRecordID,
                 town = table.Town,
-                TipstaffRecord = GetTipstaffRecord(table.TipstaffRecordID)
+               // TipstaffRecord = GetTipstaffRecord(table.TipstaffRecordID)
             };
 
             return add;

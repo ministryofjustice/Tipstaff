@@ -24,7 +24,7 @@ else
         @if (!Model.TipstaffRecordClosed)
         {<th style="width:40px;">&nbsp;</th>}
         <th>
-            @Html.LabelFor(model => model.Applicants.First().PoliceDisplayName)
+            @Html.LabelFor(model => model.Applicants.First().fullname)
         </th>
         <th>
             @Html.LabelFor(model => model.Applicants.First().screenAddressSingleLine)
