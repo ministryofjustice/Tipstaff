@@ -59,7 +59,7 @@ namespace Tipstaff.Presenters
                 DivisionId = MemoryCollections.DivisionsList.GetDivisionByID(model.Division.DivisionId)?.DivisionId,
                 Discriminator = model.Discriminator,
                 DateCirculated = model.DateCirculated,
-                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == model.caseStatusID)?.CaseStatusId,
+                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == model.caseStatusID).CaseStatusId,
                 CreatedOn = model.createdOn,
                 CreatedBy = model.createdBy,
                 ArrestCount = model.arrestCount,

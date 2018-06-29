@@ -21,13 +21,15 @@ namespace Tipstaff.Areas.Admin.Controllers
     {
         private readonly IPoliceForcesPresenter _policeForcesPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly ITipstaffPoliceForcesPresenter _tpfPresenter;
         private readonly IGuidGenerator _guidGenerator;
         
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         //
         // GET: /Admin/PoliceForces/
-        public PoliceForcesController(IPoliceForcesPresenter policeForcesPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, IGuidGenerator guidGenerator)
+        public PoliceForcesController(ITipstaffPoliceForcesPresenter tpfPresenter, IPoliceForcesPresenter policeForcesPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, IGuidGenerator guidGenerator)
         {
+            _tpfPresenter = tpfPresenter;
             _policeForcesPresenter = policeForcesPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _guidGenerator = guidGenerator;
@@ -167,12 +169,10 @@ namespace Tipstaff.Areas.Admin.Controllers
         //
         // GET: /PoliceForces/
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-        public ActionResult Add(int id)
+        public ActionResult Add(string id)
         {
             PoliceForceCreation model = new PoliceForceCreation();
             model.PoliceForceList = new SelectList(_policeForcesPresenter.GetAllPoliceForces().Where(x => x.active == true).OrderBy(x => x.policeForceName).ToList(), "policeForceID", "policeForceName");
-            //////model.TS_PoliceForce.tipstaffRecord = db.TipstaffRecord.Find(id);
-            model.TS_PoliceForce.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id.ToString());
             model.TS_PoliceForce.tipstaffRecordID = id;
             return View(model);
         }
@@ -182,26 +182,27 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //REVISIT THIS ONE!!!!
-                /////TipstaffRecord tr = db.TipstaffRecord.Find(model.TS_PoliceForce.tipstaffRecordID);
                 TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.TS_PoliceForce.tipstaffRecordID.ToString());
                 model.TS_PoliceForce.policeForceID = model.policeForceID;
-                //////tr.policeForces.Add(model.TS_PoliceForce);
-                //////db.SaveChanges();
-                ////_policeForcesPresenter.AddPoliceForces(model.);
+                model.TS_PoliceForce.tipstaffRecordPoliceForceID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+
+                _tpfPresenter.Add(model.TS_PoliceForce);
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.TS_PoliceForce.tipstaffRecordID, Area = "" });
             }
             return View(model);
         }
         [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.User)]
-        public PartialViewResult ListPoliceForcesByRecord(int id, int? page)
+        public PartialViewResult ListPoliceForcesByRecord(string id, int? page)
         {
             //////TipstaffRecord w = db.TipstaffRecord.Find(id);
-            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id.ToString());
+            //TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
 
             ListPoliceForcesByTipstaffRecord model = new ListPoliceForcesByTipstaffRecord();
-            model.tipstaffRecordID = w.tipstaffRecordID;
-            model.PoliceForces = w.policeForces.OrderByDescending(d => d.policeForces.policeForceName).ToXPagedList<TipstaffPoliceForce>(page ?? 1, 8);
+            model.tipstaffRecordID = id;
+            var tpfs = _tpfPresenter.GetAllTipstaffPoliceForcesByTipstaffRecordID(id);
+            
+            model.PoliceForces = tpfs.OrderByDescending(d => d.policeForce.policeForceName).ToXPagedList<TipstaffPoliceForce>(page ?? 1, 8);
+                
             return PartialView("_ListPoliceForcesByRecord", model);
         }
     }

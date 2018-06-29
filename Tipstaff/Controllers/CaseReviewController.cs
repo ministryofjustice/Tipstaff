@@ -170,12 +170,12 @@ namespace Tipstaff.Controllers
         public PartialViewResult ListCaseReviewsByRecord(string id, int? page)
         {
             ////TipstaffRecord w = db.TipstaffRecord.Find(id);
-
-            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            //TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
 
             ListCaseReviewsByTipstaffRecord model = new ListCaseReviewsByTipstaffRecord();
-            model.tipstaffRecordID = w.tipstaffRecordID;
-            model.CaseReviews = w.caseReviews.OrderByDescending(d => d.reviewDate).ToXPagedList<CaseReview>(page ?? 1, 8);
+            model.tipstaffRecordID = id;
+            model.CaseReviews = _caseReviewPresenter.GetAllById(id).OrderByDescending(d => d.reviewDate).ToXPagedList<CaseReview>(page ?? 1, 8);
+            //w.caseReviews.OrderByDescending(d => d.reviewDate).ToXPagedList<CaseReview>(page ?? 1, 8);
             return PartialView("_ListCaseReviewsByRecord", model);
         }
     }

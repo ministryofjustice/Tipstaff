@@ -71,7 +71,7 @@ namespace Tipstaff.Presenters
                
                  addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 ////AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
-                caseReviews = _caseReviewPresenter.GetAllById(table.Id),
+                //caseReviews = _caseReviewPresenter.GetAllById(table.Id),
                 Respondents = _respondentPresenter.GetAllById(table.Id),
                 Discriminator = table.Discriminator,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId == table.ResultId),
