@@ -32,16 +32,16 @@ namespace Tipstaff.Models
         
     }
 
-    public class TipstaffPoliceForce
+    public class TipstaffPoliceForce:IModel
     {
         [Key]
-        public int tipstaffRecordPoliceForceID { get; set; }
-        public int tipstaffRecordID { get; set; }
-        public int policeForceID  { get; set; }
+        public string tipstaffRecordPoliceForceID { get; set; }
+        public string tipstaffRecordID { get; set; }
+        public string policeForceID  { get; set; }
         
 
-        public virtual TipstaffRecord tipstaffRecord { get; set; }
-        public virtual PoliceForces policeForces { get; set; }
+        //public virtual TipstaffRecord tipstaffRecord { get; set; }
+        public PoliceForces policeForce { get; set; }
     }
 
     public class PoliceForceCreation
@@ -49,18 +49,18 @@ namespace Tipstaff.Models
         public TipstaffPoliceForce TS_PoliceForce { get; set; }
         public SelectList PoliceForceList { get; set; }
         [Required, Display(Name="Police Force")]
-        public int policeForceID { get; set; }
+        public string policeForceID { get; set; }
         public PoliceForceCreation()
         {
             TS_PoliceForce = new TipstaffPoliceForce();
-            ////PoliceForceList = new SelectList(myDBContextHelper.CurrentContext.PoliceForces.Where(x => x.active == true).OrderBy(x => x.policeForceName).ToList(), "policeForceID", "policeForceName");
+            //PoliceForceList = new SelectList(myDBContextHelper.CurrentContext.PoliceForces.Where(x => x.active == true).OrderBy(x => x.policeForceName).ToList(), "policeForceID", "policeForceName");
         }
     }
 
     public class ListPoliceForcesByTipstaffRecord : IListByTipstaffRecord
     {
         public string tipstaffRecordID { get; set; }
-        public Tipstaff.xPagedList<TipstaffPoliceForce> PoliceForces { get; set; }
+        public xPagedList<TipstaffPoliceForce> PoliceForces { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
 }

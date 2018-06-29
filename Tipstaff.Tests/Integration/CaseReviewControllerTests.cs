@@ -16,14 +16,15 @@ namespace Tipstaff.Tests.Integration
         private Guid _id;
         private string _rangeKey;
         private string _record;
-        private Tipstaff.Services.DynamoTables.TipstaffRecord _tipstaffRecord;
-        private Tipstaff.Services.DynamoTables.CaseReview _caseReview;
+        private Services.DynamoTables.TipstaffRecord _tipstaffRecord;
+        private Services.DynamoTables.CaseReview _caseReview;
+
 
         [SetUp]
         public void Setup()
         {
             _guidGenerator = new Mock<IGuidGenerator>();
-            _sub = new CaseReviewController(_tipstaffRecordPresenter, _caseReviewPresenter, _guidGenerator.Object);
+            _sub = new CaseReviewController(_tipstaffRecordPresenter, _warrantPresenter, _childAbductionPresenter, _caseReviewPresenter, _guidGenerator.Object);
             _id = Guid.NewGuid();
             _record = Guid.NewGuid().ToString();
             _rangeKey = Guid.NewGuid().ToString();

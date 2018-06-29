@@ -339,6 +339,7 @@
     <Compile Include="Presenters\Interfaces\ISolicitorFirmsPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ISolicitorPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ITemplatePresenter.cs" />
+    <Compile Include="Presenters\Interfaces\ITipstaffPoliceForcesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ITipstaffRecordPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IUserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IUsersPresenter.cs" />
@@ -349,6 +350,7 @@
     <Compile Include="Presenters\SolicitorFirmsPresenter.cs" />
     <Compile Include="Presenters\SolicitorPresenter.cs" />
     <Compile Include="Presenters\TemplatePresenter.cs" />
+    <Compile Include="Presenters\TipstaffPoliceForcesPresenter.cs" />
     <Compile Include="Presenters\TipstaffRecordPresenter.cs" />
     <Compile Include="Presenters\UsersPresenter.cs" />
     <Compile Include="Presenters\WarrantPresenter.cs" />

@@ -21,6 +21,7 @@ namespace Tipstaff.Tests.Integration
         protected IAttendanceNotePresenter _attendanceNotePresenter;
         protected IRespondentPresenter _respondentPresenter;
         protected IChildAbductionPresenter _childAbductionPresenter;
+        protected IWarrantPresenter _warrantPresenter;
 
         //Repositories
         protected ICaseReviewRepository _caseReviewRepository;
@@ -45,9 +46,10 @@ namespace Tipstaff.Tests.Integration
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
             _addressPresenter = new AddressPresenter(_addressRepository);
             _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository, _tipstaffRecordPresenter);
-           // _respondentPresenter = new RespondentPresenter(_tipstaffRecordPresenter, _respondentRepository);
-           // _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository);
-           // _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, _deleteTipstaffRecordRepository);
+            // _respondentPresenter = new RespondentPresenter(_tipstaffRecordPresenter, _respondentRepository);
+            // _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository);
+            // _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, _deleteTipstaffRecordRepository);
+            _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter);
         }
         
     }
