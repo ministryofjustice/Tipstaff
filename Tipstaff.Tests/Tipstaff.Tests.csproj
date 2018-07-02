@@ -94,8 +94,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ChildComparer.cs" />
     <Compile Include="Integration\BaseController.cs" />
     <Compile Include="Integration\CaseReviewControllerTests.cs" />
+    <Compile Include="Integration\ChildAbductionArea.cs" />
     <Compile Include="Integration\ChildControllerTests.cs" />
     <Compile Include="Integration\ContactsControllerTests.cs" />
     <Compile Include="Integration\ApplicantControllerTests.cs" />

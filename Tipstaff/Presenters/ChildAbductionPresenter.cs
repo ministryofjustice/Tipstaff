@@ -129,7 +129,8 @@ namespace Tipstaff.Presenters
                 NextReviewDate = model.nextReviewDate,
                 CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == model?.caseStatus.CaseStatusId)?.CaseStatusId,
                 CreatedBy = model.createdBy,
-                CreatedOn = model.createdOn
+                CreatedOn = model.createdOn,
+                NPO = model.NPO
                 
             };
 
@@ -158,7 +159,8 @@ namespace Tipstaff.Presenters
                 children = _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id),
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
-               
+                NPO = table.NPO,
+                
                 
                 
             };

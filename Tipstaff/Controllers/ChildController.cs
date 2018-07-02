@@ -109,7 +109,7 @@ namespace Tipstaff.Controllers
                 _childPresenter.AddChild(model);
 
 
-                if (Request.IsAjaxRequest())
+                if (Request!=null && Request.IsAjaxRequest())
                 {
                     string url = string.Format("window.location='{0}';", Url.Action("Details", "ChildAbduction", new { id = model.tipstaffRecordID }));
                     return JavaScript(url);

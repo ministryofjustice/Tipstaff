@@ -10,7 +10,7 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_Children")]
     public class Child : DynamoTable
     {
-        [DynamoDBRangeKey]
+        //[DynamoDBRangeKey]
         public string TipstaffRecordID { get; set; }
 
         public string NameLast { get; set; }

@@ -18,5 +18,7 @@ namespace Tipstaff.Presenters
         void Update(Respondent respondent);
         
         IEnumerable<Respondent> GetAllById(string id);
+
+        Models.Respondent GetRespondentByKeys(string id, string rangeKey);
     }
 }
