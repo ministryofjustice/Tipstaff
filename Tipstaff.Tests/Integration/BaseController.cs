@@ -22,6 +22,9 @@ namespace Tipstaff.Tests.Integration
         protected IRespondentPresenter _respondentPresenter;
         protected IChildAbductionPresenter _childAbductionPresenter;
         protected IWarrantPresenter _warrantPresenter;
+        protected IChildPresenter _childPresenter;
+        private IApplicantPresenter _applicantPresenter;
+        protected ISolicitorPresenter _solicitorPresenter;
 
         //Repositories
         protected ICaseReviewRepository _caseReviewRepository;
@@ -30,9 +33,16 @@ namespace Tipstaff.Tests.Integration
         protected IAttendanceNotesRepository _attendanceNotesRepository;
         protected IRespondentRepository _respondentRepository;
         protected IDeletedTipstaffRecordRepository _deleteTipstaffRecordRepository;
+        protected IChildRepository _childRepository;
+        protected IApplicantRepository _applicantRepository;
+        protected ISolicitorRepository _solicitorRepository;
+        //protected ITipstaffRecordPresenter
+
+
         
-        [SetUp]
-        public void SetUp()
+        
+       // [SetUp]
+        public BaseController()
         {
             //Repositories
             _caseReviewRepository = new CaseReviewRepository(new DynamoAPI<CaseReview>());
@@ -41,15 +51,31 @@ namespace Tipstaff.Tests.Integration
             _attendanceNotesRepository = new AttendanceNotesRepository(new DynamoAPI<AttendanceNote>());
             _respondentRepository = new RespondentRepository(new DynamoAPI<Respondent>());
             _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new DynamoAPI<DeletedTipstaffRecord>());
+            _childRepository = new ChildRepository(new DynamoAPI<Child>());
+            _applicantRepository = new ApplicantRepository(new DynamoAPI<Applicant>());
+            _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>());
 
             //Presenters
-            _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
             _addressPresenter = new AddressPresenter(_addressRepository);
+            _respondentPresenter = new RespondentPresenter(_respondentRepository);
+            
+            _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
+            _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository, _respondentPresenter, _caseReviewPresenter, _addressPresenter);
+            _childPresenter = new ChildPresenter(_childRepository, _tipstaffRecordRepository, _tipstaffRecordPresenter);
             _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository, _tipstaffRecordPresenter);
-            // _respondentPresenter = new RespondentPresenter(_tipstaffRecordPresenter, _respondentRepository);
-            // _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository);
-            // _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, _deleteTipstaffRecordRepository);
+            _solicitorPresenter = new SolicitorPresenter(_solicitorRepository);
+            _applicantPresenter = new ApplicantPresenter(_applicantRepository, _tipstaffRecordPresenter);
+             _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, 
+                                                                    _deleteTipstaffRecordRepository, 
+                                                                    _caseReviewPresenter, 
+                                                                    _respondentPresenter, 
+                                                                    _childPresenter, 
+                                                                    _addressPresenter, 
+                                                                    _applicantPresenter,
+                                                                    _solicitorPresenter);
+
             _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter);
+            
         }
         
     }

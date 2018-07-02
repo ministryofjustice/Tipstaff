@@ -110,6 +110,15 @@ namespace Tipstaff.Presenters
             return model;
         }
 
+        public Models.Respondent GetRespondentByKeys(string id, string rangeKey)
+        {
+            var respondent = _respondentRepository.GetRespondentByKeys(id, rangeKey);
+
+            var model = GetModel(respondent);
+
+            return model;
+        }
+
         public void Update(Models.Respondent respondent)
         {
             var resp = GetDynamoTable(respondent);

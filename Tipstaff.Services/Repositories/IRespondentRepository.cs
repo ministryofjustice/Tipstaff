@@ -14,5 +14,7 @@ namespace Tipstaff.Services.Repositories
         void Update(Respondent respondent);
         
         IEnumerable<Respondent> GetAllRespondentsByTipstaffRecordID(string id);
+
+        Respondent GetRespondentByKeys(string id, string rangeKey);
     }
 }

@@ -29,13 +29,13 @@ namespace Tipstaff.Infrastructure.Repositories
         
         public Respondent GetRespondent(string id)
         {
-            //return _dynamoAPI.GetEntityByKey(id);
+
             return _dynamoAPI.GetResultsByConditions(
                 new ScanCondition[]
                 {
                     new ScanCondition("Id", ScanOperator.Equal, id)
                 }).FirstOrDefault();
-            
+
         }
 
         public IEnumerable<Respondent> GetAllRespondentsByTipstaffRecordID(string id)
@@ -46,6 +46,18 @@ namespace Tipstaff.Infrastructure.Repositories
                     new ScanCondition("TipstaffRecordID", ScanOperator.Equal, id)
                 });
         }
+
+        public Respondent GetRespondentByKeys(string id, string rangeKey)
+        {
+            return _dynamoAPI.GetEntityByKeys(id,rangeKey);
+            //return _dynamoAPI.GetResultsByConditions(
+            //    new ScanCondition[]
+            //    {
+            //        new ScanCondition("Id", ScanOperator.Equal, id)
+            //    }).FirstOrDefault();
+
+        }
+
 
         public void Update(Respondent respondent)
         {

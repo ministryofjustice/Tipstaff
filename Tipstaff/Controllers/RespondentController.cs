@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Web.UI;
 using TPLibrary.Logger;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {
@@ -19,15 +20,18 @@ namespace Tipstaff.Controllers
         private readonly ICloudWatchLogger _logger;
         private readonly IRespondentPresenter _respondentPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
         public RespondentController(ICloudWatchLogger logger, 
             IRespondentPresenter respondentPresenter, 
-            ITipstaffRecordPresenter tipstaffRecordPresenter)
+            ITipstaffRecordPresenter tipstaffRecordPresenter, 
+            IGuidGenerator guidGenerator)
             
         {
             _logger = logger;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _respondentPresenter = respondentPresenter;
+            _guidGenerator = guidGenerator;
         }
         //
         // GET: /Respondent/Details/5
@@ -98,11 +102,12 @@ namespace Tipstaff.Controllers
                     //////tr.Respondents.Add(model.respondent);
                     model.respondent.tipstaffRecordID = model.tipstaffRecordID;
                     model.tipstaffRecord = tr;
+                    model.respondent.respondentID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                     _respondentPresenter.Add(model.respondent);
                     
                 }
                 //////db.SaveChanges();
-                if (Request.IsAjaxRequest())
+                if (Request!=null && Request.IsAjaxRequest())
                 {
                     string url = string.Format("window.location='{0}';", Url.Action("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.tipstaffRecordID }));
                     return JavaScript(url);
