@@ -68,14 +68,14 @@
         @Html.SortHeader(Model, "firmName", "Firm Name", token)
         @Html.SortHeader(Model, "firmAddress", "Firms address", token)
         <th>
-            @Html.LabelFor(model => model.SolicitorFirms.First().PhoneDayTime)
+            @Html.LabelFor(model => model.SolicitorFirms.First().phoneDayTime)
         </th>
         <th>
-            @Html.LabelFor(model => model.SolicitorFirms.First().PhoneOutofHours)
+            @Html.LabelFor(model => model.SolicitorFirms.First().phoneOutofHours)
         </th>
         @Html.SortHeader(Model, "solCount", "Linked Solicitors", token)
         <th>
-            @Html.LabelFor(model=>model.SolicitorFirms.First().Active)
+            @Html.LabelFor(model=>model.SolicitorFirms.First().active)
         </th>
 
     </tr>
@@ -84,30 +84,30 @@
 	foreach (var item in Model.SolicitorFirms) {
     <tr class="@(isAltRow ? "altRow" : "")>">
         <td style="text-align:right;">
-            @if (item.Active)
+            @if (item.active)
             {
-            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "SolicitorFirms", new { id = item.Id }, null, null)
-            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "SolicitorFirms", new { id = item.Id }, null, null) 
+            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "SolicitorFirms", new { id = item.solicitorFirmID }, null, null)
+            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "SolicitorFirms", new { id = item.solicitorFirmID }, null, null) 
             }
-            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "SolicitorFirm", id = item.Id }, null, null) 
+            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "SolicitorFirm", id = item.solicitorFirmID }, null, null) 
         </td>
         <td>
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.FirmName, string.Format("Details for {0}", item.FirmName), "Details", "SolicitorFirms", new { id = item.Id }, null, null, "createButton")
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.firmName, string.Format("Details for {0}", item.firmName), "Details", "SolicitorFirms", new { id = item.solicitorFirmID }, null, null, "createButton")
         </td>
         @*<td>
             @Html.DisplayFor(modelItem => item.screenAddressSingleLineExcludeName)
         </td>*@
         <td>
-            @Html.DisplayFor(modelItem => item.PhoneDayTime)
+            @Html.DisplayFor(modelItem => item.phoneDayTime)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PhoneOutofHours)
+            @Html.DisplayFor(modelItem => item.phoneOutofHours)
         </td>
         <td>
-            @item.Solicitors.Count()
+            @*@item.Solicitors.Count()*@
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Active)
+            @Html.DisplayFor(modelItem => item.active)
         </td>
     </tr>
 	isAltRow = !isAltRow;

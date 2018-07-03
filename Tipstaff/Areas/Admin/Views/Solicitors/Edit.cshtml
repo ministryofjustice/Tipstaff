@@ -22,11 +22,11 @@
         @Html.HiddenFor(model => model.solicitor.solicitorID)
         @Html.HiddenFor(model => model.solicitor.active)
         <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.salutationID, true)
+            @Html.LabelFor(model => model.solicitor.salutation.SalutationId, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.solicitor.salutationID, Model.SalutationList, "Please select a title", new { @class = "required" })           
-            @Html.ValidationMessageFor(model => model.solicitor.salutationID)
+            @Html.DropDownListFor(model => model.solicitor.salutation.SalutationId, Model.SalutationList, "Please select a title", new { @class = "required" })           
+            @Html.ValidationMessageFor(model => model.solicitor.salutation.SalutationId)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.solicitor.firstName, true)

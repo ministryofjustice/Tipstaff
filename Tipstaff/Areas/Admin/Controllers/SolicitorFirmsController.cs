@@ -9,6 +9,7 @@ using PagedList;
 using System.Data.Entity;
 using System.Data;
 using Tipstaff.Services.Repositories;
+using Tipstaff.Presenters;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -17,13 +18,11 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class SolicitorFirmsController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
+        private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
 
-        private readonly ISolicitorFirmRepository _solicitorFirmRepository;
-
-        public SolicitorFirmsController(ISolicitorFirmRepository solicitorFirmRepository)
+        public SolicitorFirmsController(ISolicitorFirmsPresenter solicitorFirmsPresenter)
         {
-            _solicitorFirmRepository = solicitorFirmRepository;
+            _solicitorFirmsPresenter = solicitorFirmsPresenter;
         }
 
         //
@@ -37,14 +36,14 @@ namespace Tipstaff.Areas.Admin.Controllers
 
             //IEnumerable<SolicitorFirm> Solicitorfirms = db.SolicitorsFirms;
 
-            var Solicitorfirms = _solicitorFirmRepository.GetAllSolicitorFirms();
+            var Solicitorfirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
             if (model.onlyActive == true)
             {
-                Solicitorfirms = Solicitorfirms.Where(c => c.Active == true);
+                Solicitorfirms = Solicitorfirms.Where(c => c.active == true);
             }
             if (model.detailContains != "" && model.detailContains != null)
             {
-                Solicitorfirms = Solicitorfirms.Where(c => c.FirmName.ToLower().Contains(model.detailContains.ToLower().ToString()));
+                Solicitorfirms = Solicitorfirms.Where(c => c.firmName.ToLower().Contains(model.detailContains.ToLower().ToString()));
             }
 
             switch (model.sortOrder)
@@ -56,17 +55,17 @@ namespace Tipstaff.Areas.Admin.Controllers
                 //    Solicitorfirms = Solicitorfirms.OrderBy(c => c.Solicitors.Count());
                 //    break;
                 case "firmAddress desc":
-                    Solicitorfirms = Solicitorfirms.OrderByDescending(c => c.AddressLine1);
+                    Solicitorfirms = Solicitorfirms.OrderByDescending(c => c.addressLine1);
                     break;
                 case "firmAddress asc":
-                    Solicitorfirms = Solicitorfirms.OrderBy(c => c.AddressLine1);
+                    Solicitorfirms = Solicitorfirms.OrderBy(c => c.addressLine1);
                     break;
                 case "firmName desc":
-                    Solicitorfirms = Solicitorfirms.OrderByDescending(c => c.FirmName);
+                    Solicitorfirms = Solicitorfirms.OrderByDescending(c => c.firmName);
                     break;
                 case "firmName asc":
                 default:
-                    Solicitorfirms = Solicitorfirms.OrderBy(c => c.FirmName);
+                    Solicitorfirms = Solicitorfirms.OrderBy(c => c.firmName);
                     break;
             }
             model.SolicitorFirms = Solicitorfirms.ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
@@ -76,11 +75,11 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Details(string id)
         {
             //SolicitorFirm model = db.SolicitorsFirms.Find(id);
-            var model = _solicitorFirmRepository.GetSolicitorFirm(id);
-            if (model.Active == false)
+            var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
+            if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
-                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.FirmName);
+                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.firmName);
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
@@ -103,24 +102,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                 //model.active = true;
                 //db.SolicitorsFirms.Add(model);
                 //db.SaveChanges();
-                _solicitorFirmRepository.AddSolicitorFirm(new Services.DynamoTables.SolicitorFirm()
-                {
-                    Id = model.solicitorFirmID,
-                    FirmName = model.firmName,
-                    AddressLine1 = model.addressLine1,
-                    AddressLine2 = model.addressLine2,
-                    AddressLine3 = model.addressLine3,
-                    Town = model.town,
-                    County = model.county,
-                    Postcode = model.postcode,
-                    DX = model.DX,
-                    PhoneDayTime = model.phoneDayTime,
-                    PhoneOutofHours = model.phoneOutofHours,
-                    Email = model.email,
-                    Active = true,
-                    Deactivated = model.deactivated,
-                    DeactivatedBy = model.deactivatedBy
-                });
+                _solicitorFirmsPresenter.AddSolicitorFirm(model);
                 return RedirectToAction("Index");
             }
 
@@ -131,11 +113,11 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Edit(string id)
         {
             //SolicitorFirm model = db.SolicitorsFirms.Find(id);
-            var model = _solicitorFirmRepository.GetSolicitorFirm(id);
-            if (model.Active == false)
+            var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
+            if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
-                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.FirmName);
+                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.firmName);
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
@@ -150,24 +132,8 @@ namespace Tipstaff.Areas.Admin.Controllers
             {
                 //db.Entry(model).State = EntityState.Modified;
                 //db.SaveChanges();
-                _solicitorFirmRepository.Update(new Services.DynamoTables.SolicitorFirm()
-                {
-                    Id = model.solicitorFirmID,
-                    FirmName = model.firmName,
-                    AddressLine1 = model.addressLine1,
-                    AddressLine2 = model.addressLine2,
-                    AddressLine3 = model.addressLine3,
-                    Town = model.town,
-                    County = model.county,
-                    Postcode = model.postcode,
-                    DX = model.DX,
-                    PhoneDayTime = model.phoneDayTime,
-                    PhoneOutofHours = model.phoneOutofHours,
-                    Email = model.email,
-                    Active = model.active,
-                    Deactivated = model.deactivated,
-                    DeactivatedBy = model.deactivatedBy
-                });
+                _solicitorFirmsPresenter.Update(model);
+
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -176,11 +142,11 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Deactivate(string id)
         {
             //SolicitorFirm model = db.SolicitorsFirms.Find(id);
-            var model = _solicitorFirmRepository.GetSolicitorFirm(id);
-            if (model.Active == false)
+            var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
+            if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
-                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.FirmName);
+                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.firmName);
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
@@ -205,25 +171,8 @@ namespace Tipstaff.Areas.Admin.Controllers
             //model.deactivatedBy = User.Identity.Name;
             //db.Entry(model).State = EntityState.Modified;
             //db.SaveChanges();
-            var model = _solicitorFirmRepository.GetSolicitorFirm(id);
-            _solicitorFirmRepository.Update(new Services.DynamoTables.SolicitorFirm()
-            {
-                Id = model.Id,
-                FirmName = model.FirmName,
-                AddressLine1 = model.AddressLine1,
-                AddressLine2 = model.AddressLine2,
-                AddressLine3 = model.AddressLine3,
-                Town = model.Town,
-                County = model.County,
-                Postcode = model.Postcode,
-                DX = model.DX,
-                PhoneDayTime = model.PhoneDayTime,
-                PhoneOutofHours = model.PhoneOutofHours,
-                Email = model.Email,
-                Active = false,
-                Deactivated = DateTime.Now,
-                DeactivatedBy = User.Identity.Name
-            });
+            var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
+            _solicitorFirmsPresenter.Update(model);
             return RedirectToAction("Index");
         }
 

@@ -10,7 +10,6 @@ namespace Tipstaff.Services.DynamoTables
     [DynamoDBTable("Tipstaff_Solicitors")]
     public class Solicitor : DynamoTable
     {
-        [DynamoDBRangeKey]
         public string SolicitorFirmID { get; set; }
 
         public string FirstName { get; set; }
