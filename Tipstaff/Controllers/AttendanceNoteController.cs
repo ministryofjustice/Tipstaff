@@ -75,13 +75,13 @@ namespace Tipstaff.Controllers
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListAttendanceNotesByRecord(string id, int? page)
-        {
-            //////TipstaffRecord w = db.TipstaffRecord.Find(id);
+        { 
             TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             ListAttendanceNotesByTipstaffRecord model = new ListAttendanceNotesByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.TipstaffRecordClosed = w.caseStatusID > 2;
-            model.AttendanceNotes = w.AttendanceNotes.OrderByDescending(p => p.callDated).ToXPagedList<AttendanceNote>(page ?? 1, 8);
+            model.AttendanceNotes = _attendanceNotePresenter.GetAllById(id).OrderByDescending(p => p.callDated).ToXPagedList<AttendanceNote>(page ?? 1, 8);
+            //w.AttendanceNotes.OrderByDescending(p => p.callDated).ToXPagedList<AttendanceNote>(page ?? 1, 8);
             return PartialView("_ListAttendanceNotesByRecord", model);
         }
 

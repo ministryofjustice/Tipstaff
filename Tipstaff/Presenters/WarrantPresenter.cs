@@ -13,14 +13,16 @@ namespace Tipstaff.Presenters
         private readonly IAddressPresenter _addressPresenter;
         private readonly ICaseReviewPresenter _casereviewPresenter;
         private readonly IRespondentPresenter _respondentPresenter;
+        private readonly IAttendanceNotePresenter _attendanceNotePresenter;
         private Object _lock = new Object();
 
-        public WarrantPresenter(ITipstaffRecordRepository tipstaffRecordRepository, IAddressPresenter addressPresenter, ICaseReviewPresenter casereviewPresenter, IRespondentPresenter respondentPresenter)
+        public WarrantPresenter(ITipstaffRecordRepository tipstaffRecordRepository, IAddressPresenter addressPresenter, ICaseReviewPresenter casereviewPresenter, IRespondentPresenter respondentPresenter, IAttendanceNotePresenter attendanceNotePresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _addressPresenter = addressPresenter;
             _casereviewPresenter = casereviewPresenter;
             _respondentPresenter = respondentPresenter;
+            _attendanceNotePresenter = attendanceNotePresenter;
         }
         
         public void AddWarrant(Warrant warrant)
@@ -112,7 +114,7 @@ namespace Tipstaff.Presenters
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
                 arrestCount = table.ArrestCount,
-                //AttendanceNotes = get attendance notes?
+                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 DateExecuted = table.DateExecuted,
                 //Documents = get documents?
                 //LinkedSolicitors = get solicitors?

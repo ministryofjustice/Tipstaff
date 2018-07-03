@@ -1,4 +1,7 @@
-﻿using Tipstaff.Services.DynamoTables;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using System.Collections.Generic;
+using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
 
@@ -21,6 +24,15 @@ namespace Tipstaff.Infrastructure.Repositories
         public void DeleteAttendanceNote(AttendanceNote note)
         {
             _dynamoAPI.Delete(note);
+        }
+
+        public IEnumerable<AttendanceNote> GetAllById(string id)
+        {
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition("TipstaffRecordID", ScanOperator.Equal, id)
+                });
         }
 
         public AttendanceNote GetAttendanceNote(string id)
