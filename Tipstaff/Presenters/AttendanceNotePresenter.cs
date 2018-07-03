@@ -77,7 +77,11 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<AttendanceNote> GetAllById(string id)
         {
-            throw new NotImplementedException();
+            var entities = _attendanceNotesRepository.GetAllById(id);
+
+            var caseRevies = entities.Select(x => GetModel(x));
+
+            return caseRevies;
         }
     }
 }

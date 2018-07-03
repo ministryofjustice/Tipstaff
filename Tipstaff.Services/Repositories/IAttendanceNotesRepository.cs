@@ -18,5 +18,7 @@ namespace Tipstaff.Services.Repositories
         AttendanceNote GetAttendanceNoteByIdAndRange(string id, string range);
 
         AttendanceNote GetEntityByObjectKey(object key);
+
+        IEnumerable<AttendanceNote> GetAllById(string id);
     }
 }
