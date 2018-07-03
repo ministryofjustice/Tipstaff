@@ -37,7 +37,7 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Models.TipstaffRecord> GetAll()
         {
-            var entities = _tipstaffRecordRepository.GetAllByCondition<int>("CaseStatus", 2);
+            var entities = _tipstaffRecordRepository.GetAllByCondition<int>("CaseStatusId", 2);
 
             var records = entities.Select(x => GetModel(x));
 
