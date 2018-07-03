@@ -100,7 +100,6 @@ namespace Tipstaff.Controllers
         public ActionResult Issue(GraphPeriod gp)
         {
 
-            //////GraphData wg = new GraphData(gp);
             GraphData wg = _graphPresenter.GetGraphData(gp);
             var Chart1 = new Chart();
             Chart1.Width = 500;

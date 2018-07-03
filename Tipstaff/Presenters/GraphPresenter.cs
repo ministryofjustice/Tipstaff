@@ -9,24 +9,25 @@ namespace Tipstaff.Presenters
 {
     public class GraphPresenter : IGraphPresenter
     {
-        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        
+        private readonly IWarrantPresenter _warrantPresenter;
+        private readonly IChildAbductionPresenter _childAbductionPresenter;
 
-        public GraphPresenter(ITipstaffRecordPresenter tipstaffRecordPresenter)
+        public GraphPresenter(IWarrantPresenter warrantPresenter, IChildAbductionPresenter childAbductionPresenter)
         {
-            _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _childAbductionPresenter = childAbductionPresenter;
+            _warrantPresenter = warrantPresenter;
         }
 
         public GraphData GetGraphData(GraphPeriod gp)
         {
             var graph = new GraphData();
+            graph.gData = new Dictionary<string, int?>();
             DateTime startDate = new DateTime();
             var graphPeriod = gp;
-            var all = _tipstaffRecordPresenter.GetAll();
-            var warants = all.Select(x => x.Discriminator == "Warrant") as List<Warrant>;
-            var childAbductions = all.Select(x => x.Discriminator == "ChildAbduction") as List<ChildAbduction>;
+            var warants = _warrantPresenter.GetAllWarrants();
+            var childAbductions = _childAbductionPresenter.GetAllChildAbductions();
             
-            ////IEnumerable<Warrant> w = db.Warrants.Where(c => c.createdOn >= graph.startDate).
-            ////    OrderBy(c => c.division.Detail);
             switch (graphPeriod)
             {
                 case GraphPeriod.week:
