@@ -23,10 +23,11 @@ namespace Tipstaff.Controllers
         private readonly IChildAbductionPresenter _childAbductionPresenter;
         private readonly IWarrantPresenter _warrantPresenter;
 
-        public ReportsController(IGraphPresenter graphPresenter, IChildAbductionPresenter childAbductionPresenter)
+        public ReportsController(IGraphPresenter graphPresenter, IChildAbductionPresenter childAbductionPresenter, IWarrantPresenter warrantPresenter)
         {
             _graphPresenter = graphPresenter;
             _childAbductionPresenter = childAbductionPresenter;
+            _warrantPresenter = warrantPresenter;
         }
 
         public ActionResult Index()

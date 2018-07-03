@@ -9,7 +9,7 @@
             <dt>The following @genericFunctions.DisplayFieldDescriptorWithRecordCount(Model.TipstaffRecords.Count(),"cases","have") been closed but not had a result entered:-</dt>
             @foreach (var item in Model.TipstaffRecords)
             { 
-                <dd>@Html.ActionLink(item.UniqueRecordID, "Details", genericFunctions.TypeOfTipstaffRecord(item), new { id = item.tipstaffRecordID },null) @item.GetLastStatusChangeDetails</dd>
+                <dd>@Html.ActionLink(item.UniqueRecordID, "Details", genericFunctions.TypeOfTipstaffRecord(item), new { id = item.tipstaffRecordID },null) </dd>
             }
         </dl>
     </fieldset>
