@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using Tipstaff.Presenters.Interfaces;
+using TPLibrary.GuidGenerator;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -11,23 +13,15 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class UsersController : Controller
     {
-        ////TipstaffDB db = new TipstaffDB();
-        ////public UsersController()
-        ////    : this(new TipstaffDB())
-        ////{ }
-        ////public UsersController(TipstaffDB repository)
-        ////{
-        ////    db = repository;
-        ////}
-
-        //
-        // GET: /Admin/Users/
-
         private readonly IUsersPresenter _usersPresenter;
+        private readonly ICloudWatchLogger _logger;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public UsersController(IUsersPresenter usersPresenter)
+        public UsersController(IUsersPresenter usersPresenter, ICloudWatchLogger logger, IGuidGenerator guidGenerator)
         {
             _usersPresenter = usersPresenter;
+            _logger = logger;
+            _guidGenerator = guidGenerator;
         }
 
 
@@ -60,8 +54,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             UserAdminVM model = new UserAdminVM();
 
             var roles = _usersPresenter.GetAllRoles();
-
-            //////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
+           
             model.Roles = new SelectList(roles, "Strength", "Detail");
             return View(model);
         }
@@ -74,15 +67,18 @@ namespace Tipstaff.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     {
-                        //////db.UserAdd(model.User);
+                        model.User.UserID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+                        model.User.RoleStrength = model.User.RoleStrength;
+                        model.User.Role = MemoryCollections.RolesList.GetRoleByStrength(model.User.RoleStrength);
                         _usersPresenter.Add(model.User);
                         return RedirectToAction("Index");
                     }
                 }
                 throw new Exception("Modelstate invalid");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in Users in Create method, for user {((CPrincipal)User).UserID}");
                 var roles = _usersPresenter.GetAllRoles();
                 //////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail");
                 model.Roles = new SelectList(roles, "Strength", "Detail");
@@ -98,6 +94,8 @@ namespace Tipstaff.Areas.Admin.Controllers
             //////model.User = db.GetUserByID(id);
 
             model.User = _usersPresenter.GetUserByID(id);
+
+            model.User.Role = MemoryCollections.RolesList.GetRoleByStrength(model.User.RoleStrength);
             ////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
             var roles = _usersPresenter.GetAllRoles();
             model.Roles = new SelectList(roles, "Strength", "Detail", model.User.RoleStrength);
@@ -108,13 +106,13 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //////db.UpdateUser(model.User);
+                model.User.Role = MemoryCollections.RolesList.GetRoleByStrength(model.User.RoleStrength);
                 _usersPresenter.Update(model.User);
                 return RedirectToAction("Index");
             }
 
             var roles = _usersPresenter.GetAllRoles();
-            //////model.Roles = new SelectList(db.GetAllRoles(), "Strength", "Detail", model.User.RoleStrength);
+            
             model.Roles = new SelectList(roles, "Strength", "Detail", model.User.RoleStrength);
             return View(model);
         }

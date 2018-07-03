@@ -28,7 +28,7 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Role> GetAllRoles()
         {
-            throw new NotImplementedException();
+            return RolesList.GetRolesList();
         }
 
         public IEnumerable<Models.User> GetAllUsers()

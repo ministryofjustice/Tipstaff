@@ -5,21 +5,22 @@
 
 <h6>Search</h6>
 <h6>@Model.errorMessage</h6>
+@Html.AntiForgeryToken();
 
 @if ((Model.searchResults == null) || (Model.searchResults.Count() <= 0))
 {
-       <h6>No records matching '<strong>@Model.searchSource</strong>' could be found</h6>
+    <h6>No records matching '<strong>@Model.searchSource</strong>' could be found</h6>
 }
 else
 {
     switch (Model.searchType)
     {
         case Tipstaff.Models.SearchType.Name:
-                @Html.Raw(string.Format("The following records contain '<strong>{0}</strong>' in the name:", @Model.searchSource))
-           break;
+            @Html.Raw(string.Format("The following records contain '<strong>{0}</strong>' in the name:", @Model.searchSource))
+            break;
         case Tipstaff.Models.SearchType.DateOfBirth:
-                @Html.Raw(string.Format("The following records have '<strong>{0}</strong>' as a date of birth:", @Model.searchSource))
-           break;
+            @Html.Raw(string.Format("The following records have '<strong>{0}</strong>' as a date of birth:", @Model.searchSource))
+            break;
     }
 
     <table>
@@ -30,27 +31,27 @@ else
             <th>Party Type</th>
             <th>Date of Birth</th>
         </tr>
-@{var isAltRow = false;
-  foreach (var item in Model.searchResults.OrderBy(f => f.tipstaffUniqueRecordID))
-  { 
-        <tr class="@( isAltRow ? "altRow" : "")">
-            <td>@Html.ActionLink(item.tipstaffUniqueRecordID, "Details", Tipstaff.genericFunctions.TypeOfTipstaffRecord(item.tipstaffRecordID), new { id = item.tipstaffRecordID }, null)</td>
-            <td>@item.tipstaffRecordType </td>
-            @if (item.tipstaffRecordType.StartsWith("Warrant") && item.PartyType == null)
+        @{var isAltRow = false;
+            foreach (var item in Model.searchResults.OrderBy(f => f.tipstaffUniqueRecordID))
             {
-            <td>@item.name</td>
-            <td></td>
-            <td></td>
+                <tr class="@( isAltRow ? "altRow" : "")">
+                    <td>@Html.ActionLink(item.tipstaffUniqueRecordID, "Details", Tipstaff.genericFunctions.TypeOfTipstaffRecord(item.tipstaffRecordID), new { id = item.tipstaffRecordID }, null)</td>
+                    <td>@item.tipstaffRecordType </td>
+                    @if (item.tipstaffRecordType.StartsWith("Warrant") && item.PartyType == null)
+                    {
+                        <td>@item.name</td>
+                        <td></td>
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>@Html.ImageAndTextLink(Url.Content(string.Format("~/Images/{0}.png", item.PartyType)), item.name, string.Format("Show details for {0}", item.name), "Details", item.PartyType, new { id = item.partyID }, null, null, "createButton")</td>
+                        <td>@item.PartyType</td>
+                        <td>@string.Format("{0:d}", item.DateOfBirth)</td>
+                    }
+                </tr>
+                isAltRow = !isAltRow;
             }
-            else
-            {
-            <td>@Html.ImageAndTextLink(Url.Content(string.Format("~/Images/{0}.png", item.PartyType)), item.name, string.Format("Show details for {0}", item.name), "Details", item.PartyType, new { id = item.partyID }, null, null, "createButton")</td>
-            <td>@item.PartyType</td>
-            <td>@string.Format("{0:d}", item.DateOfBirth)</td>
-            }
-        </tr>
-            isAltRow = !isAltRow;
-  }
-}
-    </table> 
+        }
+    </table>
 }

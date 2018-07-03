@@ -31,5 +31,10 @@ namespace Tipstaff.MemoryCollections
         {
             return GetRolesList().Where(x => x.Detail == d).FirstOrDefault();
         }
+
+        public static Role GetRoleByStrength(int d)
+        {
+            return GetRolesList().Where(x => x.Strength == d).FirstOrDefault();
+        }
     }
 }
