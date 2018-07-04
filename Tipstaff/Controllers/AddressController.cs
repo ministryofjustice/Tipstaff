@@ -33,6 +33,7 @@ namespace Tipstaff.Controllers
         {
             //////Address model = db.Addresses.Find(id);
             var model = _addressPresenter.GetAddress(id);
+            model.TipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
             return View(model);
         }
 
@@ -40,6 +41,7 @@ namespace Tipstaff.Controllers
         {
             ////Address model = db.Addresses.Find(id);
             var model = _addressPresenter.GetAddress(id);
+            model.TipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
             if (model == null)
             {
                 ErrorModel errModel = new ErrorModel(2);
