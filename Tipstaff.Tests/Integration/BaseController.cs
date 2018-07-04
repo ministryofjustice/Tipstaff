@@ -72,7 +72,7 @@ namespace Tipstaff.Tests.Integration
                                                                     _childPresenter, 
                                                                     _addressPresenter, 
                                                                     _applicantPresenter,
-                                                                    _solicitorPresenter);
+                                                                    _solicitorPresenter, _attendanceNotePresenter);
 
             _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter);
             

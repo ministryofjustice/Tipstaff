@@ -199,6 +199,7 @@ namespace Tipstaff.Controllers
                     //     TipstaffRecordID = warrant.tipstaffRecordID,
                     //     UniqueRecordID = warrant.UniqueRecordID
                     //});
+                    warrant.Discriminator = "Warrant";
                     _warrantPresenter.AddWarrant(warrant);
                     return RedirectToAction("Create", "Respondent", new { id = warrant.tipstaffRecordID });
                 }

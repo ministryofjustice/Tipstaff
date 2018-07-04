@@ -18,6 +18,7 @@ namespace Tipstaff.Presenters
         private readonly IAddressPresenter _addressPresenter;
         private readonly IApplicantPresenter _applicantPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
+        private readonly IAttendanceNotePresenter _attendanceNotePresenter;
 
         private Object _lock = new Object();
 
@@ -28,7 +29,7 @@ namespace Tipstaff.Presenters
             IChildPresenter childPresenter, 
             IAddressPresenter addressPresenter, 
             IApplicantPresenter applicantPresenter, 
-            ISolicitorPresenter solicitorPresenter)
+            ISolicitorPresenter solicitorPresenter, IAttendanceNotePresenter attendanceNotePresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _deletedTipstaffRecordRepository = deletedTipstaffRecordRepository;
@@ -38,6 +39,7 @@ namespace Tipstaff.Presenters
             _addressPresenter = addressPresenter;
             _applicantPresenter = applicantPresenter;
             _solicitorPresenter = solicitorPresenter;
+            _attendanceNotePresenter = attendanceNotePresenter;
         }
 
         public void AddDeletedTipstaffRecord(Models.DeletedTipstaffRecord record)
@@ -159,6 +161,7 @@ namespace Tipstaff.Presenters
                 children = _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id),
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
+                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 NPO = table.NPO,
                 
                 
