@@ -56,7 +56,7 @@ namespace Tipstaff.Tests.Integration
             _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>());
 
             //Presenters
-            _addressPresenter = new AddressPresenter(_addressRepository);
+            _addressPresenter = new AddressPresenter(_addressRepository, _tipstaffRecordPresenter);
             _respondentPresenter = new RespondentPresenter(_respondentRepository);
             
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
