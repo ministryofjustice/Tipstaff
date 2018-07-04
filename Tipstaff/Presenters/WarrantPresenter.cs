@@ -49,16 +49,7 @@ namespace Tipstaff.Presenters
 
             return warrants;
         }
-
-        public IEnumerable<Warrant> GetAllWarrantsByCondition(string name, string value)
-        {
-            var records = _tipstaffRecordRepository.GetAllByCondition(name, value);
-
-            var warrants = records.Select(x => GetModel(x));
-
-            return warrants;
-        }
-
+        
         public Services.DynamoTables.TipstaffRecord GetDynamoTable(Warrant model)
         {
             var record = new Services.DynamoTables.TipstaffRecord()

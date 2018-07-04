@@ -53,7 +53,7 @@ namespace Tipstaff.Presenters
                LastName = model.firstName,
                PhoneDayTime = model.phoneDayTime,
                PhoneOutOfHours = model.phoneOutofHours,
-               Salutation = MemoryCollections.SalutationList.GetSalutationByDetail(model.salutation.Detail).Detail,
+               Salutation = MemoryCollections.SalutationList.GetSalutationByID(model.salutation.SalutationId)?.Detail,
                SolicitorFirmID = model.solicitorFirmID,
                Id = model.solicitorID,
                SolicitorName = model.solicitorName

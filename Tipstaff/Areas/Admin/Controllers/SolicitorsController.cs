@@ -6,6 +6,7 @@ using System.Configuration;
 using PagedList;
 using System.Data;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -14,13 +15,15 @@ namespace Tipstaff.Areas.Admin.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class SolicitorsController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
-        //
         private readonly ISolicitorPresenter _solicitorPresenter;
+        private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public SolicitorsController(ISolicitorPresenter solicitorPresenter)
+        public SolicitorsController(ISolicitorPresenter solicitorPresenter, ISolicitorFirmsPresenter solicitorFirmsPresenter, IGuidGenerator guidGenerator)
         {
             _solicitorPresenter = solicitorPresenter;
+            _solicitorFirmsPresenter = solicitorFirmsPresenter;
+            _guidGenerator = guidGenerator;
         }
         // GET: /Admin/Solicitor/
         public ViewResult Index(SolicitorListView model)
@@ -88,6 +91,9 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Create()
         {
             SolicitorAdmin model = new SolicitorAdmin();
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+            model.SolicitorFirmList = new SelectList(solicitorFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
+           // var solicitorFirms = _solicitorFirmsPresenter
             return View(model);
         }
         //
@@ -98,6 +104,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.solicitor.active = true;
+                model.solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 //////db.Solicitors.Add(model.solicitor);
                 //////db.SaveChanges();
                 _solicitorPresenter.AddSolicitor(model.solicitor);
@@ -108,9 +115,16 @@ namespace Tipstaff.Areas.Admin.Controllers
         }
 
         // GET: /Admin/Solicitor/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
-            SolicitorAdmin model = new SolicitorAdmin(id);
+            SolicitorAdmin model = new SolicitorAdmin();
+            model.solicitor  = _solicitorPresenter.GetSolicitor(id.ToString());
+           
+
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+            model.SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationId", "Detail", model.solicitor.salutation.SalutationId);
+            model.SolicitorFirmList = new SelectList(solicitorFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName", model.solicitor.solicitorFirmID);
+
             if (model.solicitor.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
