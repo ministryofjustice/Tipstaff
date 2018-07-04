@@ -86,26 +86,33 @@ namespace Tipstaff.Controllers
                 //}
                 //////TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
                 TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
-                //if (genericFunctions.TypeOfTipstaffRecord(tr) == "Warrant")
-                //////if (tr is Warrant)
-                if (tr.Discriminator=="Warrant")
-                {
-                    Warrant w = (Warrant)tr;
-                    w.RespondentName = model.respondent.PoliceDisplayName;
-                    _tipstaffRecordPresenter.UpdateTipstaffRecord(w);
+                ////if (genericFunctions.TypeOfTipstaffRecord(tr) == "Warrant")
+                ////////if (tr is Warrant)
+                //if (tr.Discriminator=="Warrant")
+                //{
+                //    ////Warrant w = (Warrant)tr;
 
-                    ////w.Respondents.Add(model.respondent);
-                    _respondentPresenter.Add(model.respondent);
-                }
-                else
-                {
-                    //////tr.Respondents.Add(model.respondent);
-                    model.respondent.tipstaffRecordID = model.tipstaffRecordID;
-                    model.tipstaffRecord = tr;
-                    model.respondent.respondentID = _guidGenerator.GenerateTimeBasedGuid().ToString();
-                    _respondentPresenter.Add(model.respondent);
-                    
-                }
+                //    ////w.RespondentName = model.respondent.PoliceDisplayName;
+                //    _tipstaffRecordPresenter.UpdateTipstaffRecord(w);
+                //    model.respondent.respondentID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+                //    model.respondent.tipstaffRecordID = model.tipstaffRecordID;
+                //    ////w.Respondents.Add(model.respondent);
+                //    _respondentPresenter.Add(model.respondent);
+                //}
+                //else
+                //{
+                //    //////tr.Respondents.Add(model.respondent);
+                //    model.respondent.tipstaffRecordID = model.tipstaffRecordID;
+                //    model.tipstaffRecord = tr;
+                //    model.respondent.respondentID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+                //    _respondentPresenter.Add(model.respondent);
+
+                //}
+                model.respondent.tipstaffRecordID = model.tipstaffRecordID;
+                model.tipstaffRecord = tr;
+                model.respondent.respondentID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+                _respondentPresenter.Add(model.respondent);
+
                 //////db.SaveChanges();
                 if (Request!=null && Request.IsAjaxRequest())
                 {

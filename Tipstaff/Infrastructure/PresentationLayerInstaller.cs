@@ -32,8 +32,10 @@ namespace Tipstaff.Infrastructure
             container.Register(Component.For<IUsersPresenter>().ImplementedBy<UsersPresenter>());
             container.Register(Component.For<IDeletedTipstaffRecordPresenter>().ImplementedBy<DeletedTipstaffRecordPresenter>());
             container.Register(Component.For<ITipstaffPoliceForcesPresenter>().ImplementedBy<TipstaffPoliceForcesPresenter>());
+            container.Register(Component.For<IDocumentPresenter>().ImplementedBy<DocumentPresenter>());
             //END PRESENTERS
         }
     }
+    
 }
 //

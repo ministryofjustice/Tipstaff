@@ -319,6 +319,7 @@
     <Compile Include="Presenters\ChildPresenter.cs" />
     <Compile Include="Presenters\ContactPresenter.cs" />
     <Compile Include="Presenters\DeletedTipstaffRecordPresenter.cs" />
+    <Compile Include="Presenters\DocumentPresenter.cs" />
     <Compile Include="Presenters\FAQPresenter.cs" />
     <Compile Include="Presenters\GraphPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IAttendanceNotePresenter.cs" />

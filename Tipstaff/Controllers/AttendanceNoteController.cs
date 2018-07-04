@@ -6,6 +6,7 @@ using Tipstaff.Models;
 using System.Web.UI;
 using Tipstaff.MemoryCollections;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {
@@ -18,11 +19,13 @@ namespace Tipstaff.Controllers
         
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public AttendanceNoteController(IAttendanceNotePresenter attendanceNotePresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
+        public AttendanceNoteController(IAttendanceNotePresenter attendanceNotePresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, IGuidGenerator guidGenerator)
         {
             _attendanceNotePresenter = attendanceNotePresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _guidGenerator = guidGenerator;
         }
         
         [HttpGet]
@@ -57,6 +60,7 @@ namespace Tipstaff.Controllers
             {
                 ////db.AttendanceNotes.Add(AttendanceNote);
                 ////db.SaveChanges();
+                AttendanceNote.AttendanceNoteID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                 _attendanceNotePresenter.AddAttendanceNote(AttendanceNote);
 
                
