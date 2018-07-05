@@ -21,7 +21,7 @@ namespace Tipstaff.Controllers
             _auditEventPresenter = auditEventPresenter;
         }
 
-        public ActionResult Audit(string auditType, int id, int? page)
+        public ActionResult Audit(string auditType, string id, int? page)
         {
             if (page == null || page < 1)
             {
@@ -30,7 +30,6 @@ namespace Tipstaff.Controllers
 
             AuditEventViewModel model = new AuditEventViewModel();
 
-            string stringID = id.ToString();
             string AuditName = string.Format("{0}", auditType);
             ///var AuditMatches = db.AuditDescriptions.Where(a => a.AuditDescription.StartsWith(AuditName));
 
@@ -39,15 +38,15 @@ namespace Tipstaff.Controllers
             var auditEvents = _auditEventPresenter.GetAuditEvents();
             if (AuditName == "Warrant" || AuditName == "ChildAbduction")
             {
-                auditEvents = auditEvents.Where(s => s.RecordAddedTo == id).Union(auditEvents.Where(s => s.auditEventDescription.AuditDescription.StartsWith(AuditName) && s.RecordChanged == stringID));
+                auditEvents = auditEvents.Where(s => s.RecordAddedTo == id).Union(auditEvents.Where(s => s.auditEventDescription.AuditDescription.StartsWith(AuditName) && s.RecordChanged == id));
             }
             else
             {
-                auditEvents = auditEvents.Where(s => s.RecordChanged == stringID && AuditMatches.Select(d => d.Id).Contains(s.auditEventDescription.Id));
+                auditEvents = auditEvents.Where(s => s.RecordChanged == id && AuditMatches.Select(d => d.Id).Contains(s.auditEventDescription.Id));
                 //auditEvents = auditEvents.Where(s => s.RecordChanged == stringID && AuditMatches.Select(d => d.AuditDescription).Contains(s.idAuditEventDescription));
             }
             model.auditType = auditType;
-            model.itemID = stringID;
+            model.itemID = id;
             model.AuditEvents = auditEvents.OrderByDescending(s => s.EventDate).ToPagedList(page ?? 1, 20);
             return View(model);
         }

@@ -27,7 +27,7 @@ namespace Tipstaff.Models
         //public int idAuditEventDescription { get; set; }
         [Required, MaxLength(256)]
         public string RecordChanged { get; set; }
-        public int? RecordAddedTo { get; set; }
+        public string RecordAddedTo { get; set; }
         public int? DeletedReasonID { get; set; }
         public AuditEventDescription auditEventDescription { get; set; }
         public virtual ICollection<AuditEventDataRow> AuditEventDataRows { get; set; }
