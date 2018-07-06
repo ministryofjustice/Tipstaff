@@ -519,7 +519,7 @@ namespace Tipstaff.Controllers
         private string mergeData(Template template, TipstaffRecord tipstaffRecord)
         {
 
-            string result = _s3API.ReadS3Object("tipstaff", "templates", Path.GetFileName(template.filePath)); //template.templateXML;
+            string result = _s3API.ReadS3Object("templates", Path.GetFileName(template.filePath)); //template.templateXML;
             int kids = 1;
             //merge generic fields
             result = result.Replace("||DATE||", DateTime.Now.ToShortDateString());

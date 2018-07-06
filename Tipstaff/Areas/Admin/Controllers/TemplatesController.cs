@@ -77,7 +77,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                     {
                         throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try");
                     }
-                    model.Template.filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
+                    model.Template.filePath = _s3API.Save("templates", model.uploadFile.FileName, model.uploadFile.InputStream);
                     model.Template.active = true;
                     //Upload
                     //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
@@ -137,7 +137,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                         throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try");
                     }
                     //Upload
-                    filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
+                    filePath = _s3API.Save("templates", model.uploadFile.FileName, model.uploadFile.InputStream);
                     //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
                     //model.uploadFile.SaveAs(fileName); //Save to uploads folder     
                     //XmlDocument document = new XmlDocument();
