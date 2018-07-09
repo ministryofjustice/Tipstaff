@@ -8,6 +8,7 @@ using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
 using TPLibrary.S3API;
 using TPLibrary.Logger;
+using System.Text;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -49,7 +50,9 @@ namespace Tipstaff.Areas.Admin.Controllers
             try
             {
                 Template template = _templatePresenter.GetTemplate(id);
-                return File(template.filePath, "application/msword", template.templateName + ".xml");
+                string filename = Path.GetFileName(template.filePath);
+                var response = _s3API.ReadS3Object("templates", filename);
+                return File(new MemoryStream(Encoding.UTF8.GetBytes(response)), "application/msword", filename);
             }
             catch (Exception ex)
             {
