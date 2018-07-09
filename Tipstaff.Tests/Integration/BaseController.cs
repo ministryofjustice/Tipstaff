@@ -23,8 +23,9 @@ namespace Tipstaff.Tests.Integration
         protected IChildAbductionPresenter _childAbductionPresenter;
         protected IWarrantPresenter _warrantPresenter;
         protected IChildPresenter _childPresenter;
-        private IApplicantPresenter _applicantPresenter;
+        protected IApplicantPresenter _applicantPresenter;
         protected ISolicitorPresenter _solicitorPresenter;
+        protected ITemplatePresenter _templatePresenter;
 
         //Repositories
         protected ICaseReviewRepository _caseReviewRepository;
@@ -36,6 +37,8 @@ namespace Tipstaff.Tests.Integration
         protected IChildRepository _childRepository;
         protected IApplicantRepository _applicantRepository;
         protected ISolicitorRepository _solicitorRepository;
+        protected ITemplateRepository _templateRepository;
+
         //protected ITipstaffRecordPresenter
 
 
@@ -54,6 +57,7 @@ namespace Tipstaff.Tests.Integration
             _childRepository = new ChildRepository(new DynamoAPI<Child>());
             _applicantRepository = new ApplicantRepository(new DynamoAPI<Applicant>());
             _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>());
+            _templateRepository = new TemplateRepository(new DynamoAPI<Template>());
 
             //Presenters
             _addressPresenter = new AddressPresenter(_addressRepository);
@@ -75,7 +79,7 @@ namespace Tipstaff.Tests.Integration
                                                                     _solicitorPresenter, _attendanceNotePresenter);
 
             _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter);
-            
+            _templatePresenter = new TemplatePresenter(_templateRepository, _tipstaffRecordPresenter, _solicitorPresenter);
         }
         
     }
