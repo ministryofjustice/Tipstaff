@@ -7,6 +7,7 @@ using System.IO;
 using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
 using TPLibrary.S3API;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -18,12 +19,14 @@ namespace Tipstaff.Areas.Admin.Controllers
         private readonly ITemplatePresenter _templatePresenter;
         private readonly IS3API _s3API;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ICloudWatchLogger _logger;
 
-        public TemplatesController(ITemplatePresenter templatePresenter, IS3API s3Repo, IGuidGenerator guidGenerator)
+        public TemplatesController(ITemplatePresenter templatePresenter, IS3API s3Repo, IGuidGenerator guidGenerator, ICloudWatchLogger logger)
         {
             _templatePresenter = templatePresenter;
             _s3API = s3Repo;
             _guidGenerator = guidGenerator;
+            _logger = logger;
         }
 
         //
@@ -50,6 +53,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in Admin-TemplatesController in Open method, for user {((CPrincipal)User).UserID}");
                 return View("Error");
             }
 
@@ -77,17 +81,9 @@ namespace Tipstaff.Areas.Admin.Controllers
                     {
                         throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try");
                     }
-                    model.Template.filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
+                    model.Template.filePath = _s3API.Save("templates", model.uploadFile.FileName, model.uploadFile.InputStream);
                     model.Template.active = true;
-                    //Upload
-                    //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
-                    //model.uploadFile.SaveAs(fileName); //Save to uploads folder     
-                    //XmlDocument document = new XmlDocument();
-                    //document.Load(fileName);
-                    //xml = document.InnerXml;
-                    ////Delete file
-                    //System.IO.File.Delete(fileName);
-
+ 
                     model.Template.templateID = _guidGenerator.GenerateTimeBasedGuid().ToString();
                     _templatePresenter.AddTemplate(model);
 
@@ -103,6 +99,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in Admin-TemplatesController in Create method, for user {((CPrincipal)User).UserID}");
                 model.ErrorMessage = genericFunctions.GetLowestError(ex);
                 model.UploadSuccessful = false;
                 return View(model);
@@ -137,7 +134,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                         throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try");
                     }
                     //Upload
-                    filePath = _s3API.Save("tipstaff", "templates", model.uploadFile.FileName, model.uploadFile.InputStream);
+                    filePath = _s3API.Save("templates", model.uploadFile.FileName, model.uploadFile.InputStream);
                     //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
                     //model.uploadFile.SaveAs(fileName); //Save to uploads folder     
                     //XmlDocument document = new XmlDocument();
@@ -157,6 +154,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in Admin-TemplatesController in Edit method, for user {((CPrincipal)User).UserID}");
                 model.ErrorMessage = genericFunctions.GetLowestError(ex);
                 model.UploadSuccessful = false;
                 return View(model);

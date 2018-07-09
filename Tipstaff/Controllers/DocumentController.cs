@@ -144,7 +144,7 @@ namespace Tipstaff.Controllers
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
                 //PROBABLY THIS WILL HAVE TO BE IMPLEMENTED ON THE PRESENTER
-                filePath = _s3API.Save("tipstaff", "documents", model.uploadFile.FileName, model.uploadFile.InputStream);
+                filePath = _s3API.Save("documents", model.uploadFile.FileName, model.uploadFile.InputStream);
 
                 //model.document.binaryFile = buffer;
                 model.document.fileName = Path.GetFileName(model.uploadFile.FileName);
