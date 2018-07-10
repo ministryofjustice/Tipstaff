@@ -8,6 +8,7 @@ using TPLibrary.Logger;
 using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
 using TPLibrary.S3API;
+using System.Text;
 
 namespace Tipstaff.Controllers
 {
@@ -22,25 +23,29 @@ namespace Tipstaff.Controllers
         private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ITipstaffRecordPresenter _tipstaffPresenter;
+        private readonly ITemplatePresenter _templatePresenter;
         
-        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IDocumentPresenter docPresenter, IGuidGenerator guidGenerator)
+        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IDocumentPresenter docPresenter, ITipstaffRecordPresenter tipstaffPresenter, ITemplatePresenter templatePresenter, IGuidGenerator guidGenerator)
         {
             _logger = logger;
             _docPresenter = docPresenter;
             _s3API = s3api;
             _guidGenerator = guidGenerator;
+            _tipstaffPresenter = tipstaffPresenter;
+            _templatePresenter = templatePresenter;
         }
 
         public ActionResult ChooseAddressee(string tipstaffRecordID, string templateID)
         {
-            TipstaffRecord tr = _docPresenter.GetTipstaffRecord(tipstaffRecordID);
+            TipstaffRecord tr = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);
             if (tr.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = tr.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
 
-            Template t = _docPresenter.GetTemplate(templateID);
+            Template t = _templatePresenter.GetTemplate(templateID);
             if (t.addresseeRequired)
             {
                 ChooseAddresseeModel model = new ChooseAddresseeModel();
@@ -102,15 +107,15 @@ namespace Tipstaff.Controllers
         public ActionResult Select(string id)
         {
             CreateDocumentViewModel model = new CreateDocumentViewModel();
-            model.tipstaffRecord = _docPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(id);
             if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
 
-            string docType = genericFunctions.TypeOfTipstaffRecord(model.tipstaffRecord);
-            model.TemplatesForRecordType = _docPresenter.GetTemplatesForRecordType(docType); 
+            string docType = model.tipstaffRecord.Discriminator; //genericFunctions.TypeOfTipstaffRecord(model.tipstaffRecord);
+            model.TemplatesForRecordType = _templatePresenter.GetTemplatesForRecordType(docType); 
             return View(model);
         }
 
@@ -119,7 +124,7 @@ namespace Tipstaff.Controllers
         {
             DocumentUploadModel model = new DocumentUploadModel();
             model.tipstaffRecordID = id;
-            model.tipstaffRecord = _docPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(id);
             if (model.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
@@ -162,7 +167,7 @@ namespace Tipstaff.Controllers
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListDocumentsByRecord(string id, int? page)
         {
-            TipstaffRecord w = _docPresenter.GetTipstaffRecord(id);
+            TipstaffRecord w = _tipstaffPresenter.GetTipStaffRecord(id);
             ListDocumentsByTipstaffRecord model = new ListDocumentsByTipstaffRecord();
             model.tipstaffRecordID = id;
             model.TipstaffRecordClosed = (w.caseStatus.Detail == "File Closed" || w.caseStatus.Detail == "File Archived" || w.caseStatus.Detail == "Stayed");
@@ -194,7 +199,9 @@ namespace Tipstaff.Controllers
             try
             {
                 Document doc = _docPresenter.GetDocument(id);
-                return File(doc.filePath, "application/msword");
+                string filename = Path.GetFileName(doc.filePath);
+                var response = _s3API.ReadS3Object("documents", filename);
+                return File(new MemoryStream(Encoding.UTF8.GetBytes(response)), "application/msword", filename);
             }
             catch (Exception ex)
             {

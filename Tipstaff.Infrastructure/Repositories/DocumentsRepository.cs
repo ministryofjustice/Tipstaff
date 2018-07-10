@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using System.Collections.Generic;
 using System.Linq;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
@@ -8,44 +10,52 @@ namespace Tipstaff.Infrastructure.Repositories
 {
     public class DocumentsRepository : IDocumentsRepository
     {
-        private readonly IDynamoAPI<Document> _dynamoAPI;
+        private readonly IDynamoAPI<Services.DynamoTables.Document> _dynamoAPI;
 
-        public DocumentsRepository(IDynamoAPI<Document> dynamoAPI)
+        public DocumentsRepository(IDynamoAPI<Services.DynamoTables.Document> dynamoAPI)
         {
             _dynamoAPI = dynamoAPI;
         }
 
-        public void AddDocument(Document doc)
+        public void AddDocument(Services.DynamoTables.Document doc)
         {
             _dynamoAPI.Save(doc);
          }
 
-        public void DeleteDocument(Document doc)
+        public void DeleteDocument(Services.DynamoTables.Document doc)
         {
             _dynamoAPI.Delete(doc);
         }
 
-        public IEnumerable<Document> GetAllDocumentssByTipstaffRecordID(string id)
+        public IEnumerable<Services.DynamoTables.Document> GetAllDocumentsByTipstaffRecordID(string id)
         {
-            return _dynamoAPI.GetAll().Where(c => c.TipstaffRecordID == id);
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition("TipstaffRecordID", ScanOperator.Equal, id)
+                });
         }
 
-        public Document GetDocument(string id)
+        public Services.DynamoTables.Document GetDocument(string id)
         {
-            return _dynamoAPI.GetEntityByKey(id);
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition("Id", ScanOperator.Equal, id)
+                }).FirstOrDefault();
         }
 
-        public Document GetDocumentByIdAndRange(string id, string range)
+        public Services.DynamoTables.Document GetDocumentByIdAndRange(string id, string range)
         {
             return _dynamoAPI.GetEntityByKeys(id, range);
         }
 
-        public Document GetEntityByObjectKey(object hashKey, object rangeKey)
+        public Services.DynamoTables.Document GetEntityByObjectKey(object hashKey, object rangeKey)
         {
             return _dynamoAPI.GetEntityByKeys(hashKey, rangeKey);
         }
 
-        public Document GetEntityByObjectKey(object key)
+        public Services.DynamoTables.Document GetEntityByObjectKey(object key)
         {
             return _dynamoAPI.GetEntityByKey(key);
         }

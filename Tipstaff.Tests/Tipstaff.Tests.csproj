@@ -104,6 +104,7 @@
     <Compile Include="Integration\ChildControllerTests.cs" />
     <Compile Include="Integration\ContactsControllerTests.cs" />
     <Compile Include="Integration\ApplicantControllerTests.cs" />
+    <Compile Include="Integration\DocumentsControllerTests.cs" />
     <Compile Include="Integration\PoliceForcesControllerTests.cs" />
     <Compile Include="Integration\RespondentControllerTests.cs" />
     <Compile Include="Integration\TemplatesControllerTests.cs" />

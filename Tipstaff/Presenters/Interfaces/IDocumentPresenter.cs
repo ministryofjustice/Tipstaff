@@ -11,12 +11,6 @@ namespace Tipstaff.Presenters
     {
         Document GetDocument(string id);
 
-        TipstaffRecord GetTipstaffRecord(string id);
-
-        Template GetTemplate(string id);
-
-        IEnumerable<Template> GetTemplatesForRecordType(string type); //db.Templates.Where(t => (t.Discriminator == docType || t.Discriminator == "All") && t.active).OrderBy(t=>t.Discriminator);
-
         User GetUserByLoginName(string loginName);
 
         void AddDocument(DocumentUploadModel model);

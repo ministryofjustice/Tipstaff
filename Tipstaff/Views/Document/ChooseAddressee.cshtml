@@ -16,49 +16,58 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken();
-        <fieldset>
-            <legend>Generate @Model.template.templateName in case @Model.tipstaffRecord.UniqueRecordID...</legend>
+<fieldset>
+    <legend>Generate @Model.template.templateName in case @Model.tipstaffRecord.UniqueRecordID...</legend>
+    @if (Model.SolicitorsOnRecord != null)
+    {
+        foreach (Tipstaff.Models.TipstaffRecordSolicitor sol in Model.SolicitorsOnRecord)
+        {
+            <div>
+                @Html.RouteLink(string.Format("addressed to {0}", sol.solicitor.solicitorName), new
+                                                        {controller = "Template"
+                                                            , action = "Create4"
+                                                            , tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
+                                                            , templateID = Model.template.templateID
+                                                            , solicitorID = sol.solicitorID
+                                                        })
+            </div>
+        }
+    }
 
-            @foreach (Tipstaff.Models.TipstaffRecordSolicitor sol in Model.SolicitorsOnRecord)
-            {
-               <div>@Html.RouteLink(string.Format("addressed to {0}", sol.solicitor.solicitorName), new
-                                                                {controller = "Template"
-                                                                    , action = "Create4"
-                                                                    , tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
-                                                                    , templateID = Model.template.templateID
-                                                                    , solicitorID = sol.solicitorID
-                                                                })</div>
-            }
-            @if (genericFunctions.isTipstaffRecordChildAbduction(Model.tipstaffRecord))
-            { 
-                foreach (Tipstaff.Models.Applicant app in Model.Applicants)
-                {
-                    <div>@Html.RouteLink(string.Format("addressed to {0}", app.fullname), new
-                    {
-                        controller = "Template"
-                        ,
-                        action = "Create8"
-                        ,
-                        tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
-                        ,
-                        templateID = Model.template.templateID
-                        ,
-                        applicantID = app.ApplicantID
-                    })</div>
-             }
-            }
+    @if (genericFunctions.isTipstaffRecordChildAbduction(Model.tipstaffRecord))
+    {
+        foreach (Tipstaff.Models.Applicant app in Model.Applicants)
+        {
+            <div>
+                @Html.RouteLink(string.Format("addressed to {0}", app.fullname), new
+       {
+           controller = "Template"
+           ,
+           action = "Create8"
+           ,
+           tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
+           ,
+           templateID = Model.template.templateID
+           ,
+           applicantID = app.ApplicantID
+       })
+        </div>
+    }
+}
 
 
-            <div>or with @Html.RouteLink("blank addresss", new
-                    {
-                        controller = "Template"
-                        ,
-                        action = "Create"
-                        ,
-                        tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
-                        ,
-                        templateID = Model.template.templateID
-                    })</div>
+    <div>
+        or with @Html.RouteLink("blank addresss", new
+   {
+       controller = "Template"
+       ,
+       action = "Create"
+       ,
+       tipstaffRecordID = Model.tipstaffRecord.tipstaffRecordID
+       ,
+       templateID = Model.template.templateID
+   })
+    </div>
 
-        </fieldset>
+</fieldset>
 }

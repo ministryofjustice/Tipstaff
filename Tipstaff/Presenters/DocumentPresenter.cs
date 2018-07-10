@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Tipstaff.Models;
+using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
     public class DocumentPresenter : IDocumentPresenter
     {
+        private readonly IDocumentsRepository _docRepository;
+        private readonly ISolicitorPresenter _solicitorPresenter;
+
+        public DocumentPresenter(IDocumentsRepository docRepo, ISolicitorPresenter solicitorPresenter)
+        {
+            _docRepository = docRepo;
+            _solicitorPresenter = solicitorPresenter;
+        }
+
         public void AddDocument(DocumentUploadModel model)
         {
             throw new NotImplementedException();
@@ -19,21 +29,6 @@ namespace Tipstaff.Presenters
         }
 
         public Document GetDocument(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Template GetTemplate(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Template> GetTemplatesForRecordType(string type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TipstaffRecord GetTipstaffRecord(string id)
         {
             throw new NotImplementedException();
         }
