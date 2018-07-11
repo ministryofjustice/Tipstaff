@@ -17,6 +17,6 @@ namespace Tipstaff.Services.Repositories
 
         User GetUserByID(string id);
 
-        User GetUserByName(string name);
+        User GetUserByLoginName(string name);
     }
 }

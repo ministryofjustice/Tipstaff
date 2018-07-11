@@ -30,8 +30,6 @@ namespace Tipstaff.Models
         public string createdBy { get; set; }
         public string tipstaffRecordID { get; set; }
         
-        public byte[] binaryFile { get; set; }
-        
         public string fileName { get; set; }
         public string filePath { get; set; }
         [ScaffoldColumn(false), MaxLength(60)]

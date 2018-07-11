@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Tipstaff.Models;
-using Tipstaff.Presenters.Interfaces;
+using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
 using TPLibrary.Logger;
 

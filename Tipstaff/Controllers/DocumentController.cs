@@ -137,9 +137,9 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Upload(DocumentUploadModel model)
         {
-            User user = _docPresenter.GetUserByLoginName(User.Identity.Name.Split('\\').Last());
+            //User user = _userPresenter.GetUserByLoginName(User.Identity.Name.Split('\\').Last());
 
-            model.document.createdBy = user.DisplayName;
+            model.document.createdBy = User.Identity.Name.Split('\\').Last(); // user.DisplayName;
             model.document.createdOn = DateTime.Now;
             model.document.tipstaffRecordID = model.tipstaffRecordID;
             string filePath = String.Empty;
@@ -148,10 +148,8 @@ namespace Tipstaff.Controllers
                 var stream = model.uploadFile.InputStream;
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                //PROBABLY THIS WILL HAVE TO BE IMPLEMENTED ON THE PRESENTER
                 filePath = _s3API.Save("documents", model.uploadFile.FileName, model.uploadFile.InputStream);
 
-                //model.document.binaryFile = buffer;
                 model.document.fileName = Path.GetFileName(model.uploadFile.FileName);
                 model.document.mimeType = model.uploadFile.ContentType;
             }

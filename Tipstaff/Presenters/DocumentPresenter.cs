@@ -32,10 +32,5 @@ namespace Tipstaff.Presenters
         {
             throw new NotImplementedException();
         }
-
-        public User GetUserByLoginName(string loginName)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

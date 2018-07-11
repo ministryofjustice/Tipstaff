@@ -11,8 +11,6 @@ namespace Tipstaff.Presenters
     {
         Document GetDocument(string id);
 
-        User GetUserByLoginName(string loginName);
-
         void AddDocument(DocumentUploadModel model);
 
         void DeleteDocument(DeleteDocument model);

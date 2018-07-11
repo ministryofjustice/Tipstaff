@@ -345,7 +345,6 @@
     <Compile Include="Presenters\Interfaces\ITemplatePresenter.cs" />
     <Compile Include="Presenters\Interfaces\ITipstaffPoliceForcesPresenter.cs" />
     <Compile Include="Presenters\Interfaces\ITipstaffRecordPresenter.cs" />
-    <Compile Include="Presenters\Interfaces\IUserPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IUsersPresenter.cs" />
     <Compile Include="Presenters\Interfaces\IWarrantPresenter.cs" />
     <Compile Include="Presenters\PoliceForcesPresenter.cs" />

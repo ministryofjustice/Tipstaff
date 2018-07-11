@@ -46,7 +46,7 @@ namespace Tipstaff.Presenters
                 DisplayName = model.DisplayName,
                 LastActive = model.LastActive,
                 Name = model.Name,
-                Role = MemoryCollections.RolesList.GetRoleByDetail(model.Role.Detail).Detail,
+                Role = RolesList.GetRoleByDetail(model.Role.Detail).Detail,
                 RoleStrength = model.RoleStrength
             };
 
@@ -62,7 +62,7 @@ namespace Tipstaff.Presenters
                 LastActive = table.LastActive,
                 Name = table.Name,
                 RoleStrength = table.RoleStrength,
-                Role = MemoryCollections.RolesList.GetRoleByDetail(table.Role),
+                Role = RolesList.GetRoleByDetail(table.Role),
             };
 
             return model;
@@ -71,6 +71,15 @@ namespace Tipstaff.Presenters
         public Models.User GetUserByID(string id)
         {
             var user = _userRepository.GetUserByID(id);
+
+            var mdl = GetModel(user);
+
+            return mdl;
+        }
+
+        public Models.User GetUserByLoginName(string name)
+        {
+            var user = _userRepository.GetUserByLoginName(name);
 
             var mdl = GetModel(user);
 

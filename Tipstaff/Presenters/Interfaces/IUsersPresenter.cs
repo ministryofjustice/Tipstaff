@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Tipstaff.MemoryCollections;
 using Tipstaff.Models;
 
-namespace Tipstaff.Presenters.Interfaces
+namespace Tipstaff.Presenters
 {
     public interface IUsersPresenter
     {
@@ -17,6 +17,8 @@ namespace Tipstaff.Presenters.Interfaces
         void Add(User user);
 
         User GetUserByID(string id);
+
+        User GetUserByLoginName(string name);
 
         IEnumerable<Role> GetAllRoles();
     }
