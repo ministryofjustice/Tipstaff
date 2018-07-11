@@ -39,8 +39,101 @@ namespace Tipstaff.Tests.Integration
                 _guidGenerator.Object);
         }
 
+        [Test]
+        public void Create_Should_Add_New_Document()
+        {
+            Models.DocumentUploadModel docUpload = new Models.DocumentUploadModel()
+            {
+                document = new Models.Document()
+                {
+                    createdBy = "integration test",
+                    createdOn = DateTime.Now,
+                    tipstaffRecordID = "1",
+                    mimeType = "mime",
+                    documentID = docIndex.ToString(),
+                    country = MemoryCollections.CountryList.GetCountryByID(1),
+                    nationality = MemoryCollections.NationalityList.GetNationalityByID(1),
+                    documentReference = "Reference",
+                    documentStatus = MemoryCollections.DocumentStatusList.GetDocumentStatusByID(1),
+                    documentType = MemoryCollections.DocumentTypeList.GetDocumentTypeByID(1)
+                 },
+                 tipstaffRecordID = "1"
+            };
+            Mock<HttpPostedFileBase> uploadFile = new Mock<HttpPostedFileBase>();
+            uploadFile
+            .Setup(f => f.ContentLength)
+            .Returns(10);
 
+            uploadFile
+                .Setup(f => f.FileName)
+                .Returns("testdocument.txt");
+
+            uploadFile
+               .Setup(f => f.ContentType)
+               .Returns("mime");
+
+            uploadFile
+                .Setup(f => f.InputStream)
+                .Returns(new MemoryStream(Encoding.UTF8.GetBytes("test document")));
+
+            docUpload.uploadFile = uploadFile.Object;
+
+            _guidGenerator.Setup(x => x.GenerateTimeBasedGuid()).Returns(docIndex);
+            var response = _sub.Upload(docUpload);
+
+            doc = _docRepository.GetDocument(docIndex.ToString());
+            Assert.AreEqual("mime", doc.MimeType);
+            Assert.AreEqual("1", doc.TipstaffRecordID);
+        }
+
+        [Test]
+        public void Create_Should_Extract_Document()
+        {
+            Models.DocumentUploadModel docUpload = new Models.DocumentUploadModel()
+            {
+                document = new Models.Document()
+                {
+                    createdBy = "integration test",
+                    createdOn = DateTime.Now,
+                    tipstaffRecordID = "1",
+                    mimeType = "mime",
+                    documentID = docIndex.ToString(),
+                    country = MemoryCollections.CountryList.GetCountryByID(1),
+                    nationality = MemoryCollections.NationalityList.GetNationalityByID(1),
+                    documentReference = "Reference",
+                    documentStatus = MemoryCollections.DocumentStatusList.GetDocumentStatusByID(1),
+                    documentType = MemoryCollections.DocumentTypeList.GetDocumentTypeByID(1)
+                },
+                tipstaffRecordID = "1"
+            };
+            Mock<HttpPostedFileBase> uploadFile = new Mock<HttpPostedFileBase>();
+            uploadFile
+            .Setup(f => f.ContentLength)
+            .Returns(10);
+
+            uploadFile
+                .Setup(f => f.FileName)
+                .Returns("testdocument.txt");
+
+            uploadFile
+               .Setup(f => f.ContentType)
+               .Returns("mime");
+
+            uploadFile
+                .Setup(f => f.InputStream)
+                .Returns(new MemoryStream(Encoding.UTF8.GetBytes("test document")));
+
+            docUpload.uploadFile = uploadFile.Object;
+
+            _guidGenerator.Setup(x => x.GenerateTimeBasedGuid()).Returns(docIndex);
+            var response = _sub.Upload(docUpload);
+
+            doc = _docRepository.GetDocument(docIndex.ToString());
+
+            System.Web.Mvc.FileStreamResult resp = (System.Web.Mvc.FileStreamResult)_sub.ExtractDocument(docIndex.ToString());
+
+            Assert.AreEqual("application/msword", resp.ContentType);
+            Assert.AreEqual(doc.FileName, resp.FileDownloadName);
+        }
     }
-
-    
 }

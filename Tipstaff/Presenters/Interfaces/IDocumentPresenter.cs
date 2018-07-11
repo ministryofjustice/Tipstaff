@@ -15,5 +15,7 @@ namespace Tipstaff.Presenters
 
         void DeleteDocument(DeleteDocument model);
 
+        IEnumerable<Document> GetAllDocumentsByTipstaffRecordID(string id);
+
     }
 }

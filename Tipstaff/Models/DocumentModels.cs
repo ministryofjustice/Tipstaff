@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tipstaff.Models
 {
-    public class Document
+    public class Document:IModel
     {
         [Key]
         public string documentID { get; set; }

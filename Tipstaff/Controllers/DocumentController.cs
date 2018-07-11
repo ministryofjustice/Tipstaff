@@ -139,7 +139,7 @@ namespace Tipstaff.Controllers
         {
             //User user = _userPresenter.GetUserByLoginName(User.Identity.Name.Split('\\').Last());
 
-            model.document.createdBy = User.Identity.Name.Split('\\').Last(); // user.DisplayName;
+            model.document.createdBy = (User ==null?"":User.Identity.Name.Split('\\').Last()); // user.DisplayName;
             model.document.createdOn = DateTime.Now;
             model.document.tipstaffRecordID = model.tipstaffRecordID;
             string filePath = String.Empty;
@@ -148,14 +148,17 @@ namespace Tipstaff.Controllers
                 var stream = model.uploadFile.InputStream;
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                filePath = _s3API.Save("documents", model.uploadFile.FileName, model.uploadFile.InputStream);
+                var filename = model.tipstaffRecordID + "/" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + model.uploadFile.FileName;
+                filePath = _s3API.Save("documents", filename, model.uploadFile.InputStream);
 
-                model.document.fileName = Path.GetFileName(model.uploadFile.FileName);
+                model.document.fileName = filename;
                 model.document.mimeType = model.uploadFile.ContentType;
+                model.document.filePath = filePath;
             }
             if (ModelState.IsValid)
             {
                 string did = (model.document.documentID == null) ? _guidGenerator.GenerateTimeBasedGuid().ToString() : model.document.documentID;
+                model.document.documentID = did;
                 _docPresenter.AddDocument(model);
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.tipstaffRecordID), new { id = model.tipstaffRecordID });
             }
@@ -169,7 +172,7 @@ namespace Tipstaff.Controllers
             ListDocumentsByTipstaffRecord model = new ListDocumentsByTipstaffRecord();
             model.tipstaffRecordID = id;
             model.TipstaffRecordClosed = (w.caseStatus.Detail == "File Closed" || w.caseStatus.Detail == "File Archived" || w.caseStatus.Detail == "Stayed");
-            model.Documents = w.Documents.OrderByDescending(d => d.createdOn).ToXPagedList<Document>(page ?? 1, 8);
+            model.Documents = _docPresenter.GetAllDocumentsByTipstaffRecordID(id).OrderByDescending(d => d.createdOn).ToXPagedList<Document>(page ?? 1, 8);
             return PartialView("_ListDocumentsByRecord", model);
         }
 
@@ -197,7 +200,7 @@ namespace Tipstaff.Controllers
             try
             {
                 Document doc = _docPresenter.GetDocument(id);
-                string filename = Path.GetFileName(doc.filePath);
+                string filename = doc.fileName; //Path.GetFileName(doc.filePath);
                 var response = _s3API.ReadS3Object("documents", filename);
                 return File(new MemoryStream(Encoding.UTF8.GetBytes(response)), "application/msword", filename);
             }
