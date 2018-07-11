@@ -65,13 +65,21 @@ namespace Tipstaff.Tests.Integration
             //Presenters
             _addressPresenter = new AddressPresenter(_addressRepository);
             _respondentPresenter = new RespondentPresenter(_respondentRepository);
-            
+            _docPresenter = new DocumentPresenter(_docRepository);
+            _templatePresenter = new TemplatePresenter(_templateRepository);
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
-            _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository, _respondentPresenter, _caseReviewPresenter, _addressPresenter);
-            _childPresenter = new ChildPresenter(_childRepository, _tipstaffRecordRepository, _tipstaffRecordPresenter);
-            _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository, _tipstaffRecordPresenter);
             _solicitorPresenter = new SolicitorPresenter(_solicitorRepository);
-            _applicantPresenter = new ApplicantPresenter(_applicantRepository, _tipstaffRecordPresenter);
+            _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository,
+                                                                   _tipstaffRecordPresenter);
+            _applicantPresenter = new ApplicantPresenter(_applicantRepository, 
+                                                        _tipstaffRecordPresenter);
+            _childPresenter = new ChildPresenter(_childRepository,
+                                                 _tipstaffRecordRepository,
+                                                 _tipstaffRecordPresenter);
+            _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository, 
+                                                                   _respondentPresenter, 
+                                                                   _caseReviewPresenter, 
+                                                                   _addressPresenter);
              _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, 
                                                                     _deleteTipstaffRecordRepository, 
                                                                     _caseReviewPresenter, 
@@ -79,10 +87,11 @@ namespace Tipstaff.Tests.Integration
                                                                     _childPresenter, 
                                                                     _addressPresenter, 
                                                                     _applicantPresenter,
-                                                                    _solicitorPresenter, _attendanceNotePresenter);
-            _docPresenter = new DocumentPresenter(_docRepository);
+                                                                    _solicitorPresenter, 
+                                                                    _attendanceNotePresenter);
+            
             _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter, _docPresenter);
-            _templatePresenter = new TemplatePresenter(_templateRepository);
+            
         }
         
     }
