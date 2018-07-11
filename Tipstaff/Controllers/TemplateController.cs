@@ -21,16 +21,20 @@ namespace Tipstaff.Controllers
         private readonly ITemplatePresenter _templatePresenter;
         private readonly ITipstaffRecordPresenter _tipstaffPresenter;
         private readonly IWarrantPresenter _warrantPresenter;
+        private readonly IApplicantPresenter _applicantPresenter;
+        private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
 
-        public TemplateController(ICloudWatchLogger logger, IS3API s3api, ITemplatePresenter templatePresenter, ITipstaffRecordPresenter tipstaffPResenter, IWarrantPresenter warrantPresenter)
+        public TemplateController(ICloudWatchLogger logger, IS3API s3api, ITemplatePresenter templatePresenter, ITipstaffRecordPresenter tipstaffPResenter, IWarrantPresenter warrantPresenter, IApplicantPresenter applicantPresenter, ISolicitorPresenter solicitorPresenter)
         {
             _logger = logger;
             _s3API = s3api;
             _templatePresenter = templatePresenter;
             _tipstaffPresenter = tipstaffPResenter;
             _warrantPresenter = warrantPresenter;
+            _applicantPresenter = applicantPresenter;
+            _solicitorPresenter = solicitorPresenter;
         }
         //
         // GET: /Template/
@@ -255,7 +259,7 @@ namespace Tipstaff.Controllers
             try
             {
                 //get solicitor from solicitorID
-                Solicitor solicitor = _templatePresenter.GetSolicitor(solicitorID);
+                Solicitor solicitor = _solicitorPresenter.GetSolicitor(solicitorID);
 
                 //Get TipstaffRecord from warrantID
                 TipstaffRecord tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);
@@ -322,7 +326,7 @@ namespace Tipstaff.Controllers
             try
             {
                 //get applicant from applicantID
-                Applicant applicant = _templatePresenter.GetApplicant(applicantID);
+                Applicant applicant = _applicantPresenter.GetApplicant(applicantID);
 
                 //Get TipstaffRecord from warrantID
                 TipstaffRecord tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);

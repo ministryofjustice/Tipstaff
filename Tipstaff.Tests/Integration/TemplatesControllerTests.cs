@@ -45,7 +45,7 @@ namespace Tipstaff.Tests.Integration
             templateIndex = Guid.NewGuid();
             trIndex = Guid.NewGuid();
             _sub = new TemplatesController(_templatePresenter, _s3Repository, _guidGenerator.Object, _cloudWatchLogger.Object);
-            _subMain = new Controllers.TemplateController(_cloudWatchLogger.Object, _s3Repository, _templatePresenter, _tipstaffRecordPresenter, _warrantPresenter);
+            _subMain = new Controllers.TemplateController(_cloudWatchLogger.Object, _s3Repository, _templatePresenter, _tipstaffRecordPresenter, _warrantPresenter, _applicantPresenter, _solicitorPresenter);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Tipstaff.Tests.Integration
 
             uploadFile
                 .Setup(f => f.InputStream)
-                .Returns(new System.IO.MemoryStream(Encoding.UTF8.GetBytes("test file")));
+                .Returns(new MemoryStream(Encoding.UTF8.GetBytes("test file")));
 
             te.uploadFile = uploadFile.Object;
 

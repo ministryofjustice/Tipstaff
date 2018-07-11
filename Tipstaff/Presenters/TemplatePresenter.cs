@@ -10,12 +10,10 @@ namespace Tipstaff.Presenters
     public class TemplatePresenter : ITemplatePresenter, IMapper<Models.Template, Tipstaff.Services.DynamoTables.Template>, IMapperCollections<Models.Template, Tipstaff.Services.DynamoTables.Template>
     {
         private readonly ITemplateRepository _templateRepository;
-        private readonly ISolicitorPresenter _solicitorPresenter;
 
-        public TemplatePresenter(ITemplateRepository templateRepo, ISolicitorPresenter solicitorPresenter)
+        public TemplatePresenter(ITemplateRepository templateRepo)
         {
             _templateRepository = templateRepo;
-            _solicitorPresenter = solicitorPresenter;
         }
 
         public Models.Template GetTemplate(string id)
@@ -42,19 +40,9 @@ namespace Tipstaff.Presenters
             _templateRepository.Update(entity);
         }
 
-        public Models.Solicitor GetSolicitor(string id)
-        {
-            return _solicitorPresenter.GetSolicitor(id);
-        }
-
         public IEnumerable<Template> GetTemplatesForRecordType(string type)
         {
             return GetAll(_templateRepository.GetTemplatesForRecordType(type));
-        }
-
-        public Models.Applicant GetApplicant(string id)
-        {
-            throw new NotImplementedException();
         }
 
         public Models.Template GetModel(Services.DynamoTables.Template table)

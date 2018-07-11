@@ -80,10 +80,9 @@ namespace Tipstaff.Tests.Integration
                                                                     _addressPresenter, 
                                                                     _applicantPresenter,
                                                                     _solicitorPresenter, _attendanceNotePresenter);
-
-            _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter);
-            _templatePresenter = new TemplatePresenter(_templateRepository, _solicitorPresenter);
-            _docPresenter = new DocumentPresenter(_docRepository, _solicitorPresenter);
+            _docPresenter = new DocumentPresenter(_docRepository);
+            _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter, _docPresenter);
+            _templatePresenter = new TemplatePresenter(_templateRepository);
         }
         
     }

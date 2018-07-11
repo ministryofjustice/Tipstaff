@@ -12,12 +12,10 @@ namespace Tipstaff.Presenters
     public class DocumentPresenter : IDocumentPresenter, IMapper<Models.Document, Services.DynamoTables.Document>, IMapperCollections<Models.Document, Services.DynamoTables.Document>
     {
         private readonly IDocumentsRepository _docRepository;
-        private readonly ISolicitorPresenter _solicitorPresenter;
 
-        public DocumentPresenter(IDocumentsRepository docRepo, ISolicitorPresenter solicitorPresenter)
+        public DocumentPresenter(IDocumentsRepository docRepo)
         {
             _docRepository = docRepo;
-            _solicitorPresenter = solicitorPresenter;
         }
 
         public void AddDocument(DocumentUploadModel model)
