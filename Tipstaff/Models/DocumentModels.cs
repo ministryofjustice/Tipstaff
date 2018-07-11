@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tipstaff.Models
 {
-    public class Document
+    public class Document:IModel
     {
         [Key]
         public string documentID { get; set; }
@@ -29,8 +29,6 @@ namespace Tipstaff.Models
         [ Display(Name="Created by")]
         public string createdBy { get; set; }
         public string tipstaffRecordID { get; set; }
-        
-        public byte[] binaryFile { get; set; }
         
         public string fileName { get; set; }
         public string filePath { get; set; }

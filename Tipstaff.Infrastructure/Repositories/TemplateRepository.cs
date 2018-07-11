@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using System;
+using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
@@ -32,6 +35,19 @@ namespace Tipstaff.Infrastructure.Repositories
         public Template GetTemplate(string id)
         {
             return _dynamoAPI.GetEntityByKey(id);
+        }
+
+        public IEnumerable<Template> GetTemplatesForRecordType(string type)
+        {
+            string[] obj = new string[2];
+            obj[0] = type;
+            obj[1] = "All";
+            return _dynamoAPI.GetResultsByConditions(
+                new ScanCondition[]
+                {
+                    new ScanCondition("Discriminator", ScanOperator.In, obj),
+                    new ScanCondition("Active", ScanOperator.Equal, true)
+                });
         }
 
         public void Update(Template template)

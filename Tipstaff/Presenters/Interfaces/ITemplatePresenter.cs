@@ -11,13 +11,9 @@ namespace Tipstaff.Presenters
     {
         Template GetTemplate(string id);
 
-        TipstaffRecord GetTipstaffRecord(string id);
-
-        Applicant GetApplicant(string id);
-
-        Solicitor GetSolicitor(string id);
-
         IEnumerable<Template> GetAllTemplates();
+
+        IEnumerable<Template> GetTemplatesForRecordType(string type);
 
         void AddTemplate(TemplateEdit model);
 

@@ -32,7 +32,7 @@ namespace Tipstaff.Infrastructure.Repositories
             return _dynamoAPI.GetEntityByKey(id);
         }
 
-        public User GetUserByName(string name)
+        public User GetUserByLoginName(string name)
         {
             var users =  _dynamoAPI.GetResultsByConditions(
                 new ScanCondition[]

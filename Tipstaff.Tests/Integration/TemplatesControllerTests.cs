@@ -20,12 +20,16 @@ namespace Tipstaff.Tests.Integration
     public class TemplatesControllerTests:BaseController
     {
         private TemplatesController _sub;
+        private Controllers.TemplateController _subMain;
         private IS3API _s3Repository;
         private IDynamoAPI<Template> _dynamoAPI;
+        private IDynamoAPI<TipstaffRecord> _dynamoAPITR;
         public Mock<IGuidGenerator> _guidGenerator;
         Guid templateIndex;
+        Guid trIndex;
         private Mock<ICloudWatchLogger> _cloudWatchLogger = new Mock<ICloudWatchLogger>();
         Template template;
+        TipstaffRecord tr;
 
 
         [SetUp]
@@ -33,11 +37,15 @@ namespace Tipstaff.Tests.Integration
         {
 
             _dynamoAPI = new DynamoAPI<Template>();
+            _dynamoAPITR = new DynamoAPI<TipstaffRecord>();
             _templateRepository = new TemplateRepository(_dynamoAPI);
+            _tipstaffRecordRepository = new TipstaffRecordRepository(_dynamoAPITR);
             _s3Repository = new S3API();
             _guidGenerator = new Mock<IGuidGenerator>();
             templateIndex = Guid.NewGuid();
+            trIndex = Guid.NewGuid();
             _sub = new TemplatesController(_templatePresenter, _s3Repository, _guidGenerator.Object, _cloudWatchLogger.Object);
+            _subMain = new Controllers.TemplateController(_cloudWatchLogger.Object, _s3Repository, _templatePresenter, _tipstaffRecordPresenter, _warrantPresenter, _applicantPresenter, _solicitorPresenter);
         }
 
         [Test]
@@ -58,7 +66,7 @@ namespace Tipstaff.Tests.Integration
 
             uploadFile
                 .Setup(f => f.InputStream)
-                .Returns(new System.IO.MemoryStream(Encoding.UTF8.GetBytes("test file")));
+                .Returns(new MemoryStream(Encoding.UTF8.GetBytes("test file")));
 
             te.uploadFile = uploadFile.Object;
 
@@ -147,10 +155,56 @@ namespace Tipstaff.Tests.Integration
             Assert.AreEqual(Path.GetFileName(template.FilePath), resp.FileDownloadName);
         }
 
+        [Test]
+        public void Create_Should_Create_Document()
+        {
+            Models.TemplateEdit te = new Models.TemplateEdit();
+            te.Template.templateID = templateIndex.ToString();
+            te.Template.templateName = "template name";
+            te.Template.Discriminator = "Warrant";
+            te.Template.addresseeRequired = true;
+            Mock<HttpPostedFileBase> uploadFile = new Mock<HttpPostedFileBase>();
+            uploadFile
+            .Setup(f => f.ContentLength)
+            .Returns(10);
+
+            uploadFile
+                .Setup(f => f.FileName)
+                .Returns("testtemplate.xml");
+
+            uploadFile
+                .Setup(f => f.InputStream)
+                .Returns(new System.IO.MemoryStream(Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"UTF - 8\" standalone=\"yes\"?><note><to>Tove</to></note>")));
+
+            te.uploadFile = uploadFile.Object;
+
+            _guidGenerator.Setup(x => x.GenerateTimeBasedGuid()).Returns(templateIndex);
+            var response = _sub.Create(te);
+
+            tr = new TipstaffRecord()
+            {
+                Id = trIndex.ToString(),
+                Discriminator = "Warrant",
+                CaseNumber = "Case number",
+                CaseStatusId = 2,
+                DivisionId = 3,
+                DateCirculated = DateTime.Now,
+                NextReviewDate = DateTime.Now.AddMonths(1),
+                CreatedBy = "Carlos",
+                CreatedOn = DateTime.Now,
+                RespondentName = "Respondant name"
+            };
+            _tipstaffRecordRepository.Add(tr);
+            System.Web.Mvc.FileContentResult resp = (System.Web.Mvc.FileContentResult)_subMain.Create(trIndex.ToString(), templateIndex.ToString());
+
+            Assert.AreEqual("application/msword", resp.ContentType);
+        }
+
         [TearDown]
         public void TearDown()
         {
-            _templateRepository.Delete(template);
+            if (template != null) _templateRepository.Delete(template);
+            if (tr != null) _tipstaffRecordRepository.Delete(tr);
         }
     }
 }

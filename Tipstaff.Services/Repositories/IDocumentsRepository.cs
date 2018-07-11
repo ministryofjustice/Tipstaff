@@ -17,7 +17,7 @@ namespace Tipstaff.Services.Repositories
 
         Document GetDocumentByIdAndRange(string id, string range);
 
-        IEnumerable<Document> GetAllDocumentssByTipstaffRecordID(string id);
+        IEnumerable<Document> GetAllDocumentsByTipstaffRecordID(string id);
 
         Document GetEntityByObjectKey(object key);
     }

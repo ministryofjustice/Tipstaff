@@ -19,15 +19,22 @@ namespace Tipstaff.Controllers
     public class TemplateController : Controller
     {
         private readonly ITemplatePresenter _templatePresenter;
-
+        private readonly ITipstaffRecordPresenter _tipstaffPresenter;
+        private readonly IWarrantPresenter _warrantPresenter;
+        private readonly IApplicantPresenter _applicantPresenter;
+        private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
 
-        public TemplateController(ICloudWatchLogger logger, IS3API s3api, ITemplatePresenter templatePresenter)
+        public TemplateController(ICloudWatchLogger logger, IS3API s3api, ITemplatePresenter templatePresenter, ITipstaffRecordPresenter tipstaffPResenter, IWarrantPresenter warrantPresenter, IApplicantPresenter applicantPresenter, ISolicitorPresenter solicitorPresenter)
         {
             _logger = logger;
             _s3API = s3api;
             _templatePresenter = templatePresenter;
+            _tipstaffPresenter = tipstaffPResenter;
+            _warrantPresenter = warrantPresenter;
+            _applicantPresenter = applicantPresenter;
+            _solicitorPresenter = solicitorPresenter;
         }
         //
         // GET: /Template/
@@ -108,7 +115,7 @@ namespace Tipstaff.Controllers
             try
             {
                 //Get TipstaffRecord from warrantID
-                TipstaffRecord tipstaffRecord = _templatePresenter.GetTipstaffRecord(tipstaffRecordID);
+                TipstaffRecord tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);
 
 
                 if (tipstaffRecord.caseStatus.Detail == "File Closed" || tipstaffRecord.caseStatus.Detail == "File Archived")
@@ -123,7 +130,8 @@ namespace Tipstaff.Controllers
 
                 //set fileOutput details
                 // WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
-                WordFile fileOutput = new WordFile(tipstaffRecordID, Server.MapPath("~/Documents/"), templateID, template.templateName, tipstaffRecord.UniqueRecordID); 
+                //WordFile fileOutput = new WordFile(tipstaffRecordID, Server.MapPath("~/Documents/"), templateID, template.templateName, tipstaffRecord.UniqueRecordID);
+                WordFile fileOutput = new WordFile(tipstaffRecordID, "", templateID, template.templateName, tipstaffRecord.UniqueRecordID);
                 //Create XML object for Template
                 XmlDocument xDoc = new XmlDocument();
 
@@ -251,10 +259,10 @@ namespace Tipstaff.Controllers
             try
             {
                 //get solicitor from solicitorID
-                Solicitor solicitor = _templatePresenter.GetSolicitor(solicitorID);
+                Solicitor solicitor = _solicitorPresenter.GetSolicitor(solicitorID);
 
                 //Get TipstaffRecord from warrantID
-                TipstaffRecord tipstaffRecord = _templatePresenter.GetTipstaffRecord(tipstaffRecordID);
+                TipstaffRecord tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);
                 if (tipstaffRecord.caseStatus.Sequence > 3)
                 {
                     TempData["UID"] = tipstaffRecord.UniqueRecordID;
@@ -318,10 +326,10 @@ namespace Tipstaff.Controllers
             try
             {
                 //get applicant from applicantID
-                Applicant applicant = _templatePresenter.GetApplicant(applicantID);
+                Applicant applicant = _applicantPresenter.GetApplicant(applicantID);
 
                 //Get TipstaffRecord from warrantID
-                TipstaffRecord tipstaffRecord = _templatePresenter.GetTipstaffRecord(tipstaffRecordID);
+                TipstaffRecord tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);
                 if (tipstaffRecord.caseStatus.Sequence > 3)
                 {
                     TempData["UID"] = tipstaffRecord.UniqueRecordID;
@@ -526,7 +534,7 @@ namespace Tipstaff.Controllers
             result = result.Replace("||TIME||", DateTime.Now.ToShortTimeString());
             result = result.Replace("||NOW||", DateTime.Now.ToString("dd/MM/yy @ HH:mm"));
             result = result.Replace("||UNIQUERECORDID||", tipstaffRecord.UniqueRecordID);
-            result = result.Replace("||USERNAME||", User.Identity.Name);
+            result = result.Replace("||USERNAME||", (User==null?"": User.Identity.Name));
 
             if (tipstaffRecord.NPO == null)
             {
@@ -656,7 +664,8 @@ namespace Tipstaff.Controllers
             }
             else if (template.Discriminator == "Warrant")
             {
-                Warrant warrant = tipstaffRecord as Warrant;
+                Warrant warrant = _warrantPresenter.GetWarrant(tipstaffRecord.tipstaffRecordID); 
+                //Warrant warrant = (Warrant) tipstaffRecord;
                 //result = result.Replace("||DIVISION||", warrant.division.Detail);
                 PropertyInfo[] properties = typeof(Warrant).GetProperties();
                 foreach (PropertyInfo property in properties)
@@ -685,10 +694,11 @@ namespace Tipstaff.Controllers
                 if (warrant.Respondents.Count() == 1)
                 {
                     PropertyInfo[] respProp = typeof(Respondent).GetProperties();
+                    Respondent resp = warrant.Respondents.FirstOrDefault();
                     foreach (PropertyInfo property in respProp)
                     {
                         var propValue = "";
-                        object value = property.GetValue(warrant.Respondents.FirstOrDefault(), null);
+                        object value = property.GetValue(resp, null);
                         if (value != null)
                         {
                             Type type = value.GetType();
@@ -708,10 +718,10 @@ namespace Tipstaff.Controllers
                         }
                         result = result.Replace(string.Format("||{0}||", property.Name.ToUpper()), SecurityElement.Escape(propValue));
                     }
-                    result = result.Replace("||GENDER.DETAIL||", warrant.Respondents.FirstOrDefault().gender.Detail);
-                    result = result.Replace("||NATIONALITY.DETAIL||", warrant.Respondents.FirstOrDefault().nationality.Detail);
-                    result = result.Replace("||COUNTRY.DETAIL||", warrant.Respondents.FirstOrDefault().country.Detail);
-                    result = result.Replace("||SKINCOLOUR.DETAIL||", warrant.Respondents.FirstOrDefault().skinColour.Detail);
+                    result = result.Replace("||GENDER.DETAIL||", resp.gender.Detail);
+                    result = result.Replace("||NATIONALITY.DETAIL||", resp.nationality.Detail);
+                    result = result.Replace("||COUNTRY.DETAIL||", resp.country.Detail);
+                    result = result.Replace("||SKINCOLOUR.DETAIL||", resp.skinColour.Detail);
                 }
 
             }

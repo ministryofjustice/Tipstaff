@@ -19,5 +19,7 @@ namespace Tipstaff.Services.Repositories
 
         void Delete(Template template);
 
+        IEnumerable<Template> GetTemplatesForRecordType(string type);
+
     }
 }
