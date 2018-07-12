@@ -5,6 +5,7 @@ using Tipstaff.Models;
 using PagedList;
 using System.Configuration;
 using Tipstaff.Presenters.Interfaces;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -13,12 +14,13 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class AuditController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IAuditEventPresenter _auditEventPresenter;
+        private ICloudWatchLogger _logger;
 
-        public AuditController(IAuditEventPresenter auditEventPresenter)
+        public AuditController(IAuditEventPresenter auditEventPresenter, ICloudWatchLogger logger)
         {
             _auditEventPresenter = auditEventPresenter;
+            _logger = logger;
         }
 
         public ActionResult Audit(string auditType, string id, int? page)
@@ -29,25 +31,20 @@ namespace Tipstaff.Controllers
             }
 
             AuditEventViewModel model = new AuditEventViewModel();
-
-            string AuditName = string.Format("{0}", auditType);
-            ///var AuditMatches = db.AuditDescriptions.Where(a => a.AuditDescription.StartsWith(AuditName));
-
-            var AuditMatches = MemoryCollections.AuditEventDescriptionList.GetAuditEventDescriptionList().Where(a => a.AuditDescription.StartsWith(AuditName));
-            //////IQueryable<AuditEvent> auditEvents = null;
-            var auditEvents = _auditEventPresenter.GetAuditEvents();
-            if (AuditName == "Warrant" || AuditName == "ChildAbduction")
+            try
             {
-                auditEvents = auditEvents.Where(s => s.RecordAddedTo == id).Union(auditEvents.Where(s => s.auditEventDescription.AuditDescription.StartsWith(AuditName) && s.RecordChanged == id));
+                string auditName = string.Format("{0}", auditType);
+                var auditEvents = _auditEventPresenter.GetAllAuditEventsByIDAndAuditName(id, auditName);
+                
+                model.auditType = auditType;
+                model.itemID = id;
+                model.AuditEvents = auditEvents.ToPagedList(page ?? 1, 20);
             }
-            else
+            catch (Exception ex)
             {
-                auditEvents = auditEvents.Where(s => s.RecordChanged == id && AuditMatches.Select(d => d.Id).Contains(s.auditEventDescription.Id));
-                //auditEvents = auditEvents.Where(s => s.RecordChanged == stringID && AuditMatches.Select(d => d.AuditDescription).Contains(s.idAuditEventDescription));
+                _logger.LogError(ex, $"Exception in AuditController in Audit method, for user {((CPrincipal)User).UserID}");
+
             }
-            model.auditType = auditType;
-            model.itemID = id;
-            model.AuditEvents = auditEvents.OrderByDescending(s => s.EventDate).ToPagedList(page ?? 1, 20);
             return View(model);
         }
     }

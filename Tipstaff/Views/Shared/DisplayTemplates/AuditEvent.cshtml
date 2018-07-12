@@ -1,83 +1,163 @@
 ﻿@model Tipstaff.Models.AuditEvent
            
 <dl>
-@{ 
-    string EventDesc = Model.auditEventDescription.AuditDescription; 
-    EventDesc = EventDesc.Substring(0, EventDesc.IndexOf(' '));
-    string delReason = "";
-    if (Model.DeletedReasonID!=null)
-    {
-        delReason = string.Format(" ({0})", Model.DeletedReason.Detail);   
-    }
-}
-@if (Model.RecordAddedTo == null || Model.RecordAddedTo.ToString() == Model.RecordChanged)
-{
-    if (Model.auditEventDescription.AuditDescription.EndsWith("dded"))
-    {
-    <dt>On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) created this @EventDesc.</dt>
-    }
-    else if (Model.auditEventDescription.AuditDescription.EndsWith("eleted"))
-    {
-        if (Model.AuditEventDataRows.Count() > 0)
-        {  
-        <dt>
-        <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
-        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc @delReason
-        </a>
-        <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
-        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc @delReason
-        </a>
-        </dt>
-        <span id="data-@Model.idAuditEvent" style="display:none;">
-        @Html.DisplayFor(model => model.AuditEventDataRows)
-        </span>
-        } 
-        else 
+    @{ 
+        string EventDesc = Model.auditEventDescription.AuditDescription; 
+        EventDesc = EventDesc.Substring(0, EventDesc.IndexOf(' '));
+        string delReason = "";
+        if (Model.DeletedReason!=null)
         {
-            <dt>On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc.</dt>
+            delReason = string.Format(" ({0})", Model.DeletedReason.Detail);   
         }
     }
-    else
+    @if (Model.RecordAddedTo == null || Model.RecordAddedTo.ToString() == Model.RecordChanged)
     {
-        if (Model.AuditEventDataRows.Count() > 0)
-        {  
-        <dt>
-        <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
-        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) made the following changes
-        </a>
-        <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
-        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) made the following changes
-        </a>
-        </dt>
-        <span id="data-@Model.idAuditEvent" style="display:none;">
-        @Html.DisplayFor(model => model.AuditEventDataRows)
-        </span>
+        if (Model.auditEventDescription.AuditDescription.EndsWith("dded"))
+        {
+            <dt>
+                On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) created this @EventDesc.
+            </dt>
+        }
+        else if (Model.auditEventDescription.AuditDescription.EndsWith("eleted"))
+        {
+            <dt>
+                <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
+                    On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc @delReason
+                </a>
+                <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
+                   On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc @delReason
+                </a>
+            </dt>
+            <span id="data-@Model.idAuditEvent" style="display:none;">
+                @{ DateTime res1;
+                    DateTime res2;
+                    string oldValue = "";
+                    string newValue = "";
+                    if (DateTime.TryParse(Model.Was, out res1) == true)
+                    {
+                        oldValue = res1.ToShortDateString();
+                    }
+                    else
+                    {
+                        oldValue = Model.Was;
+                    }
+                    if (DateTime.TryParse(Model.Now, out res2))
+                    {
+                        newValue = res2.ToShortDateString();
+                    }
+                    else
+                    {
+                        newValue = Model.Now;
+                    }
+                    if (newValue == "deleted")
+                    {
+                        <dd>
+                            @Html.DisplayFor(model => model.ColumnName) was <span class="audit-oldValue">@oldValue</span> prior to deletion
+                        </dd>
+
+                    }
+                    else
+                    {
+                        <dd>
+                            @Html.DisplayFor(model => model.ColumnName) was changed from <span class="audit-oldValue">@oldValue</span> to <span class="audit-newValue">@newValue</span>
+                        </dd>
+                    }
+                }
+            </span>
         }
         else
         {
-        <dt>@Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate).</dt> 
+            <dt>
+                <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
+                    On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) made the following changes
+                </a>
+                <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
+                    On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) made the following changes
+                </a>
+            </dt>
+            <span id="data-@Model.idAuditEvent" style="display:none;">
+                @{ DateTime res1;
+                    DateTime res2;
+                    string oldValue = "";
+                    string newValue = "";
+                    if (DateTime.TryParse(Model.Was, out res1) == true)
+                    {
+                        oldValue = res1.ToShortDateString();
+                    }
+                    else
+                    {
+                        oldValue = Model.Was;
+                    }
+                    if (DateTime.TryParse(Model.Now, out res2))
+                    {
+                        newValue = res2.ToShortDateString();
+                    }
+                    else
+                    {
+                        newValue = Model.Now;
+                    }
+                    if (newValue == "deleted")
+                    {
+                        <dd>
+                            @Html.DisplayFor(model => model.ColumnName) was <span class="audit-oldValue">@oldValue</span> prior to deletion
+                        </dd>
+
+                    }
+                    else
+                    {
+                        <dd>
+                            @Html.DisplayFor(model => model.ColumnName) was changed from <span class="audit-oldValue">@oldValue</span> to <span class="audit-newValue">@newValue</span>
+                        </dd>
+                    }
+                }
+            </span>
         }
-    }
-}
-else
-{
-    if (Model.AuditEventDataRows.Count() > 0)
-    {  
-        <dt>
-        <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
-        @Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate)@delReason.
-        </a>
-        <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
-        @Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate)@delReason.
-        </a>
-        </dt>
-        <span id="data-@Model.idAuditEvent" style="display:none;">
-        @Html.DisplayFor(model => model.AuditEventDataRows)
-        </span>
     }
     else
     {
-        <dt>@Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate).</dt> 
+        <dt>
+            <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
+                @Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate)@delReason.
+            </a>
+            <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
+                @Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate)@delReason.
+            </a>
+        </dt>
+        <span id="data-@Model.idAuditEvent" style="display:none;">
+            @{ DateTime res1;
+                DateTime res2;
+                string oldValue = "";
+                string newValue = "";
+                if (DateTime.TryParse(Model.Was, out res1) == true)
+                {
+                    oldValue = res1.ToShortDateString();
+                }
+                else
+                {
+                    oldValue = Model.Was;
+                }
+                if (DateTime.TryParse(Model.Now, out res2))
+                {
+                    newValue = res2.ToShortDateString();
+                }
+                else
+                {
+                    newValue = Model.Now;
+                }
+                if (newValue == "deleted")
+                {
+                    <dd>
+                        @Html.DisplayFor(model => model.ColumnName) was <span class="audit-oldValue">@oldValue</span> prior to deletion
+                    </dd>
+
+                }
+                else
+                {
+                    <dd>
+                        @Html.DisplayFor(model => model.ColumnName) was changed from <span class="audit-oldValue">@oldValue</span> to <span class="audit-newValue">@newValue</span>
+                    </dd>
+                }
+            }
+        </span> 
     }
-}
 </dl>

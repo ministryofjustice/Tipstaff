@@ -9,6 +9,12 @@ namespace Tipstaff.Presenters.Interfaces
 {
     public interface IAuditEventPresenter
     {
-        IEnumerable<AuditEvent> GetAuditEvents();
+        IEnumerable<AuditEvent> GetAllAuditEvents();
+
+        IEnumerable<AuditEvent> GetAllAuditEventsByIDAndAuditName(string id, string auditName);
+
+        void AddAuditEvent(AuditEvent ae);
+
+        AuditEvent GetAuditEvent(string id);
     }
 }

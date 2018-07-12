@@ -26,6 +26,26 @@ namespace Tipstaff.MemoryCollections
                 new AuditEventDescription() { Id = 6, AuditDescription = "Warrant added" },
                 new AuditEventDescription() { Id = 7, AuditDescription = "Warrant amended" },
                 new AuditEventDescription() { Id = 8, AuditDescription = "Warrant deleted" },
+                new AuditEventDescription() { Id = 5, AuditDescription = "ChildAbduction Records" },
+                new AuditEventDescription() { Id = 6, AuditDescription = "ChildAbduction added" },
+                new AuditEventDescription() { Id = 7, AuditDescription = "ChildAbduction amended" },
+                new AuditEventDescription() { Id = 8, AuditDescription = "ChildAbduction deleted" },
+                new AuditEventDescription() { Id = 9, AuditDescription = "Police Forces Records" },
+                new AuditEventDescription() { Id = 10, AuditDescription = "Police Forces added" },
+                new AuditEventDescription() { Id = 11, AuditDescription = "Police Forces amended" },
+                new AuditEventDescription() { Id = 12, AuditDescription = "Police Forces deleted" },
+                new AuditEventDescription() { Id = 13, AuditDescription = "Solicitor Firm Records" },
+                new AuditEventDescription() { Id = 14, AuditDescription = "Solicitor Firm added" },
+                new AuditEventDescription() { Id = 15, AuditDescription = "Solicitor Firm amended" },
+                new AuditEventDescription() { Id = 16, AuditDescription = "Solicitor Firm deleted" },
+                new AuditEventDescription() { Id = 17, AuditDescription = "Solicitor Records" },
+                new AuditEventDescription() { Id = 18, AuditDescription = "Solicitor added" },
+                new AuditEventDescription() { Id = 19, AuditDescription = "Solicitor amended" },
+                new AuditEventDescription() { Id = 20, AuditDescription = "Solicitor deleted" },
+                new AuditEventDescription() { Id = 21, AuditDescription = "Templates Records" },
+                new AuditEventDescription() { Id = 22, AuditDescription = "Templates added" },
+                new AuditEventDescription() { Id = 23, AuditDescription = "Templates amended" },
+                new AuditEventDescription() { Id = 24, AuditDescription = "Templates deleted" }
             };
         }
 

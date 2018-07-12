@@ -14,12 +14,18 @@ namespace Tipstaff.Services.DynamoTables
 
         public string UserId { get; set; }
 
-        public int AuditEventDescriptionId { get; set; }
+        public string AuditEventDescription { get; set; }
 
         public string RecordChanged { get; set; }
 
         public string RecordAddedTo { get; set; }
 
-        public int DeletedReasonId { get; set; }
+        public string DeletedReason { get; set; }
+
+        public string ColumnName { get; set; }
+
+        public string Was { get; set; }
+
+        public string Now { get; set; }
     }
 }

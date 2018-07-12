@@ -34,20 +34,25 @@ namespace Tipstaff.Tests.UnitTests
             _auditRepo.AddAuditEvent(new AuditEvent()
             {
                 Id = aeIndex,
-                AuditEventDescriptionId = 1,
-                DeletedReasonId = 1,
+                AuditEventDescription = "desc audit event",
+                DeletedReason = "desc deleted reason",
                 EventDate = DateTime.Now,
                 RecordAddedTo = "1",
                 RecordChanged = "222",
-                UserId = "any user"
+                UserId = "any user",
+                ColumnName = "anyColumn",
+                Now = "now value",
+                Was = "was value"
             });
 
             ae = _auditRepo.GetAuditEvent(aeIndex);
 
-            Assert.AreEqual(1, ae.AuditEventDescriptionId);
-            Assert.AreEqual(1, ae.DeletedReasonId);
+            Assert.AreEqual("desc audit event", ae.AuditEventDescription);
+            Assert.AreEqual("desc deleted reason", ae.DeletedReason);
             Assert.AreEqual("1", ae.RecordAddedTo);
             Assert.AreEqual("any user", ae.UserId);
+            Assert.AreEqual("now value", ae.Now);
+            Assert.AreEqual("was value", ae.Was);
         }
 
         [Test]
@@ -56,23 +61,29 @@ namespace Tipstaff.Tests.UnitTests
             _auditRepo.AddAuditEvent(new AuditEvent()
             {
                 Id = aeIndex,
-                AuditEventDescriptionId = 1,
-                DeletedReasonId = 1,
+                AuditEventDescription = "desc audit event",
+                DeletedReason = "desc deleted reason",
                 EventDate = DateTime.Now,
                 RecordAddedTo = "1",
                 RecordChanged = "222",
-                UserId = "any user"
+                UserId = "any user",
+                ColumnName = "anyColumn",
+                Now = "now value",
+                Was = "was value"
             });
 
             _auditRepo.AddAuditEvent(new AuditEvent()
             {
                 Id = "aaa",
-                AuditEventDescriptionId = 2,
-                DeletedReasonId = 2,
+                AuditEventDescription = "desc audit event 2",
+                DeletedReason = "desc deleted reason 2",
                 EventDate = DateTime.Now,
                 RecordAddedTo = "1",
                 RecordChanged = "222",
-                UserId = "any user"
+                UserId = "any user",
+                ColumnName = "anyColumn 2",
+                Now = "now value 2",
+                Was = "was value 2"
             });
 
             aes = _auditRepo.GetAllAuditEvents();

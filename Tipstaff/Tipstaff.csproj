@@ -215,7 +215,6 @@
     <Compile Include="Areas\Admin\Controllers\SolicitorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SolicitorFirmsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TemplatesController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\AdminEditModels.cs" />
     <Compile Include="Areas\Admin\Models\ListViewModels.cs" />
@@ -697,6 +696,9 @@
     <Analyzer Include="..\packages\AWSSDK.CloudWatchLogs.3.3.4\analyzers\dotnet\cs\AWSSDK.CloudWatchLogs.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.DynamoDBv2.3.3.5\analyzers\dotnet\cs\AWSSDK.DynamoDBv2.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.15\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Views\Shared\DisplayTemplates\AuditEvent.cshtml.old" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
