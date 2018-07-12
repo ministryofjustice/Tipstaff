@@ -26,5 +26,15 @@ namespace Tipstaff.MemoryCollections
                 new DeletedReason() { DeletedReasonID=4, Detail="Solicitor Change", Active=1}
             };
         }
+
+        public static DeletedReason GetDeletedReasonByDetail(string c)
+        {
+            return GetDeletedReasonList().FirstOrDefault(x => x.Detail == c);
+        }
+
+        public static DeletedReason GetDeletedReasonByID(int id)
+        {
+            return GetDeletedReasonList().FirstOrDefault(x => x.DeletedReasonID == id);
+        }
     }
 }

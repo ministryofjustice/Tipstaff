@@ -14,9 +14,24 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI = dynamoAPI;
         }
 
-        public IEnumerable<AuditEvent> GetAuditEvents()
+        public void AddAuditEvent(AuditEvent ae)
+        {
+            _dynamoAPI.Save(ae);
+        }
+
+        public void Delete(AuditEvent ae)
+        {
+            _dynamoAPI.Delete(ae);
+        }
+
+        public IEnumerable<AuditEvent> GetAllAuditEvents()
         {
             return _dynamoAPI.GetAll();
+        }
+
+        public AuditEvent GetAuditEvent(string id)
+        {
+            return _dynamoAPI.GetEntityByKey(id);
         }
     }
 }

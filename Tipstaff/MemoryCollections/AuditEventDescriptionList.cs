@@ -28,5 +28,15 @@ namespace Tipstaff.MemoryCollections
                 new AuditEventDescription() { Id = 8, AuditDescription = "Warrant deleted" },
             };
         }
+
+        public static AuditEventDescription GetAuditEventDescriptionByDetail(string c)
+        {
+            return GetAuditEventDescriptionList().FirstOrDefault(x => x.AuditDescription == c);
+        }
+
+        public static AuditEventDescription GetAuditEventDescriptionByID(int id)
+        {
+            return GetAuditEventDescriptionList().FirstOrDefault(x => x.Id == id);
+        }
     }
 }
