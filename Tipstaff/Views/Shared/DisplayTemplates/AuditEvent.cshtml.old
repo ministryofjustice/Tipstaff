@@ -1,0 +1,83 @@
+﻿@model Tipstaff.Models.AuditEvent
+           
+<dl>
+@{ 
+    string EventDesc = Model.auditEventDescription.AuditDescription; 
+    EventDesc = EventDesc.Substring(0, EventDesc.IndexOf(' '));
+    string delReason = "";
+    if (Model.DeletedReason!=null)
+    {
+        delReason = string.Format(" ({0})", Model.DeletedReason.Detail);   
+    }
+}
+@if (Model.RecordAddedTo == null || Model.RecordAddedTo.ToString() == Model.RecordChanged)
+{
+    if (Model.auditEventDescription.AuditDescription.EndsWith("dded"))
+    {
+    <dt>On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) created this @EventDesc.</dt>
+    }
+    else if (Model.auditEventDescription.AuditDescription.EndsWith("eleted"))
+    {
+        if (Model.AuditEventDataRows.Count() > 0)
+        {  
+        <dt>
+        <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
+        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc @delReason
+        </a>
+        <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
+        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc @delReason
+        </a>
+        </dt>
+        <span id="data-@Model.idAuditEvent" style="display:none;">
+        @Html.DisplayFor(model => model.AuditEventDataRows)
+        </span>
+        } 
+        else 
+        {
+            <dt>On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) deleted this @EventDesc.</dt>
+        }
+    }
+    else
+    {
+        if (Model.AuditEventDataRows.Count() > 0)
+        {  
+        <dt>
+        <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
+        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) made the following changes
+        </a>
+        <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
+        On @Html.DisplayFor(model => model.EventDate), @Html.DisplayFor(model => model.UserID) made the following changes
+        </a>
+        </dt>
+        <span id="data-@Model.idAuditEvent" style="display:none;">
+        @Html.DisplayFor(model => model.AuditEventDataRows)
+        </span>
+        }
+        else
+        {
+        <dt>@Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate).</dt> 
+        }
+    }
+}
+else
+{
+    if (Model.AuditEventDataRows.Count() > 0)
+    {  
+        <dt>
+        <a href="#" id="data-@Model.idAuditEvent-show" class="showLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Show details">
+        @Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate)@delReason.
+        </a>
+        <a href="#" id="data-@Model.idAuditEvent-hide" class="hideLink" onclick="showHide('data-@Model.idAuditEvent');return false;" title="Hide details" style="display:none;">
+        @Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate)@delReason.
+        </a>
+        </dt>
+        <span id="data-@Model.idAuditEvent" style="display:none;">
+        @Html.DisplayFor(model => model.AuditEventDataRows)
+        </span>
+    }
+    else
+    {
+        <dt>@Model.auditEventDescription.AuditDescription by @Html.DisplayFor(model => model.UserID) on @Html.DisplayFor(model => model.EventDate).</dt> 
+    }
+}
+</dl>

@@ -396,12 +396,12 @@ namespace Tipstaff.MemoryCollections
 
         public static DocumentType GetDocumentTypeByDetail(string c)
         {
-            return GetDocumentTypeList().Where(x => x.Detail == c).FirstOrDefault();
+            return GetDocumentTypeList().FirstOrDefault(x => x.Detail == c);
         }
 
         public static DocumentType GetDocumentTypeByID(int id)
         {
-            return GetDocumentTypeList().Where(x => x.DocumentTypeID == id).FirstOrDefault();
+            return GetDocumentTypeList().FirstOrDefault(x => x.DocumentTypeID == id);
         }
     }
 }

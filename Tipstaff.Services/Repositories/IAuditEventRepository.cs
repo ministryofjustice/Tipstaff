@@ -9,6 +9,16 @@ namespace Tipstaff.Services.Repositories
 {
     public interface IAuditEventRepository
     {
-        IEnumerable<AuditEvent> GetAuditEvents();
+        IEnumerable<AuditEvent> GetAllAuditEvents();
+
+        IEnumerable<AuditEvent> GetAllAuditEventsByRecordAddedTo(string id);
+
+        IEnumerable<AuditEvent> GetAllAuditEventsByAuditEventDescriptionAndRecordChanged(string auditDesc, string id);
+
+        void AddAuditEvent(AuditEvent ae);
+
+        AuditEvent GetAuditEvent(string id);
+
+        void Delete(AuditEvent ae);
     }
 }

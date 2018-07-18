@@ -31,12 +31,12 @@ namespace Tipstaff.MemoryCollections
 
         public static DocumentStatus GetDocumentStatusByDetail(string c)
         {
-            return GetDocumentStatusList().Where(x => x.Detail == c).FirstOrDefault();
+            return GetDocumentStatusList().FirstOrDefault(x => x.Detail == c);
         }
 
         public static DocumentStatus GetDocumentStatusByID(int id)
         {
-            return GetDocumentStatusList().Where(x => x.DocumentStatusID == id).FirstOrDefault();
+            return GetDocumentStatusList().FirstOrDefault(x => x.DocumentStatusID == id);
         }
     }
 }

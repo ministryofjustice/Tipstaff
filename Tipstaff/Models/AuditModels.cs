@@ -18,47 +18,47 @@ namespace Tipstaff.Models
     public class AuditEvent
     {
         [Key]
-        public int idAuditEvent { get; set; }
-        [Required]
+        public string idAuditEvent { get; set; }
+
+ 
         public DateTime EventDate { get; set; }
-        [Required, MaxLength(40)]
+
         public string UserID { get; set; }
-        //[Required]
-        //public int idAuditEventDescription { get; set; }
-        [Required, MaxLength(256)]
+
         public string RecordChanged { get; set; }
         public string RecordAddedTo { get; set; }
-        public int? DeletedReasonID { get; set; }
+
         public AuditEventDescription auditEventDescription { get; set; }
-        public virtual ICollection<AuditEventDataRow> AuditEventDataRows { get; set; }
-        public  DeletedReason DeletedReason { get; set; }
-        [NotMapped]
-        public string EventDescription { get; set; }
 
-    }
+        public DeletedReason DeletedReason { get; set; }
 
-    //////public class AuditEventDescription
-    //////{
-    //////    [Key]
-    //////    public int idAuditEventDescription { get; set; }
-    //////    [Required, MaxLength(40)]
-    //////    public string AuditDescription { get; set; }
-    //////    public virtual ICollection<AuditEvent> AuditEvents { get; set; }
-    //////}
-
-    public class AuditEventDataRow
-    {
-        [Key]
-        public int idAuditData { get; set; }
-        [Required]
-        public int idAuditEvent { get; set; }
-        [Required, MaxLength(200)]
         public string ColumnName { get; set; }
-        [Required, MaxLength(200)]
+
         public string Was { get; set; }
-        [Required, MaxLength(200)]
+
         public string Now { get; set; }
 
-        public virtual AuditEvent auditEvent { get; set; }   
+        //public virtual ICollection<AuditEventDataRow> AuditEventDataRows { get; set; }
+
+        //I think the below is the Detail of the MemoryCollection.AuditEventDescription
+        //public string EventDescription { get; set; }
+
     }
+
+
+    //public class AuditEventDataRow
+    //{
+    //    [Key]
+    //    public int idAuditData { get; set; }
+    //    [Required]
+    //    public int idAuditEvent { get; set; }
+    //    [Required, MaxLength(200)]
+    //    public string ColumnName { get; set; }
+    //    [Required, MaxLength(200)]
+    //    public string Was { get; set; }
+    //    [Required, MaxLength(200)]
+    //    public string Now { get; set; }
+
+    //    public virtual AuditEvent auditEvent { get; set; }   
+    //}
 }

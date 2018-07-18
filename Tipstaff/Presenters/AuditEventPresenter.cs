@@ -10,7 +10,7 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class AuditEventPresenter : IAuditEventPresenter , IMapper<Models.AuditEvent, Tipstaff.Services.DynamoTables.AuditEvent>
+    public class AuditEventPresenter : IAuditEventPresenter , IMapper<Models.AuditEvent, Services.DynamoTables.AuditEvent>
     {
         private readonly IAuditEventRepository _auditEventRepository;
 
@@ -19,30 +19,78 @@ namespace Tipstaff.Presenters
             _auditEventRepository = auditEventRepository;
         }
 
-        public IEnumerable<Models.AuditEvent> GetAuditEvents()
+        public void AddAuditEvent(Models.AuditEvent ae)
         {
-            throw new NotImplementedException();
+            var entity = GetDynamoTable(ae);
+
+            _auditEventRepository.AddAuditEvent(entity);
+        }
+
+        public IEnumerable<Models.AuditEvent> GetAllAuditEvents()
+        {
+            var list = _auditEventRepository.GetAllAuditEvents();
+            var aeList = list.Select(x => GetModel(x));
+
+            return aeList;
+        }
+
+        public IEnumerable<Models.AuditEvent> GetAllAuditEventsByIDAndAuditName(string id, string auditName)
+        {
+            IEnumerable<Models.AuditEvent> auditEvents;
+            var aes = _auditEventRepository.GetAllAuditEventsByAuditEventDescriptionAndRecordChanged(auditName, id);
+
+            auditEvents = aes.Select(x => GetModel(x));
+
+            if (auditName == "Warrant" || auditName == "ChildAbduction")
+            {
+                aes = _auditEventRepository.GetAllAuditEventsByRecordAddedTo(id);
+                auditEvents = auditEvents.Union(aes.Select(x => GetModel(x)));
+            }
+
+            return auditEvents.OrderByDescending(s => s.EventDate);
+        }
+
+        public Models.AuditEvent GetAuditEvent(string id)
+        {
+            var entity = _auditEventRepository.GetAuditEvent(id);
+            var model = GetModel(entity);
+
+            return model;
         }
 
         public Services.DynamoTables.AuditEvent GetDynamoTable(Models.AuditEvent model)
         {
-            throw new NotImplementedException();
+            var table = new Services.DynamoTables.AuditEvent()
+            {
+                Id = model.idAuditEvent,
+                AuditEventDescription = model.auditEventDescription.AuditDescription,
+                ColumnName = model.ColumnName,
+                DeletedReason = model.DeletedReason.Detail,
+                EventDate = model.EventDate,
+                Now = model.Now,
+                RecordAddedTo = model.RecordAddedTo,
+                RecordChanged = model.RecordChanged,
+                UserId = model.UserID,
+                Was = model.Was
+            };
+
+            return table;
         }
 
-        public Models.AuditEvent GetModel(Services.DynamoTables.AuditEvent dynamo)
+        public Models.AuditEvent GetModel(Services.DynamoTables.AuditEvent table)
         {
             var model = new Models.AuditEvent()
             {
-                EventDate = dynamo.EventDate,
-                RecordChanged = dynamo.RecordChanged,
-                UserID = dynamo.UserId.ToString(),
-                RecordAddedTo = dynamo.RecordAddedTo,
-                idAuditEvent = int.Parse(dynamo.Id),
-                auditEventDescription = MemoryCollections.AuditEventDescriptionList.GetAuditEventDescriptionList().FirstOrDefault(x=> x.Id == dynamo.AuditEventDescriptionId),
-
-                
-                
-                
+                EventDate = table.EventDate,
+                RecordChanged = table.RecordChanged,
+                UserID = table.UserId,
+                RecordAddedTo = table.RecordAddedTo,
+                idAuditEvent = table.Id,
+                auditEventDescription = MemoryCollections.AuditEventDescriptionList.GetAuditEventDescriptionByDetail(table.AuditEventDescription),
+                DeletedReason = MemoryCollections.DeletedReasonList.GetDeletedReasonByDetail(table.DeletedReason),
+                ColumnName = table.ColumnName,
+                Now = table.Now,
+                Was = table.Was
             };
 
             return model;
