@@ -1,28 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Infrastructure.Repositories
 {
     public class PoliceForcesRepository : IPoliceForcesRepository
     {
         private readonly IDynamoAPI<PoliceForces> _dynamoAPI;
+        private readonly IAuditEventRepository _auditRepo;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public PoliceForcesRepository(IDynamoAPI<PoliceForces> dynamoAPI)
+        public PoliceForcesRepository(IDynamoAPI<PoliceForces> dynamoAPI, IAuditEventRepository auditRepo, IGuidGenerator guidGenerator)
         {
             _dynamoAPI = dynamoAPI;
+            _auditRepo = auditRepo;
+            _guidGenerator = guidGenerator;
         }
 
         public void AddPoliceForces(PoliceForces policeForce)
         {
             _dynamoAPI.Save(policeForce);
+            _auditRepo.AddAuditEvent(new AuditEvent()
+            {
+                Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
+                AuditEventDescription = "PoliceForce added",
+                EventDate = DateTime.Now,
+                RecordChanged = policeForce.Id,
+                UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            });
         }
 
 
         public void Delete(PoliceForces policeforces)
         {
             _dynamoAPI.Delete(policeforces);
+            _auditRepo.AddAuditEvent(new AuditEvent()
+            {
+                Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
+                AuditEventDescription = "PoliceForce deleted",
+                EventDate = DateTime.Now,
+                RecordChanged = policeforces.Id,
+                UserId = policeforces.DeactivatedBy
+            });
         }
 
         public IEnumerable<PoliceForces> GetAllPoliceForces()
@@ -38,6 +60,49 @@ namespace Tipstaff.Infrastructure.Repositories
         public void Update(PoliceForces policeforces)
         {
             var entity = _dynamoAPI.GetEntityByKey(policeforces.Id);
+            if (entity.Active != policeforces.Active)
+            {
+                _auditRepo.AddAuditEvent(new AuditEvent()
+                {
+                    Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
+                    AuditEventDescription = "PoliceForce amended",
+                    EventDate = DateTime.Now,
+                    RecordChanged = policeforces.Id,
+                    UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                    ColumnName = "Active",
+                    Was = entity.Active.ToString(),
+                    Now = policeforces.Active.ToString()
+                });
+            }
+            if (entity.PoliceForceEMail != policeforces.PoliceForceEMail)
+            {
+                _auditRepo.AddAuditEvent(new AuditEvent()
+                {
+                    Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
+                    AuditEventDescription = "PoliceForce amended",
+                    EventDate = DateTime.Now,
+                    RecordChanged = policeforces.Id,
+                    UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                    ColumnName = "PoliceForce EMail",
+                    Was = entity.PoliceForceEMail,
+                    Now = policeforces.PoliceForceEMail
+                });
+            }
+            if (entity.PoliceForceName != policeforces.PoliceForceName)
+            {
+                _auditRepo.AddAuditEvent(new AuditEvent()
+                {
+                    Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
+                    AuditEventDescription = "PoliceForce amended",
+                    EventDate = DateTime.Now,
+                    RecordChanged = policeforces.Id,
+                    UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                    ColumnName = "PoliceForce Name",
+                    Was = entity.PoliceForceName,
+                    Now = policeforces.PoliceForceName
+                });
+            }
+
             entity.Active= policeforces.Active;
             entity.Deactivated = policeforces.Deactivated;
             entity.DeactivatedBy = policeforces.DeactivatedBy;

@@ -11,7 +11,9 @@ namespace Tipstaff.Tests.UnitTests
     public class PoliceForcesNunitTests
     {
         private IPoliceForcesRepository _pfRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<PoliceForces> _dynamoAPI;
+        private IDynamoAPI<AuditEvent> _dynamoAPIAudit;
         string pfIndex = string.Empty;
         PoliceForces pf;
 
@@ -20,7 +22,9 @@ namespace Tipstaff.Tests.UnitTests
         {
 
             _dynamoAPI = new DynamoAPI<PoliceForces>();
-            _pfRepository = new PoliceForcesRepository(_dynamoAPI);
+            _dynamoAPIAudit = new DynamoAPI<AuditEvent>();
+            _auditRepo = new AuditEventRepository(_dynamoAPIAudit);
+            _pfRepository = new PoliceForcesRepository(_dynamoAPI, _auditRepo, new GuidGenerator());
             pfIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 
