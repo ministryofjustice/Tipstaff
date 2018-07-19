@@ -247,6 +247,7 @@ namespace Tipstaff.Controllers
             ////and save again
             //db.SaveChanges();
 
+            _s3API.DeleteS3Object("documents", model.Document.fileName);
             _docPresenter.DeleteDocument(model);
             return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
         }
