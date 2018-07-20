@@ -62,7 +62,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce FirmName",
+                    ColumnName = "FirmName",
                     Was = entity.FirmName,
                     Now = solicitorFirm.FirmName
                 });
@@ -75,7 +75,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce AddressLine1",
+                    ColumnName = "AddressLine1",
                     Was = entity.AddressLine1,
                     Now = solicitorFirm.AddressLine1
                 });
@@ -88,7 +88,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce AddressLine2",
+                    ColumnName = "AddressLine2",
                     Was = entity.AddressLine2,
                     Now = solicitorFirm.AddressLine2
                 });
@@ -101,7 +101,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce AddressLine3",
+                    ColumnName = "AddressLine3",
                     Was = entity.AddressLine3,
                     Now = solicitorFirm.AddressLine3
                 });
@@ -114,7 +114,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce Town",
+                    ColumnName = "Town",
                     Was = entity.Town,
                     Now = solicitorFirm.Town
                 });
@@ -127,7 +127,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce County",
+                    ColumnName = "County",
                     Was = entity.County,
                     Now = solicitorFirm.County
                 });
@@ -140,7 +140,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce Postcode",
+                    ColumnName = "Postcode",
                     Was = entity.Postcode,
                     Now = solicitorFirm.Postcode
                 });
@@ -153,7 +153,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce DX",
+                    ColumnName = "DX",
                     Was = entity.DX,
                     Now = solicitorFirm.DX
                 });
@@ -166,7 +166,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce PhoneDayTime",
+                    ColumnName = "PhoneDayTime",
                     Was = entity.PhoneDayTime,
                     Now = solicitorFirm.PhoneDayTime
                 });
@@ -179,7 +179,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce PhoneOutofHours",
+                    ColumnName = "PhoneOutofHours",
                     Was = entity.PhoneOutofHours,
                     Now = solicitorFirm.PhoneOutofHours
                 });
@@ -192,7 +192,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce Email",
+                    ColumnName = "Email",
                     Was = entity.Email,
                     Now = solicitorFirm.Email
                 });
@@ -205,7 +205,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = solicitorFirm.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce Active",
+                    ColumnName = "Active",
                     Was = entity.Active.ToString(),
                     Now = solicitorFirm.Active.ToString()
                 });

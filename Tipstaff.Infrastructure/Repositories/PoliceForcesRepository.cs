@@ -77,7 +77,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = policeforces.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce EMail",
+                    ColumnName = "PoliceForceEMail",
                     Was = entity.PoliceForceEMail,
                     Now = policeforces.PoliceForceEMail
                 });
@@ -90,7 +90,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = policeforces.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce Name",
+                    ColumnName = "PoliceForceName",
                     Was = entity.PoliceForceName,
                     Now = policeforces.PoliceForceName
                 });
@@ -103,7 +103,7 @@ namespace Tipstaff.Infrastructure.Repositories
                     EventDate = DateTime.Now,
                     RecordChanged = policeforces.Id,
                     UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                    ColumnName = "PoliceForce LoggedInUser",
+                    ColumnName = "LoggedInUser",
                     Was = entity.LoggedInUser.ToString(),
                     Now = policeforces.LoggedInUser.ToString()
                 });

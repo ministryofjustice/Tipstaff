@@ -62,7 +62,7 @@ namespace Tipstaff.Tests.Integration
             _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new DynamoAPI<DeletedTipstaffRecord>());
             _childRepository = new ChildRepository(new DynamoAPI<Child>());
             _applicantRepository = new ApplicantRepository(new DynamoAPI<Applicant>());
-            _templateRepository = new TemplateRepository(new DynamoAPI<Template>());
+            _templateRepository = new TemplateRepository(new DynamoAPI<Template>(), _auditRepo);
             _docRepository = new DocumentsRepository(new DynamoAPI<Document>());
             _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<SolicitorFirm>(), _auditRepo);
             _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>(), _auditRepo);
