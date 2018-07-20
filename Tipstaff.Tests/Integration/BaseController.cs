@@ -9,6 +9,7 @@ using Tipstaff.Presenters;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Tests.Integration
 {
@@ -40,13 +41,15 @@ namespace Tipstaff.Tests.Integration
         protected ISolicitorRepository _solicitorRepository;
         protected ITemplateRepository _templateRepository;
         protected IDocumentsRepository _docRepository;
+        protected IAuditEventRepository _auditRepo;
+        protected ISolicitorFirmRepository _solicitorFirmRepository;
 
         //protected ITipstaffRecordPresenter
 
 
-        
-        
-       // [SetUp]
+
+
+        // [SetUp]
         public BaseController()
         {
             //Repositories
@@ -61,6 +64,8 @@ namespace Tipstaff.Tests.Integration
             _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>());
             _templateRepository = new TemplateRepository(new DynamoAPI<Template>());
             _docRepository = new DocumentsRepository(new DynamoAPI<Document>());
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
+            _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<SolicitorFirm>(), _auditRepo);
 
             //Presenters
             _addressPresenter = new AddressPresenter(_addressRepository);

@@ -11,13 +11,11 @@ namespace Tipstaff.Infrastructure.Repositories
     {
         private readonly IDynamoAPI<PoliceForces> _dynamoAPI;
         private readonly IAuditEventRepository _auditRepo;
-        private readonly IGuidGenerator _guidGenerator;
 
-        public PoliceForcesRepository(IDynamoAPI<PoliceForces> dynamoAPI, IAuditEventRepository auditRepo, IGuidGenerator guidGenerator)
+        public PoliceForcesRepository(IDynamoAPI<PoliceForces> dynamoAPI, IAuditEventRepository auditRepo)
         {
             _dynamoAPI = dynamoAPI;
             _auditRepo = auditRepo;
-            _guidGenerator = guidGenerator;
         }
 
         public void AddPoliceForces(PoliceForces policeForce)
@@ -25,7 +23,6 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Save(policeForce);
             _auditRepo.AddAuditEvent(new AuditEvent()
             {
-                Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
                 AuditEventDescription = "PoliceForce added",
                 EventDate = DateTime.Now,
                 RecordChanged = policeForce.Id,
@@ -39,7 +36,6 @@ namespace Tipstaff.Infrastructure.Repositories
             _dynamoAPI.Delete(policeforces);
             _auditRepo.AddAuditEvent(new AuditEvent()
             {
-                Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
                 AuditEventDescription = "PoliceForce deleted",
                 EventDate = DateTime.Now,
                 RecordChanged = policeforces.Id,
@@ -64,7 +60,6 @@ namespace Tipstaff.Infrastructure.Repositories
             {
                 _auditRepo.AddAuditEvent(new AuditEvent()
                 {
-                    Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
                     AuditEventDescription = "PoliceForce amended",
                     EventDate = DateTime.Now,
                     RecordChanged = policeforces.Id,
@@ -78,7 +73,6 @@ namespace Tipstaff.Infrastructure.Repositories
             {
                 _auditRepo.AddAuditEvent(new AuditEvent()
                 {
-                    Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
                     AuditEventDescription = "PoliceForce amended",
                     EventDate = DateTime.Now,
                     RecordChanged = policeforces.Id,
@@ -92,7 +86,6 @@ namespace Tipstaff.Infrastructure.Repositories
             {
                 _auditRepo.AddAuditEvent(new AuditEvent()
                 {
-                    Id = _guidGenerator.GenerateTimeBasedGuid().ToString(),
                     AuditEventDescription = "PoliceForce amended",
                     EventDate = DateTime.Now,
                     RecordChanged = policeforces.Id,
@@ -102,7 +95,19 @@ namespace Tipstaff.Infrastructure.Repositories
                     Now = policeforces.PoliceForceName
                 });
             }
-
+            if (entity.LoggedInUser != policeforces.LoggedInUser)
+            {
+                _auditRepo.AddAuditEvent(new AuditEvent()
+                {
+                    AuditEventDescription = "PoliceForce amended",
+                    EventDate = DateTime.Now,
+                    RecordChanged = policeforces.Id,
+                    UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                    ColumnName = "PoliceForce LoggedInUser",
+                    Was = entity.LoggedInUser.ToString(),
+                    Now = policeforces.LoggedInUser.ToString()
+                });
+            }
             entity.Active= policeforces.Active;
             entity.Deactivated = policeforces.Deactivated;
             entity.DeactivatedBy = policeforces.DeactivatedBy;
