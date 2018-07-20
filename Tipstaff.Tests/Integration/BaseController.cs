@@ -73,7 +73,7 @@ namespace Tipstaff.Tests.Integration
             _docPresenter = new DocumentPresenter(_docRepository);
             _templatePresenter = new TemplatePresenter(_templateRepository);
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
-            _solicitorPresenter = new SolicitorPresenter(_solicitorRepository);
+            _solicitorPresenter = new SolicitorPresenter(_solicitorRepository, _solicitorFirmRepository);
             _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository,
                                                                    _tipstaffRecordPresenter);
             _applicantPresenter = new ApplicantPresenter(_applicantRepository, 
