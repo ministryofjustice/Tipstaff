@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using Tipstaff.Models;
 using PagedList;
 using System.Configuration;
-using Tipstaff.Presenters.Interfaces;
+using Tipstaff.Presenters;
 using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers

@@ -38,7 +38,7 @@ namespace Tipstaff.Tests.Integration
 
             _dynamoAPI = new DynamoAPI<Template>();
             _dynamoAPITR = new DynamoAPI<TipstaffRecord>();
-            _templateRepository = new TemplateRepository(_dynamoAPI);
+            _templateRepository = new TemplateRepository(_dynamoAPI, _auditRepo);
             _tipstaffRecordRepository = new TipstaffRecordRepository(_dynamoAPITR);
             _s3Repository = new S3API();
             _guidGenerator = new Mock<IGuidGenerator>();

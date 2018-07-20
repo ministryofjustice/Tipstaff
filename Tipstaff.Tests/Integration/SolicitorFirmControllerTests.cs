@@ -14,11 +14,9 @@ using TPLibrary.GuidGenerator;
 namespace Tipstaff.Tests.Integration
 {
     [TestFixture]
-    public class SolicitorFirmControllerTests
+    public class SolicitorFirmControllerTests:BaseController
     {
         private SolicitorFirmController _sub;
-        private ISolicitorFirmRepository _solicitorFirmRepository;
-        private ITipstaffRecordRepository _tipstaffRecordRepository;
         private Mock<IGuidGenerator> _guidGeneratorMock;
         Guid id;
         Models.SolicitorFirm solicitorFirm;
@@ -27,7 +25,8 @@ namespace Tipstaff.Tests.Integration
         public void SetUp()
         {
             _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.TipstaffRecord>());
-            _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.SolicitorFirm>());
+            _guidGeneratorMock = new Mock<IGuidGenerator>();
+            _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.SolicitorFirm>(), _auditRepo);
             _guidGeneratorMock = new Mock<IGuidGenerator>();
             id = Guid.NewGuid();
             _guidGeneratorMock.Setup(x => x.GenerateTimeBasedGuid()).Returns(id);

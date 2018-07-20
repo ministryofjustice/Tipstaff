@@ -11,6 +11,7 @@ namespace Tipstaff.Tests.UnitTests
     public class TemplatesNunitTests
     {
         private ITemplateRepository _templateRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<Template> _dynamoAPI;
         string templateIndex = string.Empty;
         Template template;
@@ -18,9 +19,9 @@ namespace Tipstaff.Tests.UnitTests
         [SetUp]
         public void SetUp()
         {
-
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
             _dynamoAPI = new DynamoAPI<Template>();
-            _templateRepository = new TemplateRepository(_dynamoAPI);
+            _templateRepository = new TemplateRepository(_dynamoAPI, _auditRepo);
             templateIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 

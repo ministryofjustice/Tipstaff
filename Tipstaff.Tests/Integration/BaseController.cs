@@ -9,6 +9,7 @@ using Tipstaff.Presenters;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Tests.Integration
 {
@@ -40,16 +41,19 @@ namespace Tipstaff.Tests.Integration
         protected ISolicitorRepository _solicitorRepository;
         protected ITemplateRepository _templateRepository;
         protected IDocumentsRepository _docRepository;
+        protected IAuditEventRepository _auditRepo;
+        protected ISolicitorFirmRepository _solicitorFirmRepository;
 
         //protected ITipstaffRecordPresenter
 
 
-        
-        
-       // [SetUp]
+
+
+        // [SetUp]
         public BaseController()
         {
             //Repositories
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
             _caseReviewRepository = new CaseReviewRepository(new DynamoAPI<CaseReview>());
             _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<TipstaffRecord>());
             _addressRepository = new AddressRepository(new DynamoAPI<Address>());
@@ -58,9 +62,10 @@ namespace Tipstaff.Tests.Integration
             _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new DynamoAPI<DeletedTipstaffRecord>());
             _childRepository = new ChildRepository(new DynamoAPI<Child>());
             _applicantRepository = new ApplicantRepository(new DynamoAPI<Applicant>());
-            _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>());
-            _templateRepository = new TemplateRepository(new DynamoAPI<Template>());
+            _templateRepository = new TemplateRepository(new DynamoAPI<Template>(), _auditRepo);
             _docRepository = new DocumentsRepository(new DynamoAPI<Document>());
+            _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<SolicitorFirm>(), _auditRepo);
+            _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>(), _auditRepo);
 
             //Presenters
             _addressPresenter = new AddressPresenter(_addressRepository);

@@ -49,7 +49,7 @@
         <td width="60px">
             @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "PoliceForces", new { id = item.policeForceID }, null, null)
             @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "PoliceForces", new { id = item.policeForceID }, null, null) 
-            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "PoliceForces", id = item.policeForceID }, null, null) 
+            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "PoliceForce", id = item.policeForceID }, null, null) 
         </td>
         <td>
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.policeForceName, string.Format("Details for {0}", item.policeForceName), "Details", "PoliceForces", new { id = item.policeForceID }, null, null, "createButton")

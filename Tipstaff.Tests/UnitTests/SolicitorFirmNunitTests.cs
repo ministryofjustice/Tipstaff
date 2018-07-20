@@ -11,6 +11,7 @@ namespace Tipstaff.Tests.UnitTests
     public class SolicitorFirmNunitTests
     {
         private ISolicitorFirmRepository _firmRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<SolicitorFirm> _dynamoAPI;
         string firmIndex = string.Empty;
         SolicitorFirm firm;
@@ -18,9 +19,9 @@ namespace Tipstaff.Tests.UnitTests
         [SetUp]
         public void SetUp()
         {
-
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
             _dynamoAPI = new DynamoAPI<SolicitorFirm>();
-            _firmRepository = new SolicitorFirmRepository(_dynamoAPI);
+            _firmRepository = new SolicitorFirmRepository(_dynamoAPI, _auditRepo);
             firmIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 

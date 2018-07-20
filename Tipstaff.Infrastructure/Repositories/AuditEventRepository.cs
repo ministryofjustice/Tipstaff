@@ -4,20 +4,25 @@ using System.Collections.Generic;
 using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Infrastructure.Repositories
 {
     public class AuditEventRepository : IAuditEventRepository
     {
         private readonly IDynamoAPI<AuditEvent> _dynamoAPI;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public AuditEventRepository(IDynamoAPI<AuditEvent> dynamoAPI)
+        public AuditEventRepository(IDynamoAPI<AuditEvent> dynamoAPI, IGuidGenerator guidGenerator)
         {
             _dynamoAPI = dynamoAPI;
+            _guidGenerator = guidGenerator;
         }
 
         public void AddAuditEvent(AuditEvent ae)
         {
+            if (string.IsNullOrEmpty(ae.Id))
+                ae.Id = _guidGenerator.GenerateTimeBasedGuid().ToString();
             _dynamoAPI.Save(ae);
         }
 
