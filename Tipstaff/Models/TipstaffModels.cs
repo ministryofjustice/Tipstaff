@@ -54,7 +54,7 @@ namespace Tipstaff.Models
         public MemoryCollections.Result result { get; set; }
 
         public virtual ICollection<Document> Documents { get; set; }
-        public IEnumerable<AttendanceNote> AttendanceNotes { get; set; }
+        public IEnumerable<AttendanceNoteCreation> AttendanceNotes { get; set; }
         public virtual IEnumerable<CaseReview> caseReviews { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
         public IEnumerable<Respondent> Respondents { get; set; }

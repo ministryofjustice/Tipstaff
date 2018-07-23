@@ -9,12 +9,12 @@ namespace Tipstaff.Presenters
 {
     public interface IAttendanceNotePresenter 
     {
-        void AddAttendanceNote(Tipstaff.Models.AttendanceNote note);
+        void AddAttendanceNote(Tipstaff.Models.AttendanceNoteCreation note);
 
-        void DeleteAttendanceNote(Tipstaff.Models.AttendanceNote note);
+        void DeleteAttendanceNote(Tipstaff.Models.AttendanceNoteCreation note);
 
-        Tipstaff.Models.AttendanceNote GetAttendanceNote(string id);
+        Tipstaff.Models.AttendanceNoteCreation GetAttendanceNote(string id);
 
-        IEnumerable<AttendanceNote> GetAllById(string id);
+        IEnumerable<AttendanceNoteCreation> GetAllById(string id);
     }
 }

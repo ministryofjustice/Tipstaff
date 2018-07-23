@@ -63,7 +63,7 @@ namespace Tipstaff.Models
     }
 	public class DeleteAttendanceNote : DeleteModel
     {
-        public AttendanceNote AttendanceNote { get; set; }
+        public AttendanceNoteCreation AttendanceNote { get; set; }
         public DeleteAttendanceNote() { }
         public DeleteAttendanceNote(string id)
         {

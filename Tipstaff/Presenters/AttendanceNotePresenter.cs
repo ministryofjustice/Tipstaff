@@ -7,7 +7,7 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class AttendanceNotePresenter : IMapper<Models.AttendanceNote, Services.DynamoTables.AttendanceNote>, IAttendanceNotePresenter
+    public class AttendanceNotePresenter : IMapper<Models.AttendanceNoteCreation, Services.DynamoTables.AttendanceNote>, IAttendanceNotePresenter
     {
         private readonly IAttendanceNotesRepository _attendanceNotesRepository;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
@@ -18,21 +18,21 @@ namespace Tipstaff.Presenters
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
 
-        public void AddAttendanceNote(Models.AttendanceNote note)
+        public void AddAttendanceNote(Models.AttendanceNoteCreation note)
         {
             var dynamoEntity = GetDynamoTable(note);
 
             _attendanceNotesRepository.AddAttendanceNote(dynamoEntity);
         }
 
-        public void DeleteAttendanceNote(Models.AttendanceNote note)
+        public void DeleteAttendanceNote(Models.AttendanceNoteCreation note)
         {
             var record = GetDynamoTable(note);
 
             _attendanceNotesRepository.DeleteAttendanceNote(record);
         }
 
-        public Models.AttendanceNote GetAttendanceNote(string id)
+        public Models.AttendanceNoteCreation GetAttendanceNote(string id)
         {
             var note = _attendanceNotesRepository.GetAttendanceNote(id);
 
@@ -42,9 +42,9 @@ namespace Tipstaff.Presenters
         }
        
         
-        public Models.AttendanceNote GetModel(Services.DynamoTables.AttendanceNote table)
+        public Models.AttendanceNoteCreation GetModel(Services.DynamoTables.AttendanceNote table)
         {
-            var model = new Models.AttendanceNote()
+            var model = new Models.AttendanceNoteCreation()
             {
                 callDated = table.CallDated,
                 callDetails = table.CallDetails,
@@ -59,7 +59,7 @@ namespace Tipstaff.Presenters
             return model;
         }
         
-        public Services.DynamoTables.AttendanceNote GetDynamoTable(Models.AttendanceNote model)
+        public Services.DynamoTables.AttendanceNote GetDynamoTable(Models.AttendanceNoteCreation model)
         {
             var table = new Tipstaff.Services.DynamoTables.AttendanceNote()
             {
@@ -75,7 +75,7 @@ namespace Tipstaff.Presenters
             return table;
         }
 
-        public IEnumerable<AttendanceNote> GetAllById(string id)
+        public IEnumerable<AttendanceNoteCreation> GetAllById(string id)
         {
             var entities = _attendanceNotesRepository.GetAllById(id);
 
