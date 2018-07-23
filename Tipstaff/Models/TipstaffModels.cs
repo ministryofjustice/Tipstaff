@@ -279,7 +279,7 @@ namespace Tipstaff.Models
             caOrderTypeID = -1;
             //StatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(c => c.active == true), "CaseStatusID", "Detail");
             //OrderTypeList = new SelectList(myDBContextHelper.CurrentContext.CAOrderTypes.Where(c => c.active == true), "caOrderTypeID", "Detail");
-            OrderTypeList = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(c => c.Active == 1), "CAOrderTypeID", "Detail");
+            OrderTypeList = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(c => c.Active == 1), "CAOrderTypeId", "Detail");
             StatusList = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(c => c.Active == 1), "CaseStatusID", "Detail");
         }
 

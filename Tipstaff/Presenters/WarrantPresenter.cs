@@ -71,7 +71,7 @@ namespace Tipstaff.Presenters
                 NextReviewDate = model.nextReviewDate,
                 NPO = model.NPO,
                 PrisonCount = model.prisonCount,
-                ProtectiveMarkingId = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingById(model.protectiveMarkingID)?.ProtectiveMarkingId,
+                ProtectiveMarkingId = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=>x.ProtectiveMarkingId == model.protectiveMarkingID)?.ProtectiveMarkingId,
                 ResultDate = model.resultDate,
                 ResultEnteredBy = model.resultEnteredBy,
                 ResultId = model.resultID,
@@ -124,7 +124,7 @@ namespace Tipstaff.Presenters
                 nextReviewDate = table.NextReviewDate,
                 NPO = table.NPO,
                 //policeForces = get police forces?
-                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingById(table.ProtectiveMarkingId.Value),
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=> x.ProtectiveMarkingId == table.ProtectiveMarkingId),
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
                 resultEnteredBy = table.ResultEnteredBy
