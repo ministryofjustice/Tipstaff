@@ -27,9 +27,9 @@ namespace Tipstaff.MemoryCollections
             };
         }
 
-        public static ProtectiveMarkings GetProtectiveMarkingByDetail(string c)
+        public static ProtectiveMarkings GetProtectiveMarkingById(int id)
         {
-            return GetProtectiveMarkingsList().Where(x => x.Detail == c).FirstOrDefault();
+            return GetProtectiveMarkingsList().Where(x => x.ProtectiveMarkingId == id).FirstOrDefault();
         }
     }
 }

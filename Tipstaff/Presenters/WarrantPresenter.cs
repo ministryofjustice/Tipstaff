@@ -63,7 +63,7 @@ namespace Tipstaff.Presenters
                 DivisionId = MemoryCollections.DivisionsList.GetDivisionByID(model.Division.DivisionId)?.DivisionId,
                 Discriminator = model.Discriminator,
                 DateCirculated = model.DateCirculated,
-                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == model.caseStatusID).CaseStatusId,
+                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == model.caseStatusID)?.CaseStatusId,
                 CreatedOn = model.createdOn,
                 CreatedBy = model.createdBy,
                 ArrestCount = model.arrestCount,
@@ -71,10 +71,11 @@ namespace Tipstaff.Presenters
                 NextReviewDate = model.nextReviewDate,
                 NPO = model.NPO,
                 PrisonCount = model.prisonCount,
-                ProtectiveMarkingId = model.protectiveMarkingID,
+                ProtectiveMarkingId = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingById(model.protectiveMarkingID)?.ProtectiveMarkingId,
                 ResultDate = model.resultDate,
                 ResultEnteredBy = model.resultEnteredBy,
-                ResultId = model.resultID
+                ResultId = model.resultID,
+                
             };
 
             return record;
@@ -123,6 +124,7 @@ namespace Tipstaff.Presenters
                 nextReviewDate = table.NextReviewDate,
                 NPO = table.NPO,
                 //policeForces = get police forces?
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingById(table.ProtectiveMarkingId.Value),
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
                 resultEnteredBy = table.ResultEnteredBy
