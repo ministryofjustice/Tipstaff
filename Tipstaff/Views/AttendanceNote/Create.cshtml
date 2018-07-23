@@ -1,4 +1,4 @@
-﻿@model Tipstaff.Models.AttendanceNote
+﻿@model Tipstaff.Models.AttendanceNoteCreation
 
 @{
     ViewBag.Title = "Create";
@@ -7,55 +7,47 @@
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
     string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
-    }
-<h6>@Html.ActionLink(display,"Index",controller)
-> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.tipstaffRecordID},null) 
-> Add attendance note</h6>
+}
+<h6>
+    @Html.ActionLink(display, "Index", controller)
+    > @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.tipstaffRecordID }, null)
+    > Add attendance note
+</h6>
 
-@using (Html.BeginForm())
-{ 
+@using (Html.BeginForm("Create", "AttendanceNote", FormMethod.Post)){ 
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken();
-    <fieldset style="height:auto;">
-        <legend>Add attendance note to @Html.DisplayFor(model => model.tipstaffRecord.UniqueRecordID) </legend>
+<fieldset style="height:auto;">
+    <legend>Add attendance note to @Html.DisplayFor(model => model.tipstaffRecord.UniqueRecordID) </legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.callDated, true)
-        </div>
-        <div class="editor-field">
-            @Html.DisplayFor(model => model.callDated) 
-            @Html.HiddenFor(model => model.callDated) 
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.callDated, true)
+    </div>
+    <div class="editor-field">
+        @Html.DisplayFor(model => model.callDated)
+        <input id="callDated" name="callDated" type="hidden" value="@DateTime.Now">
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.AttendanceNoteCode.Id, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.AttendanceNoteCode.Id,
+            new SelectList(ViewBag.AttendanceNoteCodes, "Id", "Detail"), "Select a type")
+        @Html.ValidationMessageFor(model => model.AttendanceNoteCode.Id)
+    </div>
 
-        @*<div class="editor-label">
-            @Html.LabelFor(model => model.callStarted, true)
-        </div>*@
-        @*<div class="editor-field">
-            @Html.DisplayFor(model => model.callStarted) 
-            @Html.HiddenFor(model => model.callStarted) 
-            @Html.ValidationMessageFor(model => model.callStarted) 
-        </div>*@
-        <div class="editor-label">
-            @Html.LabelFor(model => model.AttendanceNoteCode.Id, true)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.AttendanceNoteCode.Id,
-                new SelectList(ViewBag.AttendanceNoteCodes, "Id", "Detail"), "Select a type")
-            @Html.ValidationMessageFor(model => model.AttendanceNoteCode.Id) 
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.callDetails, true)
+    </div>
+    <div class="editor-field" style="height:90px;width:250px;">
+        @Html.EditorFor(model => model.callDetails)
+        @Html.ValidationMessageFor(model => model.callDetails)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.callDetails, true)
-        </div>
-        <div class="editor-field" style="height:90px;width:250px;">
-            @Html.EditorFor(model => model.callDetails) 
-            @Html.ValidationMessageFor(model => model.callDetails) 
-        </div>
-
-        @Html.HiddenFor(model => model.tipstaffRecordID) 
-        <p>
-            <input type="submit" value="Save attendance note" />
-        </p>
-        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
-    </fieldset>
+    @Html.HiddenFor(model => model.tipstaffRecordID)
+    <p>
+        <input type="submit" value="Save attendance note" />
+    </p>
+    <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+</fieldset>
 }

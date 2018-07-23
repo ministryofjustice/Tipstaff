@@ -31,50 +31,50 @@ namespace Tipstaff.Controllers
         [HttpGet]
         public ActionResult Create(string id)
         {
-            AttendanceNote AttendanceNote = new AttendanceNote(DateTime.Now);
+            AttendanceNoteCreation note = new AttendanceNoteCreation(DateTime.Now);
             ViewBag.AttendanceNoteCodes = AttendanceNoteCodeList.GetAttendanceNoteCodeList().Where(x => x.Active == 1);
             ////////ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
-
+            //note.callDated = DateTime.Now;
 
             ////AttendanceNote.tipstaffRecord = db.TipstaffRecord.Find(id);
-            AttendanceNote.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            note.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             ////////var tipstaffRecord = _tipstaffRecordRepository.GetEntityByHashKey(id);
             ////////AttendanceNote.tipstaffRecord = new TipstaffRecord() { resultID = tipstaffRecord.res}
 
 
-            AttendanceNote.tipstaffRecordID = id;
+            note.tipstaffRecordID = id;
 
-            if (AttendanceNote.tipstaffRecord.caseStatus.Sequence > 3)
+            if (note.tipstaffRecord.caseStatus.Sequence > 3)
             {
-                TempData["UID"] = AttendanceNote.tipstaffRecord.UniqueRecordID;
+                TempData["UID"] = note.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
-            return View(AttendanceNote);
+            return View(note);
         }
 
         [HttpPost]
-        public ActionResult Create(AttendanceNote AttendanceNote)
+        public ActionResult Create(AttendanceNoteCreation note)
         {
-            AttendanceNote.callEnded = DateTime.Now;
+            note.callEnded = DateTime.Now;
             if (ModelState.IsValid)
             {
                 ////db.AttendanceNotes.Add(AttendanceNote);
                 ////db.SaveChanges();
-                AttendanceNote.AttendanceNoteID = _guidGenerator.GenerateTimeBasedGuid().ToString();
-                _attendanceNotePresenter.AddAttendanceNote(AttendanceNote);
+                note.AttendanceNoteID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+                _attendanceNotePresenter.AddAttendanceNote(note);
 
                
-               var area = _tipstaffRecordPresenter.GetTipStaffRecord(AttendanceNote.tipstaffRecordID);
+               var area = _tipstaffRecordPresenter.GetTipStaffRecord(note.tipstaffRecordID);
 
                //// return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(AttendanceNote.tipstaffRecordID), new { id = AttendanceNote.tipstaffRecordID });
-                return RedirectToAction("Details", area.Discriminator, new { id = AttendanceNote.tipstaffRecordID });
+                return RedirectToAction("Details", area.Discriminator, new { id = note.tipstaffRecordID });
 
             }
 
             
             //////ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
             ViewBag.AttendanceNoteCodes = AttendanceNoteCodeList.GetAttendanceNoteCodeList().Where(x => x.Active == 1);
-            return View(AttendanceNote);
+            return View(note);
         }
 
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
@@ -84,7 +84,7 @@ namespace Tipstaff.Controllers
             ListAttendanceNotesByTipstaffRecord model = new ListAttendanceNotesByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.TipstaffRecordClosed = w.caseStatusID > 2;
-            model.AttendanceNotes = _attendanceNotePresenter.GetAllById(id).OrderByDescending(p => p.callDated).ToXPagedList<AttendanceNote>(page ?? 1, 8);
+            model.AttendanceNotes = _attendanceNotePresenter.GetAllById(id).OrderByDescending(p => p.callDated).ToXPagedList<AttendanceNoteCreation>(page ?? 1, 8);
             //w.AttendanceNotes.OrderByDescending(p => p.callDated).ToXPagedList<AttendanceNote>(page ?? 1, 8);
             return PartialView("_ListAttendanceNotesByRecord", model);
         }
