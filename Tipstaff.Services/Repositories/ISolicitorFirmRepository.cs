@@ -13,6 +13,8 @@ namespace Tipstaff.Services.Repositories
 
         SolicitorFirm GetSolicitorFirm(string id);
 
+        string GetSolicitorFirmName(string id);
+
         IEnumerable<SolicitorFirm> GetAllSolicitorFirms();
 
         void Update(SolicitorFirm solicitorFirm);

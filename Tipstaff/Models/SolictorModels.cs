@@ -135,6 +135,8 @@ namespace Tipstaff.Models
         public string lastName { get; set; }
         [Display(Name="Solicitor firm")]
         public string solicitorFirmID { get; set; }
+
+        public string solicitorFirmName { get; set; }
         ////[Required, Display(Name = "Title")]
         ////public int salutationID { get; set; }
         [MaxLength(20), Display(Name="Day time phone number")]

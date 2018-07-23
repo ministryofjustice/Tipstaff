@@ -18,11 +18,11 @@
         @Html.DisplayFor(model => model.solicitorName)
     </div>
     
-    <div class="display-label">@Html.LabelFor(model => model.SolicitorFirm.firmName)</div>
+    <div class="display-label">@Html.LabelFor(model => model.solicitorFirmName)</div>
     <div class="display-field">
     @if (Model.solicitorFirmID != null)
     {
-        @Html.ActionLink(Model.SolicitorFirm.firmName, "Details", "SolicitorFirm", new { id = Model.solicitorFirmID }, null)
+        @Html.ActionLink(Model.solicitorFirmName, "Details", "SolicitorFirms", new { id = Model.solicitorFirmID }, null)
     }
     </div>
 

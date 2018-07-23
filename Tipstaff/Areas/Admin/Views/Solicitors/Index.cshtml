@@ -71,7 +71,7 @@
         <th>
             @Html.LabelFor(model=>model.Solicitors.First().active)
         </th>
-         @Html.SortHeader(Model, "activeCount", "Active records", token)
+         @*@Html.SortHeader(Model, "activeCount", "Active records", token)*@
     </tr>
 
 @{  var isAltRow = false;
@@ -89,7 +89,7 @@
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.solicitorName, string.Format("Details for {0}", item.solicitorName), "Details", "Solicitors", new { id = item.solicitorID }, null, null, "createButton")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SolicitorFirm.firmName)
+            @Html.DisplayFor(modelItem => item.solicitorFirmName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.active)

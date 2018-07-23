@@ -10,10 +10,12 @@ namespace Tipstaff.Presenters
     public class SolicitorPresenter : ISolicitorPresenter, IMapper<Models.Solicitor, Tipstaff.Services.DynamoTables.Solicitor>, IMapperCollections<Models.Solicitor,Tipstaff.Services.DynamoTables.Solicitor>
     {
         private readonly ISolicitorRepository _solicitorRepository;
+        private readonly ISolicitorFirmRepository _firmRepository;
 
-        public SolicitorPresenter(ISolicitorRepository solicitorRepository)
+        public SolicitorPresenter(ISolicitorRepository solicitorRepository, ISolicitorFirmRepository firmRepository)
         {
             _solicitorRepository = solicitorRepository;
+            _firmRepository = firmRepository;
         }
 
         public void AddSolicitor(Models.Solicitor solicitor)
@@ -50,7 +52,7 @@ namespace Tipstaff.Presenters
                Email = model.email,
                DectivatedBy = model.deactivatedBy,
                FirstName = model.firstName,
-               LastName = model.firstName,
+               LastName = model.lastName,
                PhoneDayTime = model.phoneDayTime,
                PhoneOutOfHours = model.phoneOutofHours,
                Salutation = MemoryCollections.SalutationList.GetSalutationByID(model.salutation.SalutationId)?.Detail,
@@ -76,7 +78,8 @@ namespace Tipstaff.Presenters
                 phoneOutofHours = table.PhoneOutOfHours,
                 solicitorID = table.Id,
                 solicitorFirmID = table.SolicitorFirmID,
-                salutation = MemoryCollections.SalutationList.GetSalutationByDetail(table.Salutation)
+                salutation = MemoryCollections.SalutationList.GetSalutationByDetail(table.Salutation),
+                solicitorFirmName = _firmRepository.GetSolicitorFirmName(table.SolicitorFirmID)
             };
 
             return model;
