@@ -23,6 +23,8 @@ namespace Tipstaff.Presenters
 
         void AddTipstaffRecord(ChildAbduction childabduction);
 
+        IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions();
+
         //AttendanceNotes
         //Addresses
         //Respondents

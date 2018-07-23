@@ -79,6 +79,22 @@ namespace Tipstaff.Infrastructure.Repositories
             );
         }
 
+        public IEnumerable<TipstaffRecord> GetAllByConditions<T>(IDictionary<string,T> conditions)
+        {
+            int size = conditions.Count;
+            var scanConditions = new ScanCondition[size];
+            int counter = 0;
+
+            foreach (var item in conditions)
+            {
+                scanConditions[counter] = new ScanCondition(item.Key, ScanOperator.Equal, item.Value);
+                counter++;
+            }
+
+            return _dynamoAPI.GetResultsByConditions(scanConditions);
+        }
+
+
         public void Delete(TipstaffRecord record)
         {
             _dynamoAPI.Delete(record);

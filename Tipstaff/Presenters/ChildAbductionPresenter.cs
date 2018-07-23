@@ -86,12 +86,25 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<ChildAbduction> GetAllChildAbductions()
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction");
-
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "ChildAbduction");
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
             var childAbductions = records.Select(x=> GetModel(x));
 
             return childAbductions;
         }
+
+        public IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions()
+        {
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "ChildAbduction");
+            conditions.Add("CaseStatusId", 1);
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            var childAbductions = records.Select(x => GetModel(x));
+
+            return childAbductions;
+        }
+
 
         public ChildAbduction GetChildAbduction(string id)
         {
