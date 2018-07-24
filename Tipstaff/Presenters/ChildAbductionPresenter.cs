@@ -20,8 +20,6 @@ namespace Tipstaff.Presenters
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
 
-        private Object _lock = new Object();
-
         public ChildAbductionPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
             IDeletedTipstaffRecordRepository deletedTipstaffRecordRepository, 
             ICaseReviewPresenter caseReviewsPresenter, 
@@ -57,18 +55,15 @@ namespace Tipstaff.Presenters
 
         public void AddTipstaffRecord(ChildAbduction childabduction)
         {
-            lock (_lock)
-            {
-                var entity = GetDynamoTable(childabduction);
+            var entity = GetDynamoTable(childabduction);
 
-                var count = _tipstaffRecordRepository.GetAll().Count();
+            var count = _tipstaffRecordRepository.GetAll().Count();
 
-                entity.Id = $"{count++}";
+            entity.Id = $"{count++}";
 
-                childabduction.tipstaffRecordID = entity.Id;
+            childabduction.tipstaffRecordID = entity.Id;
 
-                _tipstaffRecordRepository.Add(entity);
-            }
+            _tipstaffRecordRepository.Add(entity);
         }
 
         public void DeletedTipstaffRecords(Models.DeletedTipstaffRecord record)
@@ -86,12 +81,25 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<ChildAbduction> GetAllChildAbductions()
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction");
-
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "ChildAbduction");
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
             var childAbductions = records.Select(x=> GetModel(x));
 
             return childAbductions;
         }
+
+        public IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions()
+        {
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "ChildAbduction");
+            conditions.Add("CaseStatusId", 1);
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            var childAbductions = records.Select(x => GetModel(x));
+
+            return childAbductions;
+        }
+
 
         public ChildAbduction GetChildAbduction(string id)
         {
@@ -152,8 +160,10 @@ namespace Tipstaff.Presenters
                 officerDealing = table.OfficerDealing,
                 EldestChild = table.EldestChild,
                 caOrderType = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == table.CAOrderTypeId),
+                
                 tipstaffRecordID = table.Id,
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == table.CaseStatusId),
+                caseStatusID = table.CaseStatusId.Value,
                 caseReviews = _caseReviewsPresenter.GetAllById(table.Id),
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,

@@ -45,7 +45,7 @@ namespace Tipstaff.Controllers
             }
             if (model.caOrderTypeID > -1)
             {
-                TRs = TRs.Where(w => w.caOrderType.CAOrderTypeId == model.caOrderTypeID);
+                TRs = TRs.Where(w => w.caOrderType?.CAOrderTypeId == model.caOrderTypeID);
             }
             if (!string.IsNullOrEmpty(model.childNameContains))
             {

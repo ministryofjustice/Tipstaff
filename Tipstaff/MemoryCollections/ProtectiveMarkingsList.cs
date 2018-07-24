@@ -26,10 +26,5 @@ namespace Tipstaff.MemoryCollections
                 new ProtectiveMarkings() {  ProtectiveMarkingId = 4 ,  Detail = "Unclassified",  Active = 1  }
             };
         }
-
-        public static ProtectiveMarkings GetProtectiveMarkingByDetail(string c)
-        {
-            return GetProtectiveMarkingsList().Where(x => x.Detail == c).FirstOrDefault();
-        }
     }
 }
