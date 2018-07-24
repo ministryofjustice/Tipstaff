@@ -390,7 +390,8 @@ namespace Tipstaff.MemoryCollections
                 new DocumentType() { DocumentTypeID=368, Detail="B & I Arrested Persons Information", Active=1},
                 new DocumentType() { DocumentTypeID=369, Detail="CH & QB Arrested Persons Information", Active=1},
                 new DocumentType() { DocumentTypeID=370, Detail="Arrest Notification Letter Official Receiver", Active=1},
-                new DocumentType() { DocumentTypeID=371, Detail="Warrant of Search & Seizure", Active=1}
+                new DocumentType() { DocumentTypeID=371, Detail="Warrant of Search & Seizure", Active=1},
+                new DocumentType() { DocumentTypeID=372, Detail="Briefing Note", Active=1}
             };
         }
 
