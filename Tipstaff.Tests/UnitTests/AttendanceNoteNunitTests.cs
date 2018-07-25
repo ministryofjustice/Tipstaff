@@ -12,6 +12,7 @@ namespace Tipstaff.Tests.UnitTests
     public class AttendanceNoteNunitTests
     {
         private IAttendanceNotesRepository _attendanceNoteRepository;
+        private IAuditEventRepository _auditRepo;
         private ITipstaffRecordRepository _tipstaffRepository;
         private IDynamoAPI<AttendanceNote> _dynamoAPI;
         private IDynamoAPI<TipstaffRecord> _tipstaffDynamoAPI;
@@ -26,8 +27,9 @@ namespace Tipstaff.Tests.UnitTests
 
             _dynamoAPI = new DynamoAPI<AttendanceNote>();
             _tipstaffDynamoAPI = new DynamoAPI<TipstaffRecord>();
-            _attendanceNoteRepository = new AttendanceNotesRepository(_dynamoAPI);
-            _tipstaffRepository = new TipstaffRecordRepository(_tipstaffDynamoAPI);
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
+            _attendanceNoteRepository = new AttendanceNotesRepository(_dynamoAPI, _auditRepo);
+            _tipstaffRepository = new TipstaffRecordRepository(_tipstaffDynamoAPI, _auditRepo);
             attendanceNoteIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
             tipstaffIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }

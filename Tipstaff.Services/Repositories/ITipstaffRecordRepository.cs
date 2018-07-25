@@ -20,5 +20,7 @@ namespace Tipstaff.Services.Repositories
         IEnumerable<TipstaffRecord> GetAllByCondition<T>(string name, T value);
 
         IEnumerable<TipstaffRecord> GetAllByConditions<T>(IDictionary<string, T> conditions);
+
+        IEnumerable<TipstaffRecord> GetAllByConditionsOr<T>(IDictionary<string, T> conditions);
     }
 }

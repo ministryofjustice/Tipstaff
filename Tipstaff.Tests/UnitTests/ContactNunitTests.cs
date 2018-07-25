@@ -11,6 +11,7 @@ namespace Tipstaff.Tests.UnitTests
     public class ContactNunitTests
     {
         private IContactsRepository _contactRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<Contact> _dynamoAPI;
         string contactIndex = string.Empty;
         Contact contact;
@@ -20,7 +21,8 @@ namespace Tipstaff.Tests.UnitTests
         {
 
             _dynamoAPI = new DynamoAPI<Contact>();
-            _contactRepository = new ContactsRepository(_dynamoAPI);
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
+            _contactRepository = new ContactsRepository(_dynamoAPI, _auditRepo);
             contactIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 

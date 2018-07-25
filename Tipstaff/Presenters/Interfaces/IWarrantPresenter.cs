@@ -14,5 +14,7 @@ namespace Tipstaff.Presenters
         void UpdateWarrant(Warrant warrant);
 
         IEnumerable<Warrant> GetAllWarrants();
+
+        IEnumerable<Warrant> GetAllActiveWarrants();
     }
 }

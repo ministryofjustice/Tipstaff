@@ -226,11 +226,12 @@ namespace Tipstaff.Controllers
                 e.DateCirculated = w.DateCirculated;
                 e.ClosedDate = w.ClosedDate;
                 e.NPO = w.NPO;
-                if (w.respondents.Any())
+                if (w.respondents.Count()>0)
                 {
-                    e.RespondentName = w.respondents.ToList()[0].PoliceDisplayName;
-                    e.RespondentDOB = w.respondents.ToList()[0].DateofBirthDisplay;
-                    e.RespondentPNCID = w.respondents.ToList()[0].PNCID;
+                    Respondent r = w.respondents.ElementAt(0);
+                    e.RespondentName = r.PoliceDisplayName;
+                    e.RespondentDOB = r.DateofBirthDisplay;
+                    e.RespondentPNCID = r.PNCID;
                 }
                 excelItems.Add(e);
             }
@@ -307,12 +308,11 @@ namespace Tipstaff.Controllers
         private List<WReportItem> GetActiveWarrants()
         {
             List<WReportItem> results = new List<WReportItem>();
-            var warrants = _warrantPresenter.GetAllWarrants();
-            ////////List<Warrant> activeWs = db.Warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+            var warrants = _warrantPresenter.GetAllActiveWarrants();
 
-            List<Warrant> activeWs = warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+            //List<Warrant> activeWs = warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
 
-            foreach (Warrant w in activeWs)
+            foreach (Warrant w in warrants)
             {
                 WReportItem i = new WReportItem();
                 i.tipstaffRecordID = w.tipstaffRecordID;

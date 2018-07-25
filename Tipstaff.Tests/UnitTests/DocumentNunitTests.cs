@@ -12,6 +12,7 @@ namespace Tipstaff.Tests.UnitTests
     public class DocumentNunitTests
     {
         private IDocumentsRepository _docRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<Document> _dynamoAPI;
         string docIndex = string.Empty;
         string tipstaffIndex = string.Empty;
@@ -22,7 +23,8 @@ namespace Tipstaff.Tests.UnitTests
         {
 
             _dynamoAPI = new DynamoAPI<Document>();
-            _docRepository = new DocumentsRepository(_dynamoAPI);
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
+            _docRepository = new DocumentsRepository(_dynamoAPI, _auditRepo);
             docIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
             tipstaffIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }

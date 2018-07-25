@@ -24,7 +24,7 @@ namespace Tipstaff.Tests.Integration
         [SetUp]
         public void SetUp()
         {
-            _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.TipstaffRecord>());
+            _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.TipstaffRecord>(), _auditRepo);
             _guidGeneratorMock = new Mock<IGuidGenerator>();
             _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.SolicitorFirm>(), _auditRepo);
             _guidGeneratorMock = new Mock<IGuidGenerator>();
