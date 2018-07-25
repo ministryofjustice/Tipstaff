@@ -157,8 +157,8 @@ namespace Tipstaff.Models
     {
         public string tipstaffRecordID { get; set; }
         public string UniqueRecordID { get; set; }
-        public DateTime? DateCirculated { get; set; }
-        public DateTime? ClosedDate { get; set; }
+        public string DateCirculated { get; set; }
+        public string ClosedDate { get; set; }
         public string NPO { get; set; }
         public IEnumerable<Child> children { get; set; }
         public IEnumerable<Respondent> respondents { get; set; }
@@ -168,8 +168,8 @@ namespace Tipstaff.Models
     {
         public string tipstaffRecordID { get; set; }
         public string UniqueRecordID { get; set; }
-        public DateTime? DateCirculated { get; set; }
-        public DateTime? ClosedDate { get; set; }
+        public string DateCirculated { get; set; }
+        public string ClosedDate { get; set; }
         public string NPO { get; set; }
         public IEnumerable<Respondent> respondents { get; set; }
     }
@@ -177,8 +177,8 @@ namespace Tipstaff.Models
     public class WExcelReportItem
     {
         public string UniqueRecordID { get; set; }
-        public DateTime? DateCirculated { get; set; }
-        public DateTime? ClosedDate { get; set; }
+        public string DateCirculated { get; set; }
+        public string ClosedDate { get; set; }
         public string NPO { get; set; }
         public string RespondentName {get;set;}
         public string RespondentDOB { get; set; }
@@ -188,8 +188,8 @@ namespace Tipstaff.Models
     public class CAExcelReportItem
     {
         public string UniqueRecordID { get; set; }
-        public DateTime? DateCirculated { get; set; }
-        public DateTime? ClosedDate { get; set; }
+        public string DateCirculated { get; set; }
+        public string ClosedDate { get; set; }
         public string NPO { get; set; }
         public string ChildrenName { get; set; }
         public string ChildrenDOB { get; set; }

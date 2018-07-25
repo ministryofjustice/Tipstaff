@@ -202,8 +202,9 @@
     <Reference Include="TPLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MoJ.Digital.TP.TPLibrary.0.17.0\lib\net461\TPLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Utils">
-      <HintPath>App_Data\Utils.dll</HintPath>
+    <Reference Include="Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Utils\Utils\obj\Debug\Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

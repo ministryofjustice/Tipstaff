@@ -30,9 +30,9 @@
                 @ca.UniqueRecordID
             </td>
             <td>
-                @if (ca.DateCirculated.HasValue)
+                @if (ca.DateCirculated!="")
                 {
-                    @ca.DateCirculated.Value.ToShortDateString()
+                    @ca.DateCirculated.ToString()
                 }
                 else
                 { 

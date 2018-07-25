@@ -26,9 +26,9 @@
                 @w.UniqueRecordID
             </td>
             <td>
-                @if (w.DateCirculated.HasValue)
+                @if (w.DateCirculated != "")
                 {
-                    @w.DateCirculated.Value.ToShortDateString()
+                    @w.DateCirculated
                 }
                 else
                 { 

@@ -56,9 +56,9 @@
                 @w.UniqueRecordID
             </td>
             <td>
-                @if (w.DateCirculated.HasValue)
+                @if (w.DateCirculated!="")
                 {
-                    @w.DateCirculated.Value.ToShortDateString()
+                    @w.DateCirculated
                 }
                 else
                 { 
@@ -69,7 +69,7 @@
                 @w.NPO
             </td>
             <td>
-                @w.ClosedDate.Value.ToShortDateString()
+                @w.ClosedDate
             </td>
             @if (w.respondents.Count() > 0)
             { 
