@@ -160,7 +160,6 @@ namespace Tipstaff.Presenters
                 officerDealing = table.OfficerDealing,
                 EldestChild = table.EldestChild,
                 caOrderType = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == table.CAOrderTypeId),
-                
                 tipstaffRecordID = table.Id,
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == table.CaseStatusId),
                 caseStatusID = table.CaseStatusId.Value,
@@ -173,9 +172,16 @@ namespace Tipstaff.Presenters
                 Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
                 AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 NPO = table.NPO,
-                
-                
-                
+                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId==table.ResultId),
+                resultDate = table.ResultDate,
+                resultEnteredBy = table.ResultEnteredBy,
+                arrestCount = table.ArrestCount,
+                DateExecuted = table.DateExecuted,
+                nextReviewDate = table.NextReviewDate,
+                prisonCount = table.PrisonCount,
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=>x.ProtectiveMarkingId==table.ProtectiveMarkingId),
+                protectiveMarkingID = table.ProtectiveMarkingId.HasValue?table.ProtectiveMarkingId.Value:0,
+                resultID = table.ResultId
             };
 
             return model;
@@ -183,7 +189,16 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<ChildAbduction> GetAllActiveChildAbductions()
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(w => w.CaseStatusId == 1 || w.CaseStatusId == 2);
+            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(w => w.CaseStatusId == 1 || w.CaseStatusId == 2).OrderByDescending(w=>w.CreatedOn);
+
+            var cas = records.Select(x => GetModel(x));
+
+            return cas;
+        }
+
+        public IEnumerable<ChildAbduction> GetAllClosedChildAbductions(DateTime start, DateTime end)
+        {
+            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(c => c.CaseStatusId == 3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
 
             var cas = records.Select(x => GetModel(x));
 

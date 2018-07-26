@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tipstaff.Models;
 
 namespace Tipstaff.Presenters
@@ -16,5 +17,7 @@ namespace Tipstaff.Presenters
         IEnumerable<Warrant> GetAllWarrants();
 
         IEnumerable<Warrant> GetAllActiveWarrants();
+
+        IEnumerable<Warrant> GetAllClosedWarrants(DateTime start, DateTime end);
     }
 }

@@ -54,7 +54,7 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Warrant> GetAllActiveWarrants()
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant").Where(w=>w.CaseStatusId==1 || w.CaseStatusId==2);
+            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant").Where(w => w.CaseStatusId == 1 || w.CaseStatusId == 2).OrderByDescending(w => w.CreatedOn);
 
             var warrants = records.Select(x => GetModel(x));
 
@@ -136,7 +136,11 @@ namespace Tipstaff.Presenters
                 protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=> x.ProtectiveMarkingId == table.ProtectiveMarkingId),
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
-                resultEnteredBy = table.ResultEnteredBy
+                resultEnteredBy = table.ResultEnteredBy,
+                caseStatusID = table.CaseStatusId.HasValue?table.CaseStatusId.Value:0,
+                protectiveMarkingID = table.ProtectiveMarkingId.HasValue?table.ProtectiveMarkingId.Value:0,
+                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == table.ResultId),
+                resultID = table.ResultId.HasValue?table.ResultId.Value:0
             };
 
             return model;
@@ -149,6 +153,13 @@ namespace Tipstaff.Presenters
             _tipstaffRecordRepository.Update(entity);
         }
 
-        
+        public IEnumerable<Warrant> GetAllClosedWarrants(DateTime start, DateTime end)
+        {
+            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant").Where(c => c.CaseStatusId == 3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
+
+            var warrants = records.Select(x => GetModel(x));
+
+            return warrants;
+        }
     }
 }

@@ -56,7 +56,7 @@
                 @w.UniqueRecordID
             </td>
             <td>
-                @if (w.DateCirculated!="")
+                @if (w.DateCirculated!="" && !w.DateCirculated.Contains("01/01/0001"))
                 {
                     @w.DateCirculated
                 }
