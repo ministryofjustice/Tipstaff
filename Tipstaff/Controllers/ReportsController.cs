@@ -223,14 +223,15 @@ namespace Tipstaff.Controllers
             {
                 WExcelReportItem e = new WExcelReportItem();
                 e.UniqueRecordID = w.UniqueRecordID;
-                e.DateCirculated = w.DateCirculated;
-                e.ClosedDate = w.ClosedDate;
+                e.DateCirculated = w.DateCirculated==null?"":w.DateCirculated.ToString();
+                e.ClosedDate = w.ClosedDate==null?"":w.ClosedDate.ToString();
                 e.NPO = w.NPO;
-                if (w.respondents.Any())
+                if (w.respondents.Count() > 0)
                 {
-                    e.RespondentName = w.respondents.ToList()[0].PoliceDisplayName;
-                    e.RespondentDOB = w.respondents.ToList()[0].DateofBirthDisplay;
-                    e.RespondentPNCID = w.respondents.ToList()[0].PNCID;
+                    Respondent r = w.respondents.ElementAt(0);
+                    e.RespondentName = r.PoliceDisplayName;
+                    e.RespondentDOB = r.DateofBirthDisplay;
+                    e.RespondentPNCID = r.PNCID;
                 }
                 excelItems.Add(e);
             }
@@ -259,8 +260,8 @@ namespace Tipstaff.Controllers
                 int numberOfChildren = c.children.Count();
                 int numberOfRespondents = c.respondents.Count();
                 e.UniqueRecordID = c.UniqueRecordID;
-                e.DateCirculated = c.DateCirculated;
-                e.ClosedDate = c.ClosedDate;
+                e.DateCirculated = c.DateCirculated==null?"":c.DateCirculated.ToString();
+                e.ClosedDate = c.ClosedDate==null?"":c.ClosedDate.ToString();
                 e.NPO = c.NPO;
                 if (numberOfChildren > 0)
                 {
@@ -307,17 +308,14 @@ namespace Tipstaff.Controllers
         private List<WReportItem> GetActiveWarrants()
         {
             List<WReportItem> results = new List<WReportItem>();
-            var warrants = _warrantPresenter.GetAllWarrants();
-            ////////List<Warrant> activeWs = db.Warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
+            var warrants = _warrantPresenter.GetAllActiveWarrants();
 
-            List<Warrant> activeWs = warrants.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
-
-            foreach (Warrant w in activeWs)
+            foreach (Warrant w in warrants)
             {
                 WReportItem i = new WReportItem();
                 i.tipstaffRecordID = w.tipstaffRecordID;
                 i.UniqueRecordID = w.UniqueRecordID;
-                i.DateCirculated = w.DateCirculated;
+                i.DateCirculated = w.DateCirculated==null?"":w.DateCirculated.ToString();
                 i.ClosedDate = null;
                 i.respondents = w.Respondents;
                 i.NPO = w.NPO;
@@ -340,8 +338,8 @@ namespace Tipstaff.Controllers
                 WReportItem i = new WReportItem();
                 i.tipstaffRecordID = w.tipstaffRecordID;
                 i.UniqueRecordID = w.UniqueRecordID;
-                i.DateCirculated = w.DateCirculated;
-                i.ClosedDate = w.resultDate;
+                i.DateCirculated = w.DateCirculated.ToString();
+                i.ClosedDate = w.resultDate.ToString();
                 i.respondents = w.Respondents;
                 i.NPO = w.NPO;
                 results.Add(i);
@@ -352,17 +350,14 @@ namespace Tipstaff.Controllers
         private List<CAReportItem> GetActiveChildAbductions()
         {
             List<CAReportItem> results = new List<CAReportItem>();
-            var childAbductions = _childAbductionPresenter.GetAllChildAbductions();
+            var childAbductions = _childAbductionPresenter.GetAllActiveChildAbductions();
 
-           //// List<ChildAbduction> activeCAs = db.ChildAbductions.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
-
-            List<ChildAbduction> activeCAs = childAbductions.Where(c => c.caseStatusID == 1 || c.caseStatusID == 2).ToList();
-            foreach (ChildAbduction c in activeCAs)
+            foreach (ChildAbduction c in childAbductions)
             {
                 CAReportItem i = new CAReportItem();
                 i.tipstaffRecordID = c.tipstaffRecordID;
                 i.UniqueRecordID = c.UniqueRecordID;
-                i.DateCirculated = c.sentSCD26;
+                i.DateCirculated = c.sentSCD26.ToString();
                 i.ClosedDate = null;
                 i.children = c.children;
                 i.respondents = c.Respondents;
@@ -384,8 +379,8 @@ namespace Tipstaff.Controllers
                 CAReportItem i = new CAReportItem();
                 i.tipstaffRecordID = c.tipstaffRecordID;
                 i.UniqueRecordID = c.UniqueRecordID;
-                i.DateCirculated = c.sentSCD26;
-                i.ClosedDate = c.resultDate;
+                i.DateCirculated = c.sentSCD26.ToString();
+                i.ClosedDate = c.resultDate.ToString();
                 i.children = c.children;
                 i.respondents = c.Respondents;
                 i.NPO = c.NPO;

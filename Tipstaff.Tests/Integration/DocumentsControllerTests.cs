@@ -30,7 +30,7 @@ namespace Tipstaff.Tests.Integration
         public void SetUp()
         {
             _dynamoAPI = new DynamoAPI<Document>();
-            _docRepository = new DocumentsRepository(_dynamoAPI);
+            _docRepository = new DocumentsRepository(_dynamoAPI, _auditRepo);
             _s3Repository = new S3API();
             _guidGenerator = new Mock<IGuidGenerator>();
             docIndex = Guid.NewGuid();

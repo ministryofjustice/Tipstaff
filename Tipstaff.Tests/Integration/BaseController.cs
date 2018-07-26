@@ -54,16 +54,16 @@ namespace Tipstaff.Tests.Integration
         {
             //Repositories
             _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
-            _caseReviewRepository = new CaseReviewRepository(new DynamoAPI<CaseReview>());
-            _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<TipstaffRecord>());
-            _addressRepository = new AddressRepository(new DynamoAPI<Address>());
-            _attendanceNotesRepository = new AttendanceNotesRepository(new DynamoAPI<AttendanceNote>());
-            _respondentRepository = new RespondentRepository(new DynamoAPI<Respondent>());
-            _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new DynamoAPI<DeletedTipstaffRecord>());
-            _childRepository = new ChildRepository(new DynamoAPI<Child>());
-            _applicantRepository = new ApplicantRepository(new DynamoAPI<Applicant>());
+            _caseReviewRepository = new CaseReviewRepository(new DynamoAPI<CaseReview>(), _auditRepo);
+            _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<TipstaffRecord>(), _auditRepo);
+            _addressRepository = new AddressRepository(new DynamoAPI<Address>(), _auditRepo);
+            _attendanceNotesRepository = new AttendanceNotesRepository(new DynamoAPI<AttendanceNote>(), _auditRepo);
+            _respondentRepository = new RespondentRepository(new DynamoAPI<Respondent>(), _auditRepo);
+            _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new DynamoAPI<DeletedTipstaffRecord>(), _auditRepo);
+            _childRepository = new ChildRepository(new DynamoAPI<Child>(), _auditRepo);
+            _applicantRepository = new ApplicantRepository(new DynamoAPI<Applicant>(), _auditRepo);
             _templateRepository = new TemplateRepository(new DynamoAPI<Template>(), _auditRepo);
-            _docRepository = new DocumentsRepository(new DynamoAPI<Document>());
+            _docRepository = new DocumentsRepository(new DynamoAPI<Document>(), _auditRepo);
             _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<SolicitorFirm>(), _auditRepo);
             _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>(), _auditRepo);
 

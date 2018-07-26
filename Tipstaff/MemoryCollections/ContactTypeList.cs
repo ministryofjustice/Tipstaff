@@ -28,7 +28,8 @@ namespace Tipstaff.MemoryCollections
                 new ContactType() {  ContactTypeId=6 ,   Detail = "Government Department",  Active = 1  },
                 new ContactType() {  ContactTypeId=7 ,   Detail = "Other",                  Active = 1   },
                 new ContactType() {  ContactTypeId=8 ,   Detail = "NPO, SB & Airports",     Active = 1   },
-                new ContactType() {  ContactTypeId=9 ,   Detail = "Official Receiver",      Active = 1   },
+                new ContactType() {  ContactTypeId=9 ,   Detail = "Official Receiver",      Active = 0   },
+                new ContactType() {  ContactTypeId=10 ,   Detail = "Official Receiver",      Active = 1   }
             };
         }
     }

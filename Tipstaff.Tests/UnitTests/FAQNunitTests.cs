@@ -11,6 +11,7 @@ namespace Tipstaff.Tests.UnitTests
     public class FAQNunitTests
     {
         private IFAQRepository _faqRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<FAQ> _dynamoAPI;
         string faqIndex = string.Empty;
         FAQ faq;
@@ -18,9 +19,9 @@ namespace Tipstaff.Tests.UnitTests
         [SetUp]
         public void SetUp()
         {
-
             _dynamoAPI = new DynamoAPI<FAQ>();
-            _faqRepository = new FAQRepository(_dynamoAPI);
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
+            _faqRepository = new FAQRepository(_dynamoAPI, _auditRepo);
             faqIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }
 

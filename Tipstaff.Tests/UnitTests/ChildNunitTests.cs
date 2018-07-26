@@ -12,6 +12,7 @@ namespace Tipstaff.Tests.UnitTests
     public class ChildNunitTests
     {
         private IChildRepository _childRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<Child> _dynamoAPI;
         string childIndex = string.Empty;
         string tipstaffIndex = string.Empty;
@@ -22,7 +23,8 @@ namespace Tipstaff.Tests.UnitTests
         {
 
             _dynamoAPI = new DynamoAPI<Child>();
-            _childRepository = new ChildRepository(_dynamoAPI);
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
+            _childRepository = new ChildRepository(_dynamoAPI, _auditRepo);
             childIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
             tipstaffIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }

@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tipstaff.Services.DynamoTables;
@@ -11,20 +12,36 @@ namespace Tipstaff.Infrastructure.Repositories
     public class DocumentsRepository : IDocumentsRepository
     {
         private readonly IDynamoAPI<Services.DynamoTables.Document> _dynamoAPI;
+        private readonly IAuditEventRepository _auditRepo;
 
-        public DocumentsRepository(IDynamoAPI<Services.DynamoTables.Document> dynamoAPI)
+        public DocumentsRepository(IDynamoAPI<Services.DynamoTables.Document> dynamoAPI, IAuditEventRepository auditRepo)
         {
             _dynamoAPI = dynamoAPI;
+            _auditRepo = auditRepo;
         }
 
         public void AddDocument(Services.DynamoTables.Document doc)
         {
             _dynamoAPI.Save(doc);
-         }
+            _auditRepo.AddAuditEvent(new AuditEvent()
+            {
+                AuditEventDescription = "Document added",
+                EventDate = DateTime.Now,
+                RecordChanged = doc.Id,
+                UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            });
+        }
 
         public void DeleteDocument(Services.DynamoTables.Document doc)
         {
             _dynamoAPI.Delete(doc);
+            _auditRepo.AddAuditEvent(new AuditEvent()
+            {
+                AuditEventDescription = "Document deleted",
+                EventDate = DateTime.Now,
+                RecordChanged = doc.Id,
+                UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+            });
         }
 
         public IEnumerable<Services.DynamoTables.Document> GetAllDocumentsByTipstaffRecordID(string id)

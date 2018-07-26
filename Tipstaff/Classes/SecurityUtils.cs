@@ -7,6 +7,7 @@ using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.Repositories;
 using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff
 {
@@ -39,7 +40,7 @@ namespace Tipstaff
             try
             {
                 this.Identity = identity;
-                _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>());
+                _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>(), new AuditEventRepository(new DynamoAPI<Services.DynamoTables.AuditEvent>(), new GuidGenerator()));
                 var allUsers = _usersRepository.GetAll();
                 var users = allUsers.Select(x => new User()
                 {
@@ -126,7 +127,7 @@ namespace Tipstaff
             _isAuthorized = false;
             UserAccessLevel = AccessLevel.Denied;
             //check groups (strart with them for a bigger group target!)
-            _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>());
+            _usersRepository = new UsersRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.User>(), new AuditEventRepository(new DynamoAPI<Services.DynamoTables.AuditEvent>(), new GuidGenerator()));
 
             var allUsers = _usersRepository.GetAll();
             var usr = allUsers.FirstOrDefault(x => string.Equals(x.Name, httpContext.User.Identity.Name.Split('\\').Last(), StringComparison.OrdinalIgnoreCase));

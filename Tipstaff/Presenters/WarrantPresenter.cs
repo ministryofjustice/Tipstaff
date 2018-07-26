@@ -51,7 +51,16 @@ namespace Tipstaff.Presenters
 
             return warrants;
         }
-        
+
+        public IEnumerable<Warrant> GetAllActiveWarrants()
+        {
+            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant").Where(w=>w.CaseStatusId==1 || w.CaseStatusId==2);
+
+            var warrants = records.Select(x => GetModel(x));
+
+            return warrants;
+        }
+
         public Services.DynamoTables.TipstaffRecord GetDynamoTable(Warrant model)
         {
             var record = new Services.DynamoTables.TipstaffRecord()
@@ -139,5 +148,7 @@ namespace Tipstaff.Presenters
 
             _tipstaffRecordRepository.Update(entity);
         }
+
+        
     }
 }

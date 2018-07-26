@@ -7,6 +7,7 @@ using System.Globalization;
 using Tipstaff.Services.Repositories;
 using Tipstaff.Infrastructure.Repositories;
 using TPLibrary.DynamoAPI;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff
 {
@@ -42,7 +43,7 @@ namespace Tipstaff
         //}
         public static string TypeOfTipstaffRecord(string id)
         {
-            ITipstaffRecordRepository _repository = new TipstaffRecordRepository(new DynamoAPI<Services.DynamoTables.TipstaffRecord>());
+            ITipstaffRecordRepository _repository = new TipstaffRecordRepository(new DynamoAPI<Services.DynamoTables.TipstaffRecord>(), new AuditEventRepository(new DynamoAPI<Services.DynamoTables.AuditEvent>(), new GuidGenerator()));
             var t = _repository.GetEntityByHashKey(id);
 
             return t.Discriminator; 

@@ -11,6 +11,7 @@ namespace Tipstaff.Tests.UnitTests
     public class AddressNunitTests
     {
         private IAddressRepository _addressRepository;
+        private IAuditEventRepository _auditRepo;
         private IDynamoAPI<Address> _dynamoAPI;
         string addressIndex = string.Empty;
         string tipstaffIndex = string.Empty;
@@ -21,7 +22,8 @@ namespace Tipstaff.Tests.UnitTests
         {
 
             _dynamoAPI = new DynamoAPI<Address>();
-            _addressRepository = new AddressRepository(_dynamoAPI);
+            _auditRepo = new AuditEventRepository(new DynamoAPI<AuditEvent>(), new GuidGenerator());
+            _addressRepository = new AddressRepository(_dynamoAPI, _auditRepo);
             addressIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
             tipstaffIndex = new GuidGenerator().GenerateTimeBasedGuid().ToString();
         }

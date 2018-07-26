@@ -180,6 +180,15 @@ namespace Tipstaff.Presenters
 
             return model;
         }
+
+        public IEnumerable<ChildAbduction> GetAllActiveChildAbductions()
+        {
+            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(w => w.CaseStatusId == 1 || w.CaseStatusId == 2);
+
+            var cas = records.Select(x => GetModel(x));
+
+            return cas;
+        }
     }
 }
 
