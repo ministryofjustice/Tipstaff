@@ -38,7 +38,8 @@ namespace Tipstaff.Controllers
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 5)]
         public PartialViewResult OPTReport(GraphPeriod period, DateTime chosenDate)
         {
-            OPTReport rpt = new OPTReport(period, chosenDate);
+
+            OPTReport rpt = new OPTReport(_childAbductionPresenter.GetAllChildAbductions(), _warrantPresenter.GetAllWarrants(), period, chosenDate);
 
             return PartialView("_OPTReport", rpt);
 

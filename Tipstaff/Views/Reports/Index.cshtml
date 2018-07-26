@@ -47,7 +47,7 @@
     </span><span style="padding-left:2.5em;">or define your own.</span>
     <div style="float:left;padding-left:2em;">
     @using (Ajax.BeginForm("OPTReport"
-                                    , "Reports"
+                                    , "Reports", null
                                     , new AjaxOptions { UpdateTargetId = "ShowOPTData", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }, new { style = "float:left;" }))
     {
             <input type="submit" value="Generate" style="display:inline;float:left; margin-right:0.5em" />

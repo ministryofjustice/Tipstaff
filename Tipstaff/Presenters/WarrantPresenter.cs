@@ -137,10 +137,10 @@ namespace Tipstaff.Presenters
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
                 resultEnteredBy = table.ResultEnteredBy,
-                caseStatusID = table.CaseStatusId.HasValue?table.CaseStatusId.Value:0,
-                protectiveMarkingID = table.ProtectiveMarkingId.HasValue?table.ProtectiveMarkingId.Value:0,
-                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == table.ResultId),
-                resultID = table.ResultId.HasValue?table.ResultId.Value:0
+                caseStatusID = table.CaseStatusId.Value,
+                //protectiveMarkingID = table.ProtectiveMarkingId.HasValue?table.ProtectiveMarkingId.Value:0,
+                //result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == table.ResultId),
+                //resultID = table.ResultId.Value
             };
 
             return model;
