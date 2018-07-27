@@ -81,7 +81,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                if ((this.dateOfBirth.Equals(new DateTime(1901, 1, 1))) || (this.dateOfBirth == null))
+                if ((this.dateOfBirth.Equals(new DateTime(1901, 1, 1))) || (this.dateOfBirth.Equals(new DateTime(0001, 1, 1))) || (this.dateOfBirth == null))
                 {
                     return "Unknown";
                 }
@@ -99,7 +99,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                if ((this.dateOfBirth.Equals(new DateTime(1901, 1, 1))) || (this.dateOfBirth == null))
+                if ((this.dateOfBirth.Equals(new DateTime(1901, 1, 1))) || (this.dateOfBirth.Equals(new DateTime(0001, 1, 1))) || (this.dateOfBirth == null))
                 {
                     return "Unknown";
                 }

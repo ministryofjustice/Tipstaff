@@ -33,5 +33,10 @@ namespace Tipstaff.MemoryCollections
         {
             return GetResultList().Where(x => x.Detail == c).FirstOrDefault();
         }
+
+        public static Result GetResultById(int id)
+        {
+            return GetResultList().Where(x => x.ResultId == id).FirstOrDefault();
+        }
     }
 }

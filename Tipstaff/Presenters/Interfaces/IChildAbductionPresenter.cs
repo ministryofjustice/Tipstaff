@@ -27,6 +27,8 @@ namespace Tipstaff.Presenters
 
         IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions();
 
+        IEnumerable<ChildAbduction> GetAllClosedChildAbductions(DateTime start, DateTime end);
+
         //AttendanceNotes
         //Addresses
         //Respondents

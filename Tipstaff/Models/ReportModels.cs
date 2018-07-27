@@ -13,7 +13,7 @@ namespace Tipstaff.Models
         public DateTime endDate { get; set; }
         public string title { get; set; }
 
-        public OPTReport(GraphPeriod timeframe, DateTime dateProvided)
+        public OPTReport(IEnumerable<ChildAbduction> cas, IEnumerable<Warrant> ws, GraphPeriod timeframe, DateTime dateProvided)
         {
             switch (timeframe)
             {
@@ -42,11 +42,11 @@ namespace Tipstaff.Models
             }
 
             data = new List<OPTRow>();
-            data.Add(new OPTRow("CA", startDate, endDate));
+            data.Add(new OPTRow("CA", cas, ws, startDate, endDate));
             //foreach (var div in myDBContextHelper.CurrentContext.Divisions.Where(d=>d.active==true))
             foreach (var div in MemoryCollections.DivisionsList.GetResultList().Where(d => d.Active == 1))
             {
-                data.Add(new OPTRow(div.Detail, startDate, endDate));
+                data.Add(new OPTRow(div.Detail, cas, ws, startDate, endDate));
             }
         }
         public string Totals
@@ -98,47 +98,34 @@ namespace Tipstaff.Models
             public int pending { get; set; }
             public int toPrison { get; set; }
 
-            public OPTRow(string Division, DateTime start, DateTime end)
+            public OPTRow(string Division, IEnumerable<ChildAbduction> cas, IEnumerable<Warrant> ws, DateTime start, DateTime end)
             {
-                //////switch (Division)
-                //////{
-                //////    case "CA":
-                //////        division = "Child Abduction";
-                //////        var allCAs = db.ChildAbductions;
-                //////        issued = allCAs.Where(x => x.createdOn >= start && x.createdOn <= end).Count();
-                //////        pending = allCAs.Where(x=>x.createdOn<=end).Where(x => x.resultID == null || x.DateExecuted>end).Count();
-                //////        var closedCAs = allCAs.Where(x => x.DateExecuted >= start && x.DateExecuted <= end);
-                //////        System.Diagnostics.Debug.Print(allCAs.Count().ToString());
-                //////        System.Diagnostics.Debug.Print(closedCAs.Count().ToString());
-                //////        executed =  closedCAs.Where(x => x.result.Detail == "Executed").Count();
-                //////        suspendedDischarged = closedCAs.Where(x => x.result.Detail == "Suspended" || x.result.Detail == "Discharged").Count();
-                //////        expired = closedCAs.Where(x => x.result.Detail == "Expired").Count();
-                //////        toPrison = closedCAs.Sum(x => x.prisonCount) ?? 0;
-                //////        break;
-                //////    default:
-                //////        //get Warrant data
-                //////        division = Division;
-                //////        //var divisions = db.Warrants.Where(x => x.division.Detail==Division);
-                //////        using  (TipstaffDB rpt = new TipstaffDB()){
-                //////            issued = rpt.Warrants.Where(x => x.division.Detail == division && x.createdOn >= start && x.createdOn <= end).Count();
-                //////        };
-                //////        using  (TipstaffDB rpt = new TipstaffDB()){
-                //////            pending = rpt.Warrants.Where(x => x.division.Detail == Division && x.createdOn <= end).Where(x => x.resultID == null || x.DateExecuted > end).Count();
-                //////        };
-                //////        using  (TipstaffDB rpt = new TipstaffDB()){
-                //////            executed = rpt.Warrants.Where(x => x.division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end && x.result.Detail == "Executed").Count();
-                //////        };
-                //////        using  (TipstaffDB rpt = new TipstaffDB()){
-                //////            suspendedDischarged =  rpt.Warrants.Where(x => x.division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end).Where(x => x.result.Detail == "Suspended" || x.result.Detail== "Discharged").Count();
-                //////        };
-                //////        using  (TipstaffDB rpt = new TipstaffDB()){
-                //////            expired = rpt.Warrants.Where(x => x.division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end && x.result.Detail == "Expired").Count();
-                //////        };
-                //////        using  (TipstaffDB rpt = new TipstaffDB()){
-                //////            toPrison=rpt.Warrants.Where(x => x.division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end).Sum(x=>x.prisonCount)??0;
-                //////        };
-                //////        break;
-                //////}
+                switch (Division)
+                {
+                    case "CA":
+                        division = "Child Abduction";
+                        issued = cas.Where(x => x.createdOn >= start && x.createdOn <= end).Count();
+                        pending = cas.Where(x => x.createdOn <= end).Where(x => x.resultID == null || x.DateExecuted > end).Count();
+                        var closedCAs = cas.Where(x => x.DateExecuted >= start && x.DateExecuted <= end);
+                        //System.Diagnostics.Debug.Print(cas.Count().ToString());
+                        //System.Diagnostics.Debug.Print(closedCAs.Count().ToString());
+                        executed = closedCAs.Where(x => x.result!= null && x.result.Detail == "Executed").Count();
+                        suspendedDischarged = closedCAs.Where(x => x.result != null && (x.result.Detail == "Suspended" || x.result.Detail == "Discharged")).Count();
+                        expired = closedCAs.Where(x => x.result != null && x.result.Detail == "Expired").Count();
+                        toPrison = closedCAs.Sum(x => x.prisonCount) ?? 0;
+                        break;
+                    default:
+                        //get Warrant data
+                        division = Division;
+                        issued = ws.Where(x => x.Division.Detail == division && x.createdOn >= start && x.createdOn <= end).Count();
+                        pending = ws.Where(x => x.Division.Detail == Division && x.createdOn <= end).Where(x => x.resultID == null || x.DateExecuted > end).Count();
+                        executed = ws.Where(x => x.Division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end && x.result.Detail == "Executed").Count();
+                        suspendedDischarged = ws.Where(x => x.Division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end).Where(x => x.result.Detail == "Suspended" || x.result.Detail == "Discharged").Count();
+                        expired = ws.Where(x => x.Division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end && x.result.Detail == "Expired").Count();
+                        toPrison = ws.Where(x => x.Division.Detail == Division).Where(x => x.resultID != null && x.DateExecuted >= start && x.DateExecuted <= end).Sum(x => x.prisonCount) ?? 0;
+
+                        break;
+                }
             }
         }
     }

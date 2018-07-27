@@ -38,7 +38,8 @@ namespace Tipstaff.Controllers
         [OutputCache(Location = OutputCacheLocation.Server, Duration = 5)]
         public PartialViewResult OPTReport(GraphPeriod period, DateTime chosenDate)
         {
-            OPTReport rpt = new OPTReport(period, chosenDate);
+
+            OPTReport rpt = new OPTReport(_childAbductionPresenter.GetAllChildAbductions(), _warrantPresenter.GetAllWarrants(), period, chosenDate);
 
             return PartialView("_OPTReport", rpt);
 
@@ -223,8 +224,8 @@ namespace Tipstaff.Controllers
             {
                 WExcelReportItem e = new WExcelReportItem();
                 e.UniqueRecordID = w.UniqueRecordID;
-                e.DateCirculated = w.DateCirculated==null?"":w.DateCirculated.ToString();
-                e.ClosedDate = w.ClosedDate==null?"":w.ClosedDate.ToString();
+                e.DateCirculated = (w.DateCirculated==null || w.DateCirculated.Contains("01/01/0001"))?"Unknown":w.DateCirculated.ToString();
+                e.ClosedDate = (w.ClosedDate==null || w.ClosedDate.Contains("01/01/0001"))? "Unknown" : w.ClosedDate.ToString();
                 e.NPO = w.NPO;
                 if (w.respondents.Count() > 0)
                 {
@@ -251,7 +252,7 @@ namespace Tipstaff.Controllers
             else
             {
                 caItems = GetClosedChildAbductions(start.Value, end.Value);
-                wsName = "Closed Warrants";
+                wsName = "Closed Child Abductions";
             }
             List<CAExcelReportItem> excelItems = new List<CAExcelReportItem>();
             foreach (CAReportItem c in caItems)
@@ -327,13 +328,9 @@ namespace Tipstaff.Controllers
         private List<WReportItem> GetClosedWarrants(DateTime start, DateTime end)
         {
             List<WReportItem> results = new List<WReportItem>();
-            var warrants = _warrantPresenter.GetAllWarrants();
+            var warrants = _warrantPresenter.GetAllClosedWarrants(start, end);
 
-            ////List<Warrant> closedWs = db.Warrants.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
-
-            List<Warrant> closedWs = warrants.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
-
-            foreach (Warrant w in closedWs)
+            foreach (Warrant w in warrants)
             {
                 WReportItem i = new WReportItem();
                 i.tipstaffRecordID = w.tipstaffRecordID;
@@ -370,11 +367,9 @@ namespace Tipstaff.Controllers
         private List<CAReportItem> GetClosedChildAbductions(DateTime start, DateTime end)
         {
             List<CAReportItem> results = new List<CAReportItem>();
-            ////////List<ChildAbduction> activeCAs = db.ChildAbductions.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
-            var childAbductions = _childAbductionPresenter.GetAllChildAbductions();
+            var childAbductions = _childAbductionPresenter.GetAllClosedChildAbductions(start, end);
 
-            List<ChildAbduction> activeCAs = childAbductions.Where(c => c.caseStatusID == 3 && c.resultDate >= start && c.resultDate <= end).OrderBy(c1 => c1.resultDate).ToList();
-            foreach (ChildAbduction c in activeCAs)
+            foreach (ChildAbduction c in childAbductions)
             {
                 CAReportItem i = new CAReportItem();
                 i.tipstaffRecordID = c.tipstaffRecordID;
