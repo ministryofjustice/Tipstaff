@@ -44,7 +44,7 @@
     @if (Model.resultID != null)
     {
         <ul class="recordMenu-tabs">
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
             {
                 <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
         </ul>
@@ -53,7 +53,7 @@
     {
         <ul class="recordMenu-tabs">
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
             {
                 <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
         </ul>
@@ -96,7 +96,7 @@
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
         </ul>
         <ul class="recordMenu-tabs">
-            @if (User.IsInRole("Admin"))
+            @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
             {
                 <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
             @if (Model.NPO == null)

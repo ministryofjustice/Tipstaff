@@ -22,7 +22,7 @@
 @if (Model.resultID != null)
 {
     <ul class="recordMenu-tabs">
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
     </ul>    
 }
@@ -30,7 +30,7 @@ else if (Model.resultID == null && Model.caseStatus.Sequence > 3)
 { 
     <ul class="recordMenu-tabs">
         <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "ChildAbduction", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
     </ul>    
 }
@@ -75,7 +75,8 @@ else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
         <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Police Force", "Add Police Force", "Add", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" }, null, null, "createButton")</li>
     </ul>          
     <ul class="recordMenu-tabs">
-        @if (User.IsInRole("Admin")){<li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
+        {<li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
         @if (Model.NPO == null)
         {
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add NPO", "Add NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
