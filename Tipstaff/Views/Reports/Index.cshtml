@@ -45,24 +45,25 @@
                     ,OnComplete = ""
                 })</div>
     </span><span style="padding-left:2.5em;">or define your own.</span>
-    <div style="float:left;padding-left:2em;">
-    @using (Ajax.BeginForm("OPTReport"
-                                    , "Reports", null
-                                    , new AjaxOptions { UpdateTargetId = "ShowOPTData", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }, new { style = "float:left;" }))
-    {
-            <input type="submit" value="Generate" style="display:inline;float:left; margin-right:0.5em" />
+           <div style="float:left;padding-left:2em;">
+               @using (Ajax.BeginForm("OPTReport"
+                                               , "Reports"
+                                               , new AjaxOptions { UpdateTargetId = "ShowOPTData", HttpMethod = "POST", LoadingElementId = "Refresh" }))
+               {
+                   @Html.AntiForgeryToken();
+                   <input type="submit" value="Generate" style="display:inline;float:left; margin-right:0.5em" />
 
-            <div style="padding-left:0.5em;">
-            <select class="required" data-val="true" data-val-number="The field Protective Marking must be a number." data-val-required="The duration field is required." id="period" name="period">
-                <option value="">Please choose a duration</option>
-                <option value="0">Daily</option>
-                <option value="1">Weekly</option>
-                <option value="2">Monthly</option>
-                <option value="3">Yearly</option>
-            </select>
-            <span class="field-validation-valid" data-valmsg-for="period" data-valmsg-replace="true"></span><br />
-            <input class="textbox" data-val="true" data-val-required="The date field is required." id="chosenDate" name="chosenDate" type="text" value="" />
-            <script type="text/javascript">
+                   <div style="padding-left:0.5em;">
+                       <select class="required" data-val="true" data-val-number="The field Protective Marking must be a number." data-val-required="The duration field is required." id="period" name="period">
+                           <option value="">Please choose a duration</option>
+                           <option value="0">Daily</option>
+                           <option value="1">Weekly</option>
+                           <option value="2">Monthly</option>
+                           <option value="3">Yearly</option>
+                       </select>
+                       <span class="field-validation-valid" data-valmsg-for="period" data-valmsg-replace="true"></span><br />
+                       <input class="textbox" data-val="true" data-val-required="The date field is required." id="chosenDate" name="chosenDate" type="text" value="" />
+                       <script type="text/javascript">
                 $(document).ready(function () {
                     $("#chosenDate").datepicker
                     ({
@@ -81,11 +82,11 @@
                         showOptions: { origin: ["top", "right"] }
                     });
                 });
-            </script>
-            <span class="field-validation-valid" data-valmsg-for="chosenDate" data-valmsg-replace="true"></span><br />
-            </div>
-    }
-    </div>
+                       </script>
+                       <span class="field-validation-valid" data-valmsg-for="chosenDate" data-valmsg-replace="true"></span><br />
+                   </div>
+               }
+           </div>
     <div style="clear:both;">
         <img src="@Url.Content("~/Images/al_arrows_green.gif")" alt="loading..." id="Refresh" style="display:none"/>
         <div id="ShowOPTData"></div>
