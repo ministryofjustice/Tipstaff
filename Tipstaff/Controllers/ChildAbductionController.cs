@@ -164,7 +164,7 @@ namespace Tipstaff.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.protectiveMarkingList = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "protectiveMarkingID", "Detail");
+            ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "protectiveMarkingID", "Detail");
             ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1).OrderBy(x => x.Sequence), "caseStatusID", "Detail");
             ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "caOrderTypeID", "Detail");
             ChildAbduction model = new ChildAbduction();

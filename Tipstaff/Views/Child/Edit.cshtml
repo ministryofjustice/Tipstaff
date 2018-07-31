@@ -93,8 +93,8 @@
             @Html.LabelFor(model => Model.child.skinColour, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => Model.child.skinColour.skinColourID, Model.SkinColourList, "Please select a skin colour", new { @class = "required" })           
-            @Html.ValidationMessageFor(model => Model.child.skinColour.skinColourID) 
+            @Html.DropDownListFor(model => Model.child.skinColour.SkinColourId, Model.SkinColourList, "Please select a skin colour", new { @class = "required" })           
+            @Html.ValidationMessageFor(model => Model.child.skinColour.SkinColourId) 
         </div>
 
         <div class="editor-label">

@@ -419,7 +419,9 @@ namespace Tipstaff.Controllers
             if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) != "Warrant") //Check PNCIDs
             {
                 string pncids = "";
-                ChildAbduction ca = (ChildAbduction)tipstaffRecord;
+                //ChildAbduction ca = (ChildAbduction)tipstaffRecord;
+                ChildAbduction ca = _tipstaffPresenter.GetChildAbduction(tipstaffRecord.tipstaffRecordID);
+
                 foreach (Child c in ca.children)
                 {
                     if (c.PNCID != null && c.PNCID != "")
@@ -486,7 +488,8 @@ namespace Tipstaff.Controllers
             if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) != "Warrant") //Check PNCIDs
             {
                 string pncids = "";
-                ChildAbduction ca = (ChildAbduction)tipstaffRecord;
+                // ChildAbduction ca = (ChildAbduction)tipstaffRecord;
+                ChildAbduction ca = _tipstaffPresenter.GetChildAbduction(tipstaffRecord.tipstaffRecordID);
                 foreach (Child c in ca.children)
                 {
                     if (c.PNCID != null && c.PNCID != "")
@@ -596,7 +599,8 @@ namespace Tipstaff.Controllers
 
             if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) == "ChildAbduction" && template.Discriminator == "ChildAbduction")
             {
-                ChildAbduction ca = (ChildAbduction)tipstaffRecord;
+                ////ChildAbduction ca = (ChildAbduction)tipstaffRecord;
+                ChildAbduction ca = _tipstaffPresenter.GetChildAbduction(tipstaffRecord.tipstaffRecordID);
                 PropertyInfo[] properties = typeof(ChildAbduction).GetProperties();
 
                 foreach (PropertyInfo property in properties)

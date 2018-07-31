@@ -49,10 +49,12 @@ namespace Tipstaff
             return t.Discriminator; 
 
         }
+
         public static bool isTipstaffRecordChildAbduction(TipstaffRecord obj)
         {
             return obj.Discriminator=="ChildAbduction";
         }
+
         public static byte[] ConvertToBytes(XmlDocument doc)
         {
             Encoding encoding = Encoding.UTF8;

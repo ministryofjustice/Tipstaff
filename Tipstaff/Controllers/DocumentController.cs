@@ -54,7 +54,9 @@ namespace Tipstaff.Controllers
                 model.SolicitorsOnRecord = tr.LinkedSolicitors;
                 if (genericFunctions.isTipstaffRecordChildAbduction(tr))
                 {
-                    model.Applicants = ((ChildAbduction)tr).Applicants;
+                    //////model.Applicants = ((ChildAbduction)tr).Applicants;
+                    var ca = _tipstaffPresenter.GetChildAbduction(tr.tipstaffRecordID);
+                    model.Applicants = ca.Applicants;
                 }
                 return View(model);
             }

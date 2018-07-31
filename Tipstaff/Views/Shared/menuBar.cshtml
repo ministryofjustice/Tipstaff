@@ -38,12 +38,14 @@
         <li class="helpButton">@Html.ImageLink(Url.Content("~/Images/help.png"), "Help", "Index", "FAQ", new { area = "" }, null, null)</li>
 @if (Request.IsAuthenticated && !thisUser.IsInRole("Deactivated"))
 {
-        <li class="text">@using (Html.BeginForm("Search", "Home", new { area = "" }))
-                            {
-                            @Html.TextBox("searchRecord", null, new { @style = "width: 75px;", AccessKey = "S" })
-                            <input alt="Search for record" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
-                            }
-        </li>
+        <li class="text">
+            @using (Html.BeginForm("Search", "Home", new { area = "" }))
+            {
+                @Html.AntiForgeryToken();
+                @Html.TextBox("searchRecord", null, new { @style = "width: 75px;", AccessKey = "S" })
+                <input alt="Search for record" type="image" value="Search" src="@Url.Content("~/Images/view.png")" />
+            }
+            </li>
 }
         <li class="text">&nbsp;</li>
     </ul>

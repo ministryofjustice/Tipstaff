@@ -72,7 +72,7 @@
             @Html.LabelFor(model => model.protectiveMarkingID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.protectiveMarkingID, (SelectList)ViewBag.protectiveMarkingList, "Please select a marking", new { @class = "required" })            
+            @Html.DropDownListFor(model => model.protectiveMarking.ProtectiveMarkingId, (SelectList)ViewBag.protectiveMarkingID, "Please select a marking", new { @class = "required" })            
             @Html.ValidationMessageFor(model => model.protectiveMarkingID)
         </div>
 

@@ -10,12 +10,12 @@ namespace Tipstaff.Presenters
     {
         private readonly IChildRepository _childRepository;
         private readonly ITipstaffRecordPresenter _tipstaffPresenter;
-        private readonly ITipstaffRecordRepository _tipstaffRepository;
+        //private readonly ITipstaffRecordRepository _tipstaffRepository;
 
-        public ChildPresenter(IChildRepository childRepo, ITipstaffRecordRepository tipstaffRepository, ITipstaffRecordPresenter tipstaffPresenter)
+        public ChildPresenter(IChildRepository childRepo, ITipstaffRecordPresenter tipstaffPresenter)
         {
             _childRepository = childRepo;
-            _tipstaffRepository = tipstaffRepository;
+          //  _tipstaffRepository = tipstaffRepository;
            
             _tipstaffPresenter = tipstaffPresenter;
         }
@@ -64,11 +64,14 @@ namespace Tipstaff.Presenters
 
         public Models.Child GetModel(Services.DynamoTables.Child table)
         {
-            var tipstaffRecord = GetTipstaffRecord(table.TipstaffRecordID.ToString());
+            //var tipstaffRecord = _tipstaffRepository.(table.TipstaffRecordID.ToString());
+            var ca = _tipstaffPresenter.GetChildAbduction(table.TipstaffRecordID);
+            //ca = (Models.ChildAbduction)tipstaffRecord;
+
             var model = new Models.Child()
             {
                 build = table.Build,
-                childAbduction = tipstaffRecord as ChildAbduction,
+                childAbduction = ca,
                 childID = table.Id,
                 country = MemoryCollections.CountryList.GetCountryByDetail(table.Country),
                 dateOfBirth = table.DateOfBirth,
@@ -107,9 +110,10 @@ namespace Tipstaff.Presenters
                 NameFirst = model.nameFirst,
                 NameLast = model.nameLast,
                 NameMiddle = model.nameMiddle,
-                //Nationality = MemoryCollections.NationalityList.GetNationalityList().FirstOrDefault(x=>x.Detail == model.nationality.Detail)?.Detail,
+                Nationality = MemoryCollections.NationalityList.GetNationalityList().FirstOrDefault(x=>x.Detail == model.nationality.Detail)?.Detail,
                 PNCID = model.PNCID,
-                SkinColour = model.skinColour.Detail
+                SkinColour = model.skinColour?.Detail,
+                
             };
 
             return entity;
