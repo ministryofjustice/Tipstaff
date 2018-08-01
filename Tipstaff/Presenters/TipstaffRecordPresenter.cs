@@ -28,12 +28,12 @@ namespace Tipstaff.Presenters
             _addressPresenter = addressPresenter;
         }
 
-        public void AddTipstaffRecord(Models.TipstaffRecord record)
-        {
-            var entity = GetDynamoTable(record);
+        //public void AddTipstaffRecord(Models.TipstaffRecord record)
+        //{
+        //    var entity = GetDynamoTable(record);
 
-            _tipstaffRecordRepository.Add(entity);
-        }
+        //    _tipstaffRecordRepository.Add(entity);
+        //}
 
         public IEnumerable<Models.TipstaffRecord> GetAll()
         {
@@ -44,15 +44,22 @@ namespace Tipstaff.Presenters
             return records;
         }
 
-        public Services.DynamoTables.TipstaffRecord GetDynamoTable(Models.TipstaffRecord model)
+        public Services.DynamoTables.TipstaffRecord GetDynamoTable(Models.TipstaffRecord table)
         {
-            var entity = new Services.DynamoTables.TipstaffRecord()
-            {
-                //SentSCD26 = model.
-            };
-
-            return entity;
+            throw new NotImplementedException();
         }
+
+        //public Services.DynamoTables.TipstaffRecord GetDynamoTable(Models.TipstaffRecord model)
+        //{
+        //    var entity = new Services.DynamoTables.TipstaffRecord()
+        //    {
+        //        //SentSCD26 = model.
+        //        ArrestCount = model.arrestCount
+
+        //    };
+
+        //    return entity;
+        //}
 
         public Models.TipstaffRecord GetModel(Services.DynamoTables.TipstaffRecord table)
         {
@@ -70,8 +77,8 @@ namespace Tipstaff.Presenters
                 resultEnteredBy = table.ResultEnteredBy,
                
                  addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
-                ////AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
-                //caseReviews = _caseReviewPresenter.GetAllById(table.Id),
+                //AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                caseReviews = _caseReviewPresenter.GetAllById(table.Id),
                 Respondents = _respondentPresenter.GetAllById(table.Id),
                 Discriminator = table.Discriminator,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId == table.ResultId),
@@ -86,9 +93,42 @@ namespace Tipstaff.Presenters
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
 
-            var model = GetModel(record);
+            if (record != null)
+            {
+                var model = GetModel(record);
+                return model;
+            }
+            return new Models.TipstaffRecord();
+        }
 
-            return model;
+        public ChildAbduction GetChildAbduction(string id)
+        {
+            var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
+
+           var childAbduction = new ChildAbduction()
+            {
+                arrestCount = record.ArrestCount,
+                createdBy = record.CreatedBy,
+                createdOn = record.CreatedOn,
+                nextReviewDate = record.NextReviewDate,
+                NPO = record.NPO,
+                DateExecuted = record.DateExecuted,
+                prisonCount = record.PrisonCount,
+                resultDate = record.ResultDate,
+                tipstaffRecordID = record.Id,
+                resultEnteredBy = record.ResultEnteredBy,
+                
+                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(record.Id),
+                //AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                caseReviews = _caseReviewPresenter.GetAllById(record.Id),
+                Respondents = _respondentPresenter.GetAllById(record.Id),
+                Discriminator = record.Discriminator,
+                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == record.ResultId),
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == record.CaseStatusId),
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == record.ProtectiveMarkingId)
+            };
+
+            return childAbduction;
         }
 
         public void UpdateTipstaffRecord(Models.TipstaffRecord record)

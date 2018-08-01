@@ -19,6 +19,7 @@ namespace Tipstaff.Presenters
         private readonly IApplicantPresenter _applicantPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
+        private readonly IDocumentPresenter _documentPresenter;
 
         public ChildAbductionPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
             IDeletedTipstaffRecordRepository deletedTipstaffRecordRepository, 
@@ -27,7 +28,8 @@ namespace Tipstaff.Presenters
             IChildPresenter childPresenter, 
             IAddressPresenter addressPresenter, 
             IApplicantPresenter applicantPresenter, 
-            ISolicitorPresenter solicitorPresenter, IAttendanceNotePresenter attendanceNotePresenter)
+            ISolicitorPresenter solicitorPresenter, IAttendanceNotePresenter attendanceNotePresenter, 
+            IDocumentPresenter documentPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _deletedTipstaffRecordRepository = deletedTipstaffRecordRepository;
@@ -38,6 +40,7 @@ namespace Tipstaff.Presenters
             _applicantPresenter = applicantPresenter;
             _solicitorPresenter = solicitorPresenter;
             _attendanceNotePresenter = attendanceNotePresenter;
+            _documentPresenter = documentPresenter;
         }
 
         public void AddDeletedTipstaffRecord(Models.DeletedTipstaffRecord record)
@@ -134,14 +137,14 @@ namespace Tipstaff.Presenters
                 OrderDated = model.orderDated,
                 OrderReceived = model.orderReceived,
                 EldestChild = model.EldestChild,
-                CAOrderTypeId = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == model?.caOrderType.CAOrderTypeId)?.CAOrderTypeId,
+                CAOrderTypeId = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == model?.caOrderType?.CAOrderTypeId)?.CAOrderTypeId,
                 Discriminator = model.Discriminator,
                 NextReviewDate = model.nextReviewDate,
-                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == model?.caseStatus.CaseStatusId)?.CaseStatusId,
+                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == model?.caseStatus?.CaseStatusId)?.CaseStatusId,
                 CreatedBy = model.createdBy,
                 CreatedOn = model.createdOn,
-                NPO = model.NPO
-                
+                NPO = model.NPO,
+                ProtectiveMarkingId = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == model?.protectiveMarking?.ProtectiveMarkingId)?.ProtectiveMarkingId
             };
 
             return record;
@@ -162,7 +165,7 @@ namespace Tipstaff.Presenters
                 caOrderType = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == table.CAOrderTypeId),
                 tipstaffRecordID = table.Id,
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == table.CaseStatusId),
-                caseStatusID = table.CaseStatusId.Value,
+                caseStatusID = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0,
                 caseReviews = _caseReviewsPresenter.GetAllById(table.Id),
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
@@ -171,6 +174,7 @@ namespace Tipstaff.Presenters
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
                 AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                Documents = _documentPresenter.GetAllDocumentsByTipstaffRecordID(table.Id),
                 NPO = table.NPO,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId==table.ResultId),
                 resultDate = table.ResultDate,
@@ -206,15 +210,3 @@ namespace Tipstaff.Presenters
         }
     }
 }
-
-
-//<li><a href = "@Url.Action("ListChildrenByRecord", "Child", new { id = Model.tipstaffRecordID })">Children(@Model.children.Count())</a></li>
-//		<li><a href = "@Url.Action("ListRespondentsByRecord", "Respondent", new { id = Model.tipstaffRecordID })">Respondents(@Model.Respondents.Count())</a></li>
-//		<li><a href = "@Url.Action("ListAddressesByRecord", "Address", new { id = Model.tipstaffRecordID })">Addresses(@Model.addresses.Count())</a></li>
-//		<li><a href = "@Url.Action("ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID })">Attendance notes(@Model.AttendanceNotes.Count())</a></li>
-//		<li><a href = "@Url.Action("ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID })">Documents(@Model.Documents.Count())</a></li>
-//		<li><a href = "@Url.Action("ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID })">Solicitors(@Model.LinkedSolicitors.Count())</a></li>
-//		<li><a href = "@Url.Action("ListApplicantsByRecord", "Applicant", new { id = Model.tipstaffRecordID })">Applicants(@Model.Applicants.Count())</a></li>
-//		<li><a href = "@Url.Action("ListCaseReviewsByRecord", "CaseReview", new { id = Model.tipstaffRecordID })">Case Reviews(@Model.caseReviews.Count())</a></li>
-//        <li><a href = "@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NPO</a></li>
-//        <li><a href = "@Url.Action("ListPoliceForcesByRecord", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" })">Police Forces</a></li>

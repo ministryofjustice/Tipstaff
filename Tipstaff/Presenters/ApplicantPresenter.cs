@@ -56,7 +56,7 @@ namespace Tipstaff.Presenters
                 addressLine2 = table.AddressLine2,
                 addressLine3 = table.AddressLine3,
                 ApplicantID = table.Id,
-                childAbduction = _tipstaffPresenter.GetTipStaffRecord(table.TipstaffRecordID) as ChildAbduction,
+                childAbduction = _tipstaffPresenter.GetChildAbduction(table.TipstaffRecordID),
                 county = table.County,
                 nameFirst = table.NameFirst,
                 nameLast = table.NameLast,

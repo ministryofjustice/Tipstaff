@@ -110,8 +110,8 @@ namespace Tipstaff.Presenters
 
         public Warrant GetModel(Services.DynamoTables.TipstaffRecord table)
         {
-            var protectiveMarkingId = table.ProtectiveMarkingId.HasValue ? table.ProtectiveMarkingId.Value : 0;
-            var resultId = table.ResultId.HasValue ? table.ResultId.Value : 0;
+            var protectiveMArkingId = table.ProtectiveMarkingId.HasValue ? table.ProtectiveMarkingId.Value : 0;
+            int? resultId = table.ResultId.HasValue ? table.ResultId.Value : default(int?);
             var caseStatusId = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0;
             var divisionId = table.DivisionId.HasValue ? table.DivisionId.Value : 0;
 
@@ -137,13 +137,14 @@ namespace Tipstaff.Presenters
                 //LinkedSolicitors = get solicitors?
                 nextReviewDate = table.NextReviewDate,
                 NPO = table.NPO,
+                
                 //policeForces = get police forces?
-                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == protectiveMarkingId),
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=> x.ProtectiveMarkingId == protectiveMArkingId),
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
                 resultEnteredBy = table.ResultEnteredBy,
                 caseStatusID = caseStatusId,
-                protectiveMarkingID = protectiveMarkingId,
+                protectiveMarkingID = protectiveMArkingId,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == resultId),
                 resultID = resultId
             };

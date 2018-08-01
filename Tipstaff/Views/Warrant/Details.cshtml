@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = string.Format("Details for record {0}", Model.UniqueRecordID);
+    var respondent = Model.Respondents.SingleOrDefault();
 }
 @section head
 {
@@ -185,85 +186,86 @@
             break;
         case 1:
             <div id="respdataPt1" style="width:33%;float:right;clear:none">
-                <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().hairColour)</div>
-                <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().hairColour)
-                </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().eyeColour)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().eyeColour)
+                   @respondent?.eyeColour
+                </div>
+
+                <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().hairColour)</div>
+                <div class="display-field">
+                    @respondent?.hairColour
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().skinColour.SkinColourId)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().skinColour.Detail)
+                    @respondent?.skinColour?.Detail
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().height)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().height)
+                    @respondent?.height
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().build)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().build)
+                    @respondent?.build
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().specialfeatures)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().specialfeatures)
+                    @respondent?.specialfeatures
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfViolence)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfViolence)
+                    @respondent?.riskOfViolence
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)
+                    @respondent?.riskOfDrugs
                 </div>
             </div>
             <div id="respdataPt2" style="width:33%;float:right;clear:none">
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameLast)</div>
                 <div class="display-field">
-                    @Model.Respondents.SingleOrDefault().nameLast.ToUpper()
+                    @respondent?.nameLast.ToUpper()
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameFirst)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameFirst)
+                    @respondent?.nameFirst
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameMiddle) </div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameMiddle)
+                    @respondent?.nameMiddle
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)
+                    @respondent?.DateofBirthDisplay
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().gender.GenderId)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().gender.Detail)
+                    @respondent?.gender?.Detail
                 </div>
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().country)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().country.Detail)
+                    @respondent?.country?.Detail
                 </div>
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nationality)</div>
                 <div class="display-field">
-                    @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nationality.Detail)
+                    @respondent?.nationality?.Detail
                 </div>
 
-                @if (Model.Respondents.SingleOrDefault().PNCID != null)
+                @if (respondent.PNCID != null)
                 {
                     <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().PNCID)</div>
                     <div class="display-field">
-                        @Html.DisplayFor(model => model.Respondents.SingleOrDefault().PNCID)
+                        @respondent?.PNCID
                     </div>
                 }
 
@@ -291,8 +293,9 @@
         <li><a href="@Url.Action("ListAddressesByRecord", "Address", new { id = Model.tipstaffRecordID })">Addresses (@Model.addresses.Count())</a></li>
         <li><a href="@Url.Action("ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID })">Attendance notes (@Model.AttendanceNotes.Count())</a></li>
         @*<li><a href="@Url.Action("ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID })">Solicitors (@Model.LinkedSolicitors.Count())</a></li>
-        <li><a href="@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NPO</a></li>
+       
         *@
+        <li><a href="@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NPO</a></li>
         <li><a href="@Url.Action("ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID })">Documents</a></li>
         <li><a href="@Url.Action("ListCaseReviewsByRecord", "CaseReview", new { id = Model.tipstaffRecordID })">Case Reviews (@Model.caseReviews.Count())</a></li>
         <li><a href="@Url.Action("ListPoliceForcesByRecord", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" })">Police Forces</a></li>

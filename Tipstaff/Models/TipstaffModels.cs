@@ -44,16 +44,12 @@ namespace Tipstaff.Models
 
         [Required, Display(Name = "Current case status")]
         public int caseStatusID { get; set; }
-
-        //[Display(Name = "Protective Marking")]
-        //public virtual ProtectiveMarking protectiveMarking { get; set; }
-        [Display(Name = "Protective Marking")]
+        
         public MemoryCollections.ProtectiveMarkings protectiveMarking { get; set; }
-
-        //public virtual Result result { get; set; }
+        
         public MemoryCollections.Result result { get; set; }
 
-        public virtual ICollection<Document> Documents { get; set; }
+        public virtual IEnumerable<Document> Documents { get; set; }
         public IEnumerable<AttendanceNoteCreation> AttendanceNotes { get; set; }
         public virtual IEnumerable<CaseReview> caseReviews { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
@@ -85,28 +81,6 @@ namespace Tipstaff.Models
                 return string.Format("{0}{1}", prefix, tipstaffRecordID);
             }
         }
-
-        //////////public virtual string GetLastStatusChangeDetails
-        //////////{
-        //////////    get
-        //////////    {
-        //////////        string recID = tipstaffRecordID.ToString();
-        //////////        try
-        //////////        {
-        //////////            var status = myDBContextHelper.CurrentContext.AuditEventRows.Where(x => x.ColumnName == "CaseStatusID" && x.Now == "3" && x.auditEvent.RecordChanged == recID)
-        //////////                                            .OrderByDescending(a => a.auditEvent.EventDate).Take(1).SingleOrDefault();
-        //////////            if (status != null)
-        //////////            {
-        //////////                return string.Format("was closed by {0} on {1}", status.auditEvent.UserID, status.auditEvent.EventDate.ToShortDateString());
-        //////////            }
-        //////////            return "";
-        //////////        }
-        //////////        catch
-        //////////        {
-        //////////            return "";
-        //////////        }
-        //////////    }
-        //////////}
     }
 
     public class ChildAbduction : TipstaffRecord
@@ -160,16 +134,6 @@ namespace Tipstaff.Models
         {
             get { return this.children.Count() > 1 ? "children" : "child"; }
         }
-        //[NotMapped]
-        //public virtual string EldestChild
-        //{
-        //    get
-        //    {
-        //        Tipstaff.Models.Child eldest = this.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).Take(1).Single();
-        //        return eldest.nameLast.ToUpper();
-        //    }
-        //    set { EldestChild = value; }
-        //}
     }
 
     public class Warrant: TipstaffRecord
@@ -183,10 +147,9 @@ namespace Tipstaff.Models
         public string RespondentName { get; set; }
         [Required, Display(Name = "Division")]
         public MemoryCollections.Division Division { get; set; }
-
-
+        
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Date Circulated")]
+        [Required, Display(Name = "Date Circulated")]
         public DateTime? DateCirculated { get; set; }
 
     }
@@ -277,8 +240,6 @@ namespace Tipstaff.Models
         {
             caseStatusID = -1;
             caOrderTypeID = -1;
-            //StatusList = new SelectList(myDBContextHelper.CurrentContext.CaseStatuses.Where(c => c.active == true), "CaseStatusID", "Detail");
-            //OrderTypeList = new SelectList(myDBContextHelper.CurrentContext.CAOrderTypes.Where(c => c.active == true), "caOrderTypeID", "Detail");
             OrderTypeList = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(c => c.Active == 1), "CAOrderTypeId", "Detail");
             StatusList = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(c => c.Active == 1), "CaseStatusID", "Detail");
         }

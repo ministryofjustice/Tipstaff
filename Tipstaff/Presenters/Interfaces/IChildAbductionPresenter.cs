@@ -24,16 +24,7 @@ namespace Tipstaff.Presenters
         void UpdateChildAbduction(ChildAbduction childAbduction);
 
         void AddTipstaffRecord(ChildAbduction childabduction);
-
-        IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions();
-
+        
         IEnumerable<ChildAbduction> GetAllClosedChildAbductions(DateTime start, DateTime end);
-
-        //AttendanceNotes
-        //Addresses
-        //Respondents
-        //Child
-        //CaseReviews
-        //Documents
     }
 }

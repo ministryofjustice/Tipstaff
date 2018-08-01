@@ -139,7 +139,6 @@ namespace Tipstaff.Controllers
             }
         }
 
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListAddressesByRecord(string id, int? page)
         {
             //////TipstaffRecord w = db.TipstaffRecord.Find(id);
