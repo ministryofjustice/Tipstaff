@@ -165,7 +165,7 @@ namespace Tipstaff.Controllers
             return View(model);
         }
 
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
+        //[OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListDocumentsByRecord(string id, int? page)
         {
             TipstaffRecord w = _tipstaffPresenter.GetTipStaffRecord(id);
@@ -201,8 +201,8 @@ namespace Tipstaff.Controllers
             {
                 Document doc = _docPresenter.GetDocument(id);
                 string filename = doc.fileName; //Path.GetFileName(doc.filePath);
-                var response = _s3API.ReadS3Object("documents", filename);
-                return File(new MemoryStream(Encoding.UTF8.GetBytes(response)), "application/msword", filename);
+                var response = _s3API.ReadS3ObjectStream("documents", filename);
+                return File(response, doc.mimeType, filename);
             }
             catch (Exception ex)
             {
