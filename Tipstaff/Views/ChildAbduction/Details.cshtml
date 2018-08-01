@@ -26,15 +26,15 @@
         { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
     </ul>    
 }
-else if (Model.resultID == null && Model.caseStatus.Sequence > 3)
-{ 
+else if (Model.resultID == null && Model.caseStatus!=null &&  Model.caseStatus.Sequence > 3)
+{
     <ul class="recordMenu-tabs">
         <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "ChildAbduction", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
         @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
     </ul>    
 }
-else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
+else if (Model.resultID == null && Model.caseStatus != null && Model.caseStatus.Sequence <= 3)
 {
     <ul class="recordMenu-tabs">
         <li>@Html.ImageAndTextLink(Url.Content("~/Images/phone_add.png"), "Add attendance note", "Add attendance note", "Create", "AttendanceNote", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
@@ -172,14 +172,16 @@ else if (Model.resultID == null && Model.caseStatus.Sequence <= 3)
         <li><a href="@Url.Action("ListAddressesByRecord", "Address", new { id = Model.tipstaffRecordID })">Addresses (@Model.addresses.Count())</a></li>
         <li><a href="@Url.Action("ListApplicantsByRecord", "Applicant", new { id = Model.tipstaffRecordID })">Applicants (@Model.Applicants.Count())</a></li>
         <li><a href="@Url.Action("ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID })">Attendance notes (@Model.AttendanceNotes.Count())</a></li>
-        @*<li><a href="@Url.Action("ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID })">Attendance notes (@Model.AttendanceNotes.Count())</a></li>
         <li><a href="@Url.Action("ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID })">Documents (@Model.Documents.Count())</a></li>
+        @*
+
         <li><a href="@Url.Action("ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID })">Solicitors (@Model.LinkedSolicitors.Count())</a></li>*@
 
         <li><a href="@Url.Action("ListCaseReviewsByRecord", "CaseReview", new { id = Model.tipstaffRecordID })">Case Reviews (@Model.caseReviews.Count())</a></li>
         <li><a href="@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NPO</a></li>
-        @*<li><a href="@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NPO</a></li>
-        <li><a href="@Url.Action("ListPoliceForcesByRecord", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" })">Police Forces</a></li>*@
+        <li><a href="@Url.Action("ListPoliceForcesByRecord", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" })">Police Forces</a></li>
+        @*
+        *@
     </ul>
 </div>
 

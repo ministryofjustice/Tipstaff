@@ -9,12 +9,12 @@ namespace Tipstaff.Presenters
 {
     public interface ITipstaffRecordPresenter
     {
-        void AddTipstaffRecord(TipstaffRecord record);
-
         TipstaffRecord GetTipStaffRecord(string id);
 
         void UpdateTipstaffRecord(TipstaffRecord record);
 
         IEnumerable<TipstaffRecord> GetAll();
+
+        ChildAbduction GetChildAbduction(string id);
      }
 }

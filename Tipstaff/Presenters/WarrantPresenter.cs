@@ -110,18 +110,23 @@ namespace Tipstaff.Presenters
 
         public Warrant GetModel(Services.DynamoTables.TipstaffRecord table)
         {
+            var protectiveMArkingId = table.ProtectiveMarkingId.HasValue ? table.ProtectiveMarkingId.Value : 0;
+            int? resultId = table.ResultId.HasValue ? table.ResultId.Value : default(int?);
+            var caseStatusId = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0;
+            var divisionId = table.DivisionId.HasValue ? table.DivisionId.Value : 0;
+
             var model = new Warrant()
             {
                 Discriminator = table.Discriminator,
                 tipstaffRecordID = table.Id,
-                Division = MemoryCollections.DivisionsList.GetDivisionByID(table.DivisionId.Value),
+                Division = MemoryCollections.DivisionsList.GetDivisionByID(divisionId),
                 caseNumber = table.CaseNumber,
                 expiryDate = table.ExpiryDate,
                 RespondentName = table.RespondentName,
                 DateCirculated = table.DateCirculated,
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 caseReviews = _casereviewPresenter.GetAllById(table.Id),
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByID(table.CaseStatusId.Value),
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByID(caseStatusId),
                 Respondents = _respondentPresenter.GetAllById(table.Id),
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
@@ -132,15 +137,16 @@ namespace Tipstaff.Presenters
                 //LinkedSolicitors = get solicitors?
                 nextReviewDate = table.NextReviewDate,
                 NPO = table.NPO,
+                
                 //policeForces = get police forces?
-                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=> x.ProtectiveMarkingId == table.ProtectiveMarkingId),
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=> x.ProtectiveMarkingId == protectiveMArkingId),
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
                 resultEnteredBy = table.ResultEnteredBy,
-                caseStatusID = table.CaseStatusId.Value,
-                //protectiveMarkingID = table.ProtectiveMarkingId.HasValue?table.ProtectiveMarkingId.Value:0,
-                //result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == table.ResultId),
-                //resultID = table.ResultId.Value
+                caseStatusID = caseStatusId,
+                protectiveMarkingID = protectiveMArkingId,
+                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == resultId),
+                resultID = resultId
             };
 
             return model;
