@@ -200,7 +200,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TPLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MoJ.Digital.TP.TPLibrary.0.17.0\lib\net461\TPLibrary.dll</HintPath>
+      <HintPath>..\packages\MoJ.Digital.TP.TPLibrary.0.18.0\lib\net461\TPLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
