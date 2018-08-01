@@ -105,9 +105,7 @@ namespace Tipstaff.Presenters
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
 
-           // var model = GetModel(record);
-
-            var childAbduction = new ChildAbduction()
+           var childAbduction = new ChildAbduction()
             {
                 arrestCount = record.ArrestCount,
                 createdBy = record.CreatedBy,
