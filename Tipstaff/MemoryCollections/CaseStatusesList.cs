@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,6 +8,7 @@ namespace Tipstaff.MemoryCollections
 {
     public class CaseStatus
     {
+        [Display(Name = "Case Status")]
         public int CaseStatusId { get; set; }
 
         public string Detail { get; set; }

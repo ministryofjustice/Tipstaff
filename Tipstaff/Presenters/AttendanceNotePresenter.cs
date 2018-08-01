@@ -64,7 +64,7 @@ namespace Tipstaff.Presenters
             var table = new Tipstaff.Services.DynamoTables.AttendanceNote()
             {
                 TipstaffRecordID = model.tipstaffRecordID,
-                AttendanceNoteCode = model.AttendanceNoteCode.Detail,
+                AttendanceNoteCode = MemoryCollections.AttendanceNoteCodeList.GetAttendanceNoteCodeByID(model.AttendanceNoteCode.Id).Detail,
                 CallDated = model.callDated,
                 CallDetails = model.callDetails,
                 CallEnded = model.callEnded,
