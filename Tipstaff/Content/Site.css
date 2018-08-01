@@ -403,12 +403,12 @@ ul.recordMenu-tabs >li >a
     padding-left:20px;
 }
 .editor-field {
-	font-size:1em;
-    padding:2px;
-    margin:0px;
-    height:15px;
-    line-height:normal;
-    padding-bottom:1em;
+    font-size: 1em;
+    padding: 5px;
+    margin: 0px;
+    height: 15px;
+    line-height: normal;
+    padding-bottom: 1em;
 }
 .display-field
 {

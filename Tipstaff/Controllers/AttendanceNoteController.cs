@@ -70,14 +70,13 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("Details", area.Discriminator, new { id = note.tipstaffRecordID });
 
             }
-
-            
             //////ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
             ViewBag.AttendanceNoteCodes = AttendanceNoteCodeList.GetAttendanceNoteCodeList().Where(x => x.Active == 1);
+            note.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(note.tipstaffRecordID);
             return View(note);
         }
 
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
+        //[OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListAttendanceNotesByRecord(string id, int? page)
         { 
             TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);

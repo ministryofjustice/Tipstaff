@@ -106,6 +106,7 @@ namespace Tipstaff.Controllers
                 }
                 return RedirectToAction("Details", discriminator, new { id = model.CaseReview.tipstaffRecordID });
             }
+            model.CaseReview.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.CaseReview.tipstaffRecordID);
             return View(model);
         }
 

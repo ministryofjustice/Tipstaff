@@ -1,7 +1,7 @@
 ﻿
 
-<span>0 characters used</span>
-@Html.TextAreaFor(model => model, new { cols = "30", data_limit_input=""+Html.GetMaxLength(model=>model)+""})
+<p>0 characters used</p>
+@Html.TextAreaFor(model => model, new { cols = "30", data_limit_input = "" + Html.GetMaxLength(model => model) + "", Style="margin-left:200px"})
 
 <script type="text/javascript">
 
@@ -10,10 +10,10 @@
         charLength = $this.val().length,
         charLimit = $this.attr("data-limit-input");
         // Displays count
-        $this.prev("span").html(charLength + " of " + charLimit + " characters used");
+        $this.prev("p").html(charLength + " of " + charLimit + " characters used");
         // Alert when max is reached
         if ($this.val().length > charLimit) {
-            $this.prev("span").html("<strong>You may only have up to " + charLimit + " characters.</strong>");
+            $this.prev("p").html("<strong>You may only have up to " + charLimit + " characters.</strong>");
         }
     });
 
