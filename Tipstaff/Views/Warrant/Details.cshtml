@@ -189,83 +189,103 @@
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().eyeColour)</div>
                 <div class="display-field">
-                   @respondent?.eyeColour
+                    @respondent.eyeColour
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().hairColour)</div>
                 <div class="display-field">
-                    @respondent?.hairColour
+                    @respondent.hairColour
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().skinColour.SkinColourId)</div>
                 <div class="display-field">
-                    @respondent?.skinColour?.Detail
+                   @{
+                        if (respondent.skinColour != null)
+                        {
+                            @respondent.skinColour.Detail
+                        }
+                    }
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().height)</div>
                 <div class="display-field">
-                    @respondent?.height
+                    @respondent.height
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().build)</div>
                 <div class="display-field">
-                    @respondent?.build
+                    @respondent.build
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().specialfeatures)</div>
                 <div class="display-field">
-                    @respondent?.specialfeatures
+                    @respondent.specialfeatures
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfViolence)</div>
                 <div class="display-field">
-                    @respondent?.riskOfViolence
+                    @respondent.riskOfViolence
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)</div>
                 <div class="display-field">
-                    @respondent?.riskOfDrugs
+                    @respondent.riskOfDrugs
                 </div>
             </div>
             <div id="respdataPt2" style="width:33%;float:right;clear:none">
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameLast)</div>
                 <div class="display-field">
-                    @respondent?.nameLast.ToUpper()
+                    @respondent.nameLast.ToUpper()
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameFirst)</div>
                 <div class="display-field">
-                    @respondent?.nameFirst
+                    @respondent.nameFirst
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameMiddle) </div>
                 <div class="display-field">
-                    @respondent?.nameMiddle
+                    @respondent.nameMiddle;
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)</div>
                 <div class="display-field">
-                    @respondent?.DateofBirthDisplay
+                    @respondent.DateofBirthDisplay
                 </div>
 
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().gender.GenderId)</div>
                 <div class="display-field">
-                    @respondent?.gender?.Detail
+                    @{
+                        if (respondent.gender != null)
+                        {
+                            @respondent.gender.Detail
+                        }
+                    }
                 </div>
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().country)</div>
                 <div class="display-field">
-                    @respondent?.country?.Detail
+                    @{
+                        if (respondent.country != null)
+                        {
+                            @respondent.country.Detail
+                        }
+                    }
                 </div>
                 <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nationality)</div>
                 <div class="display-field">
-                    @respondent?.nationality?.Detail
+                   @{
+                        if (respondent.nationality != null)
+                        {
+                            @respondent.nationality.Detail
+                        }
+                    }
                 </div>
 
                 @if (respondent.PNCID != null)
                 {
                     <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().PNCID)</div>
                     <div class="display-field">
-                        @respondent?.PNCID
+                        @respondent.PNCID
                     </div>
                 }
 
