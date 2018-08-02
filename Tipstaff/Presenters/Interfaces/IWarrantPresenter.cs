@@ -8,6 +8,8 @@ namespace Tipstaff.Presenters
     {
         Warrant GetWarrant(string id);
 
+        Warrant GetWarrantDetails(string id);
+
         void RemoveWarrant(Warrant warrant);
         
         void AddWarrant(Warrant warrant);

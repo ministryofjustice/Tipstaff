@@ -64,10 +64,10 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => a.createdOn);
                     break;
                 case "uniqueid asc":
-                    TRs = TRs.OrderBy(a => a.tipstaffRecordID);
+                    TRs = TRs.OrderBy(a => int.Parse(a.tipstaffRecordID));
                     break;
                 case "uniqueid desc":
-                    TRs = TRs.OrderByDescending(a => a.tipstaffRecordID);
+                    TRs = TRs.OrderByDescending(a => int.Parse(a.tipstaffRecordID));
                     break;
                 case "casenumber asc":
                     TRs = TRs.OrderBy(a => a.caseNumber);
@@ -124,7 +124,7 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => a.resultEnteredBy);
                     break;
                 default:
-                    TRs = TRs.OrderBy(a => a.tipstaffRecordID);
+                    TRs = TRs.OrderBy(a => int.Parse(a.tipstaffRecordID));
                     break;
             }
             model.Warrants = TRs.ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
@@ -134,7 +134,7 @@ namespace Tipstaff.Controllers
         // GET: /Warrant/Details/5
         public ViewResult Details(string id)
         {
-            var warrant = _warrantPresenter.GetWarrant(id);
+            var warrant = _warrantPresenter.GetWarrantDetails(id);
 
             return View(warrant);
         }

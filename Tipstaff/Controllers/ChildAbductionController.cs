@@ -106,10 +106,10 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => a.Respondents.Count()).ThenBy(b => b.tipstaffRecordID);
                     break;
                 case "uniqueid asc":
-                    TRs = TRs.OrderBy(a => a.tipstaffRecordID).ThenBy(b => b.tipstaffRecordID);
+                    TRs = TRs.OrderBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "uniqueid desc":
-                    TRs = TRs.OrderByDescending(a => a.tipstaffRecordID).ThenBy(b => b.tipstaffRecordID);
+                    TRs = TRs.OrderByDescending(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "created asc":
                     TRs = TRs.OrderBy(a => a.createdOn).ThenBy(b => b.tipstaffRecordID);
@@ -142,7 +142,7 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => a.resultEnteredBy).ThenBy(b => b.tipstaffRecordID);
                     break;
                 default:
-                    TRs = TRs.OrderBy(a => a.tipstaffRecordID).ThenBy(b => b.tipstaffRecordID);
+                    TRs = TRs.OrderBy(a => int.Parse(a.tipstaffRecordID));
                     break;
             }
             model.ChildAbductions = TRs.ToPagedList(model.page, pageSize);
