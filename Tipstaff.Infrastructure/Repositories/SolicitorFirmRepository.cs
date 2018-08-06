@@ -50,13 +50,7 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             return _dynamoAPI.GetEntityByKey(id);
         }
-
-        public string GetSolicitorFirmName(string id)
-        {
-            var sol = _dynamoAPI.GetEntityByKey(id);
-            return sol.FirmName;
-        }
-
+        
         public void Update(SolicitorFirm solicitorFirm)
         {
             var entity = _dynamoAPI.GetEntityByKey(solicitorFirm.Id);

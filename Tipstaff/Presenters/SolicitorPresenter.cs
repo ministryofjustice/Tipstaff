@@ -4,6 +4,7 @@ using System.Linq;
 using Tipstaff.Mappers;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Presenters
 {
@@ -11,11 +12,14 @@ namespace Tipstaff.Presenters
     {
         private readonly ISolicitorRepository _solicitorRepository;
         private readonly ISolicitorFirmRepository _firmRepository;
-
-        public SolicitorPresenter(ISolicitorRepository solicitorRepository, ISolicitorFirmRepository firmRepository)
+        private readonly ITipstaffRecordSolicitorsRepository _tipstaffRecordSolicitorsRepository;
+        
+        public SolicitorPresenter(ISolicitorRepository solicitorRepository, ISolicitorFirmRepository firmRepository, 
+            ITipstaffRecordSolicitorsRepository tipstaffRecordSolicitorsRepository)
         {
             _solicitorRepository = solicitorRepository;
             _firmRepository = firmRepository;
+            _tipstaffRecordSolicitorsRepository = tipstaffRecordSolicitorsRepository;
         }
 
         public void AddSolicitor(Models.Solicitor solicitor)
@@ -27,7 +31,11 @@ namespace Tipstaff.Presenters
         public Solicitor GetSolicitor(string id)
         {
             var entity = _solicitorRepository.GetSolicitor(id);
-            return GetModel(entity);
+            if (entity != null)
+            {
+                return GetModel(entity);
+            }
+            return null;
         }
 
         public IEnumerable<Models.Solicitor> GetSolicitors()
@@ -79,7 +87,7 @@ namespace Tipstaff.Presenters
                 solicitorID = table.Id,
                 solicitorFirmID = table.SolicitorFirmID,
                 salutation = MemoryCollections.SalutationList.GetSalutationByDetail(table.Salutation),
-                solicitorFirmName = _firmRepository.GetSolicitorFirmName(table.SolicitorFirmID)
+                solicitorFirmName = table.FirstName
             };
 
             return model;
@@ -93,6 +101,33 @@ namespace Tipstaff.Presenters
         public IEnumerable<Services.DynamoTables.Solicitor> GetAll(IEnumerable<Models.Solicitor> entities)
         {
             return entities.Select(x => GetDynamoTable(x));
+        }
+
+        public void AddRecord(string solicitorId, string tipstaffRecordId, string key)
+        {
+            var dataTable = new Services.DynamoTables.Tipstaff_Solicitors();
+            dataTable.SolicitorID = solicitorId;
+            dataTable.TipstaffRecordID = tipstaffRecordId;
+            dataTable.Id = key;
+            _tipstaffRecordSolicitorsRepository.AddRecord(dataTable);
+        }
+
+        public IEnumerable<TipstaffRecordSolicitor> GetTipstaffRecordSolicitors(string tipstaffRecordId)
+        {
+            var tipstaffRecordSolicitors = new List<TipstaffRecordSolicitor>();
+
+            var solicitorIds = _tipstaffRecordSolicitorsRepository.GetAllByCondition("TipstaffRecordID", tipstaffRecordId);
+
+            if (solicitorIds?.Count()>0)
+            {
+                foreach (var item in solicitorIds)
+                {
+                    var solicitor = GetSolicitor(item.SolicitorID);
+                    tipstaffRecordSolicitors.Add(new TipstaffRecordSolicitor() { solicitor = solicitor, solicitorID = item.SolicitorID, tipstaffRecordID = item.TipstaffRecordID });
+                }
+            }
+
+            return tipstaffRecordSolicitors;
         }
     }
 }

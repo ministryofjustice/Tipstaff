@@ -17,7 +17,7 @@ namespace Tipstaff.Models
     public class ListTipstaffRecordSolicitorByTipstaffRecord : IListByTipstaffRecord
     {
         public string tipstaffRecordID { get; set; }
-        public ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
+        public IEnumerable<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
         public Tipstaff.xPagedList<TipstaffRecordSolicitor> pLinkedSolicitors { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
@@ -152,14 +152,15 @@ namespace Tipstaff.Models
         public virtual SolicitorFirm SolicitorFirm { get; set; }
         //public virtual Salutation salutation { get; set; }
         public MemoryCollections.Salutation salutation { get; set; }
-        public virtual ICollection<TipstaffRecordSolicitor> TipstaffRecords { get; set; }
+
+        public IEnumerable<TipstaffRecordSolicitor> TipstaffRecords { get; set; }
 
         [Display(Name="Name")]
         public virtual string solicitorName
         {
             get
             {
-                return SecurityElement.Escape(string.Format("{0} {1} {2}", salutation.Detail ?? "", firstName, lastName));
+                return SecurityElement.Escape(string.Format("{0} {1} {2}", salutation?.Detail ?? "", firstName, lastName));
             }
         }
         public virtual string AddresseeName
@@ -173,12 +174,10 @@ namespace Tipstaff.Models
 
     public class TipstaffRecordSolicitor
     {
-        [Key, Column(Order = 0)]
-        public int tipstaffRecordID { get; set; }
-        [Key, Column(Order = 1)]
-        public int solicitorID { get; set; }
-        public virtual TipstaffRecord tipstaffRecord { get; set; }
-        public virtual Solicitor solicitor { get; set; }
+        public string tipstaffRecordID { get; set; }
+        public string solicitorID { get; set; }
+        public TipstaffRecord tipstaffRecord { get; set; }
+        public Solicitor solicitor { get; set; }
     }
 
     public class TipstaffRecordSolicitorErrorViewModel

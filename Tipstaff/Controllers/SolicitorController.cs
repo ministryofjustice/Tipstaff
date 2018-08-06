@@ -12,6 +12,7 @@ using System.Data.Entity;
 using Tipstaff.Services.Repositories;
 using Tipstaff.MemoryCollections;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {
@@ -20,16 +21,21 @@ namespace Tipstaff.Controllers
     [ValidateAntiForgeryTokenOnAllPosts]
     public class SolicitorController : Controller
     {
-        //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
         private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public SolicitorController(ISolicitorPresenter solicitorPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, ISolicitorFirmsPresenter solicitorFirmsPresenter)
+
+        public SolicitorController(ISolicitorPresenter solicitorPresenter, 
+            ITipstaffRecordPresenter tipstaffRecordPresenter, 
+            ISolicitorFirmsPresenter solicitorFirmsPresenter, 
+            IGuidGenerator guidGenerator)
         {
             _solicitorPresenter = solicitorPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _solicitorFirmsPresenter = solicitorFirmsPresenter;
+            _guidGenerator = guidGenerator;
         }
 
         //
@@ -40,13 +46,14 @@ namespace Tipstaff.Controllers
             var solicitors = _solicitorPresenter.GetSolicitors();
             var record = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+            var result = solicitors.Any();
 
-            if ((!solicitors.Any()) && (!solicitorFirms.Any()))
+            if ((!result) && (!solicitorFirms.Any()))
             {
                 //No solicitors or firms... add a firm first
                 return RedirectToAction("Create", "SolicitorFirm");
             }
-            else if (!solicitors.Any())
+            else if (!result)
             {
                 //No solicitors but some firms, redirect to solicitor creation
                 //and let the user choose a firm, or create new if needed
@@ -113,34 +120,23 @@ namespace Tipstaff.Controllers
             }
             return View(model);
         }
-
-        /// <summary>
-        /// Called as Partial view from Solicitor/Select
-        /// </summary>
-        /// <param name="warrantID"></param>
-        /// <returns></returns>
-        public PartialViewResult CreateSolicitor(int warrantID)
-        {
-            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
-
-            ViewBag.warrantID = warrantID;
-            ViewBag.solicitorFirmID = new SelectList(solicitorFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
-            //ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
-            ViewBag.salutationID =  new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail"); //new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
-
-            return PartialView("_createSolicitor");
-            //return PartialView("_createSolicitorForWarrant");
-        }
+        
 
         [HttpPost]
-        public ActionResult CreateSolicitor(Solicitor solicitor, int warrantID)
+        public ActionResult CreateSolicitor(Solicitor solicitor, string warrantID)
         {
 
             if (ModelState.IsValid)
             {
                 ////db.Solicitors.Add(solicitor);
                 ////db.SaveChanges();
+                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(warrantID,true);
+
                 _solicitorPresenter.AddSolicitor(solicitor);
+
+                solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+
+                //_solicitorPresenter.AddRecord(solicitor.solicitorID, tr.tipstaffRecordID, _guidGenerator.GenerateTimeBasedGuid().ToString());
                 if (Request.IsAjaxRequest())
                 {
                     return RedirectToAction("Create", "TipstaffRecordSolicitor", new { tipstaffRecord = warrantID, solicitor = solicitor.solicitorID });
@@ -175,7 +171,7 @@ namespace Tipstaff.Controllers
             return Json(sols, JsonRequestBehavior.AllowGet);
         }
 
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
+       // [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListSolicitorsByRecord(string id, int? page)
         {
             ////TipstaffRecord w = db.TipstaffRecord.Find(id);

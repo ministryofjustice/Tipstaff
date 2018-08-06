@@ -34,7 +34,8 @@ namespace Tipstaff.Services.Infrastructure
             container.Register(Component.For<IPoliceForcesRepository>().ImplementedBy<PoliceForcesRepository>());
             container.Register(Component.For<IUsersRepository>().ImplementedBy<UsersRepository>());
             container.Register(Component.For<ITipstaffPoliceForcesRepository>().ImplementedBy<TipstaffPoliceForcesRepository>());
-
+            container.Register(Component.For<ITipstaffRecordSolicitorsRepository>().ImplementedBy<TipstaffRecordSolicitorsRepository>());
+            
             //MISC
             container.Register(Component.For<IGuidGenerator>().ImplementedBy<GuidGenerator>());
 

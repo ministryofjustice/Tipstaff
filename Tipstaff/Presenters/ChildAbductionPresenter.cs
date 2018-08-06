@@ -152,8 +152,6 @@ namespace Tipstaff.Presenters
 
         public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table)
         {
-            
-
             var model = new Models.ChildAbduction()
             {
                 sentSCD26 = table.SentSCD26,
@@ -166,15 +164,19 @@ namespace Tipstaff.Presenters
                 tipstaffRecordID = table.Id,
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == table.CaseStatusId),
                 caseStatusID = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0,
-                caseReviews = _caseReviewsPresenter.GetAllById(table.Id),
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
+                
                 Respondents = _respondentPresenter.GetAllById(table.Id),
                 children = _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id),
+                //PERF
+                caseReviews = _caseReviewsPresenter.GetAllById(table.Id),
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
+                LinkedSolicitors = _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id),
                 AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 Documents = _documentPresenter.GetAllDocumentsByTipstaffRecordID(table.Id),
+                //END PERF
                 NPO = table.NPO,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId==table.ResultId),
                 resultDate = table.ResultDate,

@@ -15,9 +15,11 @@ namespace Tipstaff.Presenters
         private readonly IRespondentPresenter _respondentPresenter;
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
         private readonly IDocumentPresenter _docPresenter;
-        private Object _lock = new Object();
-
-        public WarrantPresenter(ITipstaffRecordRepository tipstaffRecordRepository, IAddressPresenter addressPresenter, ICaseReviewPresenter casereviewPresenter, IRespondentPresenter respondentPresenter, IAttendanceNotePresenter attendanceNotePresenter, IDocumentPresenter docPresenter)
+        private readonly ISolicitorPresenter _solicitorPresenter;
+        
+        public WarrantPresenter(ITipstaffRecordRepository tipstaffRecordRepository, IAddressPresenter addressPresenter, 
+            ICaseReviewPresenter casereviewPresenter, IRespondentPresenter respondentPresenter, 
+            IAttendanceNotePresenter attendanceNotePresenter, IDocumentPresenter docPresenter, ISolicitorPresenter solicitorPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _addressPresenter = addressPresenter;
@@ -25,22 +27,20 @@ namespace Tipstaff.Presenters
             _respondentPresenter = respondentPresenter;
             _attendanceNotePresenter = attendanceNotePresenter;
             _docPresenter = docPresenter;
+            _solicitorPresenter = solicitorPresenter;
         }
         
         public void AddWarrant(Warrant warrant)
         {
-            lock (_lock)
-            {
-                var entity = GetDynamoTable(warrant);
+            var entity = GetDynamoTable(warrant);
 
-                var count = _tipstaffRecordRepository.GetAll().Count();
+            var count = _tipstaffRecordRepository.GetAll().Count();
 
-                entity.Id = $"{count++}";
+            entity.Id = $"{count++}";
 
-                warrant.tipstaffRecordID = entity.Id;
+            warrant.tipstaffRecordID = entity.Id;
 
-                _tipstaffRecordRepository.Add(entity);
-            }
+            _tipstaffRecordRepository.Add(entity);
         }
 
         public IEnumerable<Warrant> GetAllWarrants()
@@ -84,7 +84,6 @@ namespace Tipstaff.Presenters
                 ResultDate = model.resultDate,
                 ResultEnteredBy = model.resultEnteredBy,
                 ResultId = model.resultID,
-                
             };
 
             return record;
@@ -93,7 +92,6 @@ namespace Tipstaff.Presenters
         public Warrant GetWarrant(string id)
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
-
 
             var warrant = GetModel(record);
 
@@ -106,6 +104,7 @@ namespace Tipstaff.Presenters
 
             _tipstaffRecordRepository.Delete(entity);
         }
+
 
 
         public Warrant GetModel(Services.DynamoTables.TipstaffRecord table)
@@ -124,21 +123,24 @@ namespace Tipstaff.Presenters
                 expiryDate = table.ExpiryDate,
                 RespondentName = table.RespondentName,
                 DateCirculated = table.DateCirculated,
+                //PERF
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
                 caseReviews = _casereviewPresenter.GetAllById(table.Id),
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByID(caseStatusId),
                 Respondents = _respondentPresenter.GetAllById(table.Id),
+                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                LinkedSolicitors = _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id),
+                //END OF PERF
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByID(caseStatusId),
+                
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
                 arrestCount = table.ArrestCount,
-                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                
                 DateExecuted = table.DateExecuted,
                 //Documents = _docPresenter.GetAllDocumentsByTipstaffRecordID(table.Id).ToList(),
-                //LinkedSolicitors = get solicitors?
+                
                 nextReviewDate = table.NextReviewDate,
                 NPO = table.NPO,
-                
-                //policeForces = get police forces?
                 protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=> x.ProtectiveMarkingId == protectiveMArkingId),
                 prisonCount = table.PrisonCount,
                 resultDate = table.ResultDate,
