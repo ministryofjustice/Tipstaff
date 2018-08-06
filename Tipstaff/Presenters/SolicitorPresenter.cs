@@ -11,14 +11,14 @@ namespace Tipstaff.Presenters
     public class SolicitorPresenter : ISolicitorPresenter, IMapper<Models.Solicitor, Tipstaff.Services.DynamoTables.Solicitor>, IMapperCollections<Models.Solicitor,Tipstaff.Services.DynamoTables.Solicitor>
     {
         private readonly ISolicitorRepository _solicitorRepository;
-        private readonly ISolicitorFirmRepository _firmRepository;
+        private readonly ISolicitorFirmRepository _solicitorFirmRepository;
         private readonly ITipstaffRecordSolicitorsRepository _tipstaffRecordSolicitorsRepository;
         
-        public SolicitorPresenter(ISolicitorRepository solicitorRepository, ISolicitorFirmRepository firmRepository, 
+        public SolicitorPresenter(ISolicitorRepository solicitorRepository, ISolicitorFirmRepository solicitorFirmRepository, 
             ITipstaffRecordSolicitorsRepository tipstaffRecordSolicitorsRepository)
         {
             _solicitorRepository = solicitorRepository;
-            _firmRepository = firmRepository;
+            _solicitorFirmRepository = solicitorFirmRepository;
             _tipstaffRecordSolicitorsRepository = tipstaffRecordSolicitorsRepository;
         }
 
@@ -74,6 +74,25 @@ namespace Tipstaff.Presenters
 
         public Models.Solicitor GetModel(Services.DynamoTables.Solicitor table)
         {
+            var firm = _solicitorFirmRepository.GetSolicitorFirm(table.SolicitorFirmID);
+
+            var solicitorFirmMdl = new SolicitorFirm();
+            if (firm != null)
+            {
+                solicitorFirmMdl.active = firm.Active;
+                solicitorFirmMdl.addressLine1 = firm.AddressLine1;
+                solicitorFirmMdl.addressLine2 = firm.AddressLine2;
+                solicitorFirmMdl.addressLine3 = firm.AddressLine3;
+                solicitorFirmMdl.county = firm.County;
+                solicitorFirmMdl.DX = firm.DX;
+                solicitorFirmMdl.email = firm.Email;
+                solicitorFirmMdl.firmName = firm.FirmName;
+                solicitorFirmMdl.phoneDayTime = firm.PhoneDayTime;
+                solicitorFirmMdl.phoneOutofHours = firm.PhoneOutofHours;
+                solicitorFirmMdl.postcode = firm.Postcode;
+                solicitorFirmMdl.town = firm.Town;
+            }
+
             var model = new Models.Solicitor()
             {
                 active = table.Active,
@@ -87,7 +106,8 @@ namespace Tipstaff.Presenters
                 solicitorID = table.Id,
                 solicitorFirmID = table.SolicitorFirmID,
                 salutation = MemoryCollections.SalutationList.GetSalutationByDetail(table.Salutation),
-                solicitorFirmName = table.FirstName
+                solicitorFirmName = table.FirstName,
+                SolicitorFirm = solicitorFirmMdl
             };
 
             return model;

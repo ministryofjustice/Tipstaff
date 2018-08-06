@@ -62,7 +62,7 @@ namespace Tipstaff.Presenters
                 resultEnteredBy = table.ResultEnteredBy,
 
                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
-                LinkedSolicitors = (_loadNow) ? _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id) : new List<TipstaffRecordSolicitor>(),
+                LinkedSolicitors = _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id) ,
                 //AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 caseReviews = _caseReviewPresenter.GetAllById(table.Id),
                 Respondents = _respondentPresenter.GetAllById(table.Id),
