@@ -132,7 +132,7 @@ namespace Tipstaff.Tests.Integration
 
             System.Web.Mvc.FileStreamResult resp = (System.Web.Mvc.FileStreamResult)_sub.ExtractDocument(docIndex.ToString());
 
-            Assert.AreEqual("application/msword", resp.ContentType);
+            Assert.AreEqual("mime", resp.ContentType);
             Assert.AreEqual(doc.FileName, resp.FileDownloadName);
         }
 

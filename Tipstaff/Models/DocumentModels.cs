@@ -32,7 +32,8 @@ namespace Tipstaff.Models
         
         public string fileName { get; set; }
         public string filePath { get; set; }
-        [ScaffoldColumn(false), MaxLength(60)]
+
+        [ScaffoldColumn(false)]
         public string mimeType { get; set; }
         //public virtual Country country { get; set; }
         //public virtual Nationality nationality { get; set; }
