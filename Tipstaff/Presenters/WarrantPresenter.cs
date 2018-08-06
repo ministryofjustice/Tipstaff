@@ -15,9 +15,10 @@ namespace Tipstaff.Presenters
         private readonly IRespondentPresenter _respondentPresenter;
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
         private readonly IDocumentPresenter _docPresenter;
+        private readonly ITipstaffPoliceForcesPresenter _policeForcesPresenter;
         private Object _lock = new Object();
 
-        public WarrantPresenter(ITipstaffRecordRepository tipstaffRecordRepository, IAddressPresenter addressPresenter, ICaseReviewPresenter casereviewPresenter, IRespondentPresenter respondentPresenter, IAttendanceNotePresenter attendanceNotePresenter, IDocumentPresenter docPresenter)
+        public WarrantPresenter(ITipstaffRecordRepository tipstaffRecordRepository, IAddressPresenter addressPresenter, ICaseReviewPresenter casereviewPresenter, IRespondentPresenter respondentPresenter, IAttendanceNotePresenter attendanceNotePresenter, IDocumentPresenter docPresenter, ITipstaffPoliceForcesPresenter policePresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _addressPresenter = addressPresenter;
@@ -25,6 +26,7 @@ namespace Tipstaff.Presenters
             _respondentPresenter = respondentPresenter;
             _attendanceNotePresenter = attendanceNotePresenter;
             _docPresenter = docPresenter;
+            _policeForcesPresenter = policePresenter;
         }
         
         public void AddWarrant(Warrant warrant)
@@ -100,6 +102,16 @@ namespace Tipstaff.Presenters
             return warrant;
         }
 
+        public Warrant GetWarrantDetails(string id)
+        {
+            var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
+
+
+            var warrant = GetModelDetails(record);
+
+            return warrant;
+        }
+
         public void RemoveWarrant(Warrant warrant)
         {
             var entity = GetDynamoTable(warrant);
@@ -152,6 +164,48 @@ namespace Tipstaff.Presenters
             return model;
         }
 
+        public Warrant GetModelDetails(Services.DynamoTables.TipstaffRecord table)
+        {
+            var protectiveMArkingId = table.ProtectiveMarkingId.HasValue ? table.ProtectiveMarkingId.Value : 0;
+            int? resultId = table.ResultId.HasValue ? table.ResultId.Value : default(int?);
+            var caseStatusId = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0;
+            var divisionId = table.DivisionId.HasValue ? table.DivisionId.Value : 0;
+
+            var model = new Warrant()
+            {
+                Discriminator = table.Discriminator,
+                tipstaffRecordID = table.Id,
+                Division = MemoryCollections.DivisionsList.GetDivisionByID(divisionId),
+                caseNumber = table.CaseNumber,
+                expiryDate = table.ExpiryDate,
+                RespondentName = table.RespondentName,
+                DateCirculated = table.DateCirculated,
+                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
+                caseReviews = _casereviewPresenter.GetAllById(table.Id),
+                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusByID(caseStatusId),
+                Respondents = _respondentPresenter.GetAllById(table.Id),
+                createdBy = table.CreatedBy,
+                createdOn = table.CreatedOn,
+                arrestCount = table.ArrestCount,
+                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                DateExecuted = table.DateExecuted,
+                Documents = _docPresenter.GetAllDocumentsByTipstaffRecordID(table.Id).ToList(),
+                //LinkedSolicitors = get solicitors?
+                nextReviewDate = table.NextReviewDate,
+                NPO = table.NPO,
+                policeForces = _policeForcesPresenter.GetAllTipstaffPoliceForcesByTipstaffRecordID(table.Id).ToList(),
+                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == protectiveMArkingId),
+                prisonCount = table.PrisonCount,
+                resultDate = table.ResultDate,
+                resultEnteredBy = table.ResultEnteredBy,
+                caseStatusID = caseStatusId,
+                protectiveMarkingID = protectiveMArkingId,
+                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == resultId),
+                resultID = resultId
+            };
+
+            return model;
+        }
         public void UpdateWarrant(Warrant warrant)
         {
             var entity = GetDynamoTable(warrant);
