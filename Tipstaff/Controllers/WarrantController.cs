@@ -58,10 +58,10 @@ namespace Tipstaff.Controllers
             switch (model.sortOrder)
             {
                 case "created asc":
-                    TRs = TRs.OrderBy(a => a.createdOn);
+                    TRs = TRs.OrderBy(a => a.createdOn).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "created desc":
-                    TRs = TRs.OrderByDescending(a => a.createdOn);
+                    TRs = TRs.OrderByDescending(a => a.createdOn).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "uniqueid asc":
                     TRs = TRs.OrderBy(a => int.Parse(a.tipstaffRecordID));
@@ -70,58 +70,58 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => int.Parse(a.tipstaffRecordID));
                     break;
                 case "casenumber asc":
-                    TRs = TRs.OrderBy(a => a.caseNumber);
+                    TRs = TRs.OrderBy(a => a.caseNumber).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "casenumber desc":
-                    TRs = TRs.OrderByDescending(a => a.caseNumber);
+                    TRs = TRs.OrderByDescending(a => a.caseNumber).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "division asc":
-                    TRs = TRs.OrderBy(a => a.Division.Detail);
+                    TRs = TRs.OrderBy(a => a.Division.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "division desc":
-                    TRs = TRs.OrderByDescending(a => a.Division.Detail);
+                    TRs = TRs.OrderByDescending(a => a.Division.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "reviewDate asc":
-                    TRs = TRs.OrderBy(a => a.nextReviewDate);
+                    TRs = TRs.OrderBy(a => a.nextReviewDate).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "reviewDate desc":
-                    TRs = TRs.OrderByDescending(a => a.nextReviewDate);
+                    TRs = TRs.OrderByDescending(a => a.nextReviewDate).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "displayName asc":
-                    TRs = TRs.OrderBy(a => a.RespondentName);
+                    TRs = TRs.OrderBy(a => a.RespondentName).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "displayName desc":
-                    TRs = TRs.OrderByDescending(a => a.RespondentName);
+                    TRs = TRs.OrderByDescending(a => a.RespondentName).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "expiryDate asc":
-                    TRs = TRs.OrderBy(a => a.expiryDate);
+                    TRs = TRs.OrderBy(a => a.expiryDate).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "expiryDate desc":
-                    TRs = TRs.OrderByDescending(a => a.expiryDate);
+                    TRs = TRs.OrderByDescending(a => a.expiryDate).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "protMark asc":
-                    TRs = TRs.OrderBy(a => a.protectiveMarking.Detail);
+                    TRs = TRs.OrderBy(a => a.protectiveMarking.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "protMark desc":
-                    TRs = TRs.OrderByDescending(a => a.protectiveMarking.Detail);
+                    TRs = TRs.OrderByDescending(a => a.protectiveMarking.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "caseStatus asc":
-                    TRs = TRs.OrderBy(a => a.caseStatus.Detail);
+                    TRs = TRs.OrderBy(a => a.caseStatus.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "caseStatus desc":
-                    TRs = TRs.OrderByDescending(a => a.caseStatus.Detail);
+                    TRs = TRs.OrderByDescending(a => a.caseStatus.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "result asc":
-                    TRs = TRs.OrderBy(a => a.result.Detail);
+                    TRs = TRs.OrderBy(a => a.result.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "result desc":
-                    TRs = TRs.OrderByDescending(a => a.result.Detail);
+                    TRs = TRs.OrderByDescending(a => a.result.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "resultEnter asc":
-                    TRs = TRs.OrderBy(a => a.resultEnteredBy);
+                    TRs = TRs.OrderBy(a => a.resultEnteredBy).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "resultEnter desc":
-                    TRs = TRs.OrderByDescending(a => a.resultEnteredBy);
+                    TRs = TRs.OrderByDescending(a => a.resultEnteredBy).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 default:
                     TRs = TRs.OrderBy(a => int.Parse(a.tipstaffRecordID));
