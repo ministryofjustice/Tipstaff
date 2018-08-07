@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Data;
 using Tipstaff.Services.Repositories;
 using Tipstaff.Presenters;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -19,10 +20,12 @@ namespace Tipstaff.Areas.Admin.Controllers
     public class SolicitorFirmsController : Controller
     {
         private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
+        private readonly ICloudWatchLogger _logger;
 
-        public SolicitorFirmsController(ISolicitorFirmsPresenter solicitorFirmsPresenter)
+        public SolicitorFirmsController(ISolicitorFirmsPresenter solicitorFirmsPresenter, ICloudWatchLogger logger)
         {
             _solicitorFirmsPresenter = solicitorFirmsPresenter;
+            _logger = logger;
         }
 
         //
@@ -33,9 +36,6 @@ namespace Tipstaff.Areas.Admin.Controllers
             {
                 model.page = 1;
             }
-
-            //IEnumerable<SolicitorFirm> Solicitorfirms = db.SolicitorsFirms;
-
             var Solicitorfirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
             if (model.onlyActive == true)
             {
@@ -71,10 +71,10 @@ namespace Tipstaff.Areas.Admin.Controllers
             model.SolicitorFirms = Solicitorfirms.ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
             return View(model);
         }
+
         // GET: /Admin/SolicitorFirms/Details/5
         public ActionResult Details(string id)
         {
-            //SolicitorFirm model = db.SolicitorsFirms.Find(id);
             var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
             if (model.active == false)
             {
@@ -85,6 +85,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             return View(model);
         }
+
         //
         // GET: /Admin/SolicitorFirms/Create
         public ActionResult Create()
@@ -97,22 +98,25 @@ namespace Tipstaff.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(SolicitorFirm model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //model.active = true;
-                //db.SolicitorsFirms.Add(model);
-                //db.SaveChanges();
-                _solicitorFirmsPresenter.AddSolicitorFirm(model);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _solicitorFirmsPresenter.AddSolicitorFirm(model);
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in Admin-SolicitorFirms in Create method, for user {User.Identity.Name}");
+                return View("Error");
+            }
             return View(model);
         }
 
         // GET: /Admin/SolicitorFirms/Edit/5
         public ActionResult Edit(string id)
         {
-            //SolicitorFirm model = db.SolicitorsFirms.Find(id);
             var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
             if (model.active == false)
             {
@@ -123,25 +127,32 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             return View(model);
         }
-        //
+
         // POST: /Admin/SolicitorFirms/Edit/5
         [HttpPost]
         public ActionResult Edit(SolicitorFirm model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //db.Entry(model).State = EntityState.Modified;
-                //db.SaveChanges();
-                _solicitorFirmsPresenter.Update(model);
+                if (ModelState.IsValid)
+                {
+                    _solicitorFirmsPresenter.Update(model);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in Admin-SolicitorFirms in Edit method, for user {User.Identity.Name}");
+                return View("Error");
+            }
+            
             return View(model);
         }
+
         // GET: /Admin/SolicitorFirms/Delete/5
         public ActionResult Deactivate(string id)
         {
-            //SolicitorFirm model = db.SolicitorsFirms.Find(id);
             var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
             if (model.active == false)
             {
@@ -165,15 +176,17 @@ namespace Tipstaff.Areas.Admin.Controllers
         [HttpPost, ActionName("Deactivate")]
         public ActionResult DeactivateConfirmed(string id)
         {
-            //SolicitorFirm model = db.SolicitorsFirms.Find(id);
-            //model.active = false;
-            //model.deactivated = DateTime.Now;
-            //model.deactivatedBy = User.Identity.Name;
-            //db.Entry(model).State = EntityState.Modified;
-            //db.SaveChanges();
-            var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
-            _solicitorFirmsPresenter.Update(model);
-            return RedirectToAction("Index");
+            try
+            { 
+                var model = _solicitorFirmsPresenter.GetSolicitorFirm(id);
+                _solicitorFirmsPresenter.Update(model);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in Admin-SolicitorFirms in DeactivateCornfirmed method, for user {User.Identity.Name}");
+                return View("Error");
+            }
         }
 
 

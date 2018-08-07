@@ -43,10 +43,6 @@ namespace Tipstaff.Areas.Admin.Controllers
 
         public ActionResult Open(string id)
         {
-            //Template template = db.Templates.Find(id);
-            //XmlDocument xDoc = new XmlDocument();
-            //xDoc.InnerXml = template.templateXML;
-            //return File(genericFunctions.ConvertToBytes(xDoc), "application/msword", template.templateName +".xml"); 
             try
             {
                 Template template = _templatePresenter.GetTemplate(id);
@@ -120,7 +116,6 @@ namespace Tipstaff.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Edit(TemplateEdit model)
         {
-            //Template oldTemplate = db.Templates.Find(model.Template.templateID);
             Template oldTemplate = _templatePresenter.GetTemplate(model.Template.templateID);
             string filePath = string.Empty;
             try
@@ -138,13 +133,6 @@ namespace Tipstaff.Areas.Admin.Controllers
                     }
                     //Upload
                     filePath = _s3API.Save("templates", model.uploadFile.FileName, model.uploadFile.InputStream);
-                    //var fileName = Path.Combine(Server.MapPath("~/uploads"), Path.GetFileName(model.uploadFile.FileName));
-                    //model.uploadFile.SaveAs(fileName); //Save to uploads folder     
-                    //XmlDocument document = new XmlDocument();
-                    //document.Load(fileName);
-                    //xml = document.InnerXml;
-                    ////Delete file
-                    //System.IO.File.Delete(fileName);
                 }
                 else
                 {

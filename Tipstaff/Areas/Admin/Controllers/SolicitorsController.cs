@@ -7,6 +7,7 @@ using PagedList;
 using System.Data;
 using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
@@ -18,13 +19,16 @@ namespace Tipstaff.Areas.Admin.Controllers
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ICloudWatchLogger _logger;
 
-        public SolicitorsController(ISolicitorPresenter solicitorPresenter, ISolicitorFirmsPresenter solicitorFirmsPresenter, IGuidGenerator guidGenerator)
+        public SolicitorsController(ISolicitorPresenter solicitorPresenter, ISolicitorFirmsPresenter solicitorFirmsPresenter, IGuidGenerator guidGenerator, ICloudWatchLogger logger)
         {
             _solicitorPresenter = solicitorPresenter;
             _solicitorFirmsPresenter = solicitorFirmsPresenter;
             _guidGenerator = guidGenerator;
+            _logger = logger;
         }
+
         // GET: /Admin/Solicitor/
         public ViewResult Index(SolicitorListView model)
         {
@@ -35,8 +39,6 @@ namespace Tipstaff.Areas.Admin.Controllers
 
 
             var Solicitors = _solicitorPresenter.GetSolicitors();
-            ////////IEnumerable<Solicitor> Solicitors = db.Solicitors.Include(s=>s.salutation).Include(f => f.SolicitorFirm);//needed?
-
             if (model.onlyActive == true)
             {
                 Solicitors = Solicitors.Where(c => c.active == true);
@@ -74,7 +76,6 @@ namespace Tipstaff.Areas.Admin.Controllers
         // GET: /Admin/Solicitor/Details/5
         public ActionResult Details(string id)
         {
-            ////////Solicitor model = db.Solicitors.Find(id);
             Solicitor model = _solicitorPresenter.GetSolicitor(id);
 
             if (model.active == false)
@@ -86,31 +87,37 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             return View(model);
         }
-        //
+
         // GET: /Admin/Solicitor/Create
         public ActionResult Create()
         {
             SolicitorAdmin model = new SolicitorAdmin();
             var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
             model.SolicitorFirmList = new SelectList(solicitorFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
-           // var solicitorFirms = _solicitorFirmsPresenter
+
             return View(model);
         }
-        //
+
         // POST: /Admin/Solicitor/Create
         [HttpPost]
         public ActionResult Create(SolicitorAdmin model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                model.solicitor.active = true;
-                model.solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
-                //////db.Solicitors.Add(model.solicitor);
-                //////db.SaveChanges();
-                _solicitorPresenter.AddSolicitor(model.solicitor);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    model.solicitor.active = true;
+                    model.solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+                    _solicitorPresenter.AddSolicitor(model.solicitor);
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in Admin-Solicitors in Create method, for user {User.Identity.Name}");
+                return View("Error");
+            }
+            
             return View(model);
         }
 
@@ -120,7 +127,6 @@ namespace Tipstaff.Areas.Admin.Controllers
             SolicitorAdmin model = new SolicitorAdmin();
             model.solicitor  = _solicitorPresenter.GetSolicitor(id.ToString());
            
-
             var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
             model.SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationId", "Detail", model.solicitor.salutation.SalutationId);
             model.SolicitorFirmList = new SelectList(solicitorFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName", model.solicitor.solicitorFirmID);
@@ -134,25 +140,30 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             return View(model);
         }
-        //
+
         // POST: /Admin/Solicitor/Edit/5
         [HttpPost]
         public ActionResult Edit(SolicitorAdmin model)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-                //////db.Entry(model.solicitor).State = EntityState.Modified;
-                //////db.SaveChanges();
-                _solicitorPresenter.Update(model.solicitor);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    _solicitorPresenter.Update(model.solicitor);
+                    return RedirectToAction("Index");
+                }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in Admin-Solicitors in Edit method, for user {User.Identity.Name}");
+                return View("Error");
+            }
+
             return View(model);
         }
         // GET: /Admin/Solicitor/Delete/5
         public ActionResult Deactivate(int id)
         {
-            ///Solicitor model = db.Solicitors.Find(id);
             Solicitor model = _solicitorPresenter.GetSolicitor(id.ToString());
 
             if (model.active == false)
@@ -171,23 +182,26 @@ namespace Tipstaff.Areas.Admin.Controllers
             }
             return View(model);
         }
-        //
+
         // POST: /Admin/Solicitor/Delete/5
         [HttpPost, ActionName("Deactivate")]
         public ActionResult DeactivateConfirmed(int id)
         {
-            //Solicitor model = db.Solicitors.Find(id);
-            Solicitor model = _solicitorPresenter.GetSolicitor(id.ToString());
-            model.active = false;
-            model.deactivated = DateTime.Now;
-            model.deactivatedBy = User.Identity.Name;
+            try
+            {
+                Solicitor model = _solicitorPresenter.GetSolicitor(id.ToString());
+                model.active = false;
+                model.deactivated = DateTime.Now;
+                model.deactivatedBy = User.Identity.Name;
 
-            //db.Entry(model).State = EntityState.Modified;
-            //db.SaveChanges();
-            _solicitorPresenter.Update(model);
-            return RedirectToAction("Index");
+                _solicitorPresenter.Update(model);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in Admin-Solicitors in DeactivateConfirmed method, for user {User.Identity.Name}");
+                return View("Error");
+            }
         }
-
-
     }
 }
