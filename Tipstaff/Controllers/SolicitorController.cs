@@ -47,8 +47,9 @@ namespace Tipstaff.Controllers
             var record = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
             var result = solicitors.Any();
+            var solicitorFirmsResult = solicitorFirms.Any();
 
-            if ((!result) && (!solicitorFirms.Any()))
+            if ((!result) && (!solicitorFirmsResult))
             {
                 //No solicitors or firms... add a firm first
                 return RedirectToAction("Create", "SolicitorFirm");
@@ -128,19 +129,15 @@ namespace Tipstaff.Controllers
 
             if (ModelState.IsValid)
             {
-                ////db.Solicitors.Add(solicitor);
-                ////db.SaveChanges();
                 TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(warrantID,true);
-
-                _solicitorPresenter.AddSolicitor(solicitor);
 
                 solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
 
-                //_solicitorPresenter.AddRecord(solicitor.solicitorID, tr.tipstaffRecordID, _guidGenerator.GenerateTimeBasedGuid().ToString());
+                _solicitorPresenter.AddSolicitor(solicitor);
+
                 if (Request.IsAjaxRequest())
                 {
                     return RedirectToAction("Create", "TipstaffRecordSolicitor", new { tipstaffRecord = warrantID, solicitor = solicitor.solicitorID });
-                    //return View("_createSolicitorForWarrantSuccess", model);
                 }
                 else
                 {
@@ -151,7 +148,6 @@ namespace Tipstaff.Controllers
 
             ViewBag.salutationID = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");//new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
             ViewBag.solicitorFirmID = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
-            //return PartialView("_createSolicitor");
             return PartialView("_createSolicitorForWarrant");
         }
 
