@@ -120,6 +120,7 @@
     <Compile Include="Repositories\ITipstaffNPORepository.cs" />
     <Compile Include="Repositories\ITipstaffPoliceForcesRepository.cs" />
     <Compile Include="Repositories\ITipstaffRecordRepository.cs" />
+    <Compile Include="Repositories\ITipstaffRecordSolicitorsRepository.cs" />
     <Compile Include="Repositories\IUsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>

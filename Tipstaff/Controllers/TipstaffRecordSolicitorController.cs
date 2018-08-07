@@ -4,6 +4,7 @@ using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
 using TPLibrary.Logger;
 using Tipstaff.Presenters;
+using TPLibrary.GuidGenerator;
 
 namespace Tipstaff.Controllers
 {
@@ -16,12 +17,15 @@ namespace Tipstaff.Controllers
         private readonly ICloudWatchLogger _logger;
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly IGuidGenerator _guidGenerator;
 
-        public TipstaffRecordSolicitorController(ICloudWatchLogger logger, ISolicitorPresenter solicitorPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
+        public TipstaffRecordSolicitorController(ICloudWatchLogger logger, ISolicitorPresenter solicitorPresenter, 
+            ITipstaffRecordPresenter tipstaffRecordPresenter, IGuidGenerator guidGenerator)
         {
             _logger = logger;
             _solicitorPresenter = solicitorPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _guidGenerator = guidGenerator;
         }
         
         // POST: /TipstaffRecordSolicitor/Create
@@ -44,6 +48,8 @@ namespace Tipstaff.Controllers
                 //throw new DbUpdateException(");
                 //////////db.TipstaffRecordSolicitors.Add(tipstaffrecordsolicitor);
                 //////////db.SaveChanges();
+                _solicitorPresenter.AddRecord(tipstaffrecordsolicitor.solicitor.solicitorID, tipstaffrecordsolicitor.tipstaffRecord.tipstaffRecordID, _guidGenerator.GenerateTimeBasedGuid().ToString());
+
                 if (Request.IsAjaxRequest())
                 {
                     string url = string.Format("window.location='{0}';", Url.Action("Details", genericFunctions.TypeOfTipstaffRecord(tipstaffrecordsolicitor.tipstaffRecord), new { id = tipstaffRecord }));

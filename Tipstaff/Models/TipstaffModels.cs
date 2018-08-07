@@ -49,10 +49,10 @@ namespace Tipstaff.Models
         
         public MemoryCollections.Result result { get; set; }
 
-        public virtual IEnumerable<Document> Documents { get; set; }
+        public IEnumerable<Document> Documents { get; set; }
         public IEnumerable<AttendanceNoteCreation> AttendanceNotes { get; set; }
-        public virtual IEnumerable<CaseReview> caseReviews { get; set; }
-        public virtual ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
+        public IEnumerable<CaseReview> caseReviews { get; set; }
+        public IEnumerable<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }
         public IEnumerable<Respondent> Respondents { get; set; }
 
         public IEnumerable<Address> addresses { get; set; }

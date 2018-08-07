@@ -45,15 +45,11 @@ namespace Tipstaff.Tests.Integration
         protected IDocumentsRepository _docRepository;
         protected IAuditEventRepository _auditRepo;
         protected ISolicitorFirmRepository _solicitorFirmRepository;
+        protected ITipstaffRecordSolicitorsRepository _tipstaffRecordSolicitorRepository;
         protected ITipstaffPoliceForcesRepository _tipstaffPoliceRepository;
         protected IPoliceForcesRepository _policeRepository;
-
-        //protected ITipstaffRecordPresenter
-
-
-
-
-        // [SetUp]
+        
+        
         public BaseController()
         {
             //Repositories
@@ -70,15 +66,17 @@ namespace Tipstaff.Tests.Integration
             _docRepository = new DocumentsRepository(new DynamoAPI<Document>(), _auditRepo);
             _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<SolicitorFirm>(), _auditRepo);
             _solicitorRepository = new SolicitorRepository(new DynamoAPI<Solicitor>(), _auditRepo);
-            _tipstaffPoliceRepository = new TipstaffPoliceForcesRepository(new DynamoAPI<Tipstaff_PoliceForces>(), _auditRepo);
+            _tipstaffRecordSolicitorRepository = new TipstaffRecordSolicitorsRepository(new DynamoAPI<Tipstaff_Solicitors>());
+             _tipstaffPoliceRepository = new TipstaffPoliceForcesRepository(new DynamoAPI<Tipstaff_PoliceForces>(), _auditRepo);
             _policeRepository = new PoliceForcesRepository(new DynamoAPI<PoliceForces>(), _auditRepo);
+
             //Presenters
             _addressPresenter = new AddressPresenter(_addressRepository);
             _respondentPresenter = new RespondentPresenter(_respondentRepository);
             _docPresenter = new DocumentPresenter(_docRepository);
             _templatePresenter = new TemplatePresenter(_templateRepository);
             _caseReviewPresenter = new CaseReviewPresenter(_caseReviewRepository);
-            _solicitorPresenter = new SolicitorPresenter(_solicitorRepository, _solicitorFirmRepository);
+            _solicitorPresenter = new SolicitorPresenter(_solicitorRepository, _solicitorFirmRepository, _tipstaffRecordSolicitorRepository);
             _attendanceNotePresenter = new AttendanceNotePresenter(_attendanceNotesRepository,
                                                                    _tipstaffRecordPresenter);
             _applicantPresenter = new ApplicantPresenter(_applicantRepository, 
@@ -90,7 +88,8 @@ namespace Tipstaff.Tests.Integration
             _tipstaffRecordPresenter = new TipstaffRecordPresenter(_tipstaffRecordRepository, 
                                                                    _respondentPresenter, 
                                                                    _caseReviewPresenter, 
-                                                                   _addressPresenter);
+                                                                   _addressPresenter, 
+                                                                   _solicitorPresenter);
              _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, 
                                                                     _deleteTipstaffRecordRepository, 
                                                                     _caseReviewPresenter, 
@@ -101,8 +100,9 @@ namespace Tipstaff.Tests.Integration
                                                                     _solicitorPresenter, 
                                                                     _attendanceNotePresenter , _docPresenter);
             
-            _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter, _docPresenter, _tipstaffPolicePresenter);
-            
+
+            _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter, _docPresenter,_tipstaffPolicePresenter, _solicitorPresenter);
+
         }
         
     }

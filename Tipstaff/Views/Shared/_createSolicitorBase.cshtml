@@ -34,11 +34,11 @@
         <legend>Solicitor</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.salutationID, true)
+            @Html.LabelFor(model => model.salutation.SalutationId, true)
         </div>
         <div class="editor-field">
             @Html.DropDownList("salutationID", String.Empty)
-            @Html.ValidationMessageFor(model => model.salutationID)
+            @Html.ValidationMessageFor(model => model.salutation.SalutationId)
         </div>
 
         <div class="editor-label">

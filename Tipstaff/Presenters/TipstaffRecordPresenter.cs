@@ -16,25 +16,20 @@ namespace Tipstaff.Presenters
         private readonly IRespondentPresenter _respondentPresenter;
         private readonly ICaseReviewPresenter _caseReviewPresenter;
         private readonly IAddressPresenter _addressPresenter;
-        
+        private readonly ISolicitorPresenter _solicitorPresenter;
+        private bool _loadNow;
         public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
                                        IRespondentPresenter respondentPresenter, 
                                        ICaseReviewPresenter caseReviewPresenter, 
-                                       IAddressPresenter addressPresenter)
+                                       IAddressPresenter addressPresenter, ISolicitorPresenter solicitorPresenter)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _respondentPresenter = respondentPresenter;
             _caseReviewPresenter = caseReviewPresenter;
             _addressPresenter = addressPresenter;
+            _solicitorPresenter = solicitorPresenter;
         }
-
-        //public void AddTipstaffRecord(Models.TipstaffRecord record)
-        //{
-        //    var entity = GetDynamoTable(record);
-
-        //    _tipstaffRecordRepository.Add(entity);
-        //}
-
+        
         public IEnumerable<Models.TipstaffRecord> GetAll()
         {
             var entities = _tipstaffRecordRepository.GetAllByCondition<int>("CaseStatusId", 2);
@@ -49,17 +44,7 @@ namespace Tipstaff.Presenters
             throw new NotImplementedException();
         }
 
-        //public Services.DynamoTables.TipstaffRecord GetDynamoTable(Models.TipstaffRecord model)
-        //{
-        //    var entity = new Services.DynamoTables.TipstaffRecord()
-        //    {
-        //        //SentSCD26 = model.
-        //        ArrestCount = model.arrestCount
-
-        //    };
-
-        //    return entity;
-        //}
+        
 
         public Models.TipstaffRecord GetModel(Services.DynamoTables.TipstaffRecord table)
         {
@@ -75,8 +60,9 @@ namespace Tipstaff.Presenters
                 resultDate = table.ResultDate,
                 tipstaffRecordID = table.Id,
                 resultEnteredBy = table.ResultEnteredBy,
-               
-                 addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
+
+                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
+                LinkedSolicitors = _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id) ,
                 //AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
                 caseReviews = _caseReviewPresenter.GetAllById(table.Id),
                 Respondents = _respondentPresenter.GetAllById(table.Id),
@@ -89,9 +75,10 @@ namespace Tipstaff.Presenters
             return model;
         }
 
-        public Models.TipstaffRecord GetTipStaffRecord(string id)
+        public Models.TipstaffRecord GetTipStaffRecord(string id, bool loadNow)
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
+            _loadNow = loadNow;
 
             if (record != null)
             {
@@ -118,10 +105,10 @@ namespace Tipstaff.Presenters
                 tipstaffRecordID = record.Id,
                 resultEnteredBy = record.ResultEnteredBy,
                 
-                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(record.Id),
-                //AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
-                caseReviews = _caseReviewPresenter.GetAllById(record.Id),
-                Respondents = _respondentPresenter.GetAllById(record.Id),
+                //addresses = _addressPresenter.GetAddressesByTipstaffRecordId(record.Id),
+                ////AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
+                //caseReviews = _caseReviewPresenter.GetAllById(record.Id),
+                //Respondents = _respondentPresenter.GetAllById(record.Id),
                 Discriminator = record.Discriminator,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == record.ResultId),
                 caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == record.CaseStatusId),

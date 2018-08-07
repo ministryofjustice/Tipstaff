@@ -106,6 +106,7 @@
     <Compile Include="Repositories\SolicitorRepository.cs" />
     <Compile Include="Repositories\TipstaffPoliceForcesRepository.cs" />
     <Compile Include="Repositories\TipstaffRecordRepository.cs" />
+    <Compile Include="Repositories\TipstaffRecordSolicitorsRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>

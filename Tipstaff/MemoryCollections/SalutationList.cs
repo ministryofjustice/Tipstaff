@@ -52,7 +52,7 @@ namespace Tipstaff.MemoryCollections
 
         public static Salutation GetSalutationByDetail(string detail)
         {
-            return GetSalutationList().Where(x => x.Detail == detail).FirstOrDefault();
+            return GetSalutationList().FirstOrDefault(x => x.Detail == detail);
         }
     }
 }

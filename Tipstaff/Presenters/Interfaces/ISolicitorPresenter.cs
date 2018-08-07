@@ -16,5 +16,9 @@ namespace Tipstaff.Presenters
         void Update(Solicitor solicitor);
 
         void AddSolicitor(Solicitor solicitor);
+
+        void AddRecord(string solicitorId, string tipstaffRecordId, string key);
+
+        IEnumerable<TipstaffRecordSolicitor> GetTipstaffRecordSolicitors(string tipstaffRecordId);
     }
 }
