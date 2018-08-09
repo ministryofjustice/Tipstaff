@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tipstaff.Models;
+using Tipstaff.Presenters;
 using Tipstaff.Services.DynamoTables;
 
 namespace Tipstaff.Mappers
@@ -19,7 +20,6 @@ namespace Tipstaff.Mappers
     public interface IMapper<T, U>
     {
         T GetModel(U model);
-
         U GetDynamoTable(T table);
     }
 }

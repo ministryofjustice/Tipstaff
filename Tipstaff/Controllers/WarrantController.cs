@@ -134,7 +134,18 @@ namespace Tipstaff.Controllers
         // GET: /Warrant/Details/5
         public ViewResult Details(string id)
         {
-            var warrant = _warrantPresenter.GetWarrantDetails(id);
+            var loader = new LazyLoader()
+            {
+                LoadAddresses = true,
+                LoadAttendanceNotes = true,
+                LoadCaseReviews = true,
+                LoadDocuments = true,
+                LoadRespondents = true,
+                LoadSolicitors = true,
+                LoadPoliceForces = true
+            };
+
+            var warrant = _warrantPresenter.GetWarrant(id, loader);
 
             return View(warrant);
         }

@@ -8,7 +8,20 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class ChildAbductionPresenter : IChildAbductionPresenter, IMapper<ChildAbduction, Services.DynamoTables.TipstaffRecord>
+    public class LazyLoader
+    {
+        public bool LoadCaseReviews { get; set; }
+        public bool LoadAddresses { get; set; }
+        public bool LoadRespondents { get; set; }
+        public bool LoadSolicitors { get; set; }
+        public bool LoadAttendanceNotes { get; set; }
+        public bool LoadDocuments { get; set; }
+        public bool LoadApplicants { get; set; }
+        public bool LoadChildren { get; set; }
+        public bool LoadPoliceForces { get; set; }
+    }
+        
+    public class ChildAbductionPresenter : IChildAbductionPresenter
     {
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
         private readonly IDeletedTipstaffRecordRepository _deletedTipstaffRecordRepository;
@@ -58,14 +71,18 @@ namespace Tipstaff.Presenters
 
         public void AddTipstaffRecord(ChildAbduction childabduction)
         {
-            var entity = GetDynamoTable(childabduction);
+           var entity = GetDynamoTable(childabduction);
 
-            var count = _tipstaffRecordRepository.GetAll().Count();
+            var records = _tipstaffRecordRepository.GetAll();
 
-            entity.Id = $"{count++}";
+            var orderedRecords = records.OrderByDescending(x => int.Parse(x.Id));
 
-            childabduction.tipstaffRecordID = entity.Id;
+            var record = orderedRecords.First();
 
+            int nextId = int.Parse(record.Id) + 1;
+
+            entity.Id = nextId.ToString();
+            
             _tipstaffRecordRepository.Add(entity);
         }
 
@@ -91,6 +108,7 @@ namespace Tipstaff.Presenters
 
             return childAbductions;
         }
+        
 
         public IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions()
         {
@@ -108,7 +126,19 @@ namespace Tipstaff.Presenters
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
 
-            var childAbduction = GetModel(record);
+            var lazyLoader = new LazyLoader()
+            {
+                LoadAddresses = true,
+                LoadApplicants = true,
+                LoadAttendanceNotes = true,
+                LoadCaseReviews = true,
+                LoadChildren = true,
+                LoadDocuments = true,
+                LoadRespondents = true,
+                LoadSolicitors = true
+            };
+
+            var childAbduction = GetModel(record, lazyLoader);
 
             return childAbduction;
         }
@@ -150,8 +180,20 @@ namespace Tipstaff.Presenters
             return record;
         }
 
-        public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table)
+        public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table, LazyLoader loader=null)
         {
+            if (loader == null)
+                loader = new LazyLoader();
+
+            var Respondents = loader.LoadRespondents ? _respondentPresenter.GetAllById(table.Id) : null;
+            var children = loader.LoadChildren ? _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id) : null;
+            var caseReviews = loader.LoadCaseReviews ? _caseReviewsPresenter.GetAllById(table.Id) : null;
+            var addresses = loader.LoadAddresses ? _addressPresenter.GetAddressesByTipstaffRecordId(table.Id) : null;
+            var applicants = loader.LoadAddresses ? _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id) : null;
+            var linkedSolicitors = loader.LoadSolicitors ? _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id) : null;
+            var attendanceNotes = loader.LoadAttendanceNotes ? _attendanceNotePresenter.GetAllById(table.Id) : null;
+            var documents = loader.LoadDocuments ? _documentPresenter.GetAllDocumentsByTipstaffRecordID(table.Id) : null;
+
             var model = new Models.ChildAbduction()
             {
                 sentSCD26 = table.SentSCD26,
@@ -166,17 +208,14 @@ namespace Tipstaff.Presenters
                 caseStatusID = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0,
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
-                
-                Respondents = _respondentPresenter.GetAllById(table.Id),
-                children = _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id),
-                //PERF
-                caseReviews = _caseReviewsPresenter.GetAllById(table.Id),
-                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
-                Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
-                LinkedSolicitors = _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id),
-                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
-                Documents = _documentPresenter.GetAllDocumentsByTipstaffRecordID(table.Id),
-                //END PERF
+                Respondents = Respondents,
+                children = children,
+                caseReviews = caseReviews,
+                addresses = addresses,
+                Applicants = applicants,
+                LinkedSolicitors = linkedSolicitors,
+                AttendanceNotes = attendanceNotes,
+                Documents = documents,
                 NPO = table.NPO,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId==table.ResultId),
                 resultDate = table.ResultDate,
@@ -192,15 +231,7 @@ namespace Tipstaff.Presenters
 
             return model;
         }
-
-        public IEnumerable<ChildAbduction> GetAllActiveChildAbductions()
-        {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(w => w.CaseStatusId == 1 || w.CaseStatusId == 2).OrderByDescending(w=>w.CreatedOn);
-
-            var cas = records.Select(x => GetModel(x));
-
-            return cas;
-        }
+        
 
         public IEnumerable<ChildAbduction> GetAllClosedChildAbductions(DateTime start, DateTime end)
         {
@@ -209,6 +240,11 @@ namespace Tipstaff.Presenters
             var cas = records.Select(x => GetModel(x));
 
             return cas;
+        }
+
+        public IEnumerable<ChildAbduction> GetAllActiveChildAbductions()
+        {
+            throw new NotImplementedException();
         }
     }
 }

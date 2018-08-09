@@ -77,6 +77,7 @@ namespace Tipstaff.Presenters
             var firm = _solicitorFirmRepository.GetSolicitorFirm(table.SolicitorFirmID);
 
             var solicitorFirmMdl = new SolicitorFirm();
+
             if (firm != null)
             {
                 solicitorFirmMdl.active = firm.Active;

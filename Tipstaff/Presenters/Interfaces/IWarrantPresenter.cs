@@ -6,10 +6,8 @@ namespace Tipstaff.Presenters
 {
     public interface IWarrantPresenter
     {
-        Warrant GetWarrant(string id);
-
-        Warrant GetWarrantDetails(string id);
-
+        Warrant GetWarrant(string id, LazyLoader loader = null);
+        
         void RemoveWarrant(Warrant warrant);
         
         void AddWarrant(Warrant warrant);

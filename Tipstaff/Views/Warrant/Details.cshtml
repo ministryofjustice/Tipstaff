@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = string.Format("Details for record {0}", Model.UniqueRecordID);
-    var respondent = Model.Respondents.SingleOrDefault();
+    var respondent = Model.Respondents.FirstOrDefault();
 }
 @section head
 {
@@ -40,8 +40,6 @@
 <fieldset>
     <legend>File: @Model.UniqueRecordID</legend>
 
-    @{ int count = @Model.Respondents.Count(); }
-
     @if (Model.resultID != null)
     {
         <ul class="recordMenu-tabs">
@@ -64,11 +62,11 @@
         <ul class="recordMenu-tabs">
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/phone_add.png"), "Add attendance note", "Add attendance note", "Create", "AttendanceNote", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add solicitor", "Add solictitor", "Select", "Solicitor", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
-            @if (count == 0)
+            @if (Model.RespondentsCount == 0)
             {
                 <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_add.png"), "Add Contemnor", "Add Contemnor", "Create", "Respondent", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
             }
-            else if (count == 1)
+            else if (Model.RespondentsCount == 1)
             {
                 <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_amend.png"), "Amend Contemnor", "Amend Contemnor", "Edit", "Respondent", new { id = Model.Respondents.FirstOrDefault().respondentID }, null, null, "createButton")</li>
             }
@@ -179,7 +177,7 @@
 
 
 
-    @switch (count)
+    @switch (Model.RespondentsCount)
     {
         case 0:
             <h2><img alt="Alert" src="@Url.Content("~/Images/error.png")" /> Please enter the Contemnor's details</h2>

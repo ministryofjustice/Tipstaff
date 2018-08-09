@@ -58,7 +58,7 @@ namespace Tipstaff.Models
         public IEnumerable<Address> addresses { get; set; }
         //public virtual CaseStatus caseStatus { get; set; }
         public MemoryCollections.CaseStatus caseStatus { get; set; }
-        public virtual ICollection<TipstaffPoliceForce> policeForces { get; set; }
+        public virtual IEnumerable<TipstaffPoliceForce> policeForces { get; set; }
 
         public string Discriminator { get; set; }
         
@@ -151,6 +151,8 @@ namespace Tipstaff.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Required, Display(Name = "Date Circulated")]
         public DateTime? DateCirculated { get; set; }
+
+        public int RespondentsCount { get; set; }
 
     }
     #endregion

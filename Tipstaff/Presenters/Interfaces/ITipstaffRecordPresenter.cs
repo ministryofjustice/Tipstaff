@@ -9,7 +9,7 @@ namespace Tipstaff.Presenters
 {
     public interface ITipstaffRecordPresenter
     {
-        TipstaffRecord GetTipStaffRecord(string id, bool loadNow = false);
+        TipstaffRecord GetTipStaffRecord(string id, LazyLoader loader = null);
 
         void UpdateTipstaffRecord(TipstaffRecord record);
 

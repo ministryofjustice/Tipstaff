@@ -66,7 +66,7 @@ namespace Tipstaff.Controllers
 
                 if (discriminator == "Warrant")
                 {
-                    var tr = _warrantPresenter.GetWarrant(model.CaseReview.tipstaffRecordID);
+                    var tr = _warrantPresenter.GetWarrant(model.CaseReview.tipstaffRecordID, new LazyLoader() { LoadCaseReviews =true });
                     if (model.CaseReview.caseReviewStatus.CaseReviewStatusId == 2 || model.CaseReview.caseReviewStatus.CaseReviewStatusId == 3)
                     {
                         tr.caseStatusID = model.CaseReview.caseReviewStatus.CaseReviewStatusId + 1;
@@ -158,9 +158,6 @@ namespace Tipstaff.Controllers
             OutstandingCaseReviewViewModel model = new OutstandingCaseReviewViewModel();
             DateTime WeekAway = DateTime.Today.AddDays(7);
             var tipstaffRecords = _tipstaffRecordPresenter.GetAll();
-            //////model.DueWithinWeekCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate <= WeekAway && w.nextReviewDate > DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
-            //////model.OverdueCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate < DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y=>y.tipstaffRecordID).ToList();
-            //////model.DueTodayCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate == DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
             model.DueWithinWeekCaseReviews = tipstaffRecords.Where(w => w.result == null && w.nextReviewDate <= WeekAway && w.nextReviewDate > DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
             model.OverdueCaseReviews = tipstaffRecords.Where(w => w.result == null && w.nextReviewDate < DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
             model.DueTodayCaseReviews = tipstaffRecords.Where(w => w.result == null && w.nextReviewDate == DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();

@@ -50,7 +50,7 @@ namespace Tipstaff.Controllers
         {
 
             RespondentCreationModel model = new RespondentCreationModel(id);
-            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id, new LazyLoader() { LoadRespondents = true });
 
             if (model?.tipstaffRecord?.caseStatus?.Sequence > 3)
             {

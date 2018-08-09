@@ -129,7 +129,7 @@ namespace Tipstaff.Controllers
 
             if (ModelState.IsValid)
             {
-                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(warrantID,true);
+                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(warrantID);
 
                 solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
 
@@ -171,7 +171,7 @@ namespace Tipstaff.Controllers
         public PartialViewResult ListSolicitorsByRecord(string id, int? page)
         {
             ////TipstaffRecord w = db.TipstaffRecord.Find(id);
-            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id,new LazyLoader() { LoadSolicitors = true });
             ListTipstaffRecordSolicitorByTipstaffRecord model = new ListTipstaffRecordSolicitorByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.LinkedSolicitors = w.LinkedSolicitors;
