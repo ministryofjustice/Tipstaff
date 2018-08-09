@@ -82,7 +82,9 @@ namespace Tipstaff.Presenters
             int nextId = int.Parse(record.Id) + 1;
 
             entity.Id = nextId.ToString();
-            
+
+            childabduction.tipstaffRecordID = entity.Id;
+
             _tipstaffRecordRepository.Add(entity);
         }
 
