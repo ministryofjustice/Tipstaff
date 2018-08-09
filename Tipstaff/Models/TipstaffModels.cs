@@ -154,6 +154,8 @@ namespace Tipstaff.Models
 
         public int RespondentsCount { get; set; }
 
+        public Respondent Respondent { get; set; }
+
     }
     #endregion
 

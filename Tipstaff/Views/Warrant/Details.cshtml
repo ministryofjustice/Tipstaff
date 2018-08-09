@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = string.Format("Details for record {0}", Model.UniqueRecordID);
-    var respondent = Model.Respondents.FirstOrDefault();
+    var respondent = Model.Respondent;
 }
 @section head
 {
@@ -68,7 +68,7 @@
             }
             else if (Model.RespondentsCount == 1)
             {
-                <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_amend.png"), "Amend Contemnor", "Amend Contemnor", "Edit", "Respondent", new { id = Model.Respondents.FirstOrDefault().respondentID }, null, null, "createButton")</li>
+                <li>@Html.ImageAndTextLink(Url.Content("~/Images/respondent_amend.png"), "Amend Contemnor", "Amend Contemnor", "Edit", "Respondent", new { id = Model.Respondent.respondentID }, null, null, "createButton")</li>
             }
         </ul>
         <ul class="recordMenu-tabs">

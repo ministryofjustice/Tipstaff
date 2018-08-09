@@ -126,10 +126,18 @@ namespace Tipstaff.Presenters
             var caseStatusId = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0;
             var divisionId = table.DivisionId.HasValue ? table.DivisionId.Value : 0;
 
+            IEnumerable<Respondent> respondents=null;
+            int respondentsCount = 0;
+            Respondent respondent = null;
             if (loader == null)
                 loader = new LazyLoader();
-
-            var respondents = loader.LoadRespondents ? _respondentPresenter.GetAllById(table.Id) : null;
+            if (loader.LoadRespondents)
+            {
+                respondents = _respondentPresenter.GetAllById(table.Id);
+                respondentsCount = respondents.Count();
+                respondent = respondents.FirstOrDefault();
+            }
+            
             var addresses = loader.LoadAddresses ? _addressPresenter.GetAddressesByTipstaffRecordId(table.Id) : null;
             var linkedSolicitors = loader.LoadSolicitors ? _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id) : null;
             var attendanceNotes = loader.LoadAttendanceNotes ? _attendanceNotePresenter.GetAllById(table.Id) : null;
@@ -168,7 +176,8 @@ namespace Tipstaff.Presenters
                 protectiveMarkingID = protectiveMArkingId,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == resultId),
                 resultID = resultId,
-                RespondentsCount = loader.LoadRespondents ? respondents.Count() : 0
+                RespondentsCount = respondentsCount,
+                Respondent = respondent
             };
 
             return model;
