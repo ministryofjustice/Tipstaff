@@ -172,10 +172,11 @@ namespace Tipstaff.Presenters
                 CAOrderTypeId = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == model?.caOrderType?.CAOrderTypeId)?.CAOrderTypeId,
                 Discriminator = model.Discriminator,
                 NextReviewDate = model.nextReviewDate,
-                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == model?.caseStatus?.CaseStatusId)?.CaseStatusId,
+                CaseStatusId = (model.caseStatus!=null) ? model.caseStatus.CaseStatusId : model.caseStatusID,
                 CreatedBy = model.createdBy,
                 CreatedOn = model.createdOn,
                 NPO = model.NPO,
+                ResultId = model.resultID,
                 ProtectiveMarkingId = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == model?.protectiveMarking?.ProtectiveMarkingId)?.ProtectiveMarkingId
             };
 

@@ -369,6 +369,7 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.RespondentName = entity.RespondentName;
             entity.CaseNumber = entity.CaseNumber;
             entity.DivisionId = entity.DivisionId;
+            
             _dynamoAPI.Save(entity);
         }
 

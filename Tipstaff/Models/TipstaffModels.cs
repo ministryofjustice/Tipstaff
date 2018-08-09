@@ -45,6 +45,8 @@ namespace Tipstaff.Models
         [Required, Display(Name = "Current case status")]
         public int caseStatusID { get; set; }
         
+        public int CAOrderTypeId { get; set; }
+
         public MemoryCollections.ProtectiveMarkings protectiveMarking { get; set; }
         
         public MemoryCollections.Result result { get; set; }
