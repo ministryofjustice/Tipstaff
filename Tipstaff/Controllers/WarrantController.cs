@@ -8,6 +8,7 @@ using PagedList;
 
 using Tipstaff.Models;
 using Tipstaff.Presenters;
+using System.Collections.Generic;
 
 namespace Tipstaff.Controllers
 {
@@ -275,8 +276,18 @@ namespace Tipstaff.Controllers
         public ActionResult EnterResult(string id)
         {
             TipstaffRecordResolutionModel model = new TipstaffRecordResolutionModel();
-            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id, new LazyLoader() { LoadRespondents = true });
             model.tipstaffRecordID = id;
+
+            int respCount = model.tipstaffRecord.Respondents.Count();
+
+            Dictionary<int, string> resp = new Dictionary<int, string>();
+            for (int i = 0; i <= respCount; i++)
+            {
+                resp.Add(i, i.ToString());
+            }
+            model.prisonDict = resp;
+            model.arrestDict = resp;
 
             if (model.tipstaffRecord.caseStatusID > 2 && model.tipstaffRecord.resultID != null)
             {

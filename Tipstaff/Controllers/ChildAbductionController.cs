@@ -255,7 +255,7 @@ namespace Tipstaff.Controllers
         public ActionResult EnterResult(string id)
         {
             TipstaffRecordResolutionModel model = new TipstaffRecordResolutionModel();
-            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id,new LazyLoader() { LoadRespondents = true });
             model.tipstaffRecordID = id;
 
 
