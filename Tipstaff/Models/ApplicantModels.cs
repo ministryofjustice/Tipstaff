@@ -50,7 +50,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                return string.Format("{0} {1} {2}", salutation.Detail ?? "", nameFirst, nameLast);
+                return string.Format("{0} {1} {2}", salutation?.Detail ?? "", nameFirst, nameLast);
             }
         }
 

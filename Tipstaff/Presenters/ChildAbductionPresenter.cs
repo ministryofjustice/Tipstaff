@@ -105,7 +105,7 @@ namespace Tipstaff.Presenters
         {
             var conditions = new Dictionary<string, object>();
             conditions.Add("Discriminator", "ChildAbduction");
-            conditions.Add("CaseStatusId", 1);
+            //conditions.Add("CaseStatusId", 1);
             var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
             var childAbductions = records.Select(x=> GetModel(x,new LazyLoader() { LoadRespondents = true,LoadChildren =true }));
 
@@ -228,8 +228,11 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<ChildAbduction> GetAllClosedChildAbductions(DateTime start, DateTime end)
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(c => c.CaseStatusId == 3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
-
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "ChildAbduction");
+            conditions.Add("CaseStatusId", 3);
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            var recordswithFilter = records.Where(c => c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
             var cas = records.Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
 
             return cas;

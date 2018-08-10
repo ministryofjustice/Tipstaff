@@ -87,7 +87,6 @@ namespace Tipstaff.Presenters
                 skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(table.SkinColour),
                 specialfeatures = table.Specialfeatures,
                 tipstaffRecordID = table.TipstaffRecordID.ToString(),
-                
             };
 
             return model;

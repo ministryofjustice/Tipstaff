@@ -25,8 +25,14 @@ namespace Tipstaff.Controllers
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly IS3API _s3API;
         private readonly ICloudWatchLogger _logger;
+        private readonly IChildPresenter _childPresenter;
 
-        public TemplateController(ICloudWatchLogger logger, IS3API s3api, ITemplatePresenter templatePresenter, ITipstaffRecordPresenter tipstaffPResenter, IWarrantPresenter warrantPresenter, IApplicantPresenter applicantPresenter, ISolicitorPresenter solicitorPresenter)
+        public TemplateController(ICloudWatchLogger logger, IS3API s3api, ITemplatePresenter templatePresenter, 
+            ITipstaffRecordPresenter tipstaffPResenter, 
+            IWarrantPresenter warrantPresenter, 
+            IApplicantPresenter applicantPresenter,
+            ISolicitorPresenter solicitorPresenter, 
+            IChildPresenter childPresenter)
         {
             _logger = logger;
             _s3API = s3api;
@@ -35,6 +41,7 @@ namespace Tipstaff.Controllers
             _warrantPresenter = warrantPresenter;
             _applicantPresenter = applicantPresenter;
             _solicitorPresenter = solicitorPresenter;
+            _childPresenter = childPresenter;
         }
         //
         // GET: /Template/
@@ -115,7 +122,7 @@ namespace Tipstaff.Controllers
             try
             {
                 //Get TipstaffRecord from warrantID
-                TipstaffRecord tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);
+                TipstaffRecord tipstaffRecord = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID,new LazyLoader() { LoadAddresses = true, LoadRespondents = true, LoadChildren = true });
 
 
                 if (tipstaffRecord.caseStatus.Detail == "File Closed" || tipstaffRecord.caseStatus.Detail == "File Archived")
@@ -601,6 +608,7 @@ namespace Tipstaff.Controllers
             {
                 ////ChildAbduction ca = (ChildAbduction)tipstaffRecord;
                 ChildAbduction ca = _tipstaffPresenter.GetChildAbduction(tipstaffRecord.tipstaffRecordID);
+                ca.children = _childPresenter.GetAllChildrenByTipstaffRecordID(tipstaffRecord.tipstaffRecordID);
                 PropertyInfo[] properties = typeof(ChildAbduction).GetProperties();
 
                 foreach (PropertyInfo property in properties)
@@ -668,7 +676,7 @@ namespace Tipstaff.Controllers
             }
             else if (template.Discriminator == "Warrant")
             {
-                Warrant warrant = _warrantPresenter.GetWarrant(tipstaffRecord.tipstaffRecordID); 
+                Warrant warrant = _warrantPresenter.GetWarrant(tipstaffRecord.tipstaffRecordID,new LazyLoader() {LoadRespondents = true }); 
                 //Warrant warrant = (Warrant) tipstaffRecord;
                 //result = result.Replace("||DIVISION||", warrant.division.Detail);
                 PropertyInfo[] properties = typeof(Warrant).GetProperties();

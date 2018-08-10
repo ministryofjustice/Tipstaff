@@ -45,7 +45,7 @@ namespace Tipstaff.Tests.Integration
             templateIndex = Guid.NewGuid();
             trIndex = Guid.NewGuid();
             _sub = new TemplatesController(_templatePresenter, _s3Repository, _guidGenerator.Object, _cloudWatchLogger.Object);
-            _subMain = new Controllers.TemplateController(_cloudWatchLogger.Object, _s3Repository, _templatePresenter, _tipstaffRecordPresenter, _warrantPresenter, _applicantPresenter, _solicitorPresenter);
+            _subMain = new Controllers.TemplateController(_cloudWatchLogger.Object, _s3Repository, _templatePresenter, _tipstaffRecordPresenter, _warrantPresenter, _applicantPresenter, _solicitorPresenter, _childPresenter);
         }
 
         [Test]

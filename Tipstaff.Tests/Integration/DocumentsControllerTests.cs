@@ -36,7 +36,7 @@ namespace Tipstaff.Tests.Integration
             docIndex = Guid.NewGuid();
             _sub = new DocumentController(_cloudWatchLogger.Object, _s3Repository, 
                 _docPresenter, _tipstaffRecordPresenter, _templatePresenter,
-                _guidGenerator.Object);
+                _guidGenerator.Object,_applicantPresenter);
         }
 
         [Test]
