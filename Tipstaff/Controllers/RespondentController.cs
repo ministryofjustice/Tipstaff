@@ -50,7 +50,7 @@ namespace Tipstaff.Controllers
         {
 
             RespondentCreationModel model = new RespondentCreationModel(id);
-            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id, new LazyLoader() { LoadRespondents = true });
 
             if (model?.tipstaffRecord?.caseStatus?.Sequence > 3)
             {
@@ -205,7 +205,7 @@ namespace Tipstaff.Controllers
             try
             {
                 //////ChildAbduction ca = db.ChildAbductions.Find(id);
-                var ca = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+                var ca = _tipstaffRecordPresenter.GetTipStaffRecord(id, new LazyLoader() { LoadRespondents = true });
                 model.tipstaffRecordID = ca.tipstaffRecordID;
                 model.Respondents = ca.Respondents.ToXPagedList<Respondent>(page ?? 1, 8);
             }

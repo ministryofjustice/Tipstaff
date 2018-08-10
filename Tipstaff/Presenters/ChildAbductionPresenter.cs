@@ -8,7 +8,20 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class ChildAbductionPresenter : IChildAbductionPresenter, IMapper<ChildAbduction, Services.DynamoTables.TipstaffRecord>
+    public class LazyLoader
+    {
+        public bool LoadCaseReviews { get; set; }
+        public bool LoadAddresses { get; set; }
+        public bool LoadRespondents { get; set; }
+        public bool LoadSolicitors { get; set; }
+        public bool LoadAttendanceNotes { get; set; }
+        public bool LoadDocuments { get; set; }
+        public bool LoadApplicants { get; set; }
+        public bool LoadChildren { get; set; }
+        public bool LoadPoliceForces { get; set; }
+    }
+        
+    public class ChildAbductionPresenter : IChildAbductionPresenter
     {
         private readonly ITipstaffRecordRepository _tipstaffRecordRepository;
         private readonly IDeletedTipstaffRecordRepository _deletedTipstaffRecordRepository;
@@ -58,11 +71,17 @@ namespace Tipstaff.Presenters
 
         public void AddTipstaffRecord(ChildAbduction childabduction)
         {
-            var entity = GetDynamoTable(childabduction);
+           var entity = GetDynamoTable(childabduction);
 
-            var count = _tipstaffRecordRepository.GetAll().Count();
+            var records = _tipstaffRecordRepository.GetAll();
 
-            entity.Id = $"{count++}";
+            var orderedRecords = records.OrderByDescending(x => int.Parse(x.Id));
+
+            var record = orderedRecords.First();
+
+            int nextId = int.Parse(record.Id) + 1;
+
+            entity.Id = nextId.ToString();
 
             childabduction.tipstaffRecordID = entity.Id;
 
@@ -86,29 +105,31 @@ namespace Tipstaff.Presenters
         {
             var conditions = new Dictionary<string, object>();
             conditions.Add("Discriminator", "ChildAbduction");
+            //conditions.Add("CaseStatusId", 1);
             var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-            var childAbductions = records.Select(x=> GetModel(x));
+            var childAbductions = records.Select(x=> GetModel(x,new LazyLoader() { LoadRespondents = true,LoadChildren =true }));
 
             return childAbductions;
         }
-
-        public IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions()
-        {
-            var conditions = new Dictionary<string, object>();
-            conditions.Add("Discriminator", "ChildAbduction");
-            conditions.Add("CaseStatusId", 1);
-            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-            var childAbductions = records.Select(x => GetModel(x));
-
-            return childAbductions;
-        }
-
+        
 
         public ChildAbduction GetChildAbduction(string id)
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
 
-            var childAbduction = GetModel(record);
+            var lazyLoader = new LazyLoader()
+            {
+                LoadAddresses = true,
+                LoadApplicants = true,
+                LoadAttendanceNotes = true,
+                LoadCaseReviews = true,
+                LoadChildren = true,
+                LoadDocuments = true,
+                LoadRespondents = true,
+                LoadSolicitors = true
+            };
+
+            var childAbduction = GetModel(record, lazyLoader);
 
             return childAbduction;
         }
@@ -137,21 +158,34 @@ namespace Tipstaff.Presenters
                 OrderDated = model.orderDated,
                 OrderReceived = model.orderReceived,
                 EldestChild = model.EldestChild,
-                CAOrderTypeId = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == model?.caOrderType?.CAOrderTypeId)?.CAOrderTypeId,
+                CAOrderTypeId = (model.caOrderType != null) ? model.caOrderType.CAOrderTypeId : model.CAOrderTypeId,
                 Discriminator = model.Discriminator,
                 NextReviewDate = model.nextReviewDate,
-                CaseStatusId = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x=>x.CaseStatusId == model?.caseStatus?.CaseStatusId)?.CaseStatusId,
+                CaseStatusId = (model.caseStatus!=null) ? model.caseStatus.CaseStatusId : model.caseStatusID,
                 CreatedBy = model.createdBy,
                 CreatedOn = model.createdOn,
                 NPO = model.NPO,
-                ProtectiveMarkingId = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == model?.protectiveMarking?.ProtectiveMarkingId)?.ProtectiveMarkingId
+                ResultId = model.resultID,
+                ProtectiveMarkingId = (model.protectiveMarking != null) ? model.protectiveMarking.ProtectiveMarkingId : model.protectiveMarkingID,
             };
 
             return record;
         }
 
-        public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table)
+        public Models.ChildAbduction GetModel(Services.DynamoTables.TipstaffRecord table, LazyLoader loader=null)
         {
+            if (loader == null)
+                loader = new LazyLoader();
+
+            var Respondents = loader.LoadRespondents ? _respondentPresenter.GetAllById(table.Id) : null;
+            var children = loader.LoadChildren ? _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id) : null;
+            var caseReviews = loader.LoadCaseReviews ? _caseReviewsPresenter.GetAllById(table.Id) : null;
+            var addresses = loader.LoadAddresses ? _addressPresenter.GetAddressesByTipstaffRecordId(table.Id) : null;
+            var applicants = loader.LoadAddresses ? _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id) : null;
+            var linkedSolicitors = loader.LoadSolicitors ? _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id) : null;
+            var attendanceNotes = loader.LoadAttendanceNotes ? _attendanceNotePresenter.GetAllById(table.Id) : null;
+            var documents = loader.LoadDocuments ? _documentPresenter.GetAllDocumentsByTipstaffRecordID(table.Id) : null;
+
             var model = new Models.ChildAbduction()
             {
                 sentSCD26 = table.SentSCD26,
@@ -166,17 +200,14 @@ namespace Tipstaff.Presenters
                 caseStatusID = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0,
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
-                
-                Respondents = _respondentPresenter.GetAllById(table.Id),
-                children = _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id),
-                //PERF
-                caseReviews = _caseReviewsPresenter.GetAllById(table.Id),
-                addresses = _addressPresenter.GetAddressesByTipstaffRecordId(table.Id),
-                Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id),
-                LinkedSolicitors = _solicitorPresenter.GetTipstaffRecordSolicitors(table.Id),
-                AttendanceNotes = _attendanceNotePresenter.GetAllById(table.Id),
-                Documents = _documentPresenter.GetAllDocumentsByTipstaffRecordID(table.Id),
-                //END PERF
+                Respondents = Respondents,
+                children = children,
+                caseReviews = caseReviews,
+                addresses = addresses,
+                Applicants = applicants,
+                LinkedSolicitors = linkedSolicitors,
+                AttendanceNotes = attendanceNotes,
+                Documents = documents,
                 NPO = table.NPO,
                 result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x=>x.ResultId==table.ResultId),
                 resultDate = table.ResultDate,
@@ -186,29 +217,26 @@ namespace Tipstaff.Presenters
                 nextReviewDate = table.NextReviewDate,
                 prisonCount = table.PrisonCount,
                 protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=>x.ProtectiveMarkingId==table.ProtectiveMarkingId),
-                protectiveMarkingID = table.ProtectiveMarkingId.HasValue?table.ProtectiveMarkingId.Value:0,
+                protectiveMarkingID = table.ProtectiveMarkingId.HasValue ? table.ProtectiveMarkingId.Value:0,
+                CAOrderTypeId = table.CAOrderTypeId.HasValue ? table.CAOrderTypeId.Value :0,
                 resultID = table.ResultId
             };
 
             return model;
         }
-
-        public IEnumerable<ChildAbduction> GetAllActiveChildAbductions()
-        {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(w => w.CaseStatusId == 1 || w.CaseStatusId == 2).OrderByDescending(w=>w.CreatedOn);
-
-            var cas = records.Select(x => GetModel(x));
-
-            return cas;
-        }
+        
 
         public IEnumerable<ChildAbduction> GetAllClosedChildAbductions(DateTime start, DateTime end)
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(c => c.CaseStatusId == 3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
-
-            var cas = records.Select(x => GetModel(x));
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "ChildAbduction");
+            conditions.Add("CaseStatusId", 3);
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            var recordswithFilter = records.Where(c => c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
+            var cas = records.Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
 
             return cas;
         }
+        
     }
 }

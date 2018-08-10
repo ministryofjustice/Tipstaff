@@ -70,9 +70,6 @@
         @Html.SortHeader(Model, "orderRecd", "Date Order received", token)
         @Html.SortHeader(Model, "officer", "Officer Dealing", token)
         @Html.SortHeader(Model, "orderType", "Order Type", token)
-        @Html.SortHeader(Model, "eldestChild", "Surname of eldest child", token)
-        @Html.SortHeader(Model, "respCount", "Respondents", token)
-        @*@Html.SortHeader(Model, "created", "Created")*@ 
         @Html.SortHeader(Model, "protMark", "Protective Marking", token)
         @Html.SortHeader(Model, "caseStatus", "Current case status", token)
         @Html.SortHeader(Model, "result", "Result", token)
@@ -106,13 +103,6 @@
         <td>@Html.DisplayFor(modelItem => item.orderReceived)</td>
         <td>@Html.DisplayFor(modelItem => item.officerDealing)</td>
         <td>@Html.DisplayFor(modelItem => item.caOrderType.Detail)</td>
-        <td>@if (item.children!=null || item.children.Count() > 0)
-            { 
-            @item.EldestChild
-            }
-        </td>
-        <td>@item.Respondents.Count()</td>
-        @*<td>@Html.DisplayFor(modelItem => item.createdBy) on @item.createdOn.ToShortDateString()</td>*@
         <td>@Html.DisplayFor(modelItem => item.protectiveMarking.Detail)</td>
         <td>@Html.DisplayFor(modelItem => item.caseStatus.Detail)</td> 
         @if (item.resultID == null)

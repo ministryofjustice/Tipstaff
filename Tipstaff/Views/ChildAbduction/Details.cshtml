@@ -26,7 +26,7 @@
         { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
     </ul>    
 }
-else if (Model.resultID == null && Model.caseStatus!=null &&  Model.caseStatus.Sequence > 3)
+else if (Model.resultID == null &&  Model.caseStatus.Sequence > 3)
 {
     <ul class="recordMenu-tabs">
         <li>@Html.ImageAndTextLink(Url.Content("~/Images/stop.png"), "Enter result and close case", "Enter result and close case", "EnterResult", "ChildAbduction", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
@@ -34,7 +34,7 @@ else if (Model.resultID == null && Model.caseStatus!=null &&  Model.caseStatus.S
         { <li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "ChildAbduction", id = Model.tipstaffRecordID }, null, null, "createButton")</li> }
     </ul>    
 }
-else if (Model.resultID == null && Model.caseStatus != null && Model.caseStatus.Sequence <= 3)
+else if (Model.resultID == null &&  Model.caseStatus.Sequence <= 3)
 {
     <ul class="recordMenu-tabs">
         <li>@Html.ImageAndTextLink(Url.Content("~/Images/phone_add.png"), "Add attendance note", "Add attendance note", "Create", "AttendanceNote", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>

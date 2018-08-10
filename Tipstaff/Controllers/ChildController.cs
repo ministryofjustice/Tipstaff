@@ -69,7 +69,7 @@ namespace Tipstaff.Controllers
         public ActionResult Create(string id, bool initial=false)
         {
             ChildCreationModel model = new ChildCreationModel();
-            model.tipstaffRecord = _childPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecord = _childPresenter.GetTipstaffRecord(id, new LazyLoader() { LoadChildren  = true });
             model.tipstaffRecordID = id;
             model.initial = initial;
 

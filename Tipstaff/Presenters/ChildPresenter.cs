@@ -50,9 +50,9 @@ namespace Tipstaff.Presenters
             _childRepository.Delete(entity);
         }
 
-        public Models.TipstaffRecord GetTipstaffRecord(string id)
+        public Models.TipstaffRecord GetTipstaffRecord(string id, LazyLoader loader = null)
         {
-            var tipstaff = _tipstaffPresenter.GetTipStaffRecord(id);
+            var tipstaff = _tipstaffPresenter.GetTipStaffRecord(id,loader);
 
             return tipstaff;
         }
@@ -87,7 +87,6 @@ namespace Tipstaff.Presenters
                 skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(table.SkinColour),
                 specialfeatures = table.Specialfeatures,
                 tipstaffRecordID = table.TipstaffRecordID.ToString(),
-                
             };
 
             return model;

@@ -142,13 +142,12 @@ namespace Tipstaff.Controllers
         public PartialViewResult ListAddressesByRecord(string id, int? page)
         {
             //////TipstaffRecord w = db.TipstaffRecord.Find(id);
-            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);;
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id, new LazyLoader() { LoadAddresses = true });;
 
             ListAddressesByTipstaffRecord model = new ListAddressesByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.TipstaffRecordClosed = w.caseStatusID > 2;
             model.Addresses = w.addresses.ToXPagedList<Address>(page ?? 1, 8);
-            //model.Addresses = w.addresses.ToPagedList<Address>(page ?? 1, 8);
             return PartialView("_ListAddressesByRecord", model);
         }
 

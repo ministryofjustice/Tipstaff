@@ -45,6 +45,8 @@ namespace Tipstaff.Models
         [Required, Display(Name = "Current case status")]
         public int caseStatusID { get; set; }
         
+        public int CAOrderTypeId { get; set; }
+
         public MemoryCollections.ProtectiveMarkings protectiveMarking { get; set; }
         
         public MemoryCollections.Result result { get; set; }
@@ -58,7 +60,7 @@ namespace Tipstaff.Models
         public IEnumerable<Address> addresses { get; set; }
         //public virtual CaseStatus caseStatus { get; set; }
         public MemoryCollections.CaseStatus caseStatus { get; set; }
-        public virtual ICollection<TipstaffPoliceForce> policeForces { get; set; }
+        public virtual IEnumerable<TipstaffPoliceForce> policeForces { get; set; }
 
         public string Discriminator { get; set; }
         
@@ -151,6 +153,10 @@ namespace Tipstaff.Models
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Required, Display(Name = "Date Circulated")]
         public DateTime? DateCirculated { get; set; }
+
+        public int RespondentsCount { get; set; }
+
+        public Respondent Respondent { get; set; }
 
     }
     #endregion
@@ -249,7 +255,7 @@ namespace Tipstaff.Models
     public class ListPNCIDsNPO
     {
         public TipstaffNPO npo { get; set; }
-        public ICollection<Child> children { get; set; }
+        public IEnumerable<Child> children { get; set; }
         public ICollection<Respondent> Respondents { get; set; }
     }
 

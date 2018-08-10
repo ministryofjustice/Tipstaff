@@ -25,8 +25,9 @@ namespace Tipstaff.Controllers
         private readonly IGuidGenerator _guidGenerator;
         private readonly ITipstaffRecordPresenter _tipstaffPresenter;
         private readonly ITemplatePresenter _templatePresenter;
+        private readonly IApplicantPresenter _applicantPresenter;
         
-        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IDocumentPresenter docPresenter, ITipstaffRecordPresenter tipstaffPresenter, ITemplatePresenter templatePresenter, IGuidGenerator guidGenerator)
+        public DocumentController(ICloudWatchLogger logger, IS3API s3api, IDocumentPresenter docPresenter, ITipstaffRecordPresenter tipstaffPresenter, ITemplatePresenter templatePresenter, IGuidGenerator guidGenerator, IApplicantPresenter applicantPresenter)
         {
             _logger = logger;
             _docPresenter = docPresenter;
@@ -34,11 +35,12 @@ namespace Tipstaff.Controllers
             _guidGenerator = guidGenerator;
             _tipstaffPresenter = tipstaffPresenter;
             _templatePresenter = templatePresenter;
+            _applicantPresenter = applicantPresenter;
         }
 
         public ActionResult ChooseAddressee(string tipstaffRecordID, string templateID)
         {
-            TipstaffRecord tr = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID);
+            TipstaffRecord tr = _tipstaffPresenter.GetTipStaffRecord(tipstaffRecordID, new LazyLoader() { LoadDocuments = true });
             if (tr.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = tr.UniqueRecordID;
@@ -56,7 +58,7 @@ namespace Tipstaff.Controllers
                 {
                     //////model.Applicants = ((ChildAbduction)tr).Applicants;
                     var ca = _tipstaffPresenter.GetChildAbduction(tr.tipstaffRecordID);
-                    model.Applicants = ca.Applicants;
+                    model.Applicants = _applicantPresenter.GetAllApplicantsByTipstaffRecordID(tr.tipstaffRecordID);
                 }
                 return View(model);
             }

@@ -11,7 +11,7 @@ namespace Tipstaff.Presenters
     {
         Child GetChild(string id);
 
-        TipstaffRecord GetTipstaffRecord(string id);
+        TipstaffRecord GetTipstaffRecord(string id, LazyLoader loader = null);
 
         IEnumerable<Child> GetAllChildrenByTipstaffRecordID(string id);
 

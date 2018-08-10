@@ -10,9 +10,7 @@ namespace Tipstaff.Presenters
     public interface IChildAbductionPresenter
     {
         IEnumerable<ChildAbduction> GetAllChildAbductions();
-
-        IEnumerable<ChildAbduction> GetAllActiveChildAbductions();
-
+        
         ChildAbduction GetChildAbduction(string id);
 
         void RemoveChildAbduction(ChildAbduction childAbduction);

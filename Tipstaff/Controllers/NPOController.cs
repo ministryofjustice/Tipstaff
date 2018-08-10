@@ -94,7 +94,7 @@ namespace Tipstaff.Controllers
         public PartialViewResult ListPNCIDAndNPOByRecord(string id)
         {
             //TipstaffRecord w = db.TipstaffRecord.Find(id);
-            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+            TipstaffRecord w = _tipstaffRecordPresenter.GetTipStaffRecord(id, new LazyLoader() { LoadRespondents = true});
             ListPNCIDsNPO model = new ListPNCIDsNPO();
             model.npo = new TipstaffNPO();
             model.npo.tipstaffRecordID = w.tipstaffRecordID;
@@ -103,7 +103,9 @@ namespace Tipstaff.Controllers
             if (genericFunctions.TypeOfTipstaffRecord(id) != "Warrant")
             {
                 /// model.children = db.Children.Where(c => c.tipstaffRecordID == id && c.PNCID != null).ToList();
-                model.children = _childPresenter.GetAllChildren().Where(c => c.tipstaffRecordID == id && c.PNCID != null).ToList();
+                var children = _childPresenter.GetAllChildrenByTipstaffRecordID(id).ToList();
+                model.children = children.Where(c=>c.PNCID != null);
+
             }
             return PartialView("_ListPNCIDAndNPOByRecord", model);
         }

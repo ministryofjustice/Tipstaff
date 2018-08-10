@@ -58,7 +58,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                return string.Format("{0}, {1} {2}", lastName.ToUpper(), salutation.Detail ?? "", firstName).Replace("  ", " ");
+                return string.Format("{0}, {1} {2}", lastName.ToUpper(), salutation?.Detail ?? "", firstName).Replace("  ", " ");
             }
         }
         [Display(Name = "Name")]
@@ -66,7 +66,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                return string.Join(" ", salutation.Detail ?? "", firstName, lastName);
+                return string.Join(" ", salutation?.Detail ?? "", firstName, lastName);
             }
         }
 
