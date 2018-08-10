@@ -255,7 +255,7 @@ namespace Tipstaff.Models
     public class ListPNCIDsNPO
     {
         public TipstaffNPO npo { get; set; }
-        public ICollection<Child> children { get; set; }
+        public IEnumerable<Child> children { get; set; }
         public ICollection<Respondent> Respondents { get; set; }
     }
 

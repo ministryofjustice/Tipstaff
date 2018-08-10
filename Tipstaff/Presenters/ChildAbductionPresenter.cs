@@ -169,7 +169,7 @@ namespace Tipstaff.Presenters
                 OrderDated = model.orderDated,
                 OrderReceived = model.orderReceived,
                 EldestChild = model.EldestChild,
-                CAOrderTypeId = MemoryCollections.CaOrderTypeList.GetOrderTypeList().FirstOrDefault(x => x.CAOrderTypeId == model?.caOrderType?.CAOrderTypeId)?.CAOrderTypeId,
+                CAOrderTypeId = (model.caOrderType != null) ? model.caOrderType.CAOrderTypeId : model.CAOrderTypeId,
                 Discriminator = model.Discriminator,
                 NextReviewDate = model.nextReviewDate,
                 CaseStatusId = (model.caseStatus!=null) ? model.caseStatus.CaseStatusId : model.caseStatusID,
@@ -177,7 +177,7 @@ namespace Tipstaff.Presenters
                 CreatedOn = model.createdOn,
                 NPO = model.NPO,
                 ResultId = model.resultID,
-                ProtectiveMarkingId = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == model?.protectiveMarking?.ProtectiveMarkingId)?.ProtectiveMarkingId
+                ProtectiveMarkingId = (model.protectiveMarking != null) ? model.protectiveMarking.ProtectiveMarkingId : model.protectiveMarkingID,
             };
 
             return record;
@@ -228,7 +228,8 @@ namespace Tipstaff.Presenters
                 nextReviewDate = table.NextReviewDate,
                 prisonCount = table.PrisonCount,
                 protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x=>x.ProtectiveMarkingId==table.ProtectiveMarkingId),
-                protectiveMarkingID = table.ProtectiveMarkingId.HasValue?table.ProtectiveMarkingId.Value:0,
+                protectiveMarkingID = table.ProtectiveMarkingId.HasValue ? table.ProtectiveMarkingId.Value:0,
+                CAOrderTypeId = table.CAOrderTypeId.HasValue ? table.CAOrderTypeId.Value :0,
                 resultID = table.ResultId
             };
 

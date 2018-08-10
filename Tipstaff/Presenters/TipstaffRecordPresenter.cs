@@ -61,7 +61,7 @@ namespace Tipstaff.Presenters
                 resultDate = table.ResultDate,
                 tipstaffRecordID = table.Id,
                 resultEnteredBy = table.ResultEnteredBy,
-
+               
                 addresses = addresses,
                 LinkedSolicitors = linkedSolicitors,
                 caseReviews = caseReviews,
@@ -94,26 +94,29 @@ namespace Tipstaff.Presenters
         public ChildAbduction GetChildAbduction(string id)
         {
             var record = _tipstaffRecordRepository.GetEntityByHashKey(id);
-
-            var childAbduction = new ChildAbduction()
+            if (record != null)
             {
-                arrestCount = record.ArrestCount,
-                createdBy = record.CreatedBy,
-                createdOn = record.CreatedOn,
-                nextReviewDate = record.NextReviewDate,
-                NPO = record.NPO,
-                DateExecuted = record.DateExecuted,
-                prisonCount = record.PrisonCount,
-                resultDate = record.ResultDate,
-                tipstaffRecordID = record.Id,
-                resultEnteredBy = record.ResultEnteredBy,
-                Discriminator = record.Discriminator,
-                result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == record.ResultId),
-                caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == record.CaseStatusId),
-                protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == record.ProtectiveMarkingId)
-            };
+                var childAbduction = new ChildAbduction()
+                {
+                    arrestCount = record.ArrestCount,
+                    createdBy = record.CreatedBy,
+                    createdOn = record.CreatedOn,
+                    nextReviewDate = record.NextReviewDate,
+                    NPO = record.NPO,
+                    DateExecuted = record.DateExecuted,
+                    prisonCount = record.PrisonCount,
+                    resultDate = record.ResultDate,
+                    tipstaffRecordID = record.Id,
+                    resultEnteredBy = record.ResultEnteredBy,
+                    Discriminator = record.Discriminator,
+                    result = MemoryCollections.ResultsList.GetResultList().FirstOrDefault(x => x.ResultId == record.ResultId),
+                    caseStatus = MemoryCollections.CaseStatusList.GetCaseStatusList().FirstOrDefault(x => x.CaseStatusId == record.CaseStatusId),
+                    protectiveMarking = MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().FirstOrDefault(x => x.ProtectiveMarkingId == record.ProtectiveMarkingId)
+                };
 
-            return childAbduction;
+                return childAbduction;
+            }
+            return null;
         }
 
         public void UpdateTipstaffRecord(Models.TipstaffRecord record)
