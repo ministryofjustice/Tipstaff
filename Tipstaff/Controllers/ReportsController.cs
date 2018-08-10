@@ -347,7 +347,7 @@ namespace Tipstaff.Controllers
         private List<CAReportItem> GetActiveChildAbductions()
         {
             List<CAReportItem> results = new List<CAReportItem>();
-            var childAbductions = _childAbductionPresenter.GetAllActiveChildAbductions();
+            var childAbductions = _childAbductionPresenter.GetAllChildAbductions();
 
             foreach (ChildAbduction c in childAbductions)
             {

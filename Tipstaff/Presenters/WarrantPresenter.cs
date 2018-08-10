@@ -68,9 +68,11 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Warrant> GetAllActiveWarrants()
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant").Where(w => w.CaseStatusId == 1 || w.CaseStatusId == 2).OrderByDescending(w => w.CreatedOn);
-
-            var warrants = records.Select(x => GetModel(x));
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "Warrant");
+            conditions.Add("CaseStatusId", 1);
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            var warrants = records.Select(x => GetModel(x, new LazyLoader() { LoadRespondents=true }));
 
             return warrants;
         }
@@ -194,7 +196,7 @@ namespace Tipstaff.Presenters
         {
             var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant").Where(c => c.CaseStatusId == 3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
 
-            var warrants = records.Select(x => GetModel(x));
+            var warrants = records.Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true }));
 
             return warrants;
         }

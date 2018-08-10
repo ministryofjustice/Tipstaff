@@ -105,24 +105,13 @@ namespace Tipstaff.Presenters
         {
             var conditions = new Dictionary<string, object>();
             conditions.Add("Discriminator", "ChildAbduction");
+            conditions.Add("CaseStatusId", 1);
             var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-            var childAbductions = records.Select(x=> GetModel(x));
+            var childAbductions = records.Select(x=> GetModel(x,new LazyLoader() { LoadRespondents = true,LoadChildren =true }));
 
             return childAbductions;
         }
         
-
-        public IEnumerable<ChildAbduction> GetAllChildAbductionsWithConditions()
-        {
-            var conditions = new Dictionary<string, object>();
-            conditions.Add("Discriminator", "ChildAbduction");
-            conditions.Add("CaseStatusId", 1);
-            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-            var childAbductions = records.Select(x => GetModel(x));
-
-            return childAbductions;
-        }
-
 
         public ChildAbduction GetChildAbduction(string id)
         {
@@ -241,14 +230,10 @@ namespace Tipstaff.Presenters
         {
             var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "ChildAbduction").Where(c => c.CaseStatusId == 3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
 
-            var cas = records.Select(x => GetModel(x));
+            var cas = records.Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
 
             return cas;
         }
-
-        public IEnumerable<ChildAbduction> GetAllActiveChildAbductions()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
