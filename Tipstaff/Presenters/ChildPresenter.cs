@@ -103,15 +103,16 @@ namespace Tipstaff.Presenters
                 Country = model.country.Detail,
                 DateOfBirth = model.dateOfBirth,
                 EyeColour = model.eyeColour,
-                Gender = model.gender.Detail,
+                Gender = model.gender?.Detail,
                 HairColour = model.hairColour,
                 Height = model.height,
                 NameFirst = model.nameFirst,
                 NameLast = model.nameLast,
                 NameMiddle = model.nameMiddle,
-                Nationality = MemoryCollections.NationalityList.GetNationalityList().FirstOrDefault(x=>x.Detail == model.nationality.Detail)?.Detail,
+                Nationality = model.nationality?.Detail,
                 PNCID = model.PNCID,
                 SkinColour = model.skinColour?.Detail,
+                
                 
             };
 

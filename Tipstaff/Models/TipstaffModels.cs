@@ -77,7 +77,7 @@ namespace Tipstaff.Models
                 else
                 {
                     if((this) is Warrant) //division.Prefix; 
-                         prefix = ((Warrant)this).Division.Prefix;
+                         prefix = ((Warrant)this).Division?.Prefix;
                 }
                 //return string.Format("{0}{1}",prefix, tipstaffRecordID.ToString("D6"));
                 return string.Format("{0}{1}", prefix, tipstaffRecordID);

@@ -20,11 +20,13 @@ namespace Tipstaff.Controllers
         //private TipstaffDB db = myDBContextHelper.CurrentContext;
         private readonly IWarrantPresenter _warrantPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly IRespondentPresenter _respondentPresenter;
 
-        public WarrantController(IWarrantPresenter warrantPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
+        public WarrantController(IWarrantPresenter warrantPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, IRespondentPresenter respondentPresenter)
         {
             _warrantPresenter = warrantPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _respondentPresenter = respondentPresenter;
         }
 
         public ViewResult Index(WarrantListViewModel model)
@@ -40,17 +42,17 @@ namespace Tipstaff.Controllers
             }
             if (model.caseStatusID > -1)
             {
-                TRs = TRs.Where(w => w.caseStatus.CaseStatusId == model.caseStatusID);
+                TRs = TRs.Where(w => w.caseStatus?.CaseStatusId == model.caseStatusID);
 
             }
             if (model.divisionID > -1)
             {
-                TRs = TRs.Where(w => w.Division.DivisionId == model.divisionID);
+                TRs = TRs.Where(w => w.Division?.DivisionId == model.divisionID);
 
             }
             if (!string.IsNullOrEmpty(model.caseNumberContains))
             {
-                TRs = TRs.Where(w => w.caseNumber.Contains(model.caseNumberContains.ToUpper()));
+                TRs = TRs.Where(w => !string.IsNullOrEmpty(w.caseNumber) && w.caseNumber.Contains(model.caseNumberContains.ToUpper()));
             }
             if (!string.IsNullOrEmpty(model.respondentNameContains))
             {
@@ -77,10 +79,10 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => a.caseNumber).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "division asc":
-                    TRs = TRs.OrderBy(a => a.Division.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderBy(a => a.Division?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "division desc":
-                    TRs = TRs.OrderByDescending(a => a.Division.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderByDescending(a => a.Division?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "reviewDate asc":
                     TRs = TRs.OrderBy(a => a.nextReviewDate).ThenBy(b => int.Parse(b.tipstaffRecordID));
@@ -101,22 +103,22 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => a.expiryDate).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "protMark asc":
-                    TRs = TRs.OrderBy(a => a.protectiveMarking.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderBy(a => a.protectiveMarking?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "protMark desc":
-                    TRs = TRs.OrderByDescending(a => a.protectiveMarking.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderByDescending(a => a.protectiveMarking?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "caseStatus asc":
-                    TRs = TRs.OrderBy(a => a.caseStatus.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderBy(a => a.caseStatus?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "caseStatus desc":
-                    TRs = TRs.OrderByDescending(a => a.caseStatus.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderByDescending(a => a.caseStatus?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "result asc":
-                    TRs = TRs.OrderBy(a => a.result.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderBy(a => a.result?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "result desc":
-                    TRs = TRs.OrderByDescending(a => a.result.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
+                    TRs = TRs.OrderByDescending(a => a.result?.Detail).ThenBy(b => int.Parse(b.tipstaffRecordID));
                     break;
                 case "resultEnter asc":
                     TRs = TRs.OrderBy(a => a.resultEnteredBy).ThenBy(b => int.Parse(b.tipstaffRecordID));
@@ -250,28 +252,23 @@ namespace Tipstaff.Controllers
 
         //
         // POST: /Warrant/Edit/5
+        [HttpPost]
+        public ActionResult Edit(Warrant warrant)
+        {
+            //warrant.division = db.Divisions.Find(warrant.divisionID);
+            warrant.Division = MemoryCollections.DivisionsList.GetDivisionByID(warrant.Division.DivisionId);
+            warrant.Respondents = _respondentPresenter.GetAllById(warrant.tipstaffRecordID);
+            if (ModelState.IsValid)
+            {
+                _warrantPresenter.UpdateWarrant(warrant);
+                return RedirectToAction("Details", "Warrant", new { id = warrant.tipstaffRecordID });
+            }
 
-            //REVISIT
-        //////////[HttpPost]
-        //////////public ActionResult Edit(Warrant warrant)
-        //////////{
-        //////////    //warrant.division = db.Divisions.Find(warrant.divisionID);
-        //////////    warrant.division = MemoryCollections.DivisionsList.GetDivisionByID(warrant.divisionID);
-        //////////    warrant.Respondents = db.Respondents.Where(r => r.tipstaffRecordID == warrant.tipstaffRecordID).ToList();
-        //////////    if (ModelState.IsValid)
-        //////////    {
-        //////////        db.Entry(warrant).State = EntityState.Modified;
-        //////////        db.SaveChanges();
-        //////////        return RedirectToAction("Details", "Warrant", new { id = warrant.tipstaffRecordID });
-        //////////    }
-        //////////    //ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", warrant.protectiveMarkingID);
-        //////////    //ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true), "divisionID", "Detail", warrant.divisionID);
-        //////////    //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
-        //////////    ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
-        //////////    ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.divisionID);
-        //////////    ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
-        //////////    return View(warrant);
-        //////////}
+            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", warrant.caseStatusID);
+            ViewBag.divisions = new SelectList(MemoryCollections.DivisionsList.GetResultList().Where(x => x.Active == 1), "DivisionID", "Detail", warrant.Division?.DivisionId);
+            ViewBag.protectiveMarkings = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", warrant.protectiveMarkingID);
+            return View(warrant);
+        }
 
         public ActionResult EnterResult(string id)
         {
