@@ -13,6 +13,7 @@ using Tipstaff.Services.Repositories;
 using Tipstaff.MemoryCollections;
 using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -25,17 +26,20 @@ namespace Tipstaff.Controllers
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
         private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
         private readonly IGuidGenerator _guidGenerator;
+        private readonly ICloudWatchLogger _logger;
 
 
         public SolicitorController(ISolicitorPresenter solicitorPresenter, 
             ITipstaffRecordPresenter tipstaffRecordPresenter, 
             ISolicitorFirmsPresenter solicitorFirmsPresenter, 
-            IGuidGenerator guidGenerator)
+            IGuidGenerator guidGenerator, 
+            ICloudWatchLogger logger)
         {
             _solicitorPresenter = solicitorPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _solicitorFirmsPresenter = solicitorFirmsPresenter;
             _guidGenerator = guidGenerator;
+            _logger = logger;
         }
 
         //
@@ -110,45 +114,64 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Edit(EditSolicitorbyTipstaffRecordViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                ////db.Entry(model.Solicitor).State = EntityState.Modified;
-                ////db.SaveChanges();
-                _solicitorPresenter.Update(model.Solicitor);
 
-                string controller = genericFunctions.TypeOfTipstaffRecord(model.TipstaffRecord);
-                return RedirectToAction("Details", "Solicitor", new { solicitorID = model.solicitorID, tipstaffRecordID = model.tipstaffRecordID });
+                if (ModelState.IsValid)
+                {
+                    _solicitorPresenter.Update(model.Solicitor);
+                    string controller = genericFunctions.TypeOfTipstaffRecord(model.TipstaffRecord);
+                    return RedirectToAction("Details", "Solicitor", new { solicitorID = model.solicitorID, tipstaffRecordID = model.tipstaffRecordID });
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Solicitora in Edit with Model method, for user {((CPrincipal)User).UserID}");
+                ErrorModel mdl = new ErrorModel(2);
+                mdl.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = mdl;
+                return RedirectToAction("IndexByModel", "Error", mdl ?? null);
+            }
         }
         
 
         [HttpPost]
         public ActionResult CreateSolicitor(Solicitor solicitor, string warrantID)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(warrantID);
-
-                solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
-
-                _solicitorPresenter.AddSolicitor(solicitor);
-
-                if (Request.IsAjaxRequest())
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("Create", "TipstaffRecordSolicitor", new { tipstaffRecord = warrantID, solicitor = solicitor.solicitorID });
+                    TipstaffRecord tr = _tipstaffRecordPresenter.GetTipStaffRecord(warrantID);
+
+                    solicitor.solicitorID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+
+                    _solicitorPresenter.AddSolicitor(solicitor);
+
+                    if (Request.IsAjaxRequest())
+                    {
+                        return RedirectToAction("Create", "TipstaffRecordSolicitor", new { tipstaffRecord = warrantID, solicitor = solicitor.solicitorID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+                var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+
+                ViewBag.salutationID = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");//new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
+                ViewBag.solicitorFirmID = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
+                return PartialView("_createSolicitorForWarrant");
             }
-            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
-
-            ViewBag.salutationID = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail");//new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
-            ViewBag.solicitorFirmID = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", solicitor.solicitorFirmID);
-            return PartialView("_createSolicitorForWarrant");
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Solicitors in CreateSolicitor with Model method, for user {((CPrincipal)User).UserID}");
+                ErrorModel mdl = new ErrorModel(2);
+                mdl.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = mdl;
+                return RedirectToAction("IndexByModel", "Error", mdl ?? null);
+            }
         }
 
         public PartialViewResult CreateFirm()

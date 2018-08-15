@@ -30,12 +30,13 @@ namespace Tipstaff.Presenters
 
         public Solicitor GetSolicitor(string id)
         {
+            var sol = new Models.Solicitor();
+
             var entity = _solicitorRepository.GetSolicitor(id);
-            if (entity != null)
-            {
-                return GetModel(entity);
-            }
-            return null;
+
+            var model = entity != null ? GetModel(entity) : sol;
+
+            return sol;
         }
 
         public IEnumerable<Models.Solicitor> GetSolicitors()
@@ -137,9 +138,10 @@ namespace Tipstaff.Presenters
         {
             var tipstaffRecordSolicitors = new List<TipstaffRecordSolicitor>();
 
-            var solicitorIds = _tipstaffRecordSolicitorsRepository.GetAllByCondition("TipstaffRecordID", tipstaffRecordId);
+            IEnumerable<Services.DynamoTables.Tipstaff_Solicitors> solicitorIds = new List<Services.DynamoTables.Tipstaff_Solicitors>();
+            solicitorIds = _tipstaffRecordSolicitorsRepository.GetAllByCondition("TipstaffRecordID", tipstaffRecordId);
 
-            if (solicitorIds?.Count()>0)
+            if (solicitorIds.Any())
             {
                 foreach (var item in solicitorIds)
                 {

@@ -78,6 +78,8 @@ namespace Tipstaff.Presenters
 
         public Models.SolicitorFirm GetModel(Services.DynamoTables.SolicitorFirm entity)
         {
+            IEnumerable<Models.Solicitor> sols = new List<Models.Solicitor>();
+            sols = _solicitorPresenter.GetSolicitors();
             var model = new Models.SolicitorFirm()
             {
                 active = entity.Active,
@@ -95,7 +97,7 @@ namespace Tipstaff.Presenters
                 postcode = entity.Postcode,
                 solicitorFirmID = entity.Id,
                 town = entity.Town,
-                Solicitors = _solicitorPresenter.GetSolicitors().Where(x=>x.solicitorFirmID == entity.Id)
+                Solicitors = (sols.Any())?sols.Where(x=>x.solicitorFirmID == entity.Id) : sols
             };
 
             return model;
@@ -103,11 +105,13 @@ namespace Tipstaff.Presenters
 
         public Models.SolicitorFirm GetSolicitorFirm(string id)
         {
-            var entity = _solicitiorFirmRepository.GetSolicitorFirm(id);
+            var solFirm = new Models.SolicitorFirm();
 
-            var model = GetModel(entity);
+            var entity  = _solicitiorFirmRepository.GetSolicitorFirm(id);
 
-            return model;
+            var model = entity != null ? GetModel(entity) : solFirm;
+
+            return solFirm;
         }
 
         public void Update(Models.SolicitorFirm solicitorFirm)

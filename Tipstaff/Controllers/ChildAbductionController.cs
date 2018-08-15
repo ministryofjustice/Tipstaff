@@ -7,6 +7,7 @@ using PagedList;
 using Tipstaff.Models;
 using Tipstaff.Presenters;
 using System.Collections.Generic;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -17,12 +18,15 @@ namespace Tipstaff.Controllers
     {
         private readonly IChildAbductionPresenter _childAbductionPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly ICloudWatchLogger _logger;
 
         public ChildAbductionController(IChildAbductionPresenter childAbbductionPresenter, 
-                                        ITipstaffRecordPresenter tipstaffRecordPresenter)
+                                        ITipstaffRecordPresenter tipstaffRecordPresenter, 
+                                        ICloudWatchLogger logger)
         {
             _childAbductionPresenter = childAbbductionPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _logger = logger;
         }
         //
         // GET: /ChildAbduction/
@@ -151,11 +155,21 @@ namespace Tipstaff.Controllers
         //
         // GET: /ChildAbduction/Details/5
 
-        public ViewResult Details(string id)
+        public ActionResult Details(string id)
         {
-            //////ChildAbduction childabduction = db.ChildAbductions.Find(id);
-            var childAbduction = _childAbductionPresenter.GetChildAbduction(id);
-            return View(childAbduction);
+            try
+            {
+                var childAbduction = _childAbductionPresenter.GetChildAbduction(id);
+                return View(childAbduction);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ChildAbductions in Details method, for user {((CPrincipal)User).UserID}");
+                ErrorModel model = new ErrorModel(2);
+                model.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = model;
+                return RedirectToAction("IndexByModel", "Error", model ?? null);
+            }
         }
 
         //
@@ -163,15 +177,26 @@ namespace Tipstaff.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "protectiveMarkingID", "Detail");
-            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1).OrderBy(x => x.Sequence), "caseStatusID", "Detail");
-            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "caOrderTypeID", "Detail");
-            ChildAbduction model = new ChildAbduction();
-            model.nextReviewDate = DateTime.Today.AddMonths(1);
-            System.Security.Principal.IIdentity userIdentity = User.Identity;
-            Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
-            model.createdBy = thisUser.User.DisplayName;
-            return View(model);
+            try
+            {
+                ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "protectiveMarkingID", "Detail");
+                ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1).OrderBy(x => x.Sequence), "caseStatusID", "Detail");
+                ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "caOrderTypeID", "Detail");
+                ChildAbduction model = new ChildAbduction();
+                model.nextReviewDate = DateTime.Today.AddMonths(1);
+                System.Security.Principal.IIdentity userIdentity = User.Identity;
+                Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
+                model.createdBy = thisUser.User.DisplayName;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ChildAbductions in Create method, for user {((CPrincipal)User).UserID}");
+                ErrorModel model = new ErrorModel(2);
+                model.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = model;
+                return RedirectToAction("IndexByModel", "Error", model ?? null);
+            }
         }
 
         //
@@ -180,31 +205,29 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Create(ChildAbduction childabduction)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //////db.TipstaffRecord.Add(childabduction);
-                //////db.SaveChanges();
-                ////try
-                ////{
-                ////    childabduction.Discriminator = "ChildAbduction";
-                ////    _childAbductionPresenter.AddTipstaffRecord(childabduction);
-                ////}
-                ////catch (Exception ex)
-                ////{
-                ////    throw;
-                ////}
-                childabduction.Discriminator = "ChildAbduction";
-                _childAbductionPresenter.AddTipstaffRecord(childabduction);
-                return RedirectToAction("Create", "Child", new { id = childabduction.tipstaffRecordID, initial = true });
-            }
+                if (ModelState.IsValid)
+                {
 
-            //ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
-            // ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
-            //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
-            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.CAOrderTypeId);
-            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childabduction.caseStatusID);
-            ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
-            return View(childabduction);
+                    childabduction.Discriminator = "ChildAbduction";
+                    _childAbductionPresenter.AddTipstaffRecord(childabduction);
+                    return RedirectToAction("Create", "Child", new { id = childabduction.tipstaffRecordID, initial = true });
+                }
+
+                ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.CAOrderTypeId);
+                ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childabduction.caseStatusID);
+                ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
+                return View(childabduction);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ChildAbductions in Create with  method, for user {((CPrincipal)User).UserID}");
+                ErrorModel model = new ErrorModel(2);
+                model.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = model;
+                return RedirectToAction("IndexByModel", "Error", model ?? null);
+            }
         }
 
         //
@@ -219,9 +242,6 @@ namespace Tipstaff.Controllers
                 TempData["UID"] = childAbduction.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
-            //ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
-            //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
-            //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
             ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childAbduction.CAOrderTypeId);
             ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childAbduction.caseStatusID);
             ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childAbduction.protectiveMarkingID);
@@ -234,21 +254,32 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Edit(ChildAbduction childabduction)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //////db.Entry(childabduction).State = EntityState.Modified;
-                //////db.SaveChanges();
-                _childAbductionPresenter.UpdateChildAbduction(childabduction);
-                return RedirectToAction("Details", "ChildAbduction", new { id = childabduction.tipstaffRecordID });
-            }
-            //ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
-            //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
-            //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
-            ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childabduction.caseStatusID);
-            ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.CAOrderTypeId);
-            ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
+                if (ModelState.IsValid)
+                {
+                    //////db.Entry(childabduction).State = EntityState.Modified;
+                    //////db.SaveChanges();
+                    _childAbductionPresenter.UpdateChildAbduction(childabduction);
+                    return RedirectToAction("Details", "ChildAbduction", new { id = childabduction.tipstaffRecordID });
+                }
+                //ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
+                //ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", childabduction.caseStatusID);
+                //ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
+                ViewBag.caseStatusID = new SelectList(MemoryCollections.CaseStatusList.GetCaseStatusList().Where(x => x.Active == 1), "CaseStatusID", "Detail", childabduction.caseStatusID);
+                ViewBag.caOrderTypeID = new SelectList(MemoryCollections.CaOrderTypeList.GetOrderTypeList().Where(x => x.Active == 1), "CAOrderTypeID", "Detail", childabduction.CAOrderTypeId);
+                ViewBag.protectiveMarkingID = new SelectList(MemoryCollections.ProtectiveMarkingsList.GetProtectiveMarkingsList().Where(x => x.Active == 1), "ProtectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
 
-            return View(childabduction);
+                return View(childabduction);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ChildAbductions in Edit With Model method, for user {((CPrincipal)User).UserID}");
+                ErrorModel model = new ErrorModel(2);
+                model.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = model;
+                return RedirectToAction("IndexByModel", "Error", model ?? null);
+            }
         }
 
         public ActionResult EnterResult(string id)
@@ -310,7 +341,7 @@ namespace Tipstaff.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // _logger.LogError(ex, $"Exception in ChildAbductionController in EnterResult method, for user {((CPrincipal)User).UserID}");
+                    _logger.LogError(ex, $"Exception in ChildAbductionController in EnterResult method, for user {((CPrincipal)User).UserID}");
                     ErrorModel errModel = new ErrorModel(2);
                     errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                     TempData["ErrorModel"] = errModel;
