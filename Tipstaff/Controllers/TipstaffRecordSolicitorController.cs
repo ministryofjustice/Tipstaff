@@ -36,7 +36,8 @@ namespace Tipstaff.Controllers
             //////tipstaffrecordsolicitor.solicitor=db.Solicitors.Find(solicitor);
             tipstaffrecordsolicitor.solicitor = _solicitorPresenter.GetSolicitor(solicitor);
             //////tipstaffrecordsolicitor.tipstaffRecord = db.TipstaffRecord.Find(tipstaffRecord);
-            tipstaffrecordsolicitor.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecord);
+            var sol = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecord);
+            tipstaffrecordsolicitor.tipstaffRecord = sol;
             if (tipstaffrecordsolicitor.tipstaffRecord.caseStatus.Sequence > 3)
             {
                 TempData["UID"] = tipstaffrecordsolicitor.tipstaffRecord.UniqueRecordID;

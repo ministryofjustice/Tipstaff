@@ -36,7 +36,7 @@ namespace Tipstaff.Presenters
 
             var model = entity != null ? GetModel(entity) : sol;
 
-            return sol;
+            return model;
         }
 
         public IEnumerable<Models.Solicitor> GetSolicitors()
@@ -141,12 +141,15 @@ namespace Tipstaff.Presenters
             IEnumerable<Services.DynamoTables.Tipstaff_Solicitors> solicitorIds = new List<Services.DynamoTables.Tipstaff_Solicitors>();
             solicitorIds = _tipstaffRecordSolicitorsRepository.GetAllByCondition("TipstaffRecordID", tipstaffRecordId);
 
-            if (solicitorIds.Any())
+            if (solicitorIds.Count() > 0)
             {
                 foreach (var item in solicitorIds)
                 {
-                    var solicitor = GetSolicitor(item.SolicitorID);
-                    tipstaffRecordSolicitors.Add(new TipstaffRecordSolicitor() { solicitor = solicitor, solicitorID = item.SolicitorID, tipstaffRecordID = item.TipstaffRecordID });
+                    if (item.SolicitorID != null)
+                    {
+                        var solicitor = GetSolicitor(item.SolicitorID);
+                        tipstaffRecordSolicitors.Add(new TipstaffRecordSolicitor() { solicitor = solicitor, solicitorID = item.SolicitorID, tipstaffRecordID = item.TipstaffRecordID });
+                    }
                 }
             }
 

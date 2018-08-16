@@ -35,9 +35,11 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Models.Contact> GetContacts()
         {
+            IEnumerable<Models.Contact> contacts = new List<Models.Contact>();
+
             var entities = _contactsRepository.GetContacts();
 
-            var contacts = entities.Select(x => GetModel(x));
+            contacts = (entities!=null) ? entities.Select(x => GetModel(x)): contacts;
 
             return contacts;
         }

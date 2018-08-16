@@ -97,17 +97,27 @@ namespace Tipstaff.Controllers
         }
         //
         // GET: /ContactType/Details/5
-
-        public ViewResult Details(int solicitorID, int tipstaffRecordID)
+        
+        public ViewResult Details(string solicitorID, string tipstaffRecordID)
         {
             SolicitorbyTipstaffRecordViewModel model = new SolicitorbyTipstaffRecordViewModel(solicitorID, tipstaffRecordID);
-
+            model.Solicitor = _solicitorPresenter.GetSolicitor(solicitorID);
+            model.TipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecordID);
             return View(model);
         }
 
-        public ActionResult Edit(int solicitorID, int tipstaffRecordID)
+        public ActionResult Edit(string solicitorID, string tipstaffRecordID)
         {
             EditSolicitorbyTipstaffRecordViewModel model = new EditSolicitorbyTipstaffRecordViewModel(solicitorID, tipstaffRecordID);
+            model.Solicitor = _solicitorPresenter.GetSolicitor(solicitorID);
+            model.TipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecordID);
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+            model.SolicitorsFirmList = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", model.Solicitor.solicitorFirmID);
+            model.SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail", model.Solicitor.salutation.SalutationId);
+
+            // SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true), "salutationID", "Detail", Solicitor.salutationID);
+
+            /////SolicitorsFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName", Solicitor.solicitorFirmID);
             return View(model);
         }
 
@@ -120,7 +130,8 @@ namespace Tipstaff.Controllers
                 if (ModelState.IsValid)
                 {
                     _solicitorPresenter.Update(model.Solicitor);
-                    string controller = genericFunctions.TypeOfTipstaffRecord(model.TipstaffRecord);
+                    var tipstaffrecord = _tipstaffRecordPresenter.GetTipStaffRecord(model.tipstaffRecordID);
+                    string controller = tipstaffrecord.Discriminator;
                     return RedirectToAction("Details", "Solicitor", new { solicitorID = model.solicitorID, tipstaffRecordID = model.tipstaffRecordID });
                 }
                 return View(model);

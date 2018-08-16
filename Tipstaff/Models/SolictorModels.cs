@@ -188,14 +188,14 @@ namespace Tipstaff.Models
 
     public class SolicitorbyTipstaffRecordViewModel
     {
-        public int solicitorID { get; set; }
-        public int tipstaffRecordID { get; set; }
+        public string solicitorID { get; set; }
+        public string tipstaffRecordID { get; set; }
 
         public virtual Solicitor Solicitor { get; set; }
         public virtual TipstaffRecord TipstaffRecord { get; set; }
 
         public SolicitorbyTipstaffRecordViewModel() { }
-        public SolicitorbyTipstaffRecordViewModel(int SolicitorID, int TipstaffRecordID)
+        public SolicitorbyTipstaffRecordViewModel(string SolicitorID, string TipstaffRecordID)
         {
             solicitorID = SolicitorID;
             tipstaffRecordID = TipstaffRecordID;
@@ -210,15 +210,11 @@ namespace Tipstaff.Models
         public SelectList SalutationList { get; set; }
 
         public EditSolicitorbyTipstaffRecordViewModel() { }
-        public EditSolicitorbyTipstaffRecordViewModel(int SolicitorID, int TipstaffRecordID)
+        public EditSolicitorbyTipstaffRecordViewModel(string SolicitorID, string TipstaffRecordID)
         {
-            // SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true), "salutationID", "Detail", Solicitor.salutationID);
             solicitorID = SolicitorID;
             tipstaffRecordID = TipstaffRecordID;
-            //////Solicitor = myDBContextHelper.CurrentContext.Solicitors.Find(solicitorID);
-            //////TipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(tipstaffRecordID);
-            /////SolicitorsFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName", Solicitor.solicitorFirmID);
-            SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail", Solicitor.salutation.SalutationId);
+            
         }
     }
     public class SolicitorFirmByTipstaffRecordViewModel
