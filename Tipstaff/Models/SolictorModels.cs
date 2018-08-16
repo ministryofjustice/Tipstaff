@@ -76,7 +76,7 @@ namespace Tipstaff.Models
         public string deactivatedBy { get; set; }
         //////public virtual ICollection<Solicitor> Solicitors { get; set; }
 
-        public IEnumerable<Solicitor> Solicitors { get; set; }
+        //public IEnumerable<Solicitor> Solicitors { get; set; }
 
         public virtual List<string> populatedLines
         {

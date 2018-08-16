@@ -78,8 +78,8 @@ namespace Tipstaff.Presenters
 
         public Models.SolicitorFirm GetModel(Services.DynamoTables.SolicitorFirm entity)
         {
-            IEnumerable<Models.Solicitor> sols = new List<Models.Solicitor>();
-            sols = _solicitorPresenter.GetSolicitors();
+            //IEnumerable<Models.Solicitor> sols = new List<Models.Solicitor>();
+            //sols = _solicitorPresenter.GetSolicitors();
             var model = new Models.SolicitorFirm()
             {
                 active = entity.Active,
@@ -97,7 +97,7 @@ namespace Tipstaff.Presenters
                 postcode = entity.Postcode,
                 solicitorFirmID = entity.Id,
                 town = entity.Town,
-                Solicitors = (sols.Any())?sols.Where(x=>x.solicitorFirmID == entity.Id) : sols
+                //Solicitors = (sols.Any())?sols.Where(x=>x.solicitorFirmID == entity.Id) : sols
             };
 
             return model;
