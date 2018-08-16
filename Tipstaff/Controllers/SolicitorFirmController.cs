@@ -30,6 +30,9 @@ namespace Tipstaff.Controllers
                 TipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecordID)
             };
 
+            model.TipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecordID);
+            model.SolicitorFirm = _solicitorFirmsPresenter.GetSolicitorFirm(solicitorFirmID);
+
             return View(model);
         }
 
@@ -69,7 +72,8 @@ namespace Tipstaff.Controllers
             {
                 solicitorFirmID = solicitorFirmID,
                 tipstaffRecordID = tipstaffRecordID,
-                SolicitorFirm = _solicitorFirmsPresenter.GetSolicitorFirm(solicitorFirmID)
+                SolicitorFirm = _solicitorFirmsPresenter.GetSolicitorFirm(solicitorFirmID),
+                TipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(tipstaffRecordID)
             };
 
            return View(model);

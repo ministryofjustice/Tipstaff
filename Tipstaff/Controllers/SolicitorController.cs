@@ -47,53 +47,64 @@ namespace Tipstaff.Controllers
 
         public ActionResult Select(string id, ChooseSolicitorModel model)
         {
-            var solicitors = _solicitorPresenter.GetSolicitors();
-            var record = _tipstaffRecordPresenter.GetTipStaffRecord(id);
-            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
-            var result = solicitors.Any();
-            var solicitorFirmsResult = solicitorFirms.Any();
+            try
+            {
+                var solicitors = _solicitorPresenter.GetSolicitors();
+                var record = _tipstaffRecordPresenter.GetTipStaffRecord(id);
+                var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+                var result = solicitors.Any();
+                var solicitorFirmsResult = solicitorFirms.Any();
 
-            if ((!result) && (!solicitorFirmsResult))
-            {
-                //No solicitors or firms... add a firm first
-                return RedirectToAction("Create", "SolicitorFirm");
-            }
-            else if (!result)
-            {
-                //No solicitors but some firms, redirect to solicitor creation
-                //and let the user choose a firm, or create new if needed
-                return RedirectToAction("Create");
-            }
-            //ChooseSolicitorModel model = new ChooseSolicitorModel();
-            //////if (model.tipstaffRecord == null) model.tipstaffRecord = db.TipstaffRecord.Find(id);
-            if (model.tipstaffRecord == null) model.tipstaffRecord = record;
-            if (model.tipstaffRecord.caseStatus.Sequence > 3)
-            {
-                TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
-                HttpResponse.RemoveOutputCacheItem("/Error/ClosedFile");
-                return RedirectToAction("ClosedFile", "Error");
-            }
-            if (model.searchFirm == null) model.searchFirm = "";
-            if (model.searchString == null) model.searchString = "";
+                if ((!result) && (!solicitorFirmsResult))
+                {
+                    //No solicitors or firms... add a firm first
+                    return RedirectToAction("Create", "SolicitorFirm");
+                }
+                else if (!result)
+                {
+                    //No solicitors but some firms, redirect to solicitor creation
+                    //and let the user choose a firm, or create new if needed
+                    return RedirectToAction("Create");
+                }
+                //ChooseSolicitorModel model = new ChooseSolicitorModel();
+                //////if (model.tipstaffRecord == null) model.tipstaffRecord = db.TipstaffRecord.Find(id);
+                if (model.tipstaffRecord == null) model.tipstaffRecord = record;
+                if (model.tipstaffRecord.caseStatus.Sequence > 3)
+                {
+                    TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
+                    HttpResponse.RemoveOutputCacheItem("/Error/ClosedFile");
+                    return RedirectToAction("ClosedFile", "Error");
+                }
+                if (model.searchFirm == null) model.searchFirm = "";
+                if (model.searchString == null) model.searchString = "";
 
-            ////IQueryable<Solicitor> allSols = db.Solicitors;
-            IQueryable<Solicitor> allSols = _solicitorPresenter.GetSolicitors().AsQueryable();
+                ////IQueryable<Solicitor> allSols = db.Solicitors;
+                IQueryable<Solicitor> allSols = _solicitorPresenter.GetSolicitors().AsQueryable();
 
-            if (!String.IsNullOrEmpty(model.searchString))
-            {
-                allSols = allSols.Where(s => s.firstName.ToUpper().Contains(model.searchString.ToUpper()) || s.lastName.ToUpper().Contains(model.searchString.ToUpper()));
-            }
-            if (!String.IsNullOrEmpty(model.searchFirm))
-            {
-                allSols = allSols.Where(s => s.SolicitorFirm.firmName.ToUpper().Contains(model.searchFirm.ToUpper()));
-            }
-            //Note: working except clause
+                if (!String.IsNullOrEmpty(model.searchString))
+                {
+                    allSols = allSols.Where(s => s.firstName.ToUpper().Contains(model.searchString.ToUpper()) || s.lastName.ToUpper().Contains(model.searchString.ToUpper()));
+                }
+                if (!String.IsNullOrEmpty(model.searchFirm))
+                {
+                    allSols = allSols.Where(s => s.SolicitorFirm.firmName.ToUpper().Contains(model.searchFirm.ToUpper()));
+                }
+                //Note: working except clause
 
-            //VERONICA - REVISIT TIPSTAFFRECORDSOLICITORS
-            ///////IEnumerable < Solicitor > availableSols = allSols.Except(solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
-            IEnumerable<Solicitor> availableSols = allSols;
-            model.pSolicitors = availableSols.OrderBy(s => s.firstName).ToPagedList(model.page ?? 1, 8); //all
-            return View(model);
+                //VERONICA - REVISIT TIPSTAFFRECORDSOLICITORS
+                ///////IEnumerable < Solicitor > availableSols = allSols.Except(solicitors.Where(s => db.TipstaffRecordSolicitors.Where(t => t.tipstaffRecordID == id).Select(t => t.solicitorID).Contains(s.solicitorID)));
+                IEnumerable<Solicitor> availableSols = allSols;
+                model.pSolicitors = availableSols.OrderBy(s => s.firstName).ToPagedList(model.page ?? 1, 8); //all
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Solicitors in Select with Model method, for user {((CPrincipal)User).UserID}");
+                ErrorModel mdl = new ErrorModel(2);
+                mdl.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = mdl;
+                return RedirectToAction("IndexByModel", "Error", mdl ?? null);
+            }
         }
         //
         // GET: /ContactType/Details/5

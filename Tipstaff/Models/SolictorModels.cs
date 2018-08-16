@@ -227,14 +227,6 @@ namespace Tipstaff.Models
         public virtual TipstaffRecord TipstaffRecord { get; set; }
 
         public SolicitorFirmByTipstaffRecordViewModel() { }
-
-        //////public SolicitorFirmByTipstaffRecordViewModel(int SolicitorFirmID, int TipstaffRecordID)
-        //////{
-        //////    solicitorFirmID = SolicitorFirmID;
-        //////    tipstaffRecordID = TipstaffRecordID;
-        //////    //////SolicitorFirm = myDBContextHelper.CurrentContext.SolicitorsFirms.Find(solicitorFirmID);
-        //////    //////TipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(tipstaffRecordID);
-        //////}
     }
     #endregion
 }

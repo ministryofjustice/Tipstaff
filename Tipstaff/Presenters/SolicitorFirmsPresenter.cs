@@ -111,7 +111,7 @@ namespace Tipstaff.Presenters
 
             var model = entity != null ? GetModel(entity) : solFirm;
 
-            return solFirm;
+            return model;
         }
 
         public void Update(Models.SolicitorFirm solicitorFirm)
