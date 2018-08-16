@@ -45,7 +45,7 @@ namespace Tipstaff.Controllers
             {
                 Contacts = Contacts.Where(w => w.firstName.ToUpper().Contains(model.NameContains.ToUpper()) || w.lastName.ToUpper().Contains(model.NameContains.ToUpper()));
             }
-            var col = Contacts.OrderBy(c => c.lastName).ThenBy(c => c.firstName).ThenBy(c => c.salutation);
+            var col = Contacts.OrderBy(c => c.lastName).ThenBy(c => c.firstName).ThenBy(c => c.salutation?.Detail);
             model.Contacts = col.ToPagedList(model.page, pageSize);
             return View(model);
         }

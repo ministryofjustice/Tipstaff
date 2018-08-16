@@ -14,6 +14,8 @@ using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Tipstaff.Infrastructure;
 using Castle.MicroKernel.Registration;
+using TPLibrary.Logger;
+using Microsoft.IdentityModel.Protocols;
 
 namespace Tipstaff
 {
@@ -23,6 +25,12 @@ namespace Tipstaff
     public class MvcApplication : System.Web.HttpApplication
     {
         private static IWindsorContainer _container;
+        private ICloudWatchLogger _cloudWatchLogger;
+
+        public MvcApplication()
+        {
+            _cloudWatchLogger = new CloudWatchLogger();
+        }
 
         private static void BootstrapContainer()
         {
@@ -197,6 +205,20 @@ namespace Tipstaff
             }
             BootstrapContainer();
             //ConfigurationManager.AppSettings["CurServer"] = ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString.Split(';').First().Split('=').Last();
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            //Handle nonce exception
+            var ex = Server.GetLastError();
+
+            _cloudWatchLogger.LogError(ex, "Application_Error");
+
+            if ((ex.GetType() == typeof(OpenIdConnectProtocolInvalidNonceException) && User.Identity.IsAuthenticated) && (ex.Message.StartsWith("OICE_20004") || ex.Message.Contains("IDX10311")))
+            {
+                Server.ClearError();
+                Response.Redirect(Request.RawUrl);
+            }
         }
     }
 }
