@@ -125,7 +125,7 @@ namespace Tipstaff.Controllers
             var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
             model.SolicitorsFirmList = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", model.Solicitor.solicitorFirmID);
             model.SalutationList = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail", model.Solicitor.salutation.SalutationId);
-
+           
             // SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true), "salutationID", "Detail", Solicitor.salutationID);
 
             /////SolicitorsFirmList = new SelectList(myDBContextHelper.CurrentContext.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName", Solicitor.solicitorFirmID);
@@ -156,7 +156,20 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("IndexByModel", "Error", mdl ?? null);
             }
         }
-        
+
+        public PartialViewResult CreateSolicitor(int warrantID)
+        {
+            var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+
+            ViewBag.warrantID = warrantID;
+            ViewBag.solicitorFirmID = new SelectList(solicitorFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
+            //ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms.OrderBy(s => s.firmName), "solicitorFirmID", "firmName");
+            ViewBag.salutationID = new SelectList(MemoryCollections.SalutationList.GetSalutationList().Where(x => x.Active == 1), "SalutationID", "Detail"); //new SelectList(db.Salutations.Where(x => x.active == true), "salutationID", "Detail");
+
+            return PartialView("_createSolicitor");
+            //return PartialView("_createSolicitorForWarrant");
+        }
+
 
         [HttpPost]
         public ActionResult CreateSolicitor(Solicitor solicitor, string warrantID)

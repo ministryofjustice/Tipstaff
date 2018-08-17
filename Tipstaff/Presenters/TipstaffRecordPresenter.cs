@@ -134,8 +134,10 @@ namespace Tipstaff.Presenters
                 ResultDate = record.resultDate,
                 ProtectiveMarkingId = record.protectiveMarking?.ProtectiveMarkingId,
                 CaseStatusId = record.caseStatus.CaseStatusId,
-                CreatedOn = record.createdOn
-            };
+                CreatedOn = record.createdOn,
+                ResultId = record.resultID,
+                ResultEnteredBy = record.resultEnteredBy
+             };
             
             _tipstaffRecordRepository.Update(entity);
         }

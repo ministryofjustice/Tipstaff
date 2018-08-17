@@ -289,7 +289,7 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("IndexByModel", "Error", model ?? null);
             }
         }
-
+        
         public ActionResult EnterResult(string id)
         {
             TipstaffRecordResolutionModel model = new TipstaffRecordResolutionModel();
@@ -339,6 +339,8 @@ namespace Tipstaff.Controllers
                     model.tipstaffRecord.prisonCount = model.pCount;
                     model.tipstaffRecord.arrestCount = model.aCount;
                     model.tipstaffRecord.caseStatusID = 3;
+                    model.tipstaffRecord.resultEnteredBy = User.Identity.Name;
+                    
                     ////db.Entry(model.tipstaffRecord).State = EntityState.Modified;
                     ////db.SaveChanges();
                     _tipstaffRecordPresenter.UpdateTipstaffRecord(model.tipstaffRecord);
