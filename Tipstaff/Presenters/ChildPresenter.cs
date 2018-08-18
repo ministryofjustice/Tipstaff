@@ -100,20 +100,18 @@ namespace Tipstaff.Presenters
                 Build = model.build,
                 TipstaffRecordID = model.tipstaffRecordID,
                 Specialfeatures = model.specialfeatures,
-                Country = model.country.Detail,
+                Country = MemoryCollections.CountryList.GetCountryByID(model.country.CountryID)?.Detail,
                 DateOfBirth = model.dateOfBirth,
                 EyeColour = model.eyeColour,
-                Gender = model.gender?.Detail,
+                Gender = MemoryCollections.GenderList.GetGenderById(model.gender.GenderId)?.Detail,
                 HairColour = model.hairColour,
                 Height = model.height,
                 NameFirst = model.nameFirst,
                 NameLast = model.nameLast,
                 NameMiddle = model.nameMiddle,
-                Nationality = model.nationality?.Detail,
+                Nationality = MemoryCollections.NationalityList.GetNationalityByID(model.nationality.NationalityID)?.Detail,
                 PNCID = model.PNCID,
-                SkinColour = model.skinColour?.Detail,
-                
-                
+                SkinColour = MemoryCollections.SkinColourList.GetSkinColourById(model.skinColour.SkinColourId)?.Detail,
             };
 
             return entity;
