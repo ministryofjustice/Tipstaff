@@ -10,6 +10,7 @@ using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 using TPLibrary.DynamoAPI;
 using TPLibrary.GuidGenerator;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Tests.Integration
 {
@@ -18,6 +19,7 @@ namespace Tipstaff.Tests.Integration
     {
         private SolicitorFirmController _sub;
         private Mock<IGuidGenerator> _guidGeneratorMock;
+        private Mock<ICloudWatchLogger> _cloudWatchLogger;
         Guid id;
         Models.SolicitorFirm solicitorFirm;
 
@@ -26,11 +28,12 @@ namespace Tipstaff.Tests.Integration
         {
             _tipstaffRecordRepository = new TipstaffRecordRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.TipstaffRecord>(), _auditRepo);
             _guidGeneratorMock = new Mock<IGuidGenerator>();
+            _cloudWatchLogger = new Mock<ICloudWatchLogger>();
             _solicitorFirmRepository = new SolicitorFirmRepository(new DynamoAPI<Tipstaff.Services.DynamoTables.SolicitorFirm>(), _auditRepo);
             _guidGeneratorMock = new Mock<IGuidGenerator>();
             id = Guid.NewGuid();
             _guidGeneratorMock.Setup(x => x.GenerateTimeBasedGuid()).Returns(id);
-            _sub = new SolicitorFirmController(null,null);
+            _sub = new SolicitorFirmController(null,null, _cloudWatchLogger.Object);
             var mocks = new ContextMocks(_sub);
         }
 

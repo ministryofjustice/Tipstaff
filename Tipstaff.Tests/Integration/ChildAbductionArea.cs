@@ -29,7 +29,7 @@ namespace Tipstaff.Tests.Integration
         {
             _guidGenerator = new Mock<IGuidGenerator>();
             _sub = new ChildAbductionController(_childAbductionPresenter, _tipstaffRecordPresenter, _cloudWatchLogger.Object);
-            _childController = new ChildController(_childPresenter, _guidGenerator.Object, _childAbductionPresenter);
+            _childController = new ChildController(_childPresenter, _guidGenerator.Object, _childAbductionPresenter, _cloudWatchLogger.Object);
             _respondentController = new RespondentController(_cloudWatchLogger.Object, _respondentPresenter, _tipstaffRecordPresenter, _guidGenerator.Object);
 
             _id = Guid.NewGuid();
