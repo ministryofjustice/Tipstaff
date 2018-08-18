@@ -41,7 +41,24 @@ namespace Tipstaff.Infrastructure.Repositories
         {
             return _dynamoAPI.GetEntityByKey(hashKey);
         }
+        
+        public void PartialUpdate(TipstaffRecord record, string discriminator)
+        {
+            var entity = _dynamoAPI.GetEntityByKey(record.Id);
+            entity.ResultId = record.ResultId;
+            entity.ResultDate = record.ResultDate;
+            entity.ResultEnteredBy = record.ResultEnteredBy;
+            entity.CaseStatusId = record.CaseStatusId;
+            entity.PrisonCount = record.PrisonCount;
+            entity.ArrestCount = record.ArrestCount;
+            entity.DateExecuted = record.DateExecuted;
 
+            if (discriminator == "ChildAbduction")
+                entity.NextReviewDate = DateTime.Today.AddDays(1);
+
+            _dynamoAPI.Save(entity);
+        }
+        
         public void Update(TipstaffRecord record)
         {
             var entity = _dynamoAPI.GetEntityByKey(record.Id);

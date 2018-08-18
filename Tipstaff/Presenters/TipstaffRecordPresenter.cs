@@ -139,7 +139,7 @@ namespace Tipstaff.Presenters
                 ResultEnteredBy = record.resultEnteredBy
              };
             
-            _tipstaffRecordRepository.Update(entity);
+            _tipstaffRecordRepository.PartialUpdate(entity,record.Discriminator);
         }
     }
 }

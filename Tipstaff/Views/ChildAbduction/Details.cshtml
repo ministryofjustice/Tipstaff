@@ -131,10 +131,13 @@ else if (Model.resultID == null &&  Model.caseStatus.Sequence <= 3)
         @Html.DisplayFor(model => model.caseStatus.Detail)
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.createdBy)</div>
+    @if (@Model.createdOn.HasValue)
+    {
+    <div class="display-label">@Html.LabelFor(model => model.createdBy)</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn?.Value.ToShortDateString()
+        @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.Value.ToShortDateString()
     </div>
+    }
 
     <div class="display-label">@Html.LabelFor(model=>model.protectiveMarking)</div>
     <div class="display-field">
