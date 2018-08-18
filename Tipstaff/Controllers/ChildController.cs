@@ -9,6 +9,7 @@ using System.Data.Entity.Validation;
 using System.ComponentModel.DataAnnotations;
 using Tipstaff.Presenters;
 using TPLibrary.GuidGenerator;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -20,12 +21,14 @@ namespace Tipstaff.Controllers
         private readonly IChildPresenter _childPresenter;
         private readonly IGuidGenerator _guidGenerator;
         private readonly IChildAbductionPresenter _childAbductionPresenter;
+        private readonly ICloudWatchLogger _logger;
 
-        public ChildController(IChildPresenter childPresenter, IGuidGenerator guidGenerator, IChildAbductionPresenter childAbductionPresenter)
+        public ChildController(IChildPresenter childPresenter, IGuidGenerator guidGenerator, IChildAbductionPresenter childAbductionPresenter, ICloudWatchLogger logger)
         {
             _childPresenter = childPresenter;
             _guidGenerator = guidGenerator;
             _childAbductionPresenter = childAbductionPresenter;
+            _logger = logger;
         }
         //
         // GET: /Child/
@@ -128,8 +131,9 @@ namespace Tipstaff.Controllers
                     }
                 }
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
+                _logger.LogError(ex, $"DbUpdateException in ChildController in Create method, for user {((CPrincipal)User).UserID}");
                 if (Request.IsAjaxRequest())
                 {
                     return PartialView("_createChildRecordForRecord", model);
@@ -141,6 +145,7 @@ namespace Tipstaff.Controllers
             }
             catch (ValidationException ex)
             {
+                _logger.LogError(ex, $"ValidationException in ChildController in Create method, for user {((CPrincipal)User).UserID}");
                 ErrorModel errModel = new ErrorModel(2);
                 errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                 TempData["ErrorModel"] = errModel;
@@ -148,6 +153,7 @@ namespace Tipstaff.Controllers
             }
             catch (DbEntityValidationException ex)
             {
+                _logger.LogError(ex, $"DbEntityValidationException in ChildController in Create method, for user {((CPrincipal)User).UserID}");
                 ErrorModel errModel = new ErrorModel(2);
                 errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                 TempData["ErrorModel"] = errModel;
@@ -155,6 +161,7 @@ namespace Tipstaff.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Exception in ChildController in Create method, for user {((CPrincipal)User).UserID}");
                 ErrorModel errModel = new ErrorModel(2);
                 errModel.ErrorMessage = genericFunctions.GetLowestError(ex);
                 TempData["ErrorModel"] = errModel;

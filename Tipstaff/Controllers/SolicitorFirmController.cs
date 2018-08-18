@@ -1,8 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using Tipstaff.Presenters;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -13,11 +15,13 @@ namespace Tipstaff.Controllers
     {
         private readonly ISolicitorFirmsPresenter _solicitorFirmsPresenter;
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
+        private readonly ICloudWatchLogger _cloudWatchLogger;
 
-        public SolicitorFirmController(ISolicitorFirmsPresenter solicitorFirmsPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter)
+        public SolicitorFirmController(ISolicitorFirmsPresenter solicitorFirmsPresenter, ITipstaffRecordPresenter tipstaffRecordPresenter, ICloudWatchLogger cloudWatchLogger)
         {
             _solicitorFirmsPresenter = solicitorFirmsPresenter;
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
+            _cloudWatchLogger = cloudWatchLogger;
         }
 
         public ViewResult Details(string solicitorFirmID, string tipstaffRecordID)
@@ -42,25 +46,36 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Create(SolicitorFirm solicitorfirm)
         {
-            if (ModelState.IsValid)
+            try
             {
-
-                ////////db.SolicitorsFirms.Add(solicitorfirm);
-                ////////db.SaveChanges();
-                _solicitorFirmsPresenter.AddSolicitorFirm(solicitorfirm);
-
-
-                if (Request.IsAjaxRequest())
+                if (ModelState.IsValid)
                 {
-                    
-                    var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
-                    //////ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms, "solicitorFirmID", "firmName", solicitorfirm.solicitorFirmID);
-                    ViewBag.solicitorFirmID = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", solicitorfirm.solicitorFirmID);
 
-                    return PartialView("_createSolicitorFirmSuccess", solicitorfirm);
+                    ////////db.SolicitorsFirms.Add(solicitorfirm);
+                    ////////db.SaveChanges();
+                    _solicitorFirmsPresenter.AddSolicitorFirm(solicitorfirm);
+
+
+                    if (Request.IsAjaxRequest())
+                    {
+
+                        var solicitorFirms = _solicitorFirmsPresenter.GetAllSolicitorFirms();
+                        //////ViewBag.solicitorFirmID = new SelectList(db.SolicitorsFirms, "solicitorFirmID", "firmName", solicitorfirm.solicitorFirmID);
+                        ViewBag.solicitorFirmID = new SelectList(solicitorFirms, "solicitorFirmID", "firmName", solicitorfirm.solicitorFirmID);
+
+                        return PartialView("_createSolicitorFirmSuccess", solicitorfirm);
+                    }
                 }
+                return View(solicitorfirm);
             }
-            return View(solicitorfirm);
+            catch (Exception ex)
+            {
+                _cloudWatchLogger.LogError(ex, $"SolicitorFirm  Create with Model method, for user {((CPrincipal)User).UserID}");
+                ErrorModel mdl = new ErrorModel(2);
+                mdl.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = mdl;
+                return RedirectToAction("IndexByModel", "Error", mdl ?? null);
+            }
         }
         
         //
@@ -85,15 +100,24 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Edit(SolicitorFirmByTipstaffRecordViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                //////db.Entry(model.SolicitorFirm).State = EntityState.Modified;
-                //////db.SaveChanges();
-                _solicitorFirmsPresenter.Update(model.SolicitorFirm);
+                if (ModelState.IsValid)
+                {
+                    _solicitorFirmsPresenter.Update(model.SolicitorFirm);
 
-                return RedirectToAction("Details", "SolicitorFirm", new { solicitorFirmID = model.solicitorFirmID, tipstaffRecordID = model.tipstaffRecordID });
+                    return RedirectToAction("Details", "SolicitorFirm", new { solicitorFirmID = model.solicitorFirmID, tipstaffRecordID = model.tipstaffRecordID });
+                }
+                return View(model);
             }
-            return View(model);
+            catch (Exception ex)
+            {
+                _cloudWatchLogger.LogError(ex, $"SolicitorFirm  Edit with Model method, for user {((CPrincipal)User).UserID}");
+                ErrorModel mdl = new ErrorModel(2);
+                mdl.ErrorMessage = ex.Message;
+                TempData["ErrorModel"] = mdl;
+                return RedirectToAction("IndexByModel", "Error", mdl ?? null);
+            }
         }
 
         //

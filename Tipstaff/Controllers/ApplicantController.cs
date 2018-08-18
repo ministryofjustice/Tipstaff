@@ -92,7 +92,7 @@ namespace Tipstaff.Controllers
                     return RedirectToAction("Details", "ChildAbduction", new { id = model.tipstaffRecordID });
                 }
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex) when (ex is DbUpdateException)
             {
                 _logger.LogError(ex, $"DbUpdateException in ApplicantController in Create method, for user {((CPrincipal)User).UserID}");
                 return View(model);
