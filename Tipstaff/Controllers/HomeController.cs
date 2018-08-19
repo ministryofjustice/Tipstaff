@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Web.Security;
 using Tipstaff.Presenters;
 using Tipstaff.Presenters.Interfaces;
+using Tipstaff.Infrastructure;
 
 namespace Tipstaff.Controllers
 {
@@ -32,12 +33,17 @@ namespace Tipstaff.Controllers
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _searchPresenter = searchPresenter;
             _graphPresenter = graphPresenter;
+
+            
         }
 
         [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Message = string.Format("Welcome to the {0}", ConfigurationManager.AppSettings["AppName"]);
+            var test = new ElastiCacheImplementation();
+            var val = test.InsertKeyValue("test");
+            ViewBag.Message = string.Format("Welcome to the {0}{1}", ConfigurationManager.AppSettings["AppName"],val);
             return View();
         }
 
