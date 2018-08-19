@@ -43,7 +43,8 @@ namespace Tipstaff.Controllers
             ViewBag.Message = string.Format("Welcome to the {0}", ConfigurationManager.AppSettings["AppName"]);
             var test = new ElastiCacheImplementation();
             var val = test.InsertKeyValue("test");
-            ViewBag.Message = string.Format("Welcome to the {0}{1}", ConfigurationManager.AppSettings["AppName"],val);
+            var str = val;
+            ViewBag.Message = str;
             return View();
         }
 
