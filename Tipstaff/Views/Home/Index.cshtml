@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Tipstaff Database - Home Page";
+    var str = (string)ViewBag.Message;
 }
 
 <script type="text/javascript">
@@ -26,8 +27,9 @@
     <h6>Summaries</h6>
        <div>
            <div>
-              @Html.Action("Outstanding", "CaseReview")
-              @Html.Action("CaseClosedIssues", "Home")
+               @Html.Action("Outstanding", "CaseReview")
+               @Html.Action("CaseClosedIssues", "Home")
+               @Html.Label(str)
            </div>
            <div>
             <img src="@Url.Action("Issue", "Home", new { gp = Tipstaff.Models.GraphPeriod.week })" alt="Weekly issue chart" @*style="clear:both;"*@/>
