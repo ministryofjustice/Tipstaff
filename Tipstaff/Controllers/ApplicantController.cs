@@ -28,7 +28,6 @@ namespace Tipstaff.Controllers
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
         }
 
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListApplicantsByRecord(string id, int? page)
         {
             ListApplicantsByTipstaffRecord model = new ListApplicantsByTipstaffRecord();
