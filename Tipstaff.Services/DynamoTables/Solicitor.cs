@@ -31,5 +31,7 @@ namespace Tipstaff.Services.DynamoTables
         public string DectivatedBy { get; set; }
 
         public string SolicitorName { get; set; }
+
+        public string FirmName { get; set; }
     }
 }

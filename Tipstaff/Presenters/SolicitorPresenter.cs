@@ -36,46 +36,7 @@ namespace Tipstaff.Presenters
 
             var model = entity != null ? GetModel(entity) : sol;
 
-            return model;
-        }
-
-        public IEnumerable<Models.Solicitor> GetSolicitors()
-        {
-            var entities = _solicitorRepository.GetSolicitors();
-
-            return GetAll(entities);
-        }
-        
-        public void Update(Models.Solicitor solicitor)
-        {
-            var entity = GetDynamoTable(solicitor);
-            _solicitorRepository.Update(entity);
-        }
-
-        public Services.DynamoTables.Solicitor GetDynamoTable(Models.Solicitor model)
-        {
-            var entity = new Services.DynamoTables.Solicitor()
-            {
-               Active = model.active,
-               Dectivated = model.deactivated,
-               Email = model.email,
-               DectivatedBy = model.deactivatedBy,
-               FirstName = model.firstName,
-               LastName = model.lastName,
-               PhoneDayTime = model.phoneDayTime,
-               PhoneOutOfHours = model.phoneOutofHours,
-               Salutation = MemoryCollections.SalutationList.GetSalutationByID(model.salutation.SalutationId)?.Detail,
-               SolicitorFirmID = model.solicitorFirmID,
-               Id = model.solicitorID,
-               SolicitorName = model.solicitorName
-            };
-
-            return entity;
-        }
-
-        public Models.Solicitor GetModel(Services.DynamoTables.Solicitor table)
-        {
-            var firm = _solicitorFirmRepository.GetSolicitorFirm(table.SolicitorFirmID);
+            var firm = _solicitorFirmRepository.GetSolicitorFirm(model.solicitorFirmID);
 
             var solicitorFirmMdl = new SolicitorFirm();
 
@@ -95,6 +56,68 @@ namespace Tipstaff.Presenters
                 solicitorFirmMdl.town = firm.Town;
             }
 
+            model.SolicitorFirm = solicitorFirmMdl;
+            return model;
+        }
+
+        public IEnumerable<Models.Solicitor> GetSolicitors()
+        {
+            var entities = _solicitorRepository.GetSolicitors();
+
+            return GetAll(entities);
+        }
+        
+        public void Update(Models.Solicitor solicitor)
+        {
+            var entity = GetDynamoTable(solicitor);
+            _solicitorRepository.Update(entity);
+        }
+
+        public Services.DynamoTables.Solicitor GetDynamoTable(Models.Solicitor model)
+        {
+            var firm = _solicitorFirmRepository.GetSolicitorFirm(model.solicitorFirmID);
+            var entity = new Services.DynamoTables.Solicitor()
+            {
+               Active = model.active,
+               Dectivated = model.deactivated,
+               Email = model.email,
+               DectivatedBy = model.deactivatedBy,
+               FirstName = model.firstName,
+               LastName = model.lastName,
+               PhoneDayTime = model.phoneDayTime,
+               PhoneOutOfHours = model.phoneOutofHours,
+               Salutation = MemoryCollections.SalutationList.GetSalutationByID(model.salutation.SalutationId)?.Detail,
+               SolicitorFirmID = model.solicitorFirmID,
+               Id = model.solicitorID,
+               SolicitorName = model.solicitorName,
+               FirmName = (firm==null)?"":firm.FirmName
+            };
+
+            return entity;
+        }
+
+        public Models.Solicitor GetModel(Services.DynamoTables.Solicitor table)
+        {
+            //var firm = _solicitorFirmRepository.GetSolicitorFirm(table.SolicitorFirmID);
+
+            //var solicitorFirmMdl = new SolicitorFirm();
+
+            //if (firm != null)
+            //{
+            //    solicitorFirmMdl.active = firm.Active;
+            //    solicitorFirmMdl.addressLine1 = firm.AddressLine1;
+            //    solicitorFirmMdl.addressLine2 = firm.AddressLine2;
+            //    solicitorFirmMdl.addressLine3 = firm.AddressLine3;
+            //    solicitorFirmMdl.county = firm.County;
+            //    solicitorFirmMdl.DX = firm.DX;
+            //    solicitorFirmMdl.email = firm.Email;
+            //    solicitorFirmMdl.firmName = firm.FirmName;
+            //    solicitorFirmMdl.phoneDayTime = firm.PhoneDayTime;
+            //    solicitorFirmMdl.phoneOutofHours = firm.PhoneOutofHours;
+            //    solicitorFirmMdl.postcode = firm.Postcode;
+            //    solicitorFirmMdl.town = firm.Town;
+            //}
+
             var model = new Models.Solicitor()
             {
                 active = table.Active,
@@ -108,8 +131,8 @@ namespace Tipstaff.Presenters
                 solicitorID = table.Id,
                 solicitorFirmID = table.SolicitorFirmID,
                 salutation = MemoryCollections.SalutationList.GetSalutationByDetail(table.Salutation),
-                solicitorFirmName = table.FirstName,
-                SolicitorFirm = solicitorFirmMdl
+                solicitorFirmName = table.FirmName
+                //SolicitorFirm = solicitorFirmMdl
             };
 
             return model;

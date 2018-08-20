@@ -163,6 +163,19 @@ namespace Tipstaff.Infrastructure.Repositories
                     Now = solicitor.SolicitorFirmID
                 });
             }
+            if (entity.FirmName != solicitor.FirmName)
+            {
+                _auditRepo.AddAuditEvent(new AuditEvent()
+                {
+                    AuditEventDescription = "Solicitor amended",
+                    EventDate = DateTime.Now,
+                    RecordChanged = solicitor.Id,
+                    UserId = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                    ColumnName = "FirmName",
+                    Was = entity.FirmName,
+                    Now = solicitor.FirmName
+                });
+            }
             entity.Active = solicitor.Active;
             entity.FirstName = solicitor.FirstName;
             entity.LastName = solicitor.LastName;
@@ -174,6 +187,7 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.Salutation = solicitor.Salutation;
             entity.SolicitorFirmID = solicitor.SolicitorFirmID;
             entity.Id = solicitor.Id;
+            entity.FirmName = solicitor.FirmName;
             _dynamoAPI.Save(entity);
         }
     }
