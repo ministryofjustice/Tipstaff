@@ -119,7 +119,7 @@ namespace Tipstaff.Controllers
             model.AttendanceNote = _attendanceNotePresenter.GetAttendanceNote(model.DeleteModelID);
 
             var tipstaffRecordID = model.AttendanceNote.tipstaffRecordID;
-            string controller = string.Empty;/////genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
+            string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
             //////db.AttendanceNotes.Remove(model.AttendanceNote);
             //////db.SaveChanges();
             // _attendanceNotesRepository.
