@@ -237,6 +237,16 @@ namespace Tipstaff.Presenters
 
             return cas;
         }
-        
+
+        public IEnumerable<ChildAbduction> GetActiveChildAbductions()
+        {
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "ChildAbduction");
+            conditions.Add("CaseStatusId", 2);
+            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            var childAbductions = records.Select(x => GetModel(x, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
+
+            return childAbductions;
+        }
     }
 }
