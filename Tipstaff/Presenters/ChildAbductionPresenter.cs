@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Tipstaff.Cache;
 using Tipstaff.Mappers;
@@ -126,7 +127,13 @@ namespace Tipstaff.Presenters
                 _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllChildAbductions", DateTime  = DateTime.Now });
             }
 
-            var childAbductions = records.Select(x=> GetModel(x,new LazyLoader() { LoadRespondents = true,LoadChildren =true }));
+            var cas = new List<ChildAbduction>();
+            var r = Parallel.ForEach(records, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec =>
+            {
+                cas.Add(GetModel(rec, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
+            });
+
+            var childAbductions = cas;//Select(x=> GetModel(x,new LazyLoader() { LoadRespondents = true,LoadChildren =true }));
 
             return childAbductions;
         }

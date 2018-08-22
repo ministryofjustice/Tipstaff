@@ -20,6 +20,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Add(CacheStore cache)
         {
+            cache.Id = Guid.NewGuid().ToString();
             _dynamoAPI.Save(cache);
         }
     }

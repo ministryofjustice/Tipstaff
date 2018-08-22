@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Tipstaff.Cache;
 using Tipstaff.Mappers;
@@ -58,8 +59,13 @@ namespace Tipstaff.Presenters
                 _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllTipstaffRecords", DateTime = DateTime.Now });
             }
 
-            var records = entities.Select(x => GetModel(x));
 
+            //            var records = entities.Select(x => GetModel(x));
+            var records = new List<Models.TipstaffRecord>();
+            var r = Parallel.ForEach(entities, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec => 
+            {
+                records.Add(GetModel(rec));
+            });
             return records;
         }
         

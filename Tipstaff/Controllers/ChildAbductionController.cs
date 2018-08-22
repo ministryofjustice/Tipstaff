@@ -43,11 +43,11 @@ namespace Tipstaff.Controllers
             {
                 TRs = TRs.Where(x => x.resultID == null);
             }
-            if (model.caseStatusID > -1)
+            if (model?.caseStatusID > -1)
             {
                 TRs = TRs.Where(w => w.caseStatusID == model.caseStatusID);
             }
-            if (model.caOrderTypeID > -1)
+            if (model?.caOrderTypeID > -1)
             {
                 TRs = TRs.Where(w => w.caOrderType?.CAOrderTypeId == model.caOrderTypeID);
             }
