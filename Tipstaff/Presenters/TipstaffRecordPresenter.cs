@@ -17,6 +17,7 @@ namespace Tipstaff.Presenters
         private readonly ICaseReviewPresenter _caseReviewPresenter;
         private readonly IAddressPresenter _addressPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
+        private readonly ICacheRepository _cacheRepository;
         private readonly EasyCache _cache;
       
 
@@ -24,13 +25,14 @@ namespace Tipstaff.Presenters
                                        IRespondentPresenter respondentPresenter, 
                                        ICaseReviewPresenter caseReviewPresenter, 
                                        IAddressPresenter addressPresenter, 
-                                       ISolicitorPresenter solicitorPresenter)
+                                       ISolicitorPresenter solicitorPresenter, ICacheRepository cacheRepository)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _respondentPresenter = respondentPresenter;
             _caseReviewPresenter = caseReviewPresenter;
             _addressPresenter = addressPresenter;
             _solicitorPresenter = solicitorPresenter;
+            _cacheRepository = cacheRepository;
             _cache = new EasyCache();
         }
         
@@ -51,7 +53,10 @@ namespace Tipstaff.Presenters
                 _cache.RefreshCache(CacheItem.TipstaffRecords, entities, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
             }
             else
+            {
                 entities = recs;
+                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllTipstaffRecords", DateTime = DateTime.Now });
+            }
 
             var records = entities.Select(x => GetModel(x));
 

@@ -48,6 +48,7 @@ namespace Tipstaff.Tests.Integration
         protected ITipstaffRecordSolicitorsRepository _tipstaffRecordSolicitorRepository;
         protected ITipstaffPoliceForcesRepository _tipstaffPoliceRepository;
         protected IPoliceForcesRepository _policeRepository;
+        private ICacheRepository _cacheRepository;
         
         
         public BaseController()
@@ -69,6 +70,7 @@ namespace Tipstaff.Tests.Integration
             _tipstaffRecordSolicitorRepository = new TipstaffRecordSolicitorsRepository(new DynamoAPI<Tipstaff_Solicitors>());
              _tipstaffPoliceRepository = new TipstaffPoliceForcesRepository(new DynamoAPI<Tipstaff_PoliceForces>(), _auditRepo);
             _policeRepository = new PoliceForcesRepository(new DynamoAPI<PoliceForces>(), _auditRepo);
+            _cacheRepository = new CacheRepository(new DynamoAPI<CacheStore>());
 
             //Presenters
             _addressPresenter = new AddressPresenter(_addressRepository);
@@ -89,7 +91,7 @@ namespace Tipstaff.Tests.Integration
                                                                    _respondentPresenter, 
                                                                    _caseReviewPresenter, 
                                                                    _addressPresenter, 
-                                                                   _solicitorPresenter);
+                                                                   _solicitorPresenter, _cacheRepository);
              _childAbductionPresenter = new ChildAbductionPresenter(_tipstaffRecordRepository, 
                                                                     _deleteTipstaffRecordRepository, 
                                                                     _caseReviewPresenter, 
@@ -98,10 +100,10 @@ namespace Tipstaff.Tests.Integration
                                                                     _addressPresenter, 
                                                                     _applicantPresenter,
                                                                     _solicitorPresenter, 
-                                                                    _attendanceNotePresenter , _docPresenter);
+                                                                    _attendanceNotePresenter , _docPresenter, _cacheRepository);
             
 
-            _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter, _docPresenter,_tipstaffPolicePresenter, _solicitorPresenter);
+            _warrantPresenter = new WarrantPresenter(_tipstaffRecordRepository, _addressPresenter, _caseReviewPresenter, _respondentPresenter, _attendanceNotePresenter, _docPresenter,_tipstaffPolicePresenter, _solicitorPresenter, _cacheRepository);
 
         }
         

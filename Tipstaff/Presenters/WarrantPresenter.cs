@@ -18,6 +18,7 @@ namespace Tipstaff.Presenters
         private readonly IDocumentPresenter _docPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly ITipstaffPoliceForcesPresenter _policeForcesPresenter;
+        private readonly ICacheRepository _cacheRepository;
         private readonly EasyCache _cache;
 
 
@@ -28,7 +29,7 @@ namespace Tipstaff.Presenters
             IAttendanceNotePresenter attendanceNotePresenter, 
             IDocumentPresenter docPresenter, 
             ITipstaffPoliceForcesPresenter policePresenter, 
-            ISolicitorPresenter solicitorPresenter)
+            ISolicitorPresenter solicitorPresenter, ICacheRepository cacheRepository)
         {
             _tipstaffRecordRepository = tipstaffRecordRepository;
             _addressPresenter = addressPresenter;
@@ -38,6 +39,7 @@ namespace Tipstaff.Presenters
             _docPresenter = docPresenter;
             _solicitorPresenter = solicitorPresenter;
             _policeForcesPresenter = policePresenter;
+            _cacheRepository = cacheRepository;
             _cache = new EasyCache();
         }
         
@@ -72,8 +74,10 @@ namespace Tipstaff.Presenters
                 _cache.RefreshCache(CacheItem.WA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
             }
             else
+            {
                 records = recs;
-
+                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllWarrants", DateTime = DateTime.Now });
+            }
             var warrants = records.Select(x => GetModel(x));
 
             return warrants;
@@ -87,17 +91,20 @@ namespace Tipstaff.Presenters
             
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.ActiveWAs);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.WA);
 
             if (recs == null)
             {
-                records = _tipstaffRecordRepository.GetAllByConditions(conditions); 
-                _cache.RefreshCache(CacheItem.ActiveWAs, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+                records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+                _cache.RefreshCache(CacheItem.WA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
             }
             else
+            {
                 records = recs;
+                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllActiveWarrants", DateTime = DateTime.Now });
+            }
             
-            var warrants = records.Select(x => GetModel(x, new LazyLoader() { LoadRespondents=true }));
+            var warrants = records.Where(x=>x.CaseStatusId==1).Select(x => GetModel(x, new LazyLoader() { LoadRespondents=true }));
 
             return warrants;
         }
@@ -223,17 +230,20 @@ namespace Tipstaff.Presenters
 
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.ClosedWAs);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.WA);
 
             if (recs == null)
             {
                 records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.ClosedWAs, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+                _cache.RefreshCache(CacheItem.WA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
             }
             else
+            {
                 records = recs;
+                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllClosedWarrants", DateTime = DateTime.Now });
+            }
 
-            var warrants = records.Where(c =>c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate).Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true }));
+            var warrants = records.Where(c => c.CaseStatusId==3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate).Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true }));
 
             return warrants;
         }

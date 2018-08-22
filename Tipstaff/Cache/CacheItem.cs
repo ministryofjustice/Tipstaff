@@ -13,13 +13,5 @@ namespace Tipstaff.Cache
         public const string WA = "Warrant";
 
         public const string TipstaffRecords = "TipstaffRecords";
-
-        public const string ActiveCAs = "ACAs";
-
-        public const string ClosedCAs = "CCAs";
-
-        public const string ActiveWAs = "AWAs";
-
-        public const string ClosedWAs = "CWAs";
     }
 }
