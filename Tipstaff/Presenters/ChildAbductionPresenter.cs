@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Tipstaff.Cache;
 using Tipstaff.Mappers;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
@@ -33,6 +34,7 @@ namespace Tipstaff.Presenters
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
         private readonly IDocumentPresenter _documentPresenter;
+        private readonly EasyCache _cache;
 
         public ChildAbductionPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
             IDeletedTipstaffRecordRepository deletedTipstaffRecordRepository, 
@@ -54,6 +56,7 @@ namespace Tipstaff.Presenters
             _solicitorPresenter = solicitorPresenter;
             _attendanceNotePresenter = attendanceNotePresenter;
             _documentPresenter = documentPresenter;
+            _cache = new EasyCache();
         }
 
         public void AddDeletedTipstaffRecord(Models.DeletedTipstaffRecord record)
@@ -106,7 +109,18 @@ namespace Tipstaff.Presenters
             var conditions = new Dictionary<string, object>();
             conditions.Add("Discriminator", "ChildAbduction");
             //conditions.Add("CaseStatusId", 1);
-            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+
+            if (recs == null)
+            {
+                records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+            }
+            else
+                records = recs;
+
             var childAbductions = records.Select(x=> GetModel(x,new LazyLoader() { LoadRespondents = true,LoadChildren =true }));
 
             return childAbductions;
@@ -231,7 +245,20 @@ namespace Tipstaff.Presenters
             var conditions = new Dictionary<string, object>();
             conditions.Add("Discriminator", "ChildAbduction");
             conditions.Add("CaseStatusId", 3);
-            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
+
+
+            if (recs == null)
+            {
+                records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
+            }
+            else
+                records = recs.Where(x => x.CaseStatusId == 3);
+
+
             var recordswithFilter = records.Where(c => c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
             var cas = records.Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
 
@@ -243,7 +270,21 @@ namespace Tipstaff.Presenters
             var conditions = new Dictionary<string, object>();
             conditions.Add("Discriminator", "ChildAbduction");
             conditions.Add("CaseStatusId", 2);
-            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            //var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
+
+
+            if (recs == null)
+            {
+                records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
+            }
+            else
+                records = recs.Where(x=>x.CaseStatusId==2);
+
+
             var childAbductions = records.Select(x => GetModel(x, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
 
             return childAbductions;

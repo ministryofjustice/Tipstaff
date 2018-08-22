@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tipstaff.Cache;
 using Tipstaff.Mappers;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
@@ -17,8 +18,9 @@ namespace Tipstaff.Presenters
         private readonly IDocumentPresenter _docPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly ITipstaffPoliceForcesPresenter _policeForcesPresenter;
+        private readonly EasyCache _cache;
 
-        
+
         public WarrantPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
             IAddressPresenter addressPresenter, 
             ICaseReviewPresenter casereviewPresenter, 
@@ -36,6 +38,7 @@ namespace Tipstaff.Presenters
             _docPresenter = docPresenter;
             _solicitorPresenter = solicitorPresenter;
             _policeForcesPresenter = policePresenter;
+            _cache = new EasyCache();
         }
         
         public void AddWarrant(Warrant warrant)
@@ -59,7 +62,17 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Warrant> GetAllWarrants()
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant");
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.WA);
+
+            if (recs == null)
+            {
+                records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant");
+                _cache.RefreshCache(CacheItem.WA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+            }
+            else
+                records = recs;
 
             var warrants = records.Select(x => GetModel(x));
 
@@ -71,7 +84,19 @@ namespace Tipstaff.Presenters
             var conditions = new Dictionary<string, object>();
             conditions.Add("Discriminator", "Warrant");
             conditions.Add("CaseStatusId", 1);
-            var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+            
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.WA);
+
+            if (recs == null)
+            {
+                records = _tipstaffRecordRepository.GetAllByConditions(conditions); 
+                _cache.RefreshCache(CacheItem.WA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+            }
+            else
+                records = recs;
+            
             var warrants = records.Select(x => GetModel(x, new LazyLoader() { LoadRespondents=true }));
 
             return warrants;
