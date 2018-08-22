@@ -43,12 +43,12 @@ namespace Tipstaff.Presenters
 
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> entities = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.WA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.TipstaffRecords);
 
             if (recs == null)
             {
                 entities = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.WA, entities, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+                _cache.RefreshCache(CacheItem.TipstaffRecords, entities, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
             }
             else
                 entities = recs;
