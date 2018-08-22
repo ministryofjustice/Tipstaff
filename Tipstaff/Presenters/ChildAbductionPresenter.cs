@@ -302,8 +302,13 @@ namespace Tipstaff.Presenters
                 _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetActiveChildAbductions", DateTime = DateTime.Now });
             }
 
+            var cas = new List<ChildAbduction>();
+            var r = Parallel.ForEach(records, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec =>
+            {
+                cas.Add(GetModel(rec, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
+            });
 
-            var childAbductions = records.Select(x => GetModel(x, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
+            var childAbductions = cas;
 
             return childAbductions;
         }

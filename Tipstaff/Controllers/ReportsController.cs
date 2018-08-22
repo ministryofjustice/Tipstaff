@@ -166,18 +166,21 @@ namespace Tipstaff.Controllers
             return new FileStreamResult(returnStream, "image/png");
         }
 
+        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public ActionResult ActiveChildAbductions()
         {
             List<CAReportItem> results = GetActiveChildAbductions();
             return View(results);
         }
 
+        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public ActionResult ActiveWarrants()
         {
             List<WReportItem> results = GetActiveWarrants();
             return View(results);
         }
 
+        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public ActionResult ClosedChildAbductions()
         {
             ClosedCases_StandardReport closedCA = new ClosedCases_StandardReport();

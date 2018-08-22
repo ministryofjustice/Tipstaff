@@ -82,7 +82,7 @@ namespace Tipstaff.Presenters
            // var warrants = records.Select(x => GetModel(x));
 
             var warrants = new List<Warrant>();
-            var r = Parallel.ForEach(records, new ParallelOptions() { MaxDegreeOfParallelism =50 }, rec => 
+            var r = Parallel.ForEach(records, new ParallelOptions() { MaxDegreeOfParallelism =50 },rec => 
             {
                 warrants.Add(GetModel(rec));
             });
@@ -110,8 +110,12 @@ namespace Tipstaff.Presenters
                 records = recs;
                 _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllActiveWarrants", DateTime = DateTime.Now });
             }
-            
-            var warrants = records.Where(x=>x.CaseStatusId==1).Select(x => GetModel(x, new LazyLoader() { LoadRespondents=true }));
+
+            var warrants = new List<Warrant>();
+            var r = Parallel.ForEach(records.Where(x=>x.CaseStatusId==1), new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec =>
+            {
+                warrants.Add(GetModel(rec));
+            });
 
             return warrants;
         }
