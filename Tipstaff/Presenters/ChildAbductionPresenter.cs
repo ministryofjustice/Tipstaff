@@ -246,14 +246,14 @@ namespace Tipstaff.Presenters
             conditions.Add("Discriminator", "ChildAbduction");
             conditions.Add("CaseStatusId", 3);
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.ClosedCAs);
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
 
             if (recs == null)
             {
                 records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
+                _cache.RefreshCache(CacheItem.ClosedCAs, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
             }
             else
                 records = recs.Where(x => x.CaseStatusId == 3);
@@ -272,14 +272,14 @@ namespace Tipstaff.Presenters
             conditions.Add("CaseStatusId", 2);
             //var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.ActiveCAs);
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
 
             if (recs == null)
             {
                 records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
+                _cache.RefreshCache(CacheItem.ActiveCAs, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
             }
             else
                 records = recs.Where(x=>x.CaseStatusId==2);

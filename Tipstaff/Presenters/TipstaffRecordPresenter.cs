@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Tipstaff.Cache;
 using Tipstaff.Mappers;
 using Tipstaff.Models;
 using Tipstaff.Services.DynamoTables;
@@ -16,7 +17,9 @@ namespace Tipstaff.Presenters
         private readonly ICaseReviewPresenter _caseReviewPresenter;
         private readonly IAddressPresenter _addressPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
-        
+        private readonly EasyCache _cache;
+      
+
         public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
                                        IRespondentPresenter respondentPresenter, 
                                        ICaseReviewPresenter caseReviewPresenter, 
@@ -28,11 +31,27 @@ namespace Tipstaff.Presenters
             _caseReviewPresenter = caseReviewPresenter;
             _addressPresenter = addressPresenter;
             _solicitorPresenter = solicitorPresenter;
+            _cache = new EasyCache();
         }
         
         public IEnumerable<Models.TipstaffRecord> GetAll()
         {
-            var entities = _tipstaffRecordRepository.GetAllByCondition<int>("CaseStatusId", 2);
+            //var entities = _tipstaffRecordRepository.GetAllByCondition<int>("CaseStatusId", 2);
+
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("CaseStatusId", 2);
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> entities = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.WA);
+
+            if (recs == null)
+            {
+                entities = _tipstaffRecordRepository.GetAllByConditions(conditions);
+                _cache.RefreshCache(CacheItem.WA, entities, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+            }
+            else
+                entities = recs;
 
             var records = entities.Select(x => GetModel(x));
 

@@ -87,12 +87,12 @@ namespace Tipstaff.Presenters
             
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.WA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.ActiveWAs);
 
             if (recs == null)
             {
                 records = _tipstaffRecordRepository.GetAllByConditions(conditions); 
-                _cache.RefreshCache(CacheItem.WA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+                _cache.RefreshCache(CacheItem.ActiveWAs, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
             }
             else
                 records = recs;
@@ -143,9 +143,7 @@ namespace Tipstaff.Presenters
 
             _tipstaffRecordRepository.Delete(entity);
         }
-
-
-
+        
         public Warrant GetModel(Services.DynamoTables.TipstaffRecord table, LazyLoader loader = null)
         {
             var protectiveMArkingId = table.ProtectiveMarkingId.HasValue ? table.ProtectiveMarkingId.Value : 0;
@@ -219,9 +217,23 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Warrant> GetAllClosedWarrants(DateTime start, DateTime end)
         {
-            var records = _tipstaffRecordRepository.GetAllByCondition("Discriminator", "Warrant").Where(c => c.CaseStatusId == 3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
+            var conditions = new Dictionary<string, object>();
+            conditions.Add("Discriminator", "Warrant");
+            conditions.Add("CaseStatusId", 3);
 
-            var warrants = records.Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true }));
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
+
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.ClosedWAs);
+
+            if (recs == null)
+            {
+                records = _tipstaffRecordRepository.GetAllByConditions(conditions);
+                _cache.RefreshCache(CacheItem.ClosedWAs, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+            }
+            else
+                records = recs;
+
+            var warrants = records.Where(c =>c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate).Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true }));
 
             return warrants;
         }
