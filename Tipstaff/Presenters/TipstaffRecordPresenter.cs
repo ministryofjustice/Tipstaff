@@ -61,12 +61,12 @@ namespace Tipstaff.Presenters
 
 
             //            var records = entities.Select(x => GetModel(x));
-            var records = new List<Models.TipstaffRecord>();
-            var r = Parallel.ForEach(entities, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec => 
-            {
-                records.Add(GetModel(rec));
-            });
-            return records;
+            //var records = new List<Models.TipstaffRecord>();
+            //var r = Parallel.ForEach(entities, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec => 
+            //{
+            //    records.Add(GetModel(rec));
+            //});
+            return entities.Select(x=> GetModel(x));
         }
         
         public Models.TipstaffRecord GetModel(Services.DynamoTables.TipstaffRecord table, LazyLoader loader = null)

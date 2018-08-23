@@ -124,7 +124,7 @@ namespace Tipstaff.Presenters
             else
             {
                 records = recs;
-                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllChildAbductions", DateTime  = DateTime.Now });
+                //_cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllChildAbductions", DateTime  = DateTime.Now });
             }
 
             var cas = new List<ChildAbduction>();
@@ -270,7 +270,7 @@ namespace Tipstaff.Presenters
             else
             {
                 records = recs.Where(x => x.CaseStatusId == 3);
-                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllClosedChildAbductions", DateTime = DateTime.Now });
+               // _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllClosedChildAbductions", DateTime = DateTime.Now });
             }
 
 
@@ -299,16 +299,18 @@ namespace Tipstaff.Presenters
             else
             {
                 records = recs.Where(x => x.CaseStatusId == 2);
-                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetActiveChildAbductions", DateTime = DateTime.Now });
+              //  _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetActiveChildAbductions", DateTime = DateTime.Now });
             }
 
-            var cas = new List<ChildAbduction>();
-            var r = Parallel.ForEach(records, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec =>
-            {
-                cas.Add(GetModel(rec, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
-            });
+            records.Select(x => GetModel(x));
 
-            var childAbductions = cas;
+            //var cas = new List<ChildAbduction>();
+            //var r = Parallel.ForEach(records, rec =>
+            //{
+            //    cas.Add(GetModel(rec, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
+            //});
+
+            var childAbductions = records.Select(x => GetModel(x)); ;
 
             return childAbductions;
         }

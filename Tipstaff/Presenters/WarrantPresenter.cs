@@ -77,7 +77,7 @@ namespace Tipstaff.Presenters
             else
             {
                 records = recs;
-                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllWarrants", DateTime = DateTime.Now });
+                //_cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllWarrants", DateTime = DateTime.Now });
             }
            // var warrants = records.Select(x => GetModel(x));
 
@@ -108,7 +108,7 @@ namespace Tipstaff.Presenters
             else
             {
                 records = recs;
-                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllActiveWarrants", DateTime = DateTime.Now });
+               // _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllActiveWarrants", DateTime = DateTime.Now });
             }
 
             var warrants = new List<Warrant>();
@@ -251,7 +251,7 @@ namespace Tipstaff.Presenters
             else
             {
                 records = recs;
-                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllClosedWarrants", DateTime = DateTime.Now });
+               // _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllClosedWarrants", DateTime = DateTime.Now });
             }
 
             var warrants = records.Where(c => c.CaseStatusId==3 && c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate).Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true }));
