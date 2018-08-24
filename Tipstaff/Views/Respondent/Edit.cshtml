@@ -69,7 +69,7 @@
         else
         {
         <div class="editor-label">
-            @Html.LabelFor(model => model.respondent.childRelationship.ChildRelationshipID, true)
+            @Html.Label("Child Relationship")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.respondent.childRelationship.ChildRelationshipID, Model.RelationToChildList, "Please define the relationship", new { @class = "required" })           

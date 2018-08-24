@@ -84,7 +84,7 @@
     </div>
     @Html.ValidationSummary(true)
     <div class="editor-label">
-        @Html.LabelFor(model => model.deletedTipstaffRecord.deletedReasonID,true)
+        @Html.Label("Document Type")
     </div>
     <div class="editor-field">
         @Html.DropDownListFor(model => model.deletedTipstaffRecord.deletedReasonID, Model.DeletedReasonList, "Please select a reason for deletion", new { @class = "required" })

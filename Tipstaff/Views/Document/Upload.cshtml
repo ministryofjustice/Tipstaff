@@ -43,14 +43,14 @@
             @Html.ValidationMessageFor(model => model.document.nationality.NationalityID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.document.documentType.DocumentTypeID, true)
+            @Html.Label("Document Type")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.document.documentType.DocumentTypeID, Model.TypeList, "Select a Type", new { @class = "required" })
             @Html.ValidationMessageFor(model => model.document.documentType.DocumentTypeID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.document.documentStatus.DocumentStatusID, true)
+            @Html.Label("Document Status")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.document.documentStatus.DocumentStatusID, Model.StatusList, "Select a Status", new { @class = "required" })

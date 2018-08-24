@@ -26,7 +26,7 @@
 
     @if (genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) != "Warrant")
     {
-    <div class="display-label">@Html.LabelFor(model=>model.childRelationship.ChildRelationshipID)</div>
+    <div class="display-label">@Html.Label("Child Relationship")</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.childRelationship.Detail)
     </div>
