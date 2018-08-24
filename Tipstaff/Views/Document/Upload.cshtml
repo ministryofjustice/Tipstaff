@@ -29,14 +29,14 @@
         </div>
                 
         <div class="editor-label">
-            @Html.LabelFor(model => model.document.country.CountryID, true)
+            @Html.Label("Country")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.document.country.CountryID, Model.CountryList, "Select a country", new { @class = "required" })            
             @Html.ValidationMessageFor(model => model.document.country.CountryID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.document.nationality.NationalityID, true)
+            @Html.Label("Nationality")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.document.nationality.NationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })            

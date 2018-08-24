@@ -27,7 +27,7 @@
     <div class="display-field">
         @Html.DisplayFor(m=>Model.Respondent.DateofBirthDisplay)
     </div>
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.gender.GenderId) </div>
+    <div class="display-label">@Html.Label("Gender") </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.gender.Detail) 
     </div>
@@ -52,7 +52,7 @@
         @Html.DisplayFor(model => Model.Respondent.eyeColour) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.skinColour.SkinColourId) </div>
+    <div class="display-label">@Html.Label("Skin Colour") </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.skinColour.Detail) 
     </div>
@@ -62,12 +62,12 @@
         @Html.DisplayFor(model => Model.Respondent.specialfeatures) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.country.CountryID) </div>
+    <div class="display-label">@Html.Label("Country") </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.country.Detail) 
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>Model.Respondent.nationality.NationalityID) </div>
+    <div class="display-label">@Html.Label("Nationality") </div>
     <div class="display-field">
         @Html.DisplayFor(model => Model.Respondent.nationality.Detail) 
     </div>

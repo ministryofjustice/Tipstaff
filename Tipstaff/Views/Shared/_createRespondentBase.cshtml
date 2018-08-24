@@ -34,7 +34,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.respondent.gender.GenderId, true)
+            @Html.Label("Gender")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.respondent.gender.GenderId, Model.GenderList, "Please select a gender", new { @class = "required" })           
@@ -73,7 +73,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.respondent.skinColour.SkinColourId, true)
+            @Html.Label("Skin Colour")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.respondent.skinColour.SkinColourId, Model.SkinColourList, "Select a skin colour", new { @class = "required" })            
@@ -112,7 +112,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.respondent.nationality.NationalityID, true)
+            @Html.Label("Nationality")
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.respondent.nationality.NationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })            
