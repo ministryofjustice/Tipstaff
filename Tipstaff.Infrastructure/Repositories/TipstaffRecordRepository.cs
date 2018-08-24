@@ -383,9 +383,9 @@ namespace Tipstaff.Infrastructure.Repositories
             entity.CreatedOn = record.CreatedOn;
             entity.CreatedBy = record.CreatedBy;
             entity.DateCirculated = record.DateCirculated;
-            entity.RespondentName = entity.RespondentName;
-            entity.CaseNumber = entity.CaseNumber;
-            entity.DivisionId = entity.DivisionId;
+            entity.RespondentName = record.RespondentName;
+            entity.CaseNumber = record.CaseNumber;
+            entity.DivisionId = record.DivisionId;
             
             _dynamoAPI.Save(entity);
         }
