@@ -70,7 +70,7 @@ namespace Tipstaff.Tests.Integration
             _tipstaffRecordSolicitorRepository = new TipstaffRecordSolicitorsRepository(new DynamoAPI<Tipstaff_Solicitors>());
              _tipstaffPoliceRepository = new TipstaffPoliceForcesRepository(new DynamoAPI<Tipstaff_PoliceForces>(), _auditRepo);
             _policeRepository = new PoliceForcesRepository(new DynamoAPI<PoliceForces>(), _auditRepo);
-            _cacheRepository = new CacheRepository(new DynamoAPI<CacheStore>());
+            _cacheRepository = new CacheRepository(new DynamoAPI<Cache>());
 
             //Presenters
             _addressPresenter = new AddressPresenter(_addressRepository);

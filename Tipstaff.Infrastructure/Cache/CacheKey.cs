@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Infrastructure.Cache
 {
-    public class CacheItem
+    public class CacheKey
     {
-        public const string CA = "ChildAbduction";
+        public const string CA = "CA";
 
-        public const string WA = "Warrant";
+        public const string WA = "WA";
+
+        public const string TR = "TR";
     }
 }

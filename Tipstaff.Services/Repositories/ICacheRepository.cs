@@ -9,6 +9,6 @@ namespace Tipstaff.Services.Repositories
 {
     public interface ICacheRepository
     {
-        void Add(CacheStore cache);
+        void Add(Cache cache);
     }
 }

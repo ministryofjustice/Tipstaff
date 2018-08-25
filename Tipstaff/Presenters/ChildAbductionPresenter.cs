@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using Tipstaff.Cache;
-using Tipstaff.Mappers;
+using Tipstaff.Infrastructure.Cache;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
 
@@ -36,7 +34,6 @@ namespace Tipstaff.Presenters
         private readonly IAttendanceNotePresenter _attendanceNotePresenter;
         private readonly IDocumentPresenter _documentPresenter;
         private readonly ICacheRepository _cacheRepository;
-        private readonly EasyCache _cache;
 
         public ChildAbductionPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
             IDeletedTipstaffRecordRepository deletedTipstaffRecordRepository, 
@@ -59,7 +56,6 @@ namespace Tipstaff.Presenters
             _attendanceNotePresenter = attendanceNotePresenter;
             _documentPresenter = documentPresenter;
             _cacheRepository = cacheRepository;
-            _cache = new EasyCache();
         }
 
         public void AddDeletedTipstaffRecord(Models.DeletedTipstaffRecord record)
@@ -114,17 +110,17 @@ namespace Tipstaff.Presenters
             //conditions.Add("CaseStatusId", 1);
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = AWSElastiCache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheKey.CA);
 
             if (recs == null)
             {
                 records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+                AWSElastiCache.Add(CacheKey.CA, records, new TimeSpan(3600));
             }
             else
             {
                 records = recs;
-                //_cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllChildAbductions", DateTime  = DateTime.Now });
+                _cacheRepository.Add(new Services.DynamoTables.Cache() { Context = "GetAllChildAbductions", DateTime  = DateTime.Now });
             }
 
             var cas = new List<ChildAbduction>();
@@ -258,19 +254,19 @@ namespace Tipstaff.Presenters
             conditions.Add("Discriminator", "ChildAbduction");
             conditions.Add("CaseStatusId", 3);
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = AWSElastiCache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheKey.CA);
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
 
             if (recs == null)
             {
                 records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
+                AWSElastiCache.Add(CacheKey.CA, records, new TimeSpan(3600));
             }
             else
             {
                 records = recs.Where(x => x.CaseStatusId == 3);
-               // _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllClosedChildAbductions", DateTime = DateTime.Now });
+               _cacheRepository.Add(new Services.DynamoTables.Cache() { Context = "GetAllClosedChildAbductions", DateTime = DateTime.Now });
             }
 
 
@@ -287,19 +283,19 @@ namespace Tipstaff.Presenters
             conditions.Add("CaseStatusId", 2);
             //var records = _tipstaffRecordRepository.GetAllByConditions(conditions);
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.CA);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = AWSElastiCache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheKey.CA);
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> records = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
 
             if (recs == null)
             {
                 records = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.CA, records, new DateTimeOffset(DateTime.Now.AddMinutes(60)));
+                AWSElastiCache.Add(CacheKey.CA, records, new TimeSpan(3600));
             }
             else
             {
                 records = recs.Where(x => x.CaseStatusId == 2);
-              //  _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetActiveChildAbductions", DateTime = DateTime.Now });
+                _cacheRepository.Add(new Services.DynamoTables.Cache() { Context = "GetActiveChildAbductions", DateTime = DateTime.Now });
             }
 
             records.Select(x => GetModel(x));

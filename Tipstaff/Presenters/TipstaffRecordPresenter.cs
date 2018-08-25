@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Tipstaff.Cache;
-using Tipstaff.Mappers;
+using Tipstaff.Infrastructure.Cache;
 using Tipstaff.Models;
-using Tipstaff.Services.DynamoTables;
 using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
@@ -19,7 +15,7 @@ namespace Tipstaff.Presenters
         private readonly IAddressPresenter _addressPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly ICacheRepository _cacheRepository;
-        private readonly EasyCache _cache;
+        
       
 
         public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
@@ -34,7 +30,6 @@ namespace Tipstaff.Presenters
             _addressPresenter = addressPresenter;
             _solicitorPresenter = solicitorPresenter;
             _cacheRepository = cacheRepository;
-            _cache = new EasyCache();
         }
         
         public IEnumerable<Models.TipstaffRecord> GetAll()
@@ -46,17 +41,17 @@ namespace Tipstaff.Presenters
 
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> entities = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _cache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheItem.TipstaffRecords);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = AWSElastiCache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheKey.TR);
 
             if (recs == null)
             {
                 entities = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                _cache.RefreshCache(CacheItem.TipstaffRecords, entities, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
+                AWSElastiCache.Add(CacheKey.TR, entities, new TimeSpan(3600));
             }
             else
             {
                 entities = recs;
-                _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllTipstaffRecords", DateTime = DateTime.Now });
+                _cacheRepository.Add(new Services.DynamoTables.Cache() { Context = "GetAllTipstaffRecords", DateTime = DateTime.Now });
             }
 
 
