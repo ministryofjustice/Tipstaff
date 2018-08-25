@@ -16,7 +16,7 @@ namespace Tipstaff
 
         public AWSElastiCache()
         {
-            _elastiCacheClusterConfig = new ElastiCacheClusterConfig("cachecluster.gkak7w.cfg.euw2.cache.amazonaws.com", 11211);
+            _elastiCacheClusterConfig = new ElastiCacheClusterConfig("main.gkak7w.cfg.euw2.cache.amazonaws.com", 11211);
             _client = new MemcachedClient(_elastiCacheClusterConfig);
         }
 
