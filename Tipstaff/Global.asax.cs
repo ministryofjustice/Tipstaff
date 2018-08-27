@@ -26,17 +26,17 @@ namespace Tipstaff
     {
         private static IWindsorContainer _container;
         private ICloudWatchLogger _cloudWatchLogger;
-        private static AWSElastiCache _cache;
+        private static EasyCache _cache;
 
         public MvcApplication()
         {
             _cloudWatchLogger = new CloudWatchLogger();
         }
 
-        public static void InitializeCache()
-        {
-            _cache = new AWSElastiCache();
-        }
+        //public static void InitializeCache()
+        //{
+        //    _cache = new EasyCache();
+        //}
 
         private static void BootstrapContainer()
         {
@@ -212,7 +212,7 @@ namespace Tipstaff
             BootstrapContainer();
 
             //Innitialize ElastiCache
-            InitializeCache();
+            //InitializeCache();
             //ConfigurationManager.AppSettings["CurServer"] = ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString.Split(';').First().Split('=').Last();
         }
 

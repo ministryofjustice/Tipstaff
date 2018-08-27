@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tipstaff.Infrastructure.Cache;
 using Tipstaff.Models;
 using Tipstaff.Services.Repositories;
@@ -15,8 +16,8 @@ namespace Tipstaff.Presenters
         private readonly IAddressPresenter _addressPresenter;
         private readonly ISolicitorPresenter _solicitorPresenter;
         private readonly ICacheRepository _cacheRepository;
-        
-      
+        private readonly EasyCache _easyCach;
+
 
         public TipstaffRecordPresenter(ITipstaffRecordRepository tipstaffRecordRepository, 
                                        IRespondentPresenter respondentPresenter, 
@@ -30,6 +31,7 @@ namespace Tipstaff.Presenters
             _addressPresenter = addressPresenter;
             _solicitorPresenter = solicitorPresenter;
             _cacheRepository = cacheRepository;
+            _easyCach = new EasyCache();
         }
         
         public IEnumerable<Models.TipstaffRecord> GetAll()
@@ -41,27 +43,28 @@ namespace Tipstaff.Presenters
 
             IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> entities = new List<Tipstaff.Services.DynamoTables.TipstaffRecord>();
 
-            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = AWSElastiCache.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheKey.TR);
+            IEnumerable<Tipstaff.Services.DynamoTables.TipstaffRecord> recs = _easyCach.GetItems<Tipstaff.Services.DynamoTables.TipstaffRecord>(CacheKey.TR);
 
             if (recs == null)
             {
                 entities = _tipstaffRecordRepository.GetAllByConditions(conditions);
-                AWSElastiCache.Add(CacheKey.TR, entities, new TimeSpan(3600));
+                _easyCach.RefreshCache(CacheKey.TR, entities, new DateTimeOffset(DateTime.Now.AddMinutes(30)));
             }
             else
             {
                 entities = recs;
-                _cacheRepository.Add(new Services.DynamoTables.Cache() { Context = "GetAllTipstaffRecords", DateTime = DateTime.Now });
+               // _cacheRepository.Add(new Services.DynamoTables.Cache() { Context = "GetAllTipstaffRecords", DateTime = DateTime.Now });
             }
 
 
-            //            var records = entities.Select(x => GetModel(x));
-            //var records = new List<Models.TipstaffRecord>();
-            //var r = Parallel.ForEach(entities, new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec => 
-            //{
-            //    records.Add(GetModel(rec));
-            //});
-            return entities.Select(x=> GetModel(x));
+            var records = new List<Tipstaff.Models.TipstaffRecord>();
+
+            var r = Parallel.ForEach(entities, new ParallelOptions() { MaxDegreeOfParallelism = 20 }, rec =>
+            {
+                records.Add(GetModel(rec));
+            });
+
+            return records;
         }
         
         public Models.TipstaffRecord GetModel(Services.DynamoTables.TipstaffRecord table, LazyLoader loader = null)
