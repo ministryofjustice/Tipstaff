@@ -2,15 +2,19 @@
     <legend>Drop-downs available for editing</legend>
     <dl>
         <dt>@Html.ActionLink("Child relationships", "Index", "ChildRelationship", new { area = "Admin" }, null)</dt>
-        <dd>Edit or delete an existing child relationship (Father, Mother, etc) or create a new one</dd>
+        <dd>View child relationships (Father, Mother, etc)</dd>
         <dt>@Html.ActionLink("Contact types", "Index", "ContactType", new { area = "Admin" }, null)</dt>
-        <dd>Add, edit or delete Contact Type (Police, Judge, Clerk, etc)</dd>
+        <dd>View Contact Types (Police, Judge, Clerk, etc)</dd>
         <dt>@Html.ActionLink("Document statuses", "Index", "DocumentStatus", new { area = "Admin" }, null)</dt>
-        <dd>Add, edit or delete document statuses</dd>
+        <dd>View document statuses</dd>
         <dt>@Html.ActionLink("Document types", "Index", "DocumentType", new { area = "Admin" }, null)</dt>
-        <dd>Add, edit or delete document types</dd>
+        <dd>View document types</dd>
+        <dt>@Html.ActionLink("Genders", "Index", "Gender", new { area = "Admin" }, null)</dt>
+        <dd>View gender values</dd>
+        <dt>@Html.ActionLink("Nationalities", "Index", "Nationality", new { area = "Admin" }, null)</dt>
+        <dd>View nationalities</dd>
         <dt>@Html.ActionLink("Salutations", "Index", "Salutation", new { area = "Admin" }, null)</dt>
-        <dd>Add, edit or delete salutations (Mr, Mrs, etc)</dd>
+        <dd>View salutations (Mr, Mrs, etc)</dd>
         <dt>@Html.ActionLink("Solicitors", "Index", "Solicitors", new { area = "Admin" }, null)</dt>
         <dd>Add, edit or delete Solicitors</dd>
         <dt>@Html.ActionLink("Firms", "Index", "SolicitorFirms", new { area = "Admin" }, null)</dt>
@@ -19,7 +23,5 @@
         <dd>Add, edit or delete the reasons for deleting records</dd>
         <dt>@Html.ActionLink("Police Forces", "Index", "PoliceForces", new { area = "Admin" }, null)</dt>
         <dd>Add, edit or delete Police Forces</dd>
-        <dt>@Html.ActionLink("Templates", "Index", "Templates", new { area = "Admin" }, null)</dt>
-        <dd>Add, edit or delete Templates</dd>
     </dl>
 </fieldset>

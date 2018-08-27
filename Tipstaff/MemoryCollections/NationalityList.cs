@@ -216,8 +216,7 @@ namespace Tipstaff.MemoryCollections
                 new Nationality() { NationalityID=194, Detail="Zimbabwean", Active=1},
                 new Nationality() { NationalityID=195, Detail="Not Applicable", Active=1},
                 new Nationality() { NationalityID=196, Detail="Not Provided", Active=1},
-                new Nationality() { NationalityID=197, Detail="Not Known", Active=1},
-                new Nationality() { NationalityID=198, Detail="test", Active=0}
+                new Nationality() { NationalityID=197, Detail="Not Known", Active=1}
             };
         }
 
