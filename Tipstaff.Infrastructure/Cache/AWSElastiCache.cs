@@ -18,6 +18,7 @@ namespace Tipstaff
         {
             _elastiCacheClusterConfig = new ElastiCacheClusterConfig("main.gkak7w.cfg.euw2.cache.amazonaws.com", 11211);
             _client = new MemcachedClient(_elastiCacheClusterConfig);
+            _client.Store(Enyim.Caching.Memcached.StoreMode.Add, "Key","Value");
         }
 
         public static bool Add(string key, object value, TimeSpan validFor)
