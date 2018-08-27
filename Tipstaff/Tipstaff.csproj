@@ -230,13 +230,20 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ChildRelationshipController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CountryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DeletedTipstaffRecordController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DocumentTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\GenderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NationalityController.cs" />
     <Compile Include="Areas\Admin\Controllers\PoliceForcesController.cs" />
     <Compile Include="Areas\Admin\Controllers\SolicitorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SolicitorFirmsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TemplatesController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Areas\Admin\Models\AdminEditModels.cs" />
+    <Compile Include="Areas\Admin\Models\AdminListView.cs" />
     <Compile Include="Areas\Admin\Models\ListViewModels.cs" />
     <Compile Include="Areas\Admin\Models\UserAdminVM.cs" />
     <Compile Include="Classes\Errors.cs" />
@@ -255,6 +262,7 @@
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
+    <Compile Include="Controllers\DocumentStatusController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -310,15 +318,21 @@
     <Compile Include="Models\CaseReviewModels.cs" />
     <Compile Include="Models\ChildModels.cs" />
     <Compile Include="Models\ContactModels.cs" />
+    <Compile Include="Models\ContactTypeListView.cs" />
+    <Compile Include="Models\CountryListView.cs" />
     <Compile Include="Models\DeletedTipstaffRecords.cs" />
     <Compile Include="Models\DeleteModel.cs" />
     <Compile Include="Models\DocumentModels.cs" />
+    <Compile Include="Models\DocumentStatusListView.cs" />
+    <Compile Include="Models\DocumentTypeListView.cs" />
     <Compile Include="Models\ErrorModels.cs" />
     <Compile Include="Models\FAQModels.cs" />
+    <Compile Include="Models\GenderListView.cs" />
     <Compile Include="Models\GraphModels.cs" />
     <Compile Include="Models\IGraphData.cs" />
     <Compile Include="Models\IListByTipstaffRecord.cs" />
     <Compile Include="Models\IModel.cs" />
+    <Compile Include="Models\NationalityListView.cs" />
     <Compile Include="Models\PhoneCallModels.cs" />
     <Compile Include="Models\PoliceForcesModels.cs" />
     <Compile Include="Models\ReportModels.cs" />
@@ -695,6 +709,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Documents\" />
+    <Folder Include="Views\DocumentStatus\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -720,6 +735,14 @@
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.15\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Views\ChildRelationship\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactType\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Country\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentStatus\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DocumentType\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Salutation\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Nationality\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Gender\Index.cshtml" />
     <None Include="Views\Shared\DisplayTemplates\AuditEvent.cshtml.old" />
   </ItemGroup>
   <PropertyGroup>

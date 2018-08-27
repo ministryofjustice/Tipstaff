@@ -1,4 +1,4 @@
-﻿@model Tipstaff.Models.ChildRelationshipListView
+﻿@model Tipstaff.Areas.Admin.Models.ChildRelationshipListView
 
 @{
     ViewBag.Title = "Index of child relationships";
@@ -16,49 +16,27 @@
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > Child Relationships</h6>
 
-<p>
-
-	@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new child relationship", "Create new child relationship", "Create", null, null, null, null, "createButton")
-
-</p>
 
 <table>
     <tr>
-        <th></th>
         <th>
             @Html.LabelFor(model => model.ChildRelationships.First().Detail)
         </th>
         <th>
             @Html.LabelFor(model => model.ChildRelationships.First().active)
         </th>
-        <th>
-            @Html.LabelFor(model => model.ChildRelationships.First().deactivated)
-        </th>
-        <th>
-            @Html.LabelFor(model => model.ChildRelationships.First().deactivatedBy)
-        </th>
     </tr>
 @{var isAltRow = false;
   foreach (var item in Model.ChildRelationships)
     {
     <tr class="@( isAltRow ? "altRow" : "")">
-        <td width="60px" style="text-align:right;">
-            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "ChildRelationship", new { id = item.childRelationshipID }, null, null)
-            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "ChildRelationship", new { id = item.childRelationshipID }, null, null) 
-            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "ChildRelationship", id = item.childRelationshipID }, null, null) 
-        </td>
+        
 		
         <td>
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.Detail, string.Format("Details for {0}", item.Detail), "Details", "ChildRelationship", new { id = item.childRelationshipID }, null, null, "createButton")
+            @Html.DisplayFor(modelItem => item.Detail)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.deactivated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.deactivatedBy)
         </td>
     </tr>
     isAltRow = !isAltRow;
@@ -73,4 +51,6 @@
     token = token.Substring(beginIndex, endIndex - beginIndex);
 
 }
-@Html.SSGPaging("Index", "ChildRelationship", Model, Model.ChildRelationships, token)
+
+
+@*@Html.SSGPaging("Index", "ChildRelationship", Model, Tipstaff.Areas.Admin.Models.ChildRelationship, token)*@

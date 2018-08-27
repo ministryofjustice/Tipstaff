@@ -1,7 +1,7 @@
-﻿@model Tipstaff.Models.CountryListView
+﻿@model Tipstaff.Models.NationalityListView
 
 @{
-    ViewBag.Title = "List of countries";
+    ViewBag.Title = "Nationality list";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section head
@@ -14,20 +14,21 @@
 }
 <h6>@Html.ActionLink("Administration", "Index", "Admin") 
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
-> Countries</h6>
+> Nationalities</h6>
 
 <table>
-   <tr>
+    <tr>
+        <th></th>
         <th>
-            @Html.LabelFor(model=>model.Countries.First().Detail)
+            @Html.LabelFor(model => model.Nationalities.First().Detail)
         </th>
         <th>
-            @Html.LabelFor(model => model.Countries.First().active)
+            @Html.LabelFor(model => model.Nationalities.First().active)
         </th>
     </tr>
 
-@{	var isAltRow = false;
-	foreach (var item in Model.Countries) {
+@{   var isAltRow = false;
+	foreach (var item in Model.Nationalities) {
     <tr class="@(isAltRow ? "altRow" : "")">
         <td>
             @Html.DisplayFor(modelItem => item.Detail)
@@ -36,7 +37,7 @@
             @Html.DisplayFor(modelItem => item.active)
         </td>
     </tr>
-	isAltRow = !isAltRow;
+  	isAltRow = !isAltRow;
 	}
 }
 </table>
@@ -48,5 +49,5 @@
     token = token.Substring(beginIndex, endIndex - beginIndex);
 
 }
-@*@Html.SSGPaging("Index", "Country", Model, Model.Countries, token)*@
+@*@Html.SSGPaging("Index", "Nationality", Model, Model.Nationalities, token)*@
 
