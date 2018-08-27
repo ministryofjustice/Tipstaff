@@ -233,11 +233,13 @@
     <Compile Include="Areas\Admin\Controllers\ChildRelationshipController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\CountryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DeletedReasonController.cs" />
     <Compile Include="Areas\Admin\Controllers\DeletedTipstaffRecordController.cs" />
     <Compile Include="Areas\Admin\Controllers\DocumentTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\GenderController.cs" />
     <Compile Include="Areas\Admin\Controllers\NationalityController.cs" />
     <Compile Include="Areas\Admin\Controllers\PoliceForcesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SalutationController.cs" />
     <Compile Include="Areas\Admin\Controllers\SolicitorsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SolicitorFirmsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TemplatesController.cs" />
@@ -317,11 +319,13 @@
     <Compile Include="Models\AuditModels.cs" />
     <Compile Include="Models\CaseReviewModels.cs" />
     <Compile Include="Models\ChildModels.cs" />
+    <Compile Include="Models\ChildRelationshipListView.cs" />
     <Compile Include="Models\ContactModels.cs" />
     <Compile Include="Models\ContactTypeListView.cs" />
     <Compile Include="Models\CountryListView.cs" />
     <Compile Include="Models\DeletedTipstaffRecords.cs" />
     <Compile Include="Models\DeleteModel.cs" />
+    <Compile Include="Models\DeletionReasonsListView.cs" />
     <Compile Include="Models\DocumentModels.cs" />
     <Compile Include="Models\DocumentStatusListView.cs" />
     <Compile Include="Models\DocumentTypeListView.cs" />
@@ -337,6 +341,7 @@
     <Compile Include="Models\PoliceForcesModels.cs" />
     <Compile Include="Models\ReportModels.cs" />
     <Compile Include="Models\RespondentModels.cs" />
+    <Compile Include="Models\SalutationListView.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\SolictorModels.cs" />
     <Compile Include="Models\TemplateModels.cs" />
@@ -743,6 +748,7 @@
     <Content Include="Areas\Admin\Views\Salutation\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Nationality\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Gender\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DeletedReason\Index.cshtml" />
     <None Include="Views\Shared\DisplayTemplates\AuditEvent.cshtml.old" />
   </ItemGroup>
   <PropertyGroup>
@@ -813,4 +819,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  </Project>
+</Project>

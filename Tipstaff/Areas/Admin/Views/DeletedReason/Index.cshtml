@@ -1,0 +1,46 @@
+﻿@model Tipstaff.Models.DeletionReasonsListView
+
+@{
+    ViewBag.Title = "Index of deletion reasons";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h6>@Html.ActionLink("Administration", "Index", "Admin") 
+> @Html.ActionLink("Lookups", "Lookups", "Admin") 
+> Deletion reasons</h6>
+
+<table>
+    <tr>
+        <th>
+            @Html.LabelFor(model => model.DeletionReasons.First().Detail)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.DeletionReasons.First().active)
+        </th>
+    </tr>
+
+@{var isAltRow = false;
+    foreach (var item in Model.DeletionReasons)
+    {
+    <tr class="@( isAltRow ? "altRow" : "")">
+        <td>
+            @Html.DisplayFor(modelItem => item.Detail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.active)
+        </td>
+    </tr>
+    isAltRow = !isAltRow;
+    }
+}
+</table>
+@{
+            var token = @Html.AntiForgeryToken().ToHtmlString();
+
+            var beginIndex = token.IndexOf("value=\"") + 7;
+            var endIndex = token.IndexOf("\"", beginIndex);
+            token = token.Substring(beginIndex, endIndex - beginIndex);
+
+}
+@Html.SSGPaging("Index", "DeletedReason", Model, Model.DeletionReasons, token)

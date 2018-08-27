@@ -1,4 +1,4 @@
-﻿@model Tipstaff.Areas.Admin.Models.ChildRelationshipListView
+﻿@model Tipstaff.Models.ChildRelationshipListView
 
 @{
     ViewBag.Title = "Index of child relationships";
@@ -53,4 +53,4 @@
 }
 
 
-@*@Html.SSGPaging("Index", "ChildRelationship", Model, Tipstaff.Areas.Admin.Models.ChildRelationship, token)*@
+@Html.SSGPaging("Index", "ChildRelationship", Model, Model.ChildRelationships, token)

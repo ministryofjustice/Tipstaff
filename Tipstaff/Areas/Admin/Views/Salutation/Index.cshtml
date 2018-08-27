@@ -16,49 +16,24 @@
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > Salutations</h6>
 
-<p>
-
-	@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new Salutation", "Create new Salutation", "Create", null, null, null, null, "createButton")
-
-</p>
-
 <table>
     <tr>
-        <th></th>
         <th>
             @Html.LabelFor(model => model.Salutations.First().Detail)
         </th>
         <th>
             @Html.LabelFor(model => model.Salutations.First().active)
         </th>
-        <th>
-            @Html.LabelFor(model => model.Salutations.First().deactivated)
-        </th>
-        <th>
-            @Html.LabelFor(model => model.Salutations.First().deactivatedBy)
-        </th>
     </tr>
 
 @{  var isAltRow = false;
 	foreach (var item in Model.Salutations) {
     <tr class="@(isAltRow ? "altRow" : "")>">
-        <td width="60px" style="text-align:right;">
-            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "Salutation", new { id = item.salutationID }, null, null)
-            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "Salutation", new { id = item.salutationID }, null, null) 
-            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "Salutation", id = item.salutationID }, null, null) 
-        </td>
-		
         <td>
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.Detail, string.Format("Details for {0}", item.Detail), "Details", "Salutation", new { id = item.salutationID }, null, null, "createButton")
+            @Html.DisplayFor(modelItem => item.Detail)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.deactivated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.deactivatedBy)
         </td>
     </tr>
     isAltRow = !isAltRow;
