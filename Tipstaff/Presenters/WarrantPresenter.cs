@@ -106,11 +106,10 @@ namespace Tipstaff.Presenters
             else
             {
                 records = recs;
-               // _cacheRepository.Add(new Services.DynamoTables.CacheStore() { Context = "GetAllActiveWarrants", DateTime = DateTime.Now });
             }
 
             var warrants = new List<Warrant>();
-            var r = Parallel.ForEach(records.Where(x=>x.CaseStatusId==1), new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec =>
+            var r = Parallel.ForEach(records.Where(x=>x.CaseStatusId==2), new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec =>
             {
                 warrants.Add(GetModel(rec));
             });
