@@ -111,7 +111,7 @@ namespace Tipstaff.Presenters
             var warrants = new List<Warrant>();
             var r = Parallel.ForEach(records.Where(x=>x.CaseStatusId==2), new ParallelOptions() { MaxDegreeOfParallelism = 50 }, rec =>
             {
-                warrants.Add(GetModel(rec));
+                warrants.Add(GetModel(rec, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
             });
 
             return warrants;
