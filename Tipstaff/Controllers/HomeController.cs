@@ -25,14 +25,18 @@ namespace Tipstaff.Controllers
         private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
         private readonly ISearchPresenter _searchPresenter;
         private readonly IGraphPresenter _graphPresenter;
+        private readonly IChildAbductionPresenter _childAbductionPresenter;
+        private readonly IWarrantPresenter _warrantPresenter;
 
         public HomeController(ITipstaffRecordPresenter tipstaffRecordPresenter, 
                               ISearchPresenter searchPresenter, 
-                              IGraphPresenter graphPresenter)
+                              IGraphPresenter graphPresenter, IWarrantPresenter warrant, IChildAbductionPresenter childAbductionPresenter)
         {
             _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _searchPresenter = searchPresenter;
             _graphPresenter = graphPresenter;
+            _warrantPresenter = warrant;
+            _childAbductionPresenter = childAbductionPresenter;
 
             
         }
@@ -41,6 +45,8 @@ namespace Tipstaff.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = string.Format("Welcome to the {0}", ConfigurationManager.AppSettings["AppName"]);
+            _childAbductionPresenter.GetAllChildAbductions();
+            _warrantPresenter.GetAllWarrants();
             return View();
         }
 
