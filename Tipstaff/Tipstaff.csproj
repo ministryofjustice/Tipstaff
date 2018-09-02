@@ -272,8 +272,6 @@
     <Compile Include="Infrastructure\ControllerFactory.cs" />
     <Compile Include="Infrastructure\ControllersInstaller.cs" />
     <Compile Include="Infrastructure\PresentationLayerInstaller.cs" />
-    <Compile Include="Logger\ITelemetryLogger.cs" />
-    <Compile Include="Logger\TelemetryLogger.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AddressModels.cs" />
     <Compile Include="Areas\Admin\Models\AdminUserModels.cs" />
