@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using PagedList;
 
 using Tipstaff.Models;
 using System.Data.Entity.Infrastructure;
 using System.Web.UI;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -22,9 +18,9 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        private readonly ITelemetryLogger _logger;
+        private readonly ICloudWatchLogger _logger;
 
-        public RespondentController(ITelemetryLogger logger)
+        public RespondentController(ICloudWatchLogger logger)
         {
             _logger = logger;
         }

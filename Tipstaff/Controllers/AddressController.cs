@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
-using System.Data.Entity.Infrastructure;
 using System.Data;
 using System.Web.UI;
-using PagedList;
 using System.Data.Entity;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -19,11 +15,11 @@ namespace Tipstaff.Controllers
     public class AddressController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        private readonly ITelemetryLogger _logger; 
+        private readonly ICloudWatchLogger _logger; 
         //
         // GET: /Address/
 
-        public AddressController(ITelemetryLogger telemetryLogger)
+        public AddressController(ICloudWatchLogger telemetryLogger)
         {
             _logger = telemetryLogger;
         }

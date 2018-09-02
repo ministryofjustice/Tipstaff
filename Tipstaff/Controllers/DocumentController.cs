@@ -2,9 +2,8 @@
 using System.Web.Mvc;
 using Tipstaff.Models;
 using System;
-using System.IO;
 using System.Web.UI;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Controllers
 {
@@ -15,9 +14,9 @@ namespace Tipstaff.Controllers
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
-        private readonly ITelemetryLogger _logger;
+        private readonly ICloudWatchLogger _logger;
 
-        public DocumentController(ITelemetryLogger logger)
+        public DocumentController(ICloudWatchLogger logger)
         {
             _logger = logger;
         }

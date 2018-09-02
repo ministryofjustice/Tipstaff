@@ -13,6 +13,9 @@ using System.Security.Claims;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Tipstaff.Infrastructure;
+using Castle.MicroKernel.Registration;
+using TPLibrary.Logger;
+using Microsoft.IdentityModel.Protocols;
 
 namespace Tipstaff
 {
@@ -22,6 +25,14 @@ namespace Tipstaff
     public class MvcApplication : System.Web.HttpApplication
     {
         private static IWindsorContainer _container;
+        private ICloudWatchLogger _cloudWatchLogger;
+        
+
+        public MvcApplication()
+        {
+            _cloudWatchLogger = new CloudWatchLogger();
+        }
+        
 
         private static void BootstrapContainer()
         {
@@ -48,8 +59,8 @@ namespace Tipstaff
                                 }
                                 , new
                                 {
-                                    auditType=@"\D{1,20}",
-                                    id=@"\d{1,6}"
+                                    auditType = @"\D{1,20}",
+                                    id = @"\d{1,6}"
                                 });
             routes.MapRoute("GenerateDocumentForAddressee"
                     , "{controller}/{action}/{tipstaffRecordID}/{templateID}/{solicitorID}"
@@ -62,8 +73,10 @@ namespace Tipstaff
                     , new
                     {
                         tipstaffRecordID = @"\d{1,9}"
-                      , templateID = @"\d{1,5}"
-                      , solicitorID = @"\d{1,4}"
+                      ,
+                        templateID = @"\d{1,5}"
+                      ,
+                        solicitorID = @"\d{1,4}"
                     }
                     );
             routes.MapRoute("DeleteSolicitorRoute"
@@ -191,15 +204,29 @@ namespace Tipstaff
             ServiceLayer.UnitOfWorkHelper.CurrentDataStore = new HttpContextDataStore();
 
             string appYear = ConfigurationManager.AppSettings["AppYear"];
-            if (DateTime.Now.Year.ToString() != appYear.ToString()) {
+            if (DateTime.Now.Year.ToString() != appYear.ToString())
+            {
                 ConfigurationManager.AppSettings["AppYear"] = appYear += " - " + DateTime.Now.Year.ToString();
             }
             BootstrapContainer();
+
+            //Innitialize ElastiCache
+            //InitializeCache();
             //ConfigurationManager.AppSettings["CurServer"] = ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString.Split(';').First().Split('=').Last();
         }
-        protected void Application_AuthenticateRequest()
+
+        protected void Application_Error(object sender, EventArgs e)
         {
-            //if (HttpContext.Current.User != null) Membership.GetUser(true);
+            //Handle nonce exception
+            var ex = Server.GetLastError();
+
+            _cloudWatchLogger.LogError(ex, "Application_Error");
+
+            if ((ex.GetType() == typeof(OpenIdConnectProtocolInvalidNonceException) && User.Identity.IsAuthenticated) && (ex.Message.StartsWith("OICE_20004") || ex.Message.Contains("IDX10311")))
+            {
+                Server.ClearError();
+                Response.Redirect(Request.RawUrl);
+            }
         }
     }
 }

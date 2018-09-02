@@ -9,11 +9,36 @@ using System.Data.Entity.Validation;
 using System.Security.Principal;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Metadata.Edm;
+using System.Configuration;
 
 namespace Tipstaff.Models
 {
     public class TipstaffDB : DbContext
     {
+        public static string GetRDSConnectionString()
+        {
+            var appConfig = ConfigurationManager.AppSettings;
+
+            string dbname = appConfig["DB_NAME"]; //Environment.GetEnvironmentVariable("DB_NAME"); 
+
+            if (string.IsNullOrEmpty(dbname))
+            {
+                return ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString;
+            }
+            else
+            {
+                string username = appConfig["RDS_USERNAME"];
+                string password = appConfig["RDS_PASSWORD"];
+                string hostname = appConfig["RDS_HOSTNAME"];
+                string port = appConfig["RDS_PORT"];
+                return "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";MultipleActiveResultSets=true;";
+            }
+        }
+
+        public TipstaffDB()
+           : base(GetRDSConnectionString())
+        { }
+
         //SSG Standard Models
         public DbSet<FAQ> FAQs { get; set; }
         public DbSet<AuditEvent> AuditEvents { get; set; }
@@ -311,7 +336,7 @@ namespace Tipstaff.Models
 
         public User GetUserByLoginName(string loginName, bool save = true)
         {
-            var users = Users.Where(x => x.Name == loginName);
+            var users = Users.Where(x => x.Name.Equals(loginName, StringComparison.OrdinalIgnoreCase));
             switch (users.Count())
             {
                 case 0:
@@ -335,7 +360,7 @@ namespace Tipstaff.Models
                 AccessLevel? usrLvl = null;
 
                 string userName = ((string)User.Identity.Name).Split('\\').Last();
-                User usr = Users.Where(x => x.Name == userName).FirstOrDefault();
+                User usr = Users.Where(x => x.Name.Equals(userName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                 if (usr != null)
                 {
                     usrLvl = (AccessLevel)usr.RoleStrength;

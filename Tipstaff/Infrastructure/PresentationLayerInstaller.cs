@@ -1,7 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Tipstaff.Logger;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Infrastructure
 {
@@ -9,7 +9,7 @@ namespace Tipstaff.Infrastructure
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<ITelemetryLogger>().ImplementedBy<TelemetryLogger>().LifestyleSingleton());
+            container.Register(Component.For<ICloudWatchLogger>().ImplementedBy<CloudWatchLogger>().LifestyleSingleton());
         }
     }
 }
