@@ -206,7 +206,7 @@
     </Reference>
     <Reference Include="Utils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Utils.dll</HintPath>
+      <HintPath>..\..\Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
