@@ -49,8 +49,7 @@ namespace Tipstaff.Controllers
             ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
             return View(AttendanceNote);
         }
-
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
+        
         public PartialViewResult ListAttendanceNotesByRecord(int id, int? page)
         {
             TipstaffRecord w = db.TipstaffRecord.Find(id);

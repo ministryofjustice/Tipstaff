@@ -139,8 +139,7 @@ namespace Tipstaff.Controllers
             var sols = db.Solicitors.Where(s => s.firstName.ToLower().Contains(term.ToLower()) || s.lastName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.solicitorName });
             return Json(sols, JsonRequestBehavior.AllowGet);
         }
-
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
+        
         public PartialViewResult ListSolicitorsByRecord(int id, int? page)
         {
             TipstaffRecord w = db.TipstaffRecord.Find(id);

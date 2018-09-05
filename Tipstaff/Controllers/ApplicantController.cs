@@ -23,8 +23,6 @@ namespace Tipstaff.Controllers
             _logger = telemetryLogger;
         }
 
-
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
         public PartialViewResult ListApplicantsByRecord(int id, int? page)
         {
             ListApplicantsByTipstaffRecord model = new ListApplicantsByTipstaffRecord();

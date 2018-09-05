@@ -145,7 +145,7 @@ namespace Tipstaff.Controllers
             }
             return View(model);
         }
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 180)]
+        
         public PartialViewResult ListDocumentsByRecord(int id, int? page)
         {
             TipstaffRecord w = db.TipstaffRecord.Find(id);

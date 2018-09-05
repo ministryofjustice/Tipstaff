@@ -162,7 +162,7 @@ namespace Tipstaff.Controllers
             return View(model);
         }
 
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 10)]
+        
         public PartialViewResult ListRespondentsByRecord(int id, int? page)
         {
             ListRespondentsByTipstaffRecord model = new ListRespondentsByTipstaffRecord();

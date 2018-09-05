@@ -149,7 +149,7 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
         }
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 10)]
+        
         public PartialViewResult ListChildrenByRecord(int id, int? page)
         {
             ListChildrenByTipstaffRecord model = new ListChildrenByTipstaffRecord();
