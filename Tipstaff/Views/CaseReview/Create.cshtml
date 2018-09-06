@@ -15,50 +15,52 @@
 @using (Html.BeginForm()) { 
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken();
-    <fieldset>
-        <legend>Case Review details</legend>
+<fieldset>
+    <legend>Case Review details</legend>
 
-        <div class="editor-label">
-            Date review taken
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.CaseReview.reviewDate) 
-            @Html.ValidationMessageFor(model => model.CaseReview.reviewDate) 
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CaseStatusID, true)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model=>model.CaseStatusID, Model.CaseStatusList, "Select a status for the case", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.CaseStatusID)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CaseReview.caseReviewStatusID, true)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.CaseReview.caseReviewStatusID, Model.CaseReviewStatusList, "Select a case review status", new { @class = "required" })            
-            @Html.ValidationMessageFor(model => model.CaseReview.caseReviewStatusID) 
-        </div>
-        <div class="editor-label" style="margin-bottom:75px;">
-            @Html.LabelFor(model => model.CaseReview.actionTaken, true)
-        </div>
-        <div class="editor-field" style="height:90px;width:250px;">
-            @Html.EditorFor(model => model.CaseReview.actionTaken)
-            @Html.ValidationMessageFor(model => model.CaseReview.actionTaken) 
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.CaseReview.nextReviewDate, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.CaseReview.nextReviewDate) 
-            @Html.ValidationMessageFor(model => model.CaseReview.nextReviewDate) 
-        </div>
-        (If setting file to closed, leave the default date present in @Html.LabelFor(model => model.CaseReview.nextReviewDate) )
-        @Html.HiddenFor(model => model.CaseReview.tipstaffRecordID) 
-        
-        <p>
-            <input type="submit" value="Create" />
-        </p>
-        <div style="padding-top:10px;">Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
-    </fieldset>
+    <div class="editor-label">
+        Date review taken
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CaseReview.reviewDate)
+        @Html.ValidationMessageFor(model => model.CaseReview.reviewDate)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CaseStatusID, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.CaseStatusID, Model.CaseStatusList, "Select a status for the case", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.CaseStatusID)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CaseReview.caseReviewStatusID, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.CaseReview.caseReviewStatusID, Model.CaseReviewStatusList, "Select a case review status", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.CaseReview.caseReviewStatusID)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.CaseReview.nextReviewDate, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CaseReview.nextReviewDate)
+        @Html.ValidationMessageFor(model => model.CaseReview.nextReviewDate)
+    </div>
+    (If setting file to closed, leave the default date present in @Html.LabelFor(model => model.CaseReview.nextReviewDate) )
+    @Html.HiddenFor(model => model.CaseReview.tipstaffRecordID)
+
+
+    <div class="editor-label" style="margin-bottom:75px;">
+        @Html.LabelFor(model => model.CaseReview.actionTaken, true)
+    </div>
+    <div class="editor-field" style="height:90px;">
+        @Html.TextAreaFor(model => model.CaseReview.actionTaken, new { @class = "form-control", style = "width:200px" })
+        @Html.ValidationMessageFor(model => model.CaseReview.actionTaken)
+    </div>
+    <p>
+        <input type="submit" value="Create" style="margin-left:215px;" />
+    </p>
+    <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+</fieldset>
 }

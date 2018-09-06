@@ -23,8 +23,7 @@ namespace Tipstaff.Controllers
         {
             return View();
         }
-
-        [OutputCache(Location = OutputCacheLocation.Server, Duration = 5)]
+        
         public PartialViewResult OPTReport(GraphPeriod period, DateTime chosenDate)
         {
             OPTReport rpt = new OPTReport(period, chosenDate);
