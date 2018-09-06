@@ -173,8 +173,9 @@ namespace Tipstaff.Models
         public int divisionID { get; set; }
         [Display(Name = "Division")]
         public virtual Division division { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Date Circulated")]
+        [Required, Display(Name = "DateCirculated")]
         public DateTime? DateCirculated { get; set; }
     }
     #endregion

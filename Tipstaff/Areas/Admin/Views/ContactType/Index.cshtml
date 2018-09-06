@@ -24,23 +24,24 @@
 <table>
     <tr>
         <th colspan="3" style="text-align:right;">
-        @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deleted entries?</label> 
-        @using (Html.BeginForm())
-        {    
-            switch (Model.onlyActive)
-               {
-                   case true:
-                <input name="onlyActive" type="hidden" value="false" />
-                <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="true" checked="checked"/>
-                    break;
-                   case false:
-                <input name="onlyActive" type="hidden" value="true" />
-                <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="false" />
-                    break;
-                   default:
-                       break;
-               }
-        }
+            @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deleted entries?</label>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                switch (Model.onlyActive)
+                {
+                    case true:
+                        <input name="onlyActive" type="hidden" value="false" />
+                        <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="true" checked="checked" />
+                        break;
+                    case false:
+                        <input name="onlyActive" type="hidden" value="true" />
+                        <input onClick="$(this).parent(&#39;form:first&#39;).submit();" id="includeFake" name="includeFake" type="checkbox" value="false" />
+                        break;
+                    default:
+                        break;
+                }
+            }
         </th>
     </tr>
 

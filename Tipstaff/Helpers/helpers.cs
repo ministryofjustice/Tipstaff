@@ -511,6 +511,15 @@ namespace Tipstaff.Helpers
                     resetForm.InnerHtml = recBtn.ToString();
                     resetForm.InnerHtml += undoBtn.ToString();
                     recBtn = MvcHtmlString.Create(resetForm.InnerHtml);
+
+                    TagBuilder csrfToken = new TagBuilder("input");
+                    csrfToken.Attributes.Add("id", "__RequestVerificationToken");
+                    csrfToken.Attributes.Add("name", "__RequestVerificationToken");
+                    csrfToken.MergeAttribute("type", "hidden");
+                    csrfToken.MergeAttribute("value", token);
+
+
+                    resetForm.InnerHtml += csrfToken;
                     form.InnerHtml += nextBtn;
                     form.InnerHtml += lastBtn;
                     divTag.InnerHtml = form.ToString();
@@ -539,6 +548,7 @@ namespace Tipstaff.Helpers
                 MvcHtmlString recBtn;
                 MvcHtmlString undoBtn;
                 TagBuilder divTag = new TagBuilder("div");
+               
                 //record count
                 string recCount = genericFunctions.DisplayFieldDescriptorWithRecordCount(pagedList.TotalItemCount, "records");
                 if (pagedList.TotalItemCount < model.TotalRecordCount)
@@ -547,7 +557,7 @@ namespace Tipstaff.Helpers
                     string img = string.Format("<img src=\"{0}arrow_undo.png\" alt=\"Clear filters\">",imagePath);
                     recBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton text\" disabled=\"disabled\">{0}</button>", recCount));
                     undoBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton undo\"  alt=\"{0}\" title=\"{0}\">{0}</button>", "clear filters"));
-                    divTag.InnerHtml = recBtn.ToString();
+                    divTag.InnerHtml += recBtn.ToString();
                     divTag.InnerHtml += undoBtn.ToString();
                     recBtn = MvcHtmlString.Create(divTag.InnerHtml);
                 }
