@@ -60,6 +60,7 @@ namespace Tipstaff.Areas.Admin.Controllers
                     //Delete file
                     System.IO.File.Delete(fileName);
                     model.Template.templateXML = xml;
+                    model.Template.active = true;
                     db.Entry(model.Template).State = EntityState.Added;
                     db.SaveChanges();
                     return RedirectToAction("Index");
