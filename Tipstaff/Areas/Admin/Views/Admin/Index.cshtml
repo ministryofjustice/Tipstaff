@@ -9,7 +9,7 @@
     Tipstaff.AccessLevel thisUserLevel = thisUser.AccessLevel;
 }
 @if (User.Identity.IsAuthenticated && (thisUser.IsInRole("Admin") || thisUser.IsInRole("System Admin")))
-{ 
+{
     <h6>@ViewBag.Title</h6>
     <fieldset>
         <legend>User management</legend>
@@ -19,10 +19,14 @@
         <legend>Deleted Records</legend>
         @Html.ActionLink("Deleted records", "Index", "DeletedTipstaffRecord")
     </fieldset>
+    <fieldset>
+        <legend>Templates</legend>
+        @Html.ActionLink("Templates", "Index", "Templates")
+    </fieldset>
     @Html.Partial("_LookupAdminList")
 }
 else
-{ 
+{
     <h6>Tipstaff Database</h6>
     <p>
         This application is for use by the Office of the Tipstaff in the Royal Courts of Justice.

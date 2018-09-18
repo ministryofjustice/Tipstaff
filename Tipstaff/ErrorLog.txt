@@ -1,0 +1,50 @@
+On CPrincipal constructor
+Before instantiating UsersRepository
+UsersRepository instantiated correctly
+Before getting all users
+After getting all users
+Before creating a list of User models
+After creating list of Model Users
+Before getting the first user based on name: carlosfernandez
+After getting the first user based on name
+Before getting the RoleStrength (SystemAdmin) and UserID (3)
+On CPrincipal constructor
+Before instantiating UsersRepository
+UsersRepository instantiated correctly
+Before getting all users
+After getting all users
+Before creating a list of User models
+After creating list of Model Users
+Before getting the first user based on name: carlosfernandez
+After getting the first user based on name
+Before getting the RoleStrength (SystemAdmin) and UserID (3)
+On CPrincipal constructor
+Before instantiating UsersRepository
+UsersRepository instantiated correctly
+Before getting all users
+After getting all users
+Before creating a list of User models
+After creating list of Model Users
+Before getting the first user based on name: carlosfernandez
+After getting the first user based on name
+Before getting the RoleStrength (SystemAdmin) and UserID (3)
+On CPrincipal constructor
+Before instantiating UsersRepository
+UsersRepository instantiated correctly
+Before getting all users
+After getting all users
+Before creating a list of User models
+After creating list of Model Users
+Before getting the first user based on name: carlosfernandez
+After getting the first user based on name
+Before getting the RoleStrength (SystemAdmin) and UserID (3)
+On CPrincipal constructor
+Before instantiating UsersRepository
+UsersRepository instantiated correctly
+Before getting all users
+After getting all users
+Before creating a list of User models
+After creating list of Model Users
+Before getting the first user based on name: carlosfernandez
+After getting the first user based on name
+Before getting the RoleStrength (SystemAdmin) and UserID (3)

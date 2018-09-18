@@ -22,9 +22,10 @@
         <li class="button">@Html.ActionLink("Reports", "Index", "Reports", new { area = "" },null)</li>
         <li class="button">@Html.ActionLink("Administration", "Index", "Admin", new { area = "Admin" }, null)
             <ul>
-                <li>@Html.ActionLink("Users", "Index", "Users", new { area = "Admin" }, null)</li> 
-                <li>@Html.ActionLink("Lookups", "LookUps", "Admin", new { area = "Admin" },null)</li>
-                <li>@Html.ActionLink("Deleted Records", "Index", "DeletedTipstaffRecord", new { area = "Admin" }, null)</li> 
+                <li>@Html.ActionLink("Users", "Index", "Users", new { area = "Admin" }, null)</li>
+                <li>@Html.ActionLink("Lookups", "LookUps", "Admin", new { area = "Admin" }, null)</li>
+                <li>@Html.ActionLink("Deleted Records", "Index", "DeletedTipstaffRecord", new { area = "Admin" }, null)</li>
+                <li>@Html.ActionLink("Templates", "Index", "Templates", new { area = "Admin" }, null)</li>
             </ul>
         </li>
     }
