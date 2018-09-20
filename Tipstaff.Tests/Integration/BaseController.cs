@@ -38,7 +38,7 @@ namespace Tipstaff.Tests.Integration
         protected IAttendanceNotesRepository _attendanceNotesRepository;
         protected IRespondentRepository _respondentRepository;
         protected IDeletedTipstaffRecordRepository _deleteTipstaffRecordRepository;
-        protected IChildRepository _childRepository;
+        //protected IChildRepository _childRepository;
         protected IApplicantRepository _applicantRepository;
         protected ISolicitorRepository _solicitorRepository;
         protected ITemplateRepository _templateRepository;
@@ -61,7 +61,7 @@ namespace Tipstaff.Tests.Integration
             _attendanceNotesRepository = new AttendanceNotesRepository(new DynamoAPI<AttendanceNote>(), _auditRepo);
             _respondentRepository = new RespondentRepository(new DynamoAPI<Respondent>(), _auditRepo);
             _deleteTipstaffRecordRepository = new DeletedTipstaffRecordRepository(new DynamoAPI<DeletedTipstaffRecord>(), _auditRepo);
-            _childRepository = new ChildRepository(new DynamoAPI<Child>(), _auditRepo);
+            //_childRepository = new ChildRepository(new DynamoAPI<Child>(), _auditRepo);
             _applicantRepository = new ApplicantRepository(new DynamoAPI<Applicant>(), _auditRepo);
             _templateRepository = new TemplateRepository(new DynamoAPI<Template>(), _auditRepo);
             _docRepository = new DocumentsRepository(new DynamoAPI<Document>(), _auditRepo);
@@ -83,7 +83,7 @@ namespace Tipstaff.Tests.Integration
                                                                    _tipstaffRecordPresenter);
             _applicantPresenter = new ApplicantPresenter(_applicantRepository, 
                                                         _tipstaffRecordPresenter);
-            _childPresenter = new ChildPresenter(_childRepository, _tipstaffRecordPresenter);
+            _childPresenter = new ChildPresenter(_tipstaffRecordRepository);
             _policePresenter = new PoliceForcesPresenter(_policeRepository);
             _tipstaffPolicePresenter = new TipstaffPoliceForcesPresenter(_tipstaffPoliceRepository, _policePresenter);                              
                                                  

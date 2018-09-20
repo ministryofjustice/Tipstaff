@@ -64,7 +64,7 @@ namespace Tipstaff.Presenters
                 RiskOfViolence = model.riskOfViolence,
                 SkinColour = MemoryCollections.SkinColourList.GetSkinColourById(model.skinColour.SkinColourId).Detail,
                 Id = model.respondentID, //Guid.NewGuid().ToString(),
-                TipstaffRecordID = model.tipstaffRecordID,
+                //TipstaffRecordID = model.tipstaffRecordID,
                 
              };
 
@@ -93,7 +93,7 @@ namespace Tipstaff.Presenters
                 specialfeatures = table.Specialfeatures,
                 respondentID = table.Id,
                 skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(table.SkinColour),
-                tipstaffRecordID = table.TipstaffRecordID,
+               // tipstaffRecordID = table.TipstaffRecordID,
                 
                 //tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(table.TipstaffRecordID)
              };

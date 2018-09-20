@@ -87,7 +87,7 @@
     <Compile Include="DynamoTables\AuditEvent.cs" />
     <Compile Include="DynamoTables\Cache.cs" />
     <Compile Include="DynamoTables\CaseReview.cs" />
-    <Compile Include="DynamoTables\Children.cs" />
+    <Compile Include="DynamoTables\Child.cs" />
     <Compile Include="DynamoTables\Contact.cs" />
     <Compile Include="DynamoTables\DeletedTipstaffRecord.cs" />
     <Compile Include="DynamoTables\Documents.cs" />

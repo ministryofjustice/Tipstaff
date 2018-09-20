@@ -9,8 +9,7 @@ using Tipstaff.Services.DynamoTables;
 
 namespace Tipstaff.Mappers
 {
-    public interface IMapperCollections<T, U> where U : DynamoTable
-                                              where T : IModel
+    public interface IMapperCollections<T, U> where T : IModel
     {
         IEnumerable<T> GetAll(IEnumerable<U> entities);
 

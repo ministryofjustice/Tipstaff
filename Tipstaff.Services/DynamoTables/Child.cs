@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_Children")]
-    public class Child : DynamoTable
+    public class Child
     {
-        //[DynamoDBRangeKey]
-        public string TipstaffRecordID { get; set; }
+        public string Id { get; set; }
 
         public string NameLast { get; set; }
         
@@ -40,5 +38,7 @@ namespace Tipstaff.Services.DynamoTables
         public string Nationality { get; set; }
 
         public string PNCID { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

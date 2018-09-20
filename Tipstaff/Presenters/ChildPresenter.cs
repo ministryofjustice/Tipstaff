@@ -6,57 +6,57 @@ using Tipstaff.Services.Repositories;
 
 namespace Tipstaff.Presenters
 {
-    public class ChildPresenter : IChildPresenter, IMapper<Models.Child, Tipstaff.Services.DynamoTables.Child>, IMapperCollections<Models.Child, Tipstaff.Services.DynamoTables.Child>
+    public class ChildPresenter : IChildPresenter, IMapper<Child, Tipstaff.Services.DynamoTables.Child>, IMapperCollections<Models.Child, Tipstaff.Services.DynamoTables.Child>
     {
-        private readonly IChildRepository _childRepository;
-        private readonly ITipstaffRecordPresenter _tipstaffPresenter;
-        //private readonly ITipstaffRecordRepository _tipstaffRepository;
+       // private readonly ITipstaffRecordPresenter _tipstaffPresenter;
+       private readonly ITipstaffRecordRepository _tipstaffRepository;
 
-        public ChildPresenter(IChildRepository childRepo, ITipstaffRecordPresenter tipstaffPresenter)
+        public ChildPresenter(ITipstaffRecordRepository tipstaffRepository)
         {
-            _childRepository = childRepo;
-          //  _tipstaffRepository = tipstaffRepository;
-           
-            _tipstaffPresenter = tipstaffPresenter;
+            _tipstaffRepository = tipstaffRepository;
         }
 
-        public Models.Child GetChild(string id)
+        public Models.Child GetChild(string id, string childId)
         {
-            var child = _childRepository.GetChild(id);
+            // var child = _tipstaffPresenter.GetChild(id);
+            var record = _tipstaffRepository.GetEntityByHashKey(id);
+            var child = record.Children.FirstOrDefault(x => x.Id == childId);
             return GetModel(child);
         }
 
-        public IEnumerable<Models.Child> GetAllChildrenByTipstaffRecordID(string id)
+        public IList<Models.Child> GetAllChildrenByTipstaffRecordID(string id)
         {
-            var children = _childRepository.GetAllChildrenByTipstaffRecordID(id);
-            return children.Select(x=> GetModel(x));
+            var record = _tipstaffRepository.GetEntityByHashKey(id);
+            var children = record.Children;
+            return children.Select(x=> GetModel(x)).ToList();
         }
 
         public void AddChild(ChildCreationModel model)
         {
             var entity = GetDynamoTable(model.child);
-            _childRepository.AddChild(entity);
+            var record = _tipstaffRepository.GetEntityByHashKey(model.tipstaffRecordID);
+            record.Children.Add(entity);
+            _tipstaffRepository.Update(record);
+            //_childRepository.AddChild(entity);
         }
 
         public void UpdateChild(ChildCreationModel model)
         {
             var entity = GetDynamoTable(model.child);
-            _childRepository.Update(entity);
+            var record = _tipstaffRepository.GetEntityByHashKey(model.tipstaffRecordID);
+            record.Children.Add(entity);
+            _tipstaffRepository.Update(record);
         }
 
         public void DeleteChild(DeleteChild model)
         {
-            var entity = GetDynamoTable(model.Child);
-            _childRepository.Delete(entity);
+            var record = _tipstaffRepository.GetEntityByHashKey(model.Child.tipstaffRecordID);
+            var child = record.Children.FirstOrDefault(x=>x.Id == model.Child.childID);
+            child.IsActive = false;
+            _tipstaffRepository.Update(record);
         }
 
-        public Models.TipstaffRecord GetTipstaffRecord(string id, LazyLoader loader = null)
-        {
-            var tipstaff = _tipstaffPresenter.GetTipStaffRecord(id,loader);
 
-            return tipstaff;
-        }
-        
         //public void UpdateChildAbduction(ChildAbduction model)
         //{
         //    _caPresenter.UpdateChildAbduction(model);
@@ -65,13 +65,13 @@ namespace Tipstaff.Presenters
         public Models.Child GetModel(Services.DynamoTables.Child table)
         {
             //var tipstaffRecord = _tipstaffRepository.(table.TipstaffRecordID.ToString());
-            var ca = _tipstaffPresenter.GetChildAbduction(table.TipstaffRecordID);
+            ///var ca = _tipstaffPresenter.GetChildAbduction(table.Id);
             //ca = (Models.ChildAbduction)tipstaffRecord;
 
             var model = new Models.Child()
             {
                 build = table.Build,
-                childAbduction = ca,
+               // childAbduction = ca,
                 childID = table.Id,
                 country = MemoryCollections.CountryList.GetCountryByDetail(table.Country),
                 dateOfBirth = table.DateOfBirth,
@@ -86,7 +86,7 @@ namespace Tipstaff.Presenters
                 PNCID = table.PNCID,
                 skinColour = MemoryCollections.SkinColourList.GetSkinColourByDetail(table.SkinColour),
                 specialfeatures = table.Specialfeatures,
-                tipstaffRecordID = table.TipstaffRecordID.ToString(),
+               /// tipstaffRecordID = table.TipstaffRecordID.ToString(),
             };
 
             return model;
@@ -98,7 +98,7 @@ namespace Tipstaff.Presenters
             {
                 Id = model.childID,
                 Build = model.build,
-                TipstaffRecordID = model.tipstaffRecordID,
+                //TipstaffRecordID = model.tipstaffRecordID,
                 Specialfeatures = model.specialfeatures,
                 Country = MemoryCollections.CountryList.GetCountryByID(model.country.CountryID)?.Detail,
                 DateOfBirth = model.dateOfBirth,
@@ -129,8 +129,10 @@ namespace Tipstaff.Presenters
 
         public IEnumerable<Models.Child> GetAllChildren()
         {
-            var children = _childRepository.GetAllChildren();
-            return GetAll(children);
+            //var children = _tipstaffRepository.GetAllByCondition();
+            //return GetAll(children);
+
+            return null;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Tipstaff.Tests.Integration
         {
             _guidGenerator = new Mock<IGuidGenerator>();
             _sub = new ChildAbductionController(_childAbductionPresenter, _tipstaffRecordPresenter, _cloudWatchLogger.Object);
-            _childController = new ChildController(_childPresenter, _guidGenerator.Object, _childAbductionPresenter, _cloudWatchLogger.Object);
+            _childController = new ChildController(_guidGenerator.Object, _childAbductionPresenter, _cloudWatchLogger.Object, _tipstaffRecordPresenter);
             _respondentController = new RespondentController(_cloudWatchLogger.Object, _respondentPresenter, _tipstaffRecordPresenter, _guidGenerator.Object);
 
             _id = Guid.NewGuid();
@@ -77,7 +77,7 @@ namespace Tipstaff.Tests.Integration
 
             //ASSERT
             var ca = _childAbductionPresenter.GetChildAbduction(_childAbduction.tipstaffRecordID);
-            var child = _childPresenter.GetChild(_record.ToString());
+            var child = _childPresenter.GetChild(_record.ToString(),It.IsAny<string>());
             Assert.That(ca.children.Contains(child, new ChildComparer()));
         }
 

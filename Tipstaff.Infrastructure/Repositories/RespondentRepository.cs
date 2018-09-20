@@ -78,7 +78,7 @@ namespace Tipstaff.Infrastructure.Repositories
 
         public void Update(Respondent respondent)
         {
-            var entity = _dynamoAPI.GetEntityByKeys(respondent.Id, respondent.TipstaffRecordID);
+            var entity = _dynamoAPI.GetEntityByKeys(respondent.Id, respondent.Id);
             if (entity.Build != respondent.Build)
             {
                 _auditRepo.AddAuditEvent(new AuditEvent()

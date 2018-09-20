@@ -22,10 +22,14 @@ namespace Tipstaff.Controllers
         private readonly IGuidGenerator _guidGenerator;
         private readonly IChildAbductionPresenter _childAbductionPresenter;
         private readonly ICloudWatchLogger _logger;
+        private readonly ITipstaffRecordPresenter _tipstaffRecordPresenter;
 
-        public ChildController(IChildPresenter childPresenter, IGuidGenerator guidGenerator, IChildAbductionPresenter childAbductionPresenter, ICloudWatchLogger logger)
+        public ChildController(IGuidGenerator guidGenerator, 
+                               IChildAbductionPresenter childAbductionPresenter, 
+                               ICloudWatchLogger logger, 
+                               ITipstaffRecordPresenter tipstaffRecordPresenter)
         {
-            _childPresenter = childPresenter;
+            _tipstaffRecordPresenter = tipstaffRecordPresenter;
             _guidGenerator = guidGenerator;
             _childAbductionPresenter = childAbductionPresenter;
             _logger = logger;
@@ -33,9 +37,9 @@ namespace Tipstaff.Controllers
         //
         // GET: /Child/
 
-        public ActionResult Details(string id)
+        public ActionResult Details(string id, string childId)
         {
-            Child model = _childPresenter.GetChild(id);
+            Child model = _childPresenter.GetChild(id, childId);
             return View(model);
         }
         //
@@ -43,8 +47,10 @@ namespace Tipstaff.Controllers
         public ActionResult Edit(string id)
         {
             ChildCreationModel model = new ChildCreationModel();
-            model.child = _childPresenter.GetChild(id);
-            TipstaffRecord tipstaff = _childPresenter.GetTipstaffRecord(model.child.tipstaffRecordID);
+            ////model.child = _childPresenter.GetChild(id);
+            var tipstaff = _childAbductionPresenter.GetChildAbduction(model.child.tipstaffRecordID);
+            model.child = tipstaff.children.FirstOrDefault(x => x.childID == id);
+
 
             if (tipstaff.caseStatus.Detail == "File Closed" || tipstaff.caseStatus.Detail == "File Archived")
             {
@@ -72,7 +78,7 @@ namespace Tipstaff.Controllers
         public ActionResult Create(string id, bool initial=false)
         {
             ChildCreationModel model = new ChildCreationModel();
-            model.tipstaffRecord = _childPresenter.GetTipstaffRecord(id, new LazyLoader() { LoadChildren  = true });
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             model.tipstaffRecordID = id;
             model.initial = initial;
 
@@ -108,8 +114,12 @@ namespace Tipstaff.Controllers
                 }
                 ca.EldestChild = newSurname;
                 model.child.childID = _guidGenerator.GenerateTimeBasedGuid().ToString();
+
+                //Add Child to Model
+
+                ca.children.Add(model.child);
                 _childAbductionPresenter.UpdateChildAbduction(ca);
-                _childPresenter.AddChild(model);
+                ///_childPresenter.AddChild(model);
 
 
                 if (Request!=null && Request.IsAjaxRequest())
@@ -191,15 +201,15 @@ namespace Tipstaff.Controllers
         public PartialViewResult _Create(string id)
         {
             ChildCreationModel model = new ChildCreationModel();
-            model.tipstaffRecord = _childPresenter.GetTipstaffRecord(id);
+            model.tipstaffRecord = _tipstaffRecordPresenter.GetTipStaffRecord(id);
             return PartialView("_createChildRecordForRecord",model);
         }
 
         [AuthorizeRedirect(Roles = "Admin")]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(string id, string childId)
         {
             DeleteChild model = new DeleteChild();
-            model.Child = _childPresenter.GetChild(id);
+            model.Child = _childPresenter.GetChild(id, childId);
             model.DeleteModelID = id;
 
             if (model.Child == null)

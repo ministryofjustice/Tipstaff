@@ -3,11 +3,9 @@ using System;
 
 namespace Tipstaff.Services.DynamoTables
 {
-    [DynamoDBTable("Tipstaff_Respondents")]
-    public class Respondent : DynamoTable
+    public class Respondent
     {
-        [DynamoDBRangeKey]
-        public string TipstaffRecordID { get; set; }
+        public string Id { get; set; }
 
         public string NameLast { get; set; }
         

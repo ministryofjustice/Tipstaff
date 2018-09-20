@@ -104,7 +104,7 @@ namespace Tipstaff.Models
 
         //public virtual ChildAbductionCaseStatus childAbductionCaseStatus { get; set; }
         [Display(Name="Linked Children")]
-        public IEnumerable<Child> children { get; set; }
+        public IList<Child> children { get; set; }
         //[Display(Name="Linked Respondents")]
         //public virtual ICollection<Respondent> Respondents { get; set; }
         [Display(Name = "Linked Applicants")]

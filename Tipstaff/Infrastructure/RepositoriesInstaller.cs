@@ -18,7 +18,6 @@ namespace Tipstaff.Services.Infrastructure
             //REPOSITORIES
             container.Register(Component.For<IApplicantRepository>().ImplementedBy<ApplicantRepository>());
             container.Register(Component.For<IAttendanceNotesRepository>().ImplementedBy<AttendanceNotesRepository>().LifestylePerWebRequest());
-            container.Register(Component.For<IChildRepository>().ImplementedBy<ChildRepository>());
             container.Register(Component.For<IContactsRepository>().ImplementedBy<ContactsRepository>());
             container.Register(Component.For<IDocumentsRepository>().ImplementedBy<DocumentsRepository>());
             container.Register(Component.For<IFAQRepository>().ImplementedBy<FAQRepository>());

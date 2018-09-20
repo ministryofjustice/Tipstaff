@@ -9,11 +9,9 @@ namespace Tipstaff.Presenters
 {
     public interface IChildPresenter
     {
-        Child GetChild(string id);
+        Child GetChild(string id, string childId);
 
-        TipstaffRecord GetTipstaffRecord(string id, LazyLoader loader = null);
-
-        IEnumerable<Child> GetAllChildrenByTipstaffRecordID(string id);
+        IList<Child> GetAllChildrenByTipstaffRecordID(string id);
 
          void AddChild(ChildCreationModel model);
 

@@ -200,8 +200,8 @@ namespace Tipstaff.Presenters
             if (loader == null)
                 loader = new LazyLoader();
 
-            var Respondents = loader.LoadRespondents ? _respondentPresenter.GetAllById(table.Id) : null;
-            var children = loader.LoadChildren ? _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id) : null;
+            //var Respondents = loader.LoadRespondents ? _respondentPresenter.GetAllById(table.Id) : null;
+            //var children = loader.LoadChildren ? _childPresenter.GetAllChildrenByTipstaffRecordID(table.Id) : null;
             var caseReviews = loader.LoadCaseReviews ? _caseReviewsPresenter.GetAllById(table.Id) : null;
             var addresses = loader.LoadAddresses ? _addressPresenter.GetAddressesByTipstaffRecordId(table.Id) : null;
             var applicants = loader.LoadAddresses ? _applicantPresenter.GetAllApplicantsByTipstaffRecordID(table.Id) : null;
@@ -223,8 +223,8 @@ namespace Tipstaff.Presenters
                 caseStatusID = table.CaseStatusId.HasValue ? table.CaseStatusId.Value : 0,
                 createdBy = table.CreatedBy,
                 createdOn = table.CreatedOn,
-                Respondents = Respondents,
-                children = children,
+                Respondents = table.Respondents.Select(x=> new Respondent()),
+                children = table.Children.Select(x=> new Child()).ToList(),
                 caseReviews = caseReviews,
                 addresses = addresses,
                 Applicants = applicants,
@@ -272,7 +272,7 @@ namespace Tipstaff.Presenters
 
 
             var recordswithFilter = records.Where(c => c.ResultDate >= start && c.ResultDate <= end).OrderBy(c1 => c1.ResultDate);
-            var cas = records.Select(x => GetModel(x,new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
+            var cas = records.Select(x => GetModel(x,new LazyLoader()));
 
             return cas;
         }
@@ -301,7 +301,7 @@ namespace Tipstaff.Presenters
 
            
 
-            var cas = records.Select(x => GetModel(x, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));
+            var cas = records.Select(x => GetModel(x, new LazyLoader()));
             //var r = Parallel.ForEach(records, rec =>
             //{
             //    childAbductions.Add(GetModel(rec, new LazyLoader() { LoadRespondents = true, LoadChildren = true }));

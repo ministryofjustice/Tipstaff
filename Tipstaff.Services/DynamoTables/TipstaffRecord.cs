@@ -59,6 +59,8 @@ namespace Tipstaff.Services.DynamoTables
 
         public DateTime? DateCirculated { get; set; }
 
-        //End of ChildAbduction
+        public IList<Respondent> Respondents { get; set; }
+
+        public IList<Child> Children { get; set; }
     }
 }
