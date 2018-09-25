@@ -1,15 +1,5 @@
 ﻿@model Tipstaff.Models.ListAddressesByTipstaffRecord
 <div id="addressList">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListAddressesByRecord", "Address", new { id = Model.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "addressList",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "addressLoading"
-    }, new { @style = "" })
-
-<img style="display:none" id="addressLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
 
 @if ((Model.Addresses == null) || (Model.Addresses.Count() == 0))
 {

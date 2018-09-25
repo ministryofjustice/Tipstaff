@@ -1,15 +1,5 @@
 ﻿@model Tipstaff.Models.ListDocumentsByTipstaffRecord
 <div id="documents">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "documents",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "documentsLoading"
-    }, new { @style = "" })
-
-<img style="display:none" id="documentsLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
 
 @if ((Model.Documents == null) || (Model.Documents.Count() == 0))
 {

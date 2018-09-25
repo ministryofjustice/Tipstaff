@@ -1,15 +1,5 @@
 ﻿@model Tipstaff.Models.ListTipstaffRecordSolicitorByTipstaffRecord
 <div id="solicitor">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod="POST",
-        UpdateTargetId = "solicitor",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId="solsLoading"
-    })
-
-<img src="../../Images/al_arrows_green.gif" alt="loading..." id="solsLoading" style="display:none"/></span>
 
 @if ((Model.pLinkedSolicitors == null) || (Model.pLinkedSolicitors.Count() == 0))
 { 

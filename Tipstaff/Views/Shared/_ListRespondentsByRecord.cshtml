@@ -1,15 +1,5 @@
 ﻿@model Tipstaff.Models.ListRespondentsByTipstaffRecord
 <div id="respondents">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListRespondentsByRecord", "Respondent", new { id = Model.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "respondents",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "respondentLoading"
-    }, new { @style = "" })
-
-<img style="display:none" id="respondentLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
 
 @if ((Model.Respondents==null) || (Model.Respondents.Count() == 0))
   { 

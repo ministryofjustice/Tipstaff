@@ -3,17 +3,7 @@
     var typeOfRecord = genericFunctions.TypeOfTipstaffRecord(Model.npo.tipstaffRecordID);
  }
 <div id="pncidsNPO">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListPNCIDAndNPOByRecord", "NPO", new { id = Model.npo.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "pncidsNPO",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "pncidsNPOLoading"
-    }, new { @style = "" })
 
-<img style="display:none" id="pncidsNPOLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
-<br /><br />
 @if (Model.npo.NPO == null)
 { 
       <div>No NPO entered</div>

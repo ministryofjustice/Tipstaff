@@ -1,15 +1,5 @@
 ﻿@model Tipstaff.Models.ListCaseReviewsByTipstaffRecord
 <div id="caseReviews">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListCaseReviewsByRecord", "CaseReview", new { id = Model.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "caseReviews",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "caseReviewLoading"
-    }, new { @style = "" })
-
-<img style="display:none" id="caseReviewLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
 
 @if ((Model.CaseReviews == null) || (Model.CaseReviews.Count() == 0))
 { 

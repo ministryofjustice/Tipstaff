@@ -1,15 +1,5 @@
 ﻿@model Tipstaff.Models.ListChildrenByTipstaffRecord
 <div id="children">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListChildrenByRecord", "Child", new { id = Model.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "children",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "childLoading"
-    }, new { @style = "" })
-
-<img style="display:none" id="childLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
 
 @if ((Model.Children == null) || (Model.Children.Count() == 0))
 {

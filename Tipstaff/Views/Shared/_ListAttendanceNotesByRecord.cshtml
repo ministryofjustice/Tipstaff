@@ -1,15 +1,5 @@
 ﻿@model Tipstaff.Models.ListAttendanceNotesByTipstaffRecord
 <div id="AttendanceNotes">
-<span style="height:20px;min-height:20px;margin:5px;padding:5px;">
-  @Ajax.ActionLink("Refresh", "ListAttendanceNotesByRecord", "AttendanceNote", new { id = Model.tipstaffRecordID }, new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "AttendanceNotes",
-        InsertionMode = InsertionMode.Replace,
-        LoadingElementId = "notesLoading"
-    }, new { @style = "" })
-
-<img style="display:none" id="notesLoading" src="../../Images/al_arrows_green.gif" alt="loading..." /></span>
 
 @if ((Model.AttendanceNotes == null) || (Model.AttendanceNotes.Count() == 0))
 { 
