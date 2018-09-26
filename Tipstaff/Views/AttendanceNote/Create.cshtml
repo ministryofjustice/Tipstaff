@@ -14,7 +14,7 @@
 
 @using (Html.BeginForm())
 { 
-    @Html.ValidationSummary(true)
+    @Html.ValidationSummary(false)
     @Html.AntiForgeryToken();
     <fieldset style="height:auto;">
         <legend>Add attendance note to @Html.DisplayFor(model => model.tipstaffRecord.UniqueRecordID) </legend>
@@ -23,8 +23,9 @@
             @Html.LabelFor(model => model.callDated, true)
         </div>
         <div class="editor-field">
-            @Html.DisplayFor(model => model.callDated) 
-            @Html.HiddenFor(model => model.callDated) 
+            @Html.DisplayFor(model => model.callDated)
+            @Html.HiddenFor(model => model.callDated)
+            @Html.ValidationMessageFor(model => model.callStarted)
         </div>
 
         <div class="editor-label">
