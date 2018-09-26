@@ -18,7 +18,17 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
     @RenderSection("head", required:false)
     <script>
-
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                if ($.browser.webkit) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                }
+                else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
+        });
         //Disable cache 
         $.ajaxSetup({ cache: false });
 
