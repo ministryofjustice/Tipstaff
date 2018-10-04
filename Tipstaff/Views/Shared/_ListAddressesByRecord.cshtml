@@ -39,7 +39,7 @@ else
 }
 </table>
 }
-@{ Html.AjaxPager<Tipstaff.Models.Address>(Model.Addresses, "ListAddressesByRecord", "Warrant"
+@Html.AjaxPager(Model.Addresses, "ListAddressesByRecord", "Address"
                                     , new Tipstaff.PagerOptions
                                     {
                                         ShowFirstLast = true,
@@ -55,7 +55,6 @@ else
                                         UpdateTargetId = "addressList",
                                         InsertionMode = InsertionMode.Replace,
                                         LoadingElementId = "addressLoading"
-                                    });
+                                    })
 
-}
 </div>
