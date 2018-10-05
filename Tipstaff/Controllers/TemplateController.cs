@@ -242,7 +242,7 @@ namespace Tipstaff.Controllers
             }
             else
             {
-                result = result.Replace("||NPOREFERENCE||", tipstaffRecord.NPO);
+                result = result.Replace("||NPOREFERENCE||", tipstaffRecord.NPO.Replace("&", "&#038;"));
             }
             if (tipstaffRecord.addresses != null)
             {
@@ -309,7 +309,7 @@ namespace Tipstaff.Controllers
             }
             else
             {
-                result = result.Replace("||NPOREFERENCE||", tipstaffRecord.NPO);
+                result = result.Replace("||NPOREFERENCE||", tipstaffRecord.NPO.Replace("&", "&#038;"));
             }
             if (tipstaffRecord.addresses != null)
             {
@@ -385,7 +385,7 @@ namespace Tipstaff.Controllers
             }
             else
             {
-                result = result.Replace("||NPOREFERENCE||", tipstaffRecord.NPO);
+                result = result.Replace("||NPOREFERENCE||", tipstaffRecord.NPO.Replace("&", "&#038;"));
             }
             if (tipstaffRecord.addresses != null)
             {
