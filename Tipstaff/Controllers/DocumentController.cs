@@ -103,7 +103,7 @@ namespace Tipstaff.Controllers
             }
 
             string docType = genericFunctions.TypeOfTipstaffRecord(model.tipstaffRecord);
-            model.TemplatesForRecordType = db.Templates.Where(t => (t.Discriminator == docType || t.Discriminator == "All") && t.active).OrderBy(t=>t.Discriminator);
+            model.TemplatesForRecordType = db.Templates.Where(t => (t.Discriminator == docType || t.Discriminator == "All") && t.active).OrderBy(t=>t.Discriminator).ThenBy(x=>x.templateName);
             return View(model);
         }
         [HttpGet]
