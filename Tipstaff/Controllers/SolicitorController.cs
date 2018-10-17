@@ -47,7 +47,7 @@ namespace Tipstaff.Controllers
             if (model.searchFirm == null) model.searchFirm = "";
             if (model.searchString == null) model.searchString = "";
 
-            IQueryable<Solicitor> allSols = db.Solicitors;
+            IQueryable<Solicitor> allSols = db.Solicitors.Where(x=>x.active == true);
             if (!String.IsNullOrEmpty(model.searchString))
             {
                 allSols = allSols.Where(s => s.firstName.ToUpper().Contains(model.searchString.ToUpper()) || s.lastName.ToUpper().Contains(model.searchString.ToUpper()));
@@ -111,6 +111,7 @@ namespace Tipstaff.Controllers
 
             if (ModelState.IsValid)
             {
+                solicitor.active = true;
                 db.Solicitors.Add(solicitor);
                 db.SaveChanges();
                 if (Request.IsAjaxRequest())
