@@ -36,6 +36,7 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
+                solicitorfirm.active = true;
                 db.SolicitorsFirms.Add(solicitorfirm);
                 db.SaveChanges();
                 if (Request.IsAjaxRequest())
