@@ -107,7 +107,10 @@
             @RenderBody()
         </div>
         <div id="footer">
-            <span title="TDB v@(typeof(Tipstaff.MvcApplication).Assembly.GetName().Version)">&copy; @System.Configuration.ConfigurationManager.AppSettings["appYear"] SSG Solutions Development, MoJ ICT</span>
+            <p>
+                This site is supported by @System.Configuration.ConfigurationManager.AppSettings["supportTeam"].
+                <b><a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["supportEmail"]?subject=Support%20request&body=Please%20describe%20the%20problem%20%0D%0A%0D%0A%0D%0A%0D%0A%0D%0ASystem%20Data:%0D%0AUser:@User.Identity.Name%0D%0AURL:@Request.Url.AbsoluteUri" target="_top">Contact Us</a></b> if you experience a problem with it.
+            </p>
         </div>
     </div>
 
