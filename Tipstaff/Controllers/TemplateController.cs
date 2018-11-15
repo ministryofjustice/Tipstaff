@@ -563,8 +563,20 @@ namespace Tipstaff.Controllers
                     result = result.Replace("||NATIONALITY.DETAIL||", warrant.Respondents.FirstOrDefault().nationality.Detail);
                     result = result.Replace("||COUNTRY.DETAIL||", warrant.Respondents.FirstOrDefault().country.Detail);
                     result = result.Replace("||SKINCOLOUR.DETAIL||", warrant.Respondents.FirstOrDefault().SkinColour.Detail);
+                    string pncids = "";
+                    if (warrant.Respondents.FirstOrDefault().PNCID != null && warrant.Respondents.FirstOrDefault().PNCID != "")
+                    {
+                        pncids += warrant.Respondents.FirstOrDefault().PNCID + "<w:br/>";
+                    }
+                    if (pncids == "")
+                    {
+                        result = result.Replace("||PNCID||", "");
+                    }
+                    else
+                    {
+                        result = result.Replace("||PNCID||", pncids);
+                    }
                 }
-   
             }
             return result;
         }
