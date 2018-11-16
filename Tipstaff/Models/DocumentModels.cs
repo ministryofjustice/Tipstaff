@@ -32,7 +32,7 @@ namespace Tipstaff.Models
         public byte[] binaryFile { get; set; }
         [ScaffoldColumn(false), MaxLength(256)]
         public string fileName { get; set; }
-        [ScaffoldColumn(false), MaxLength(60)]
+        [ScaffoldColumn(false), MaxLength(300)]
         public string mimeType { get; set; }
         public virtual Country country { get; set; }
         public virtual Nationality nationality { get; set; }
