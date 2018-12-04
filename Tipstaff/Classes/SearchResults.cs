@@ -142,7 +142,7 @@ namespace Tipstaff
                             name = child.fullname, 
                             partyID = child.childID,
                             tipstaffRecordID = child.tipstaffRecordID, 
-                            DateOfBirth = (DateTime)child.dateOfBirth, 
+                            DateOfBirth = child.dateOfBirth, 
                             PartyType="Child", 
                             tipstaffRecordType = "ChildAbduction", 
                             tipstaffUniqueRecordID = uniqID
