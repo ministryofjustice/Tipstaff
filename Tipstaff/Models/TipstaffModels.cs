@@ -184,6 +184,7 @@ namespace Tipstaff.Models
     {
         public int tipstaffRecordID { get; set; }
         public string UniqueRecordID { get; set; }
+        [Display(Name = "NBTC")]
         public string NPO { get; set; }
     }
 

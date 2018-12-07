@@ -74,11 +74,11 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
         {<li>@Html.ImageAndTextLink(Url.Content("~/Images/Audit.png"), "Audit trail", "Audit trail", "Audit", "Audit", new { auditType = "Warrant", id = Model.tipstaffRecordID }, null, null, "createButton")</li>}
         @if (Model.NPO == null)
         {
-            <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add NPO", "Add NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+            <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add NBTC", "Add NBTC", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
         }
         else
         {
-            <li>@Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend NPO", "Amend NPO", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
+            <li>@Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend NBTC", "Amend NBTC", "Add", "NPO", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
         }
                                                                                                                                                                                                                   
     </ul>
@@ -263,7 +263,7 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
 		<li><a href="@Url.Action("ListDocumentsByRecord", "Document", new { id = Model.tipstaffRecordID })">Documents (@Model.Documents.Count())</a></li>
 		<li><a href="@Url.Action("ListSolicitorsByRecord", "Solicitor", new { id = Model.tipstaffRecordID })">Solicitors (@Model.LinkedSolicitors.Count())</a></li>
 		<li><a href="@Url.Action("ListCaseReviewsByRecord", "CaseReview", new { id = Model.tipstaffRecordID })">Case Reviews (@Model.caseReviews.Count())</a></li>
-        <li><a href="@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NPO</a></li>
+        <li><a href="@Url.Action("ListPNCIDAndNPOByRecord", "NPO", new { id = Model.tipstaffRecordID })">PNCIDs & NBTC</a></li>
         <li><a href="@Url.Action("ListPoliceForcesByRecord", "PoliceForces", new { id = Model.tipstaffRecordID, Area="Admin" })">Police Forces</a></li>
 	</ul>
 </div>
