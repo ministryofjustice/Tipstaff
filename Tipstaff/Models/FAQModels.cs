@@ -17,5 +17,7 @@ namespace Tipstaff.Models
         [Required, MaxLength(4000)]
         [DataType(DataType.MultilineText)]
         public string answer { get; set; }
+
+        public string testfield { get; set; }
     }
 }
