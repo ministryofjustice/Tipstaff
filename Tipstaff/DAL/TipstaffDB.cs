@@ -359,7 +359,7 @@ namespace Tipstaff.Models
                 AccessLevel? usrLvl = null;
 
                 string userName = ((string)User.Identity.Name).Split('\\').Last();
-                User usr = Users.Where(x => x.Name.Equals(userName, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                User usr = Users.Where(x => x.Name.ToLower()==userName.ToLower()).FirstOrDefault();
                 if (usr != null)
                 {
                     usrLvl = (AccessLevel)usr.RoleStrength;
