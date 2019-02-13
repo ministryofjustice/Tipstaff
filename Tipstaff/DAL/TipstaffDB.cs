@@ -335,7 +335,7 @@ namespace Tipstaff.Models
 
         public User GetUserByLoginName(string loginName, bool save = true)
         {
-            var users = Users.Where(x => x.Name.Equals(loginName, StringComparison.OrdinalIgnoreCase));
+            var users = Users.Where(x => x.Name.ToLower() == loginName.ToLower());
             switch (users.Count())
             {
                 case 0:
