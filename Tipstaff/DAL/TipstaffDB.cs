@@ -10,6 +10,7 @@ using System.Security.Principal;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Configuration;
+using System.Reflection;
 
 namespace Tipstaff.Models
 {
@@ -18,21 +19,19 @@ namespace Tipstaff.Models
         public static string GetRDSConnectionString()
         {
             var appConfig = ConfigurationManager.AppSettings;
-
-            string dbname = appConfig["DB_NAME"]; //Environment.GetEnvironmentVariable("DB_NAME"); 
-
-            if (string.IsNullOrEmpty(dbname))
-            {
-                return ConfigurationManager.ConnectionStrings["TipstaffDB"].ConnectionString;
-            }
-            else
+            string dbname = appConfig["DB_NAME"];
+            if (!string.IsNullOrEmpty(dbname))
             {
                 string username = appConfig["RDS_USERNAME"];
                 string password = appConfig["RDS_PASSWORD"];
                 string hostname = appConfig["RDS_HOSTNAME"];
                 string port = appConfig["RDS_PORT"];
-                return "Data Source=" + hostname + ";Initial Catalog=" + dbname + ";User ID=" + username + ";Password=" + password + ";MultipleActiveResultSets=true;";
+                var settings = ConfigurationManager.ConnectionStrings[1];
+                var fi = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+                fi.SetValue(settings, false);
+                settings.ConnectionString = "Server=" + hostname + ";port=" + port + ";database=" + dbname + ";user id=" + username + ";password=" + password;
             }
+            return appConfig["DataContextName"];
         }
 
         public TipstaffDB()
@@ -246,7 +245,7 @@ namespace Tipstaff.Models
                         case EntityState.Modified:
                             {
                                 string objName = string.Format("{0} Amended", objType);
-                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
+                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
                                 auditRecord.idAuditEventDescription = AuditType;
                                 auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
@@ -371,7 +370,7 @@ namespace Tipstaff.Models
                 }
                 return grpLvl ?? AccessLevel.Denied;
             }
-            catch
+            catch (Exception ex)
             {
                 //return an error code
                 return AccessLevel.Denied;
