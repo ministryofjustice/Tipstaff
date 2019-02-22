@@ -141,7 +141,7 @@ namespace Tipstaff.Models
                             {
                                 //result = base.SaveChanges();
                                 string objName = string.Format("{0} Added", objType);
-                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
+                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
                                 auditRecord.idAuditEventDescription = AuditType;
                                 auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
@@ -178,7 +178,7 @@ namespace Tipstaff.Models
                         case EntityState.Deleted:
                             {
                                 string objName = string.Format("{0} Deleted", objType);
-                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription == objName).Take(1).Single().idAuditEventDescription;
+                                int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
                                 auditRecord.idAuditEventDescription = AuditType;
                                 auditRecord.RecordChanged = entry.OriginalValues.GetValue(0).ToString();
