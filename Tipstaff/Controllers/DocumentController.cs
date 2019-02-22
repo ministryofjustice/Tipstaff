@@ -31,7 +31,7 @@ namespace Tipstaff.Controllers
             }
 
             Template t = db.Templates.Find(templateID);
-            if (t.addresseeRequired)
+            if (t.addresseerequired)
             {
                 ChooseAddresseeModel model = new ChooseAddresseeModel();
                 model.tipstaffRecord = tr;
@@ -61,7 +61,7 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.template.addresseeRequired)
+                if (model.template.addresseerequired)
                 {
                     return RedirectToRoute(new
                                             {

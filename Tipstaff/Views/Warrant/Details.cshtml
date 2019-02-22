@@ -218,7 +218,7 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().genderID)</div>
         <div class="display-field">
-            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().gender.Detail)
+            @Html.DisplayFor(model => model.Respondents.SingleOrDefault().gender.detail)
         </div>
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().country)</div>
         <div class="display-field">

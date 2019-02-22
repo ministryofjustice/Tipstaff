@@ -115,14 +115,14 @@ namespace Tipstaff.Models
             };
             var g = new List<Gender>
             {
-                new Gender{Detail="Male", active=true},
-                new Gender{Detail="Female", active=true}
+                new Gender{detail="Male", active=true},
+                new Gender{detail="Female", active=true}
             };
             var pCC = new List<AttendanceNoteCode>
             {
-                new AttendanceNoteCode{Detail="Phone call", active=true},
-                new AttendanceNoteCode{Detail="Personal Attendance", active=true},
-                new AttendanceNoteCode{Detail="Note", active=true}
+                new AttendanceNoteCode{detail="Phone call", active=true},
+                new AttendanceNoteCode{detail="Personal Attendance", active=true},
+                new AttendanceNoteCode{detail="Note", active=true}
             };
             var iC = new List<Country>
             {

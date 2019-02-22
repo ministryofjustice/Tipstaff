@@ -228,7 +228,7 @@ namespace Tipstaff.Migrations
                         Discriminator = c.String(nullable: false, maxLength: 128),
                         templateName = c.String(nullable: false, maxLength: 80),
                         templateXML = c.String(nullable: false),
-                        addresseeRequired = c.Boolean(nullable: false),
+                        addresseerequired = c.Boolean(nullable: false),
                         active = c.Boolean(nullable: false),
                         deactivated = c.DateTime(),
                         deactivatedBy = c.String(maxLength: 50),

@@ -55,7 +55,7 @@ namespace Tipstaff.Models
         [Required]
         public string templateXML { get; set; }
         [Display(Name="Is addressee required?")]
-        public bool addresseeRequired { get; set; }
+        public bool addresseerequired { get; set; }
         public bool active { get; set; }
         public DateTime? deactivated { get; set; }
         [MaxLength(50)]

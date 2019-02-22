@@ -69,7 +69,7 @@ namespace Tipstaff.Models
         [Key]
         public int AttendanceNoteCodeID { get; set; }
         [Required, MaxLength(50), Display(Name = "Call Type")]
-        public string Detail { get; set; }
+        public string detail { get; set; }
         public bool active { get; set; }
         public DateTime? deactivated { get; set; }
         [MaxLength(50)]

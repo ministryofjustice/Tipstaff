@@ -559,7 +559,7 @@ namespace Tipstaff.Controllers
                         }
                         result = result.Replace(string.Format("||{0}||", property.Name.ToUpper()), SecurityElement.Escape(propValue));
                     }
-                    result = result.Replace("||GENDER.DETAIL||", warrant.Respondents.FirstOrDefault().gender.Detail);
+                    result = result.Replace("||GENDER.DETAIL||", warrant.Respondents.FirstOrDefault().gender.detail);
                     result = result.Replace("||NATIONALITY.DETAIL||", warrant.Respondents.FirstOrDefault().nationality.Detail);
                     result = result.Replace("||COUNTRY.DETAIL||", warrant.Respondents.FirstOrDefault().country.Detail);
                     result = result.Replace("||SKINCOLOUR.DETAIL||", warrant.Respondents.FirstOrDefault().SkinColour.Detail);

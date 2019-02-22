@@ -115,7 +115,7 @@ namespace Tipstaff.Models
                                                     SecurityElement.Escape(height),
                                                     SecurityElement.Escape(Age),
                                                     SecurityElement.Escape(build),
-                                                    SecurityElement.Escape(gender.Detail),
+                                                    SecurityElement.Escape(gender.detail),
                                                     SecurityElement.Escape(hairColour),
                                                     SecurityElement.Escape(country.Detail),
                                                     SecurityElement.Escape(eyeColour),

@@ -85,7 +85,7 @@ CREATE TABLE "dbo"."DocumentTypes"("documentTypeID" serial4 NOT NULL,"Detail" va
 CREATE TABLE "dbo"."Nationalities"("nationalityID" serial4 NOT NULL,"Detail" varchar(50) NOT NULL,"active" boolean NOT NULL,"deactivated" timestamp,"deactivatedBy" varchar(50),CONSTRAINT "PK_dbo.Nationalities" PRIMARY KEY ("nationalityID"))
 ;
 
-CREATE TABLE "dbo"."Templates"("templateID" serial4 NOT NULL,"Discriminator" varchar(128) NOT NULL,"templateName" varchar(80) NOT NULL,"templateXML" text NOT NULL,"addresseeRequired" boolean NOT NULL,"active" boolean NOT NULL,"deactivated" timestamp,"deactivatedBy" varchar(50),CONSTRAINT "PK_dbo.Templates" PRIMARY KEY ("templateID"))
+CREATE TABLE "dbo"."Templates"("templateID" serial4 NOT NULL,"Discriminator" varchar(128) NOT NULL,"templateName" varchar(80) NOT NULL,"templateXML" text NOT NULL,"addresseerequired" boolean NOT NULL,"active" boolean NOT NULL,"deactivated" timestamp,"deactivatedBy" varchar(50),CONSTRAINT "PK_dbo.Templates" PRIMARY KEY ("templateID"))
 ;
 
 CREATE TABLE "dbo"."TipstaffRecordSolicitors"("tipstaffRecordID" int4 NOT NULL,"solicitorID" int4 NOT NULL,CONSTRAINT "PK_dbo.TipstaffRecordSolicitors" PRIMARY KEY ("tipstaffRecordID","solicitorID"))

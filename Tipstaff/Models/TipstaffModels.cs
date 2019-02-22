@@ -336,7 +336,7 @@ namespace Tipstaff.Models
         [Key]
         public int genderID { get; set; }
         [Required,MaxLength(50)]
-        public string Detail { get; set; }
+        public string detail { get; set; }
         public bool active { get; set; }
         public DateTime? deactivated { get; set; }
         [MaxLength(50)]

@@ -19,7 +19,7 @@ else
             @Html.LabelFor(model => model.AttendanceNotes.First().callDated)
         </th>
         <th width="10%">
-            @Html.LabelFor(model => model.AttendanceNotes.First().AttendanceNoteCode.Detail)
+            @Html.LabelFor(model => model.AttendanceNotes.First().AttendanceNoteCode.detail)
         </th>
         <th>
             @Html.LabelFor(model => model.AttendanceNotes.First().callDetails)
@@ -39,7 +39,7 @@ else
             @Html.DisplayFor(modelItem => item.callDated) @item.callDated.ToShortTimeString()
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AttendanceNoteCode.Detail)
+            @Html.DisplayFor(modelItem => item.AttendanceNoteCode.detail)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.callDetails)

@@ -34,7 +34,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             {
                 Genders = Genders.Where(c => c.active == true);
             }
-            model.Genders = Genders.OrderBy(c => c.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
+            model.Genders = Genders.OrderBy(c => c.detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
             return View(model);
         }
         // GET: /Admin/Gender/Details/5
@@ -45,7 +45,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
-                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.Detail);
+                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.detail);
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
@@ -83,7 +83,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
-                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.Detail);
+                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.detail);
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
@@ -113,7 +113,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             if (model.active == false)
             {
                 ErrorModel errModel = new ErrorModel(2);
-                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.Detail);
+                errModel.ErrorMessage = string.Format("You cannot view {0} as it has been deactivated, please raise a help desk call to re-activate it.", model.detail);
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
             }
