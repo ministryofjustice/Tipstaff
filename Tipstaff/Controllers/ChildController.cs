@@ -90,7 +90,7 @@ namespace Tipstaff.Controllers
                         newSurname = curEldest.nameLast;
                     }
                 }
-                ca.EldestChild = newSurname;
+                ca.EldestChild = newSurname.ToUpper();
                 //Add new child
                 ca.children.Add(model.child);
 

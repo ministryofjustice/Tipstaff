@@ -46,7 +46,7 @@ namespace Tipstaff.Controllers
             if (!string.IsNullOrEmpty(model.childNameContains))
             {
                 //TRs = TRs.Where(w=>w.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
-                TRs = TRs.Where(w => w.EldestChild.Contains(model.childNameContains.ToUpper()));
+                TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.childNameContains.ToUpper()));
             }
             model.FilteredRecordCount = TRs.Count();
 
