@@ -94,7 +94,8 @@ namespace Tipstaff.Controllers
         }
         public ActionResult QuickSearch(string term)
         {
-            var sols = db.SolicitorsFirms.Where(s => s.firmName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.firmName });
+            //var sols = db.SolicitorsFirms.Where(s => s.firmName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.firmName });
+            var sols = db.SolicitorsFirms.Where(s => s.firmName.ToLower().Contains(term.ToLower())).ToList().Select(a => new { value = a.firmName, a.solicitorFirmID});
             return Json(sols, JsonRequestBehavior.AllowGet);
         }
 

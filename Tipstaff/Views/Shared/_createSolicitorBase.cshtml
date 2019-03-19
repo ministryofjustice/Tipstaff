@@ -7,20 +7,20 @@
             var hidden = $('#' + name);
             hidden.attr("value", id);
         }
-
         $('*[data-autocomplete-url]')
     .each(function () {
         $(this).autocomplete({
             source: $(this).data("autocomplete-url"),
             minLength: 2,
             select: function (event, ui) {
-                log(ui.item.id, ui.item.name);
+                log(ui.item.solicitorFirmID, 'solicitorFirmID');   
             },
             change: function (event, ui) {
+                alert('in change ' + ui.item.solicitorFirmID + ' ' + ui.item.value);
                 if (!ui.item) {
                     this.value = '';
                 } else {
-                    log(ui.item.id, ui.item.name);
+                    log(ui.item.solicitorFirmID, 'solicitorFirmID');
                 }
             }
         });
