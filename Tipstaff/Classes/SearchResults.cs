@@ -123,10 +123,11 @@ namespace Tipstaff
         public static List<SearchResultRow> getMatches(string Name)
         {
             TipstaffDB db = myDBContextHelper.CurrentContext;
+            string lowerName = Name.ToLower();
             try
             {
                 List<SearchResultRow> Results = new List<SearchResultRow>();
-                var kids = db.Children.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
+                var kids = db.Children.Where(f => f.nameFirst.ToLower().Contains(lowerName) || f.nameMiddle.ToLower().Contains(lowerName) || f.nameLast.ToLower().Contains(lowerName));
                 if (kids != null)
                 {
                     foreach (Child  child in kids)
@@ -149,7 +150,7 @@ namespace Tipstaff
                         });
                     }
                 }
-                var Resps = db.Respondents.Where(f => f.nameFirst.Contains(Name) || f.nameMiddle.Contains(Name) || f.nameLast.Contains(Name));
+                var Resps = db.Respondents.Where(f => f.nameFirst.ToLower().Contains(lowerName) || f.nameMiddle.ToLower().Contains(lowerName) || f.nameLast.ToLower().Contains(lowerName));
                 System.Diagnostics.Debug.Print(Resps.Count().ToString());
                 if (Resps != null)
                 {

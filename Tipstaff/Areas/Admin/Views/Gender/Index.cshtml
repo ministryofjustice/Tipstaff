@@ -26,7 +26,7 @@
     <tr>
         <th></th>
         <th>
-            @Html.LabelFor(model => model.Genders.First().Detail)
+            @Html.LabelFor(model => model.Genders.First().detail)
         </th>
         <th>
             @Html.LabelFor(model => model.Genders.First().active)
@@ -49,7 +49,7 @@
         </td>
 		
         <td>
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.Detail, string.Format("Details for {0}", item.Detail), "Details", "Gender", new { id = item.genderID }, null, null, "createButton")
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.detail, string.Format("Details for {0}", item.detail), "Details", "Gender", new { id = item.genderID }, null, null, "createButton")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.active)

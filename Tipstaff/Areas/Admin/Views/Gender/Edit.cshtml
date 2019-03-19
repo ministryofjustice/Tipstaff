@@ -1,14 +1,14 @@
 ﻿@model Tipstaff.Models.Gender
 
 @{
-    ViewBag.Title = ViewBag.Title = string.Format("Edit {0}", Model.Detail);
+    ViewBag.Title = ViewBag.Title = string.Format("Edit {0}", Model.detail);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h6>@Html.ActionLink("Administration", "Index", "Admin") 
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > @Html.ActionLink("Genders","Index") 
-> @Html.ActionLink(Model.Detail, "Details", "Gender", new { id = Model.genderID }, null)
+> @Html.ActionLink(Model.detail, "Details", "Gender", new { id = Model.genderID }, null)
 > Edit</h6>
 
 	
@@ -21,11 +21,11 @@
         @Html.HiddenFor(model => model.active)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Detail, true)
+            @Html.LabelFor(model => model.detail, true)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Detail)
-            @Html.ValidationMessageFor(model => model.Detail)
+            @Html.EditorFor(model => model.detail)
+            @Html.ValidationMessageFor(model => model.detail)
         </div>
         <p>
             <input type="submit" value="Save" />

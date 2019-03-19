@@ -1,22 +1,22 @@
 ﻿@model Tipstaff.Models.Gender
 
 @{
-    ViewBag.Title = string.Format("Deactivate {0}", Model.Detail);
+    ViewBag.Title = string.Format("Deactivate {0}", Model.detail);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h6>@Html.ActionLink("Administration", "Index", "Admin") 
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > @Html.ActionLink("Genders", "Index") 
-> @Html.ActionLink(Model.Detail, "Details", "Gender", new { id = Model.genderID }, null)
+> @Html.ActionLink(Model.detail, "Details", "Gender", new { id = Model.genderID }, null)
 > Deactivate</h6>
 
 <fieldset>
-    <legend>Are you sure you want to deactivate @Model.Detail?</legend>
+    <legend>Are you sure you want to deactivate @Model.detail?</legend>
 
-    <div class="display-label">@Html.LabelFor(model=>model.Detail)</div>
+    <div class="display-label">@Html.LabelFor(model=>model.detail)</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Detail)
+        @Html.DisplayFor(model => model.detail)
     </div>
 </fieldset>
 @using (Html.BeginForm())

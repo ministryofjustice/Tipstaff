@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.Gender
 
 @{
-    ViewBag.Title = string.Format("Details of {0}", Model.Detail);
+    ViewBag.Title = string.Format("Details of {0}", Model.detail);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,13 +9,13 @@
 <h6>@Html.ActionLink("Administration", "Index", "Admin") 
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > @Html.ActionLink("Genders", "Index") 
-> @Model.Detail</h6>
+> @Model.detail</h6>
 <fieldset>
     <legend>@ViewBag.Title</legend>
 
-    <div class="display-label">@Html.LabelFor(model => model.Detail)</div>
+    <div class="display-label">@Html.LabelFor(model => model.detail)</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Detail)
+        @Html.DisplayFor(model => model.detail)
     </div>
     @if (Model.deactivated != null)
     {
