@@ -300,6 +300,10 @@
     <Compile Include="Migrations\201902131202108_InitialMigration.Designer.cs">
       <DependentUpon>201902131202108_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912191133041_ContactTable-RetentionColumn.cs" />
+    <Compile Include="Migrations\201912191133041_ContactTable-RetentionColumn.Designer.cs">
+      <DependentUpon>201912191133041_ContactTable-RetentionColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AddressModels.cs" />
@@ -363,6 +367,7 @@
     <Content Include="ReadMe.txt" />
     <Content Include="SQLScipts\01 - TablesCreation.sql" />
     <Content Include="SQLScipts\02 - InsertAuditDescriptions.sql" />
+    <Content Include="SQLScipts\03 - ContactTable-RetentionColumn.sql" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Applicant\Create.cshtml" />
     <Content Include="Views\Applicant\Details.cshtml" />
@@ -730,6 +735,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902131202108_InitialMigration.resx">
       <DependentUpon>201902131202108_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912191133041_ContactTable-RetentionColumn.resx">
+      <DependentUpon>201912191133041_ContactTable-RetentionColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
