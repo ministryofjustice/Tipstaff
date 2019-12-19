@@ -1,11 +1,13 @@
 ﻿@model Tipstaff.Models.Contact
 
 @{
-    ViewBag.Title = string.Format("Details of {0}",Model.PoliceDisplayName);
+    ViewBag.Title = string.Format("Details of {0}", Model.PoliceDisplayName);
 }
 
-<h6>@Html.ActionLink("Contacts","Index") 
-> @Model.fullName</h6>
+<h6>
+    @Html.ActionLink("Contacts", "Index")
+> @Model.fullName
+</h6>
 
 <fieldset>
     <legend>Contact </legend>
@@ -62,5 +64,9 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.contactID })
+    @Html.ActionLink("Edit", "Edit", new { id = Model.contactID })
+</p>
+
+<p>
+    @Html.ActionLink("Delete", "Delete", new { id = Model.contactID })
 </p>
