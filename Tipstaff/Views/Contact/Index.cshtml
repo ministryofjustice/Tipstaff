@@ -66,6 +66,9 @@
         <th>
             @Html.LabelFor(model => model.Contacts.First().contactType)
         </th>
+        <th>
+            @Html.LabelFor(model => model.Contacts.First().Retention)
+        </th>
     </tr>
 
 @{var isAltRow = false;
@@ -73,7 +76,8 @@
     <tr class="@(isAltRow ? "altRow" : "")">
         <td style="min-width:40px;">
             @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "Contact", new { id = item.contactID }, null, null)
-            @if (User.IsInRole("Admin")) { @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { auditType = "Contact", id = item.contactID }, null, null)}
+            @if (User.IsInRole("Admin"))
+            {@Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { auditType = "Contact", id = item.contactID }, null, null)}
         </td>
         <td>
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.fullName), "Details", "Contact", new { id = item.contactID }, null, null, "createButton")
@@ -91,9 +95,9 @@
             @Html.DisplayFor(modelItem => item.phoneMobile)
         </td>
         <td>
-            <a class="createButton" style="color:#3399ff;" 
-            title = "Send mail to @Html.DisplayFor(modelItem => item.email)" 
-            href="mailto:@Html.DisplayFor(modelItem => item.email)?subject=Tipstaff query">@Html.DisplayFor(modelItem => item.email)</a>
+            <a class="createButton" style="color:#3399ff;"
+               title="Send mail to @Html.DisplayFor(modelItem => item.email)"
+               href="mailto:@Html.DisplayFor(modelItem => item.email)?subject=Tipstaff query">@Html.DisplayFor(modelItem => item.email)</a>
 
         </td>
         <td>
@@ -101,6 +105,16 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.contactType.Detail)
+        </td>
+        <td>
+            @if (item.Retention)
+            {
+                @Html.Raw("Yes");
+            }
+            else
+            {
+                @Html.Raw("No");
+            }
         </td>
     </tr>
         isAltRow = !isAltRow;

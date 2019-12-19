@@ -36,7 +36,7 @@ namespace Tipstaff.Controllers
                 //TRs = TRs.Where(w=>w.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
                 Contacts = Contacts.Where(w => w.firstName.ToUpper().Contains(model.NameContains.ToUpper()) || w.lastName.ToUpper().Contains(model.NameContains.ToUpper()));
             }
-            model.Contacts = Contacts.OrderBy(c=>c.lastName).ThenBy(c=>c.firstName).ThenBy(c=>c.salutation.Detail).ToPagedList(model.page, pageSize);
+            model.Contacts = Contacts.OrderBy(c => c.lastName).ThenBy(c => c.firstName).ThenBy(c => c.salutation.Detail).ToPagedList(model.page, pageSize);
             return View(model);
         }
 
@@ -49,6 +49,23 @@ namespace Tipstaff.Controllers
             return View(contact);
         }
 
+        [AuthorizeRedirect(Roles = "Admin")]
+        public ActionResult Delete(int id)
+        {
+            Contact model = db.Contacts.Find(id);
+            return View(model);
+        }
+
+        [HttpPost, AuthorizeRedirect(Roles = "Admin")]
+        public ActionResult Delete(Contact model)
+        {
+            Contact c = db.Contacts.Find(model.contactID);
+            db.Contacts.Remove(c);
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Contact");
+        }
+
         //
         // GET: /Contacts/Create
 
@@ -56,7 +73,7 @@ namespace Tipstaff.Controllers
         {
             ContactModification model = new ContactModification();
             return View(model);
-        } 
+        }
 
         //
         // POST: /Contacts/Create
@@ -74,7 +91,7 @@ namespace Tipstaff.Controllers
 
         //
         // GET: /Contacts/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             ContactModification model = new ContactModification(id);
@@ -98,10 +115,9 @@ namespace Tipstaff.Controllers
 
         public ActionResult QuickSearch(string term)
         {
-
             var aSols = db.Contacts.Where(s => s.lastName.ToUpper().Contains(term.ToUpper()) || s.firstName.ToUpper().Contains(term.ToUpper())).ToList();
 
-            var sols = aSols.Select(a => new { value = a.fullName});
+            var sols = aSols.Select(a => new { value = a.fullName });
             return Json(sols, JsonRequestBehavior.AllowGet);
         }
     }

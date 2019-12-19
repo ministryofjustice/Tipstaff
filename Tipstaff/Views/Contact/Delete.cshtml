@@ -1,0 +1,21 @@
+﻿@model Tipstaff.Models.Contact
+
+@{
+    ViewBag.Title = string.Format("Delete {0}", Model.PoliceDisplayName);
+}
+
+<h6>
+    @Html.ActionLink("Index", "Index", "Contact")
+    > @Html.ActionLink("Details", "Details", "Contact", new { id = Model.contactID }, null)
+</h6>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+    <fieldset>
+        <legend>Are you sure you want to delete @Model.PoliceDisplayName?</legend>
+        @Html.HiddenFor(model => model.contactID)
+    </fieldset>
+    <p>
+        <input type="submit" value="Delete" />
+    </p>
+}
