@@ -9,44 +9,56 @@
 
 <fieldset>
     <legend>Contact </legend>
-    
+
     <div class="display-label">@Html.LabelFor(model => model.contactType.Detail)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.contactType.Detail)
     </div>
-    <div class="display-label">@Html.LabelFor(model=>model.fullName)</div>
+    <div class="display-label">@Html.LabelFor(model => model.fullName)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.fullName)
     </div>
-    
-    <div class="display-label">@Html.LabelFor(model=>model.MultiLineAddress)</div>
+
+    <div class="display-label">@Html.LabelFor(model => model.MultiLineAddress)</div>
     <div class="display-field" style="height:60px;">
-            @Html.Raw(Model.MultiLineAddress)
+        @Html.Raw(Model.MultiLineAddress)
     </div>
-    
-    <div class="display-label">@Html.LabelFor(model=>model.DX)</div>
+
+    <div class="display-label">@Html.LabelFor(model => model.DX)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.DX)
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.phoneHome)</div>
+    <div class="display-label">@Html.LabelFor(model => model.phoneHome)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.phoneHome)
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.phoneMobile)</div>
+    <div class="display-label">@Html.LabelFor(model => model.phoneMobile)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.phoneMobile)
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.email)</div>
+    <div class="display-label">@Html.LabelFor(model => model.email)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.email)
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.notes)</div>
+    <div class="display-label">@Html.LabelFor(model => model.notes)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.notes)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.Retention)</div>
+    <div class="display-field">
+        @if (Model.Retention)
+        {
+            @Html.Raw("Yes");
+        }
+        else
+        {
+            @Html.Raw("No");
+        }
     </div>
 </fieldset>
 <p>
