@@ -92,7 +92,8 @@
             }
         }
         </th>
-        <th @if (User.IsInRole("Admin"))
+        <th>&nbsp;</th>
+        <th @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
             {@Html.Raw("colspan=\"2\"")}>&nbsp;</th> @* Empty columns *@
     </tr>@* End Filter Row*@
     <tr> @* HeaderRow *@
@@ -118,7 +119,8 @@
         @Html.SortHeader(Model, "caseStatus", "Current case status", token)
         @Html.SortHeader(Model, "result", "Result", token)
         @Html.SortHeader(Model, "resultEnter", "Result entered by", token)
-        @if (User.IsInRole("Admin"))
+        <th>Retention</th>
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         {<th style="width:20px;">&nbsp;</th>}
     </tr>@* End HeaderRow *@
 @{var isAltRow = false;
@@ -157,7 +159,17 @@
         <td>@Html.DisplayFor(modelItem => item.result.Detail)</td>
         <td>@Html.DisplayFor(modelItem => item.resultEnteredBy) on @(((DateTime)item.resultDate).ToShortDateString())</td>
         }
-        @if (User.IsInRole("Admin"))
+        <td>
+            @if (item.Retention)
+            {
+                @Html.Raw("Yes");
+            }
+            else
+            {
+                @Html.Raw("No");
+            }
+        </td>
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         {
         <td>
             @Html.ImageLink(Url.Content("~/Images/Delete.png"), string.Format("Delete {0}", item.UniqueRecordID), "Delete", "Warrant", new { id = item.tipstaffRecordID }, null, null)

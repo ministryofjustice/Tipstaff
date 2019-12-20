@@ -50,10 +50,10 @@
                 @Html.DropDownListForWithSubmit(model => model.caseStatusID, (SelectList)Model.StatusList, "All statuses", "-1")
             } 
         </th>
-        <th colspan="4">&nbsp;</th>
+        <th colspan="5">&nbsp;</th>
     </tr>@* End Filter Row*@
     <tr> @* HeaderRow *@
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         {<th style="width:20px;">&nbsp;</th>}
         @{
             var token = @Html.AntiForgeryToken().ToHtmlString();
@@ -77,14 +77,15 @@
         @Html.SortHeader(Model, "caseStatus", "Current case status", token)
         @Html.SortHeader(Model, "result", "Result", token)
         @Html.SortHeader(Model, "resultEnter", "Result entered by", token)
-        @if (User.IsInRole("Admin"))
+        <th>Retention</th>
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         {<th style="width:20px;">&nbsp;</th>}
     </tr>@* End HeaderRow *@
 @{var isAltRow = false;
   foreach (var item in Model.ChildAbductions)
   {
     <tr class="@(isAltRow ? "altRow" : "")">@* Data Row *@
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         {
         <td>
             @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "ChildAbduction", id = item.tipstaffRecordID }, null, null)
@@ -125,7 +126,17 @@
         <td>@Html.DisplayFor(modelItem => item.result.Detail)</td>
         <td>@Html.DisplayFor(modelItem => item.resultEnteredBy) on @(((DateTime)item.resultDate).ToShortDateString())</td>
         }
-        @if (User.IsInRole("Admin"))
+        <td>
+            @if (item.Retention)
+            {
+                @Html.Raw("Yes");
+            }
+            else
+            {
+                @Html.Raw("No");
+            }
+        </td>
+        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
         {
         <td>
             @Html.ImageLink(Url.Content("~/Images/Delete.png"),string.Format("Delete {0}",item.UniqueRecordID), "Delete", "ChildAbduction", new { id = item.tipstaffRecordID }, null, null)
