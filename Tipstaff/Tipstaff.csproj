@@ -308,6 +308,10 @@
     <Compile Include="Migrations\201912201111045_TipstaffTableRetentionColumn.Designer.cs">
       <DependentUpon>201912201111045_TipstaffTableRetentionColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912231244496_SolictorsTableRetentionColumn.cs" />
+    <Compile Include="Migrations\201912231244496_SolictorsTableRetentionColumn.Designer.cs">
+      <DependentUpon>201912231244496_SolictorsTableRetentionColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\AddressModels.cs" />
@@ -373,6 +377,7 @@
     <Content Include="SQLScipts\02 - InsertAuditDescriptions.sql" />
     <Content Include="SQLScipts\03 - ContactTable-RetentionColumn.sql" />
     <Content Include="SQLScipts\04 - TipstaffRecordsTable-RetentionColumn.sql" />
+    <Content Include="SQLScipts\05 - SolicitorsTable-RetentionColumn.sql" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Applicant\Create.cshtml" />
     <Content Include="Views\Applicant\Details.cshtml" />
@@ -747,6 +752,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912201111045_TipstaffTableRetentionColumn.resx">
       <DependentUpon>201912201111045_TipstaffTableRetentionColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912231244496_SolictorsTableRetentionColumn.resx">
+      <DependentUpon>201912231244496_SolictorsTableRetentionColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
