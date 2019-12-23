@@ -102,19 +102,19 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
 
     @if (Model.resultID == null)
     {
-    <div class="display-label">            
-        @if (Model.caseReviews.Count() == 0)
-        {
-            <span>Initial review date</span>
-        }
-        else
-        {
-            @Html.LabelFor(model => model.nextReviewDate)
-        }
-    </div>
-    <div class="display-field @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
-        @Html.DisplayFor(model => model.nextReviewDate)
-    </div>
+        <div class="display-label">
+            @if (Model.caseReviews.Count() == 0)
+            {
+                <span>Initial review date</span>
+            }
+            else
+            {
+                @Html.LabelFor(model => model.nextReviewDate)
+            }
+        </div>
+        <div class="display-field @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
+            @Html.DisplayFor(model => model.nextReviewDate)
+        </div>
     }
 
     <div class="display-label">@Html.LabelFor(model => model.caseStatusID)</div>
@@ -135,6 +135,18 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
     <div class="display-label">@Html.LabelFor(model => model.DateCirculated)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.DateCirculated)
+    </div>
+
+    <div class="display-label">@Html.LabelFor(model => model.Retention)</div>
+    <div class="display-field">
+        @if (Model.Retention)
+        {
+            @Html.Raw("Yes");
+        }
+        else
+        {
+            @Html.Raw("No");
+        }
     </div>
 
     @if (Model.result != null)
