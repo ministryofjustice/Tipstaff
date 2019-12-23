@@ -16,81 +16,89 @@
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken();
-    <fieldset>
-        <legend>Edit @Model.solicitor.solicitorName</legend>
+<fieldset>
+    <legend>Edit @Model.solicitor.solicitorName</legend>
 
-        @Html.HiddenFor(model => model.solicitor.solicitorID)
-        @Html.HiddenFor(model => model.solicitor.active)
-        <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.salutationID, true)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.solicitor.salutationID, Model.SalutationList, "Please select a title", new { @class = "required" })           
-            @Html.ValidationMessageFor(model => model.solicitor.salutationID)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.firstName, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.solicitor.firstName)
-            @Html.ValidationMessageFor(model => model.solicitor.firstName)
-        </div>
+    @Html.HiddenFor(model => model.solicitor.solicitorID)
+    @Html.HiddenFor(model => model.solicitor.active)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.salutationID, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.solicitor.salutationID, Model.SalutationList, "Please select a title", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.solicitor.salutationID)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.firstName, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.solicitor.firstName)
+        @Html.ValidationMessageFor(model => model.solicitor.firstName)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.lastName, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.solicitor.lastName)
-            @Html.ValidationMessageFor(model => model.solicitor.lastName)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.lastName, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.solicitor.lastName)
+        @Html.ValidationMessageFor(model => model.solicitor.lastName)
+    </div>
 
-         <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.solicitorFirmID, true)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.solicitorFirmID, true)
+    </div>
+    <div class="editor-field">
+        <div id="createFirm">
+            @Html.DropDownListFor(model => model.solicitor.solicitorFirmID, Model.SolicitorFirmList, "Please select a firm", null)
+            @Html.ValidationMessageFor(model => model.solicitor.solicitorFirmID)
+            @Ajax.ActionLink("Create new firm", "CreateFirm"
+                                                    , "Solicitor"
+                                                    , new AjaxOptions
+                                                        {
+                                                            UpdateTargetId = "solFirm"
+                                                            ,
+                                                             LoadingElementId = "Refresh"
+                                                            ,
+                                                             OnComplete = ""
+                                                        })
+            <img src="@Url.Content("~/Images/al_arrows_green.gif")" alt="loading..." id="Refresh" style="display:none" />
         </div>
-        <div class="editor-field">
-            <div id="createFirm">
-                @Html.DropDownListFor(model => model.solicitor.solicitorFirmID, Model.SolicitorFirmList, "Please select a firm",null)           
-                @Html.ValidationMessageFor(model => model.solicitor.solicitorFirmID)
-                @Ajax.ActionLink("Create new firm", "CreateFirm"
-                                                        , "Solicitor"
-                                                        , new AjaxOptions
-                                                            {
-                                                                UpdateTargetId = "solFirm"
-                                                                ,LoadingElementId = "Refresh"
-                                                                ,OnComplete = ""
-                                                            })
-                <img src="@Url.Content("~/Images/al_arrows_green.gif")" alt="loading..." id="Refresh" style="display:none"/>
-            </div>
-        </div>
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.phoneDayTime, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.solicitor.phoneDayTime)
-            @Html.ValidationMessageFor(model => model.solicitor.phoneDayTime)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.phoneDayTime, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.solicitor.phoneDayTime)
+        @Html.ValidationMessageFor(model => model.solicitor.phoneDayTime)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.phoneOutofHours, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.solicitor.phoneOutofHours)
-            @Html.ValidationMessageFor(model => model.solicitor.phoneOutofHours)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.phoneOutofHours, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.solicitor.phoneOutofHours)
+        @Html.ValidationMessageFor(model => model.solicitor.phoneOutofHours)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.solicitor.email, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.solicitor.email)
-            @Html.ValidationMessageFor(model => model.solicitor.email)
-        </div>
-
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
-    </fieldset>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.email, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.solicitor.email)
+        @Html.ValidationMessageFor(model => model.solicitor.email)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.solicitor.Retention, false)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.solicitor.Retention)
+        @Html.ValidationMessageFor(model => model.solicitor.Retention)
+    </div>
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+    <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+</fieldset>
 }
 

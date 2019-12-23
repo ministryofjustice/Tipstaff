@@ -34,7 +34,7 @@
             @Html.HiddenFor(model => model.onlyActive)
         }
         </th>
-        <th colspan="3">
+        <th colspan="4">
         @Html.HiddenFor(model => model.onlyActive)<label for="includeFake">Hide deactivated entries?</label> 
         @using (Html.BeginForm())
            {    
@@ -72,6 +72,7 @@
             @Html.LabelFor(model=>model.Solicitors.First().active)
         </th>
          @Html.SortHeader(Model, "activeCount", "Active records", token)
+        <th>Retention</th>
     </tr>
 
 @{  var isAltRow = false;
@@ -96,6 +97,16 @@
         </td>
         <td>
             @item.TipstaffRecords.Count()
+        </td>
+        <td>
+            @if (item.Retention)
+            {
+                @Html.Raw("Yes");
+            }
+            else
+            {
+                @Html.Raw("No");
+            }
         </td>
     </tr>
 	isAltRow = !isAltRow;

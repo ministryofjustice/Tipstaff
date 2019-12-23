@@ -30,6 +30,7 @@ namespace Tipstaff.Models
         public string searchString { get; set; }
         public string searchFirm { get; set; }
         public int? page { get; set; }
+
         public ChooseSolicitorModel()
         {
             searchString = "";
@@ -47,32 +48,46 @@ namespace Tipstaff.Models
     {
         [Key]
         public int solicitorFirmID { get; set; }
-        [Required, MaxLength(50), Display(Name="Name of Firm")]
+
+        [Required, MaxLength(50), Display(Name = "Name of Firm")]
         public string firmName { get; set; }
-        [Required, MaxLength(100), Display(Name="Address Line 1")]
+
+        [Required, MaxLength(100), Display(Name = "Address Line 1")]
         public string addressLine1 { get; set; }
-        [MaxLength(100), Display(Name="Address Line 2")]
+
+        [MaxLength(100), Display(Name = "Address Line 2")]
         public string addressLine2 { get; set; }
-        [MaxLength(100), Display(Name="Address Line 3")]
+
+        [MaxLength(100), Display(Name = "Address Line 3")]
         public string addressLine3 { get; set; }
-        [MaxLength(100), Display(Name="Town")]
+
+        [MaxLength(100), Display(Name = "Town")]
         public string town { get; set; }
-        [MaxLength(100), Display(Name="County")]
+
+        [MaxLength(100), Display(Name = "County")]
         public string county { get; set; }
-        [MaxLength(10), Display(Name="Post code")]
+
+        [MaxLength(10), Display(Name = "Post code")]
         public string postcode { get; set; }
-        [MaxLength(50), Display(Name="DX address")]
+
+        [MaxLength(50), Display(Name = "DX address")]
         public string DX { get; set; }
-        [MaxLength(20), Display(Name="Day time phone number")]
+
+        [MaxLength(20), Display(Name = "Day time phone number")]
         public string phoneDayTime { get; set; }
-        [MaxLength(20), Display(Name="Out of Hours phone number")]
+
+        [MaxLength(20), Display(Name = "Out of Hours phone number")]
         public string phoneOutofHours { get; set; }
-        [MaxLength(60,ErrorMessage="Maximum of 60 characters"), Display(Name="Email address")]
+
+        [MaxLength(60, ErrorMessage = "Maximum of 60 characters"), Display(Name = "Email address")]
         public string email { get; set; }
+
         public bool active { get; set; }
         public DateTime? deactivated { get; set; }
+
         [MaxLength(50)]
         public string deactivatedBy { get; set; }
+
         public virtual ICollection<Solicitor> Solicitors { get; set; }
 
         public virtual List<string> populatedLines
@@ -86,7 +101,7 @@ namespace Tipstaff.Models
                 if (addressLine3 != null) outputAddress.Add(addressLine3);
                 if (town != null) outputAddress.Add(town);
                 if (county != null) outputAddress.Add(county);
-                if (postcode!= null)outputAddress.Add(postcode);
+                if (postcode != null) outputAddress.Add(postcode);
                 return outputAddress;
             }
         }
@@ -112,6 +127,7 @@ namespace Tipstaff.Models
                 return string.Join(",", popLines.ToArray());
             }
         }
+
         public virtual string screenAddressSingleLineExcludeName
         {
             get
@@ -122,33 +138,45 @@ namespace Tipstaff.Models
             }
         }
     }
+
     public class Solicitor
     {
         [Key]
         public int solicitorID { get; set; }
+
         [MaxLength(50), Display(Name = "First name")]
         public string firstName { get; set; }
+
         [Required, MaxLength(50), Display(Name = "Last name")]
         public string lastName { get; set; }
-        [Display(Name="Solicitor firm")]
+
+        [Display(Name = "Solicitor firm")]
         public int? solicitorFirmID { get; set; }
-        [Required,Display(Name="Title")]
+
+        [Required, Display(Name = "Title")]
         public int salutationID { get; set; }
-        [MaxLength(20), Display(Name="Day time phone number")]
+
+        [MaxLength(20), Display(Name = "Day time phone number")]
         public string phoneDayTime { get; set; }
-        [MaxLength(20), Display(Name="Out of Hours phone number")]
+
+        [MaxLength(20), Display(Name = "Out of Hours phone number")]
         public string phoneOutofHours { get; set; }
-        [MaxLength(60,ErrorMessage="Maximum of 60 characters"), Display(Name="Email address")]
+
+        [MaxLength(60, ErrorMessage = "Maximum of 60 characters"), Display(Name = "Email address")]
         public string email { get; set; }
+
         public bool active { get; set; }
         public DateTime? deactivated { get; set; }
+
         [MaxLength(50)]
         public string deactivatedBy { get; set; }
+
+        public bool Retention { get; set; }
         public virtual SolicitorFirm SolicitorFirm { get; set; }
         public virtual Salutation salutation { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> TipstaffRecords { get; set; }
 
-        [Display(Name="Name")]
+        [Display(Name = "Name")]
         public virtual string solicitorName
         {
             get
@@ -156,6 +184,7 @@ namespace Tipstaff.Models
                 return SecurityElement.Escape(string.Format("{0} {1} {2}", salutation.Detail ?? "", firstName, lastName));
             }
         }
+
         public virtual string AddresseeName
         {
             get
@@ -169,8 +198,10 @@ namespace Tipstaff.Models
     {
         [Key, Column(Order = 0)]
         public int tipstaffRecordID { get; set; }
+
         [Key, Column(Order = 1)]
         public int solicitorID { get; set; }
+
         public virtual TipstaffRecord tipstaffRecord { get; set; }
         public virtual Solicitor solicitor { get; set; }
     }
@@ -189,7 +220,10 @@ namespace Tipstaff.Models
         public virtual Solicitor Solicitor { get; set; }
         public virtual TipstaffRecord TipstaffRecord { get; set; }
 
-        public SolicitorbyTipstaffRecordViewModel() { }
+        public SolicitorbyTipstaffRecordViewModel()
+        {
+        }
+
         public SolicitorbyTipstaffRecordViewModel(int SolicitorID, int TipstaffRecordID)
         {
             solicitorID = SolicitorID;
@@ -204,7 +238,10 @@ namespace Tipstaff.Models
         public SelectList SolicitorsFirmList { get; set; }
         public SelectList SalutationList { get; set; }
 
-        public EditSolicitorbyTipstaffRecordViewModel() { }
+        public EditSolicitorbyTipstaffRecordViewModel()
+        {
+        }
+
         public EditSolicitorbyTipstaffRecordViewModel(int SolicitorID, int TipstaffRecordID)
         {
             solicitorID = SolicitorID;
@@ -215,6 +252,7 @@ namespace Tipstaff.Models
             SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true), "salutationID", "Detail", Solicitor.salutationID);
         }
     }
+
     public class SolicitorFirmByTipstaffRecordViewModel
     {
         public int solicitorFirmID { get; set; }
@@ -223,7 +261,10 @@ namespace Tipstaff.Models
         public virtual SolicitorFirm SolicitorFirm { get; set; }
         public virtual TipstaffRecord TipstaffRecord { get; set; }
 
-        public SolicitorFirmByTipstaffRecordViewModel() { }
+        public SolicitorFirmByTipstaffRecordViewModel()
+        {
+        }
+
         public SolicitorFirmByTipstaffRecordViewModel(int SolicitorFirmID, int TipstaffRecordID)
         {
             solicitorFirmID = SolicitorFirmID;
@@ -232,5 +273,6 @@ namespace Tipstaff.Models
             TipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(tipstaffRecordID);
         }
     }
-    #endregion
+
+    #endregion Solicitor Models
 }
