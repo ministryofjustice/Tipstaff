@@ -24,6 +24,7 @@ namespace Tipstaff.Controllers
         {
             _logger = logger;
         }
+
         //
         // GET: /Respondent/Details/5
 
@@ -36,7 +37,7 @@ namespace Tipstaff.Controllers
         //
         // GET: /Respondent/Create
 
-        public ActionResult Create(int id, bool initial=false)
+        public ActionResult Create(int id, bool initial = false)
         {
             RespondentCreationModel model = new RespondentCreationModel(id);
             if (model.tipstaffRecord.caseStatus.sequence > 3)
@@ -54,7 +55,7 @@ namespace Tipstaff.Controllers
             }
             model.initial = initial;
             return View(model);
-        } 
+        }
 
         //
         // POST: /Respondent/Create
@@ -68,7 +69,6 @@ namespace Tipstaff.Controllers
             }
             try
             {
-
                 TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
                 //if (genericFunctions.TypeOfTipstaffRecord(tr) == "Warrant")
                 if (tr is Warrant)
@@ -76,6 +76,8 @@ namespace Tipstaff.Controllers
                     Warrant w = (Warrant)tr;
                     w.RespondentName = model.respondent.PoliceDisplayName;
                     w.Respondents.Add(model.respondent);
+                    db.Entry(w).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
                 else
                 {
@@ -93,11 +95,11 @@ namespace Tipstaff.Controllers
                     {
                         case "Save,add new Respondent":
                             return RedirectToAction("Create", "Respondent", new { id = model.tipstaffRecordID, initial = model.initial });
+
                         case null:
                         default:
                             return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.tipstaffRecordID });
                     }
-
                 }
             }
             catch (DbUpdateException ex)
@@ -123,10 +125,10 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
         }
-        
+
         //
         // GET: /Respondent/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             RespondentCreationModel model = new RespondentCreationModel();
@@ -155,6 +157,13 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
+                TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
+                if (tr is Warrant)
+                {
+                    Warrant w = (Warrant)tr;
+                    w.RespondentName = model.respondent.PoliceDisplayName;
+                    db.Entry(w).State = EntityState.Modified;
+                }
                 db.Entry(model.respondent).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.respondent.tipstaffRecordID), new { id = model.respondent.tipstaffRecordID });
@@ -162,7 +171,6 @@ namespace Tipstaff.Controllers
             return View(model);
         }
 
-        
         public PartialViewResult ListRespondentsByRecord(int id, int? page)
         {
             ListRespondentsByTipstaffRecord model = new ListRespondentsByTipstaffRecord();
@@ -178,6 +186,7 @@ namespace Tipstaff.Controllers
             }
             return PartialView("_ListRespondentsByRecord", model);
         }
+
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
@@ -209,7 +218,7 @@ namespace Tipstaff.Controllers
             string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
             db.Respondents.Remove(model.Respondent);
             db.SaveChanges();
-            //get the Audit Event we just created 
+            //get the Audit Event we just created
             string recDeleted = model.DeleteModelID.ToString();
             AuditEvent AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "Respondent deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
             //add a deleted reason
@@ -218,6 +227,5 @@ namespace Tipstaff.Controllers
             db.SaveChanges();
             return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
         }
-
     }
 }
