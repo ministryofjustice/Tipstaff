@@ -169,7 +169,7 @@
                 @Html.Raw("No");
             }
         </td>
-        @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
+        @if ((User.IsInRole("Admin") || User.IsInRole("System Admin")) && !item.Retention)
         {
         <td>
             @Html.ImageLink(Url.Content("~/Images/Delete.png"), string.Format("Delete {0}", item.UniqueRecordID), "Delete", "Warrant", new { id = item.tipstaffRecordID }, null, null)
