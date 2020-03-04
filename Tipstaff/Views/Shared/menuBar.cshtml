@@ -6,53 +6,54 @@
 <div id="MenuContainer" style="clear:both;">
     <ul id="menuBar">
         <li class="button" id="first"></li>
-        <li class="button">@Html.ActionLink("Home", "Index", "Home", new { area = "" },null)</li>
-@if (Request.IsAuthenticated && !thisUser.IsInRole("Deactivated"))
-{
+        <li class="button">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+        @if (Request.IsAuthenticated && !thisUser.IsInRole("Deactivated"))
+        {
 
-        <li class="button">@Html.ActionLink("Contacts", "Index", "Contact", new { area = "" },null)</li>
-        <li class="leftText">Warrants</li>
-        <li class="button" style="background:none !important;">@Html.ImageLink(Url.Content("~/Images/add.png"), "Add Warrant", "Create", "Warrant", new { area = "" }, null, null)</li>
-        <li class="button">@Html.ImageLink(Url.Content("~/Images/page_white_stack.png"), "List Warrants", "Index", "Warrant", new { area = "" }, null, null)</li>
-        <li class="leftText">Child Abductions</li>
-        <li class="button" style="background:none !important;">@Html.ImageLink(Url.Content("~/Images/add.png"), "Add Child Abduction", "Create", "ChildAbduction", new { area = "" }, null, null)</li>
-        <li class="button">@Html.ImageLink(Url.Content("~/Images/page_white_stack.png"), "List Child Abductions", "Index", "ChildAbduction", new { area = "" }, null, null)</li>
-    if (thisUser.IsInRole("Admin") || thisUser.IsInRole("System Admin"))
-    {
-        <li class="button">@Html.ActionLink("Reports", "Index", "Reports", new { area = "" },null)</li>
-        <li class="button">@Html.ActionLink("Administration", "Index", "Admin", new { area = "Admin" }, null)
-            <ul>
-                <li>@Html.ActionLink("Users", "Index", "Users", new { area = "Admin" }, null)</li>
-                <li>@Html.ActionLink("Lookups", "LookUps", "Admin", new { area = "Admin" }, null)</li>
-                <li>@Html.ActionLink("Deleted Records", "Index", "DeletedTipstaffRecord", new { area = "Admin" }, null)</li>
-                <li>@Html.ActionLink("Templates", "Index", "Templates", new { area = "Admin" }, null)</li>
-            </ul>
-        </li>
-    }
-}
-@*@if (Request.IsAuthenticated) 
-{
-        <li class="text">
-                 Connected as <strong>@Html.ActionLink(User.Identity.Name, "myProfile", "Account", new { area = "" }, null)</strong>
-        </li>
-}*@
-        <li class="helpButton">@Html.ImageLink(Url.Content("~/Images/help.png"), "Help", "Index", "FAQ", new { area = "" }, null, null)</li>
-@if (Request.IsAuthenticated && !thisUser.IsInRole("Deactivated"))
-{
-        <li class="text">
-            @using (Html.BeginForm("Search", "Home", new { area = "" }))
+            <li class="button">@Html.ActionLink("Contacts", "Index", "Contact", new { area = "" }, null)</li>
+            <li class="leftText">Warrants</li>
+            <li class="button" style="background:none !important;">@Html.ImageLink(Url.Content("~/Images/add.png"), "Add Warrant", "Create", "Warrant", new { area = "" }, null, null)</li>
+            <li class="button">@Html.ImageLink(Url.Content("~/Images/page_white_stack.png"), "List Warrants", "Index", "Warrant", new { area = "" }, null, null)</li>
+            <li class="leftText">Child Abductions</li>
+            <li class="button" style="background:none !important;">@Html.ImageLink(Url.Content("~/Images/add.png"), "Add Child Abduction", "Create", "ChildAbduction", new { area = "" }, null, null)</li>
+            <li class="button">@Html.ImageLink(Url.Content("~/Images/page_white_stack.png"), "List Child Abductions", "Index", "ChildAbduction", new { area = "" }, null, null)</li>
+            if (thisUser.IsInRole("Admin") || thisUser.IsInRole("System Admin"))
             {
-                @Html.AntiForgeryToken();
-                @Html.TextBox("searchRecord", null, new { @style = "width: 75px;", AccessKey = "S" })
-                <input alt="Search for record" type="image" value="Search" src="@Url.Content("~/Images/view.png")" />
-            }
+                <li class="button">@Html.ActionLink("Reports", "Index", "Reports", new { area = "" }, null)</li>
+                <li class="button">
+                    @Html.ActionLink("Administration", "Index", "Admin", new { area = "Admin" }, null)
+                <ul>
+                    <li>@Html.ActionLink("Users", "Index", "Users", new { area = "Admin" }, null)</li>
+                    <li>@Html.ActionLink("Lookups", "LookUps", "Admin", new { area = "Admin" }, null)</li>
+                    @*<li>@Html.ActionLink("Deleted Records", "Index", "DeletedTipstaffRecord", new { area = "Admin" }, null)</li>*@
+                    <li>@Html.ActionLink("Templates", "Index", "Templates", new { area = "Admin" }, null)</li>
+                </ul>
             </li>
-}
+        }
+    }
+    @*@if (Request.IsAuthenticated)
+        {
+                <li class="text">
+                         Connected as <strong>@Html.ActionLink(User.Identity.Name, "myProfile", "Account", new { area = "" }, null)</strong>
+                </li>
+        }*@
+        <li class="helpButton">@Html.ImageLink(Url.Content("~/Images/help.png"), "Help", "Index", "FAQ", new { area = "" }, null, null)</li>
+        @if (Request.IsAuthenticated && !thisUser.IsInRole("Deactivated"))
+        {
+            <li class="text">
+                @using (Html.BeginForm("Search", "Home", new { area = "" }))
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.TextBox("searchRecord", null, new { @style = "width: 75px;", AccessKey = "S" })
+                    <input alt="Search for record" type="image" value="Search" src="@Url.Content("~/Images/view.png")" />
+                }
+            </li>
+        }
         <li class="text">&nbsp;</li>
     </ul>
 </div>
 @*<div class="message warning" style="">
-	<span></span>
-	<h6>Warning - Temporary outage planned for this evening</h6>
-</div>
+        <span></span>
+        <h6>Warning - Temporary outage planned for this evening</h6>
+    </div>
 *@
