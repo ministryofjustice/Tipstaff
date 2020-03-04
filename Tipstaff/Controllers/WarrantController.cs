@@ -20,7 +20,7 @@ namespace Tipstaff.Controllers
     public class WarrantController : Controller
     {
         private TipstaffDB db = myDBContextHelper.CurrentContext;
-        
+
         public ViewResult Index(WarrantListViewModel model)
         {
             IQueryable<Warrant> TRs = myDBContextHelper.CurrentContext.Warrants;
@@ -32,12 +32,10 @@ namespace Tipstaff.Controllers
             if (model.caseStatusID > -1)
             {
                 TRs = TRs.Where(w => w.caseStatusID == model.caseStatusID);
-
             }
             if (model.divisionID > -1)
             {
                 TRs = TRs.Where(w => w.divisionID == model.divisionID);
-
             }
             if (!string.IsNullOrEmpty(model.caseNumberContains))
             {
@@ -53,85 +51,108 @@ namespace Tipstaff.Controllers
                 case "created asc":
                     model.Warrants = TRs.OrderBy(a => a.createdOn).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "created desc":
                     model.Warrants = TRs.OrderByDescending(a => a.createdOn).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "uniqueid asc":
                     model.Warrants = TRs.OrderBy(a => a.tipstaffRecordID).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "uniqueid desc":
                     model.Warrants = TRs.OrderByDescending(a => a.tipstaffRecordID).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "casenumber asc":
                     model.Warrants = TRs.OrderBy(a => a.caseNumber).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "casenumber desc":
                     model.Warrants = TRs.OrderByDescending(a => a.caseNumber).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "division asc":
                     model.Warrants = TRs.OrderBy(a => a.division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "division desc":
                     model.Warrants = TRs.OrderByDescending(a => a.division.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "reviewDate asc":
                     model.Warrants = TRs.OrderBy(a => a.nextReviewDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "reviewDate desc":
                     model.Warrants = TRs.OrderByDescending(a => a.nextReviewDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "displayName asc":
                     model.Warrants = TRs.OrderBy(a => a.RespondentName).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     /*
-                     * This cannot work in SQL 2000 - SQL>LINQ and LINQ>Entities build SQl queries with APPLY operators 
+                     * This cannot work in SQL 2000 - SQL>LINQ and LINQ>Entities build SQl queries with APPLY operators
                      * with APPLY operators these do not work in SQL 2000 - restore if backend moved to 2005 or newer
                      */
                     //model.Warrants = TRs.OrderBy(a => a.Respondents.FirstOrDefault().nameLast).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "displayName desc":
                     model.Warrants = TRs.OrderByDescending(a => a.RespondentName).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
-                     /*
-                     * This cannot work in SQL 2000 - SQL>LINQ and LINQ>Entities build SQl queries with APPLY operators 
-                     * with APPLY operators these do not work in SQL 2000 - restore if backend moved to 2005 or newer
-                     */
+                    /*
+                    * This cannot work in SQL 2000 - SQL>LINQ and LINQ>Entities build SQl queries with APPLY operators
+                    * with APPLY operators these do not work in SQL 2000 - restore if backend moved to 2005 or newer
+                    */
                     //model.Warrants = TRs.OrderByDescending(a => a.Respondents.OrderBy(b=>b.nameLast).Take(1)).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "expiryDate asc":
                     model.Warrants = TRs.OrderBy(a => a.expiryDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "expiryDate desc":
                     model.Warrants = TRs.OrderByDescending(a => a.expiryDate).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "protMark asc":
                     model.Warrants = TRs.OrderBy(a => a.protectiveMarking.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "protMark desc":
                     model.Warrants = TRs.OrderByDescending(a => a.protectiveMarking.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "caseStatus asc":
                     model.Warrants = TRs.OrderBy(a => a.caseStatus.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "caseStatus desc":
                     model.Warrants = TRs.OrderByDescending(a => a.caseStatus.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "result asc":
                     model.Warrants = TRs.OrderBy(a => a.result.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "result desc":
                     model.Warrants = TRs.OrderByDescending(a => a.result.Detail).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "resultEnter asc":
                     model.Warrants = TRs.OrderBy(a => a.resultEnteredBy).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 case "resultEnter desc":
                     model.Warrants = TRs.OrderByDescending(a => a.resultEnteredBy).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
+
                 default:
                     model.Warrants = TRs.OrderBy(a => a.tipstaffRecordID).ToPagedList(model.page, Int32.Parse(ConfigurationManager.AppSettings["pageSize"]));
                     break;
             }
             return View(model);
         }
+
         //
         // GET: /Warrant/Details/5
         public ViewResult Details(int id)
@@ -155,7 +176,7 @@ namespace Tipstaff.Controllers
             model.createdBy = thisUser.User.DisplayName;
             model.caseStatusID = 1;
             return View(model);
-        } 
+        }
 
         //
         // POST: /Warrant/Create
@@ -189,7 +210,7 @@ namespace Tipstaff.Controllers
                 return View(warrant);
             }
         }
-        
+
         //
         // GET: /Warrant/Edit/5
         public ActionResult Edit(int id)
@@ -225,7 +246,7 @@ namespace Tipstaff.Controllers
             ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail", warrant.caseStatusID);
             return View(warrant);
         }
-        
+
         public ActionResult EnterResult(int id)
         {
             TipstaffRecordResolutionModel model = new TipstaffRecordResolutionModel(id);
@@ -235,9 +256,10 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("ClosedFile", "Error");
             }
             model.tipstaffRecordID = id;
-            if (model.tipstaffRecord==null){
+            if (model.tipstaffRecord == null)
+            {
                 ErrorModel errModel = new ErrorModel(2);
-                errModel.ErrorMessage = string.Format("Record for Warrant {0} cannot be loaded",id);
+                errModel.ErrorMessage = string.Format("Record for Warrant {0} cannot be loaded", id);
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
@@ -273,6 +295,7 @@ namespace Tipstaff.Controllers
             }
             return View(model);
         }
+
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
@@ -296,12 +319,11 @@ namespace Tipstaff.Controllers
         public ActionResult DeleteConfirmed(DeleteWarrantViewModel model)
         {
             model.Warrant = db.Warrants.Find(model.deletedTipstaffRecord.TipstaffRecordID);
-            model.deletedTipstaffRecord.UniqueRecordID = model.Warrant.UniqueRecordID;
+            //model.deletedTipstaffRecord.UniqueRecordID = model.Warrant.UniqueRecordID;
             db.Warrants.Remove(model.Warrant);
-            db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
+            //db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
             db.SaveChanges();
             return RedirectToAction("Index", "Warrant");
         }
-
     }
 }

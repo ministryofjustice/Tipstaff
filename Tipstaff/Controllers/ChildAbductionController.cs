@@ -23,6 +23,7 @@ namespace Tipstaff.Controllers
         {
             _logger = telemetryLogger;
         }
+
         //
         // GET: /ChildAbduction/
 
@@ -56,87 +57,115 @@ namespace Tipstaff.Controllers
                 case "reviewDate asc":
                     TRs = TRs.OrderBy(a => a.nextReviewDate).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "reviewDate desc":
                     TRs = TRs.OrderByDescending(a => a.nextReviewDate).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "sentSCD asc":
                     TRs = TRs.OrderBy(a => a.sentSCD26).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "sentSCD desc":
                     TRs = TRs.OrderByDescending(a => a.sentSCD26).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "orderDated asc":
                     TRs = TRs.OrderBy(a => a.orderDated).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "orderDated desc":
                     TRs = TRs.OrderByDescending(a => a.orderDated).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "orderRecd asc":
                     TRs = TRs.OrderBy(a => a.orderReceived).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "orderRecd desc":
                     TRs = TRs.OrderByDescending(a => a.orderReceived).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "officer asc":
                     TRs = TRs.OrderBy(a => a.officerDealing).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "officer desc":
                     TRs = TRs.OrderByDescending(a => a.officerDealing).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "orderType asc":
                     TRs = TRs.OrderBy(a => a.caOrderType.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "orderType desc":
                     TRs = TRs.OrderByDescending(a => a.caOrderType.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "eldestChild asc":
                     TRs = TRs.OrderBy(a => a.EldestChild).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "eldestChild desc":
                     TRs = TRs.OrderByDescending(a => a.EldestChild).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "respCount asc":
                     TRs = TRs.OrderBy(a => a.Respondents.Count()).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "respCount desc":
                     TRs = TRs.OrderByDescending(a => a.Respondents.Count()).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "uniqueid asc":
                     TRs = TRs.OrderBy(a => a.tipstaffRecordID).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "uniqueid desc":
                     TRs = TRs.OrderByDescending(a => a.tipstaffRecordID).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "created asc":
                     TRs = TRs.OrderBy(a => a.createdOn).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "created desc":
                     TRs = TRs.OrderByDescending(a => a.createdOn).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "protMark asc":
                     TRs = TRs.OrderBy(a => a.protectiveMarking.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "protMark desc":
                     TRs = TRs.OrderByDescending(a => a.protectiveMarking.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "caseStatus asc":
                     TRs = TRs.OrderBy(a => a.caseStatus.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "caseStatus desc":
                     TRs = TRs.OrderByDescending(a => a.caseStatus.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "result asc":
                     TRs = TRs.OrderBy(a => a.result.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "result desc":
                     TRs = TRs.OrderByDescending(a => a.result.Detail).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "resultEnter asc":
                     TRs = TRs.OrderBy(a => a.resultEnteredBy).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 case "resultEnter desc":
                     TRs = TRs.OrderByDescending(a => a.resultEnteredBy).ThenBy(b => b.tipstaffRecordID);
                     break;
+
                 default:
                     TRs = TRs.OrderBy(a => a.tipstaffRecordID).ThenBy(b => b.tipstaffRecordID);
                     break;
@@ -159,8 +188,8 @@ namespace Tipstaff.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.protectiveMarkingList = new SelectList(db.ProtectiveMarkings.Where(x=>x.active==true).ToList(), "protectiveMarkingID", "Detail");
-            ViewBag.childAbductionCaseStatusList = new SelectList(db.CaseStatuses.Where(x => x.active == true).OrderBy(x=>x.sequence), "caseStatusID", "Detail");
+            ViewBag.protectiveMarkingList = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true).ToList(), "protectiveMarkingID", "Detail");
+            ViewBag.childAbductionCaseStatusList = new SelectList(db.CaseStatuses.Where(x => x.active == true).OrderBy(x => x.sequence), "caseStatusID", "Detail");
             ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail");
             ChildAbduction model = new ChildAbduction();
             model.nextReviewDate = DateTime.Today.AddMonths(1);
@@ -168,7 +197,7 @@ namespace Tipstaff.Controllers
             Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
             model.createdBy = thisUser.User.DisplayName;
             return View(model);
-        } 
+        }
 
         //
         // POST: /ChildAbduction/Create
@@ -180,7 +209,7 @@ namespace Tipstaff.Controllers
             {
                 db.TipstaffRecord.Add(childabduction);
                 db.SaveChanges();
-                return RedirectToAction("Create","Child", new { id = childabduction.tipstaffRecordID , initial=true});   
+                return RedirectToAction("Create", "Child", new { id = childabduction.tipstaffRecordID, initial = true });
             }
 
             ViewBag.protectiveMarkingID = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail", childabduction.protectiveMarkingID);
@@ -188,10 +217,10 @@ namespace Tipstaff.Controllers
             ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail", childabduction.caOrderTypeID);
             return View(childabduction);
         }
-        
+
         //
         // GET: /ChildAbduction/Edit/5
- 
+
         public ActionResult Edit(int id)
         {
             ChildAbduction childabduction = db.ChildAbductions.Find(id);
@@ -227,7 +256,7 @@ namespace Tipstaff.Controllers
         public ActionResult EnterResult(int id)
         {
             TipstaffRecordResolutionModel model = new TipstaffRecordResolutionModel(id);
-            if (model.tipstaffRecord.caseStatusID > 2 &&  model.tipstaffRecord.resultID!=null)
+            if (model.tipstaffRecord.caseStatusID > 2 && model.tipstaffRecord.resultID != null)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
@@ -274,12 +303,13 @@ namespace Tipstaff.Controllers
             }
             return View(model);
         }
+
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             DeleteChildAbductionViewModel model = new DeleteChildAbductionViewModel();
             model.ChildAbduction = db.ChildAbductions.Find(id);
-            model.deletedTipstaffRecord.TipstaffRecordID=id;
+            model.deletedTipstaffRecord.TipstaffRecordID = id;
             if (model.ChildAbduction == null)
             {
                 ErrorModel errModel = new ErrorModel(2);
@@ -297,12 +327,11 @@ namespace Tipstaff.Controllers
         public ActionResult DeleteConfirmed(DeleteChildAbductionViewModel model)
         {
             model.ChildAbduction = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
-            model.deletedTipstaffRecord.UniqueRecordID = model.ChildAbduction.UniqueRecordID;
+            //model.deletedTipstaffRecord.UniqueRecordID = model.ChildAbduction.UniqueRecordID;
             db.ChildAbductions.Remove(model.ChildAbduction);
-            db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
+            //db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
             db.SaveChanges();
             return RedirectToAction("Index", "ChildAbduction");
         }
-
     }
 }
