@@ -10,7 +10,10 @@ namespace Tipstaff.Models
     {
         [Key]
         public int nationalityID { get; set; }
+        [RegularExpression(@"^[a-zA-Z-\s]+", ErrorMessage = "Only letters from the alphabet and hyphens (-) are allowed in this field")]
+
         [Required, MaxLength(50), Display(Name = "Nationality")]
+        
         public string Detail { get; set; }
         public bool active { get; set; }
         public DateTime? deactivated { get; set; }
