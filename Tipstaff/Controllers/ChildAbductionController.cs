@@ -326,10 +326,47 @@ namespace Tipstaff.Controllers
         [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
         public ActionResult DeleteConfirmed(DeleteChildAbductionViewModel model)
         {
-            model.ChildAbduction = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
-            //model.deletedTipstaffRecord.UniqueRecordID = model.ChildAbduction.UniqueRecordID;
-            db.ChildAbductions.Remove(model.ChildAbduction);
-            //db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
+            ////model.ChildAbduction = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
+            ////db.ChildAbductions.Remove(model.ChildAbduction);
+            
+            var ca = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
+            foreach (var c in ca.children.ToList())
+            {
+                db.Entry(c).State = EntityState.Deleted;
+            }
+            foreach (var r in ca.Respondents.ToList())
+            {
+                db.Entry(r).State = EntityState.Deleted;
+            }
+            foreach (var a in ca.addresses.ToList())
+            {
+                db.Entry(a).State = EntityState.Deleted;
+            }
+            foreach (var ap in ca.Applicants.ToList())
+            {
+                db.Entry(ap).State = EntityState.Deleted;
+            }
+            foreach (var an in ca.AttendanceNotes.ToList())
+            {
+                db.Entry(an).State = EntityState.Deleted;
+            }
+            foreach (var cr in ca.caseReviews.ToList())
+            {
+                db.Entry(cr).State = EntityState.Deleted;
+            }
+            foreach (var d in ca.Documents.ToList())
+            {
+                db.Entry(d).State = EntityState.Deleted;
+            }
+            foreach (var trs in ca.LinkedSolicitors.ToList())
+            {
+                db.Entry(trs).State = EntityState.Deleted;
+            }
+            foreach (var p in ca.policeForces.ToList())
+            {
+                db.Entry(p).State = EntityState.Deleted;
+            }
+            db.Entry(ca).State = EntityState.Deleted;
             db.SaveChanges();
             return RedirectToAction("Index", "ChildAbduction");
         }

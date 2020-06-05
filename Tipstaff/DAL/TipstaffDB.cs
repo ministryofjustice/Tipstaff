@@ -230,8 +230,8 @@ namespace Tipstaff.Models
                                     {
                                         AuditEventDataRow newAuditRow = new AuditEventDataRow();
                                         newAuditRow.ColumnName = propertyName;
-                                        newAuditRow.Was = oldValue;
-                                        newAuditRow.Now = newValue;
+                                        newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
+                                        newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
                                         data.Add(newAuditRow);
                                     }
 
@@ -271,8 +271,8 @@ namespace Tipstaff.Models
                                     {
                                         AuditEventDataRow newAuditRow = new AuditEventDataRow();
                                         newAuditRow.ColumnName = propertyName;
-                                        newAuditRow.Was = oldValue;
-                                        newAuditRow.Now = newValue;
+                                        newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
+                                        newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
                                         data.Add(newAuditRow);
                                     }
                                 }

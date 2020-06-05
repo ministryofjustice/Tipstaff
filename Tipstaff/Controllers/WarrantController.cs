@@ -318,11 +318,42 @@ namespace Tipstaff.Controllers
         [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
         public ActionResult DeleteConfirmed(DeleteWarrantViewModel model)
         {
-            model.Warrant = db.Warrants.Find(model.deletedTipstaffRecord.TipstaffRecordID);
-            //model.deletedTipstaffRecord.UniqueRecordID = model.Warrant.UniqueRecordID;
-            db.Warrants.Remove(model.Warrant);
-            //db.DeletedTipstaffRecords.Add(model.deletedTipstaffRecord);
+            //model.Warrant = db.Warrants.Find(model.deletedTipstaffRecord.TipstaffRecordID);
+            //db.Warrants.Remove(model.Warrant);
+
+            var w = db.Warrants.Find(model.deletedTipstaffRecord.TipstaffRecordID);
+
+            foreach (var r in w.Respondents.ToList())
+            {
+                db.Entry(r).State = EntityState.Deleted;
+            }
+            foreach (var a in w.addresses.ToList())
+            {
+                db.Entry(a).State = EntityState.Deleted;
+            }
+            foreach (var an in w.AttendanceNotes.ToList())
+            {
+                db.Entry(an).State = EntityState.Deleted;
+            }
+            foreach (var cr in w.caseReviews.ToList())
+            {
+                db.Entry(cr).State = EntityState.Deleted;
+            }
+            foreach (var d in w.Documents.ToList())
+            {
+                db.Entry(d).State = EntityState.Deleted;
+            }
+            foreach (var trs in w.LinkedSolicitors.ToList())
+            {
+                db.Entry(trs).State = EntityState.Deleted;
+            }
+            foreach (var p in w.policeForces.ToList())
+            {
+                db.Entry(p).State = EntityState.Deleted;
+            }
+            db.Entry(w).State = EntityState.Deleted;
             db.SaveChanges();
+
             return RedirectToAction("Index", "Warrant");
         }
     }
