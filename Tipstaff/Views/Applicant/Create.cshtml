@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.ApplicantCreationModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = string.Format("Create applicant for {0}", Model.tipstaffRecord.UniqueRecordID);
 }
 
 <h6>@Html.ActionLink("Child Abductions","Index") 

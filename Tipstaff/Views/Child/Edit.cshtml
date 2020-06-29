@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.ChildCreationModel
 
 @{
-    ViewBag.Title = "Amend Child record";
+    ViewBag.Title = string.Format("Amend child record {0}", Model.child.fullname);
 }
 
 <h6>@Html.ActionLink("Child Abductions", "Index", "ChildAbduction") 

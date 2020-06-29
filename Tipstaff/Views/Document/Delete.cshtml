@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.DeleteDocument
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = string.Format("Delete document {0}", Model.Document.documentReference);
 }
 
 @{

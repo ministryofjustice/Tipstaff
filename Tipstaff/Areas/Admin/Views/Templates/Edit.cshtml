@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.TemplateEdit
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = string.Format("Edit template {0}", Model.Template.templateName);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 

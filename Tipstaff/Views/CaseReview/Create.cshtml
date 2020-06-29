@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.CaseReviewCreation
 
 @{
-    ViewBag.Title = "Create case review";
+    ViewBag.Title = string.Format("Create case review for {0}", Model.CaseReview.tipstaffRecord.UniqueRecordID);
 }
 @{ 
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.CaseReview.tipstaffRecordID);

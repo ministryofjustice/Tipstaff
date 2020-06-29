@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.PoliceForceCreation
 
 @{
-    ViewBag.Title = "Add Police Force";
+    ViewBag.Title = string.Format("Add police force to record {0}", Model.TS_PoliceForce.tipstaffRecord.UniqueRecordID);
 }
 @{ 
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.TS_PoliceForce.tipstaffRecordID);
