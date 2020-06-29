@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.AttendanceNote
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = string.Format("Add attendance note to {0}", Model.tipstaffRecord.UniqueRecordID); 
 }
 @{
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);

@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.RespondentCreationModel
 
 @{
-    ViewBag.Title = string.Format("Amend {0}  record {1}", genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) == "Warrant" ? "Contemnor" : "Respondent", Model.respondent.fullname);
+    ViewBag.Title = string.Format("Amend {0}: {1}", genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) == "Warrant" ? "Contemnor" : "Respondent", Model.respondent.fullname);
 }
 @{
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
