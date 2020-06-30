@@ -4,9 +4,10 @@
     ViewBag.Title = string.Format("Delete {0}", Model.PoliceDisplayName);
 }
 
+<h1>@ViewBag.Title</h1>
 <h6>
-    @Html.ActionLink("Index", "Index", "Contact")
-    > @Html.ActionLink("Details", "Details", "Contact", new { id = Model.contactID }, null)
+    @Html.ActionLink("Contacts", "Index")
+> @Html.ActionLink(Model.fullName, "Details", "Contact", new { id = Model.contactID }, null)
 </h6>
 @using (Html.BeginForm())
 {

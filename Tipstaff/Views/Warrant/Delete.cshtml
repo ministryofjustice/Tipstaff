@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = string.Format("Delete warrant {0}", Model.Warrant.UniqueRecordID);
 }
+    <h1>@ViewBag.Title</h1>
 <h6>
     @Html.ActionLink("Warrants", "Index", "Warrant")>
     @Html.ActionLink(Model.Warrant.UniqueRecordID, "Details", "Warrant", new { id = Model.Warrant.tipstaffRecordID }, null)

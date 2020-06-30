@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.GenderListView
 
 @{
-    ViewBag.Title = "Gender index";
+    ViewBag.Title = "Genders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section head
@@ -12,6 +12,7 @@
         form {display:inline;}
     </style>
 }
+<h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Administration", "Index", "Admin") 
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > Genders</h6>

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = string.Format("Details for {0}",Model.fullname);
 }
-
+    <h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Child Abductions","Index", "ChildAbduction")
 > @Html.ActionLink(Model.childAbduction.UniqueRecordID,"Details","ChildAbduction", new{id=Model.childAbduction.tipstaffRecordID},null)
 > @Model.PoliceDisplayName</h6>

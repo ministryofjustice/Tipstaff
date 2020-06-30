@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Tipstaff Database - Home Page";
+    ViewBag.Title = "Tipstaff Summaries";
 }
 
 <script type="text/javascript">
@@ -23,7 +23,8 @@
     }
     @if (User.Identity.IsAuthenticated && !thisUser.IsInRole("Deactivated"))
     { 
-    <h6>Summaries</h6>
+    <h1>Tipstaff Summaries</h1>
+    <br />
        <div>
            <div>
               @Html.Action("Outstanding", "CaseReview")
@@ -37,7 +38,7 @@
         <script type="text/javascript">document.getElementById('searchRecord').focus()</script>    }
     else
     { 
-        <h6>Tipstaff Database</h6>
+        <h1>Tipstaff Database</h1>
         <p>
             This application is for use by the Office of the Tipstaff in the Royal Courts of Justice.
         </p>

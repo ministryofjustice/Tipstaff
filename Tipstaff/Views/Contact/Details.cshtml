@@ -1,8 +1,10 @@
 ﻿@model Tipstaff.Models.Contact
 
 @{
-    ViewBag.Title = string.Format("Details of {0}", Model.PoliceDisplayName);
+    ViewBag.Title = string.Format("Details for {0}", Model.PoliceDisplayName);
 }
+
+<h1>@ViewBag.Title</h1>
 
 <h6>
     @Html.ActionLink("Contacts", "Index")

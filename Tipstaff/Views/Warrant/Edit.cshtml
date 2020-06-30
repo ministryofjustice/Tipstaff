@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = string.Format("Amend Warrant {0}", Model.UniqueRecordID);
 }
-
+    <h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Warrant","Index") 
 > @Html.ActionLink(Model.UniqueRecordID, "Details", new { id = Model.tipstaffRecordID }) 
 > Edit</h6>

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = string.Format("Delete child abduction {0}", Model.ChildAbduction.UniqueRecordID);
 }
+    <h1>@ViewBag.Title</h1>
 <h6>
     @Html.ActionLink("Child Abductions", "Index", "ChildAbduction")>
     @Html.ActionLink(Model.ChildAbduction.UniqueRecordID, "Details", "ChildAbduction", new { id = Model.ChildAbduction.tipstaffRecordID }, null)

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Active Child Abductions Report";
 }
+    <h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Reports","Index") > @ViewBag.Title</h6>
 
 @Html.ActionLink("Export to Excel", "ChildAbductionsExcel", "Reports")

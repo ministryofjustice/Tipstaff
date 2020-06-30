@@ -1,8 +1,8 @@
 ﻿@model Tipstaff.Models.UserAdminVM
 @{ViewBag.Title = "Create new user";}
 
-<h1>User management</h1>
-<h2>Add a user</h2>
+<h1>@ViewBag.Title</h1>
+<br />
 @using (Html.BeginForm()){
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken();

@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = string.Format("Edit applicant {0}", Model.applicant.fullname);
 }
-
+    <h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Child Abductions","Index") 
 > @Html.ActionLink(Model.applicant.childAbduction.UniqueRecordID,"Details","ChildAbduction", new{id=Model.applicant.childAbduction.tipstaffRecordID},null)
 > @Html.ActionLink(string.Format("(Applicant) {0}",Model.applicant.PoliceDisplayName),"Details","Applicant", new{id=Model.applicant.ApplicantID},null)

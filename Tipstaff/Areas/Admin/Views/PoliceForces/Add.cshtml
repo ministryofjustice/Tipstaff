@@ -8,6 +8,7 @@
     string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
     }
+    <h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink(display, "Index", controller, new { Area=""}, null)
 > @Html.ActionLink(Model.TS_PoliceForce.tipstaffRecord.UniqueRecordID,"Details",controller, new {id=Model.TS_PoliceForce.tipstaffRecordID, Area=""},null)
 > Add Police Force</h6>
