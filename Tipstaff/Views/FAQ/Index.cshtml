@@ -6,7 +6,8 @@
     System.Security.Principal.IIdentity userIdentity = User.Identity;
     Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
 }
-<h6>@ViewBag.Title</h6>
+<h1>@ViewBag.Title</h1>
+<br />
 @if (Request.IsAuthenticated)
 {
     if ((thisUser.IsInRole("Admin")) || (thisUser.IsInRole("System Admin")))

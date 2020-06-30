@@ -10,7 +10,8 @@
 }
 @if (User.Identity.IsAuthenticated && (thisUser.IsInRole("Admin") || thisUser.IsInRole("System Admin")))
 {
-    <h6>@ViewBag.Title</h6>
+    <h1>@ViewBag.Title</h1>
+    <br />
     <fieldset>
         <legend>User management</legend>
         @Html.ActionLink("Users", "Index", "Users")

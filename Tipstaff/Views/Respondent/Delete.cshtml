@@ -8,6 +8,7 @@
     string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
 }
+    <h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink(display,"Index",controller) 
 > @Html.ActionLink(Model.Respondent.tipstaffRecord.UniqueRecordID,"Details",controller, new{id=Model.Respondent.tipstaffRecordID},null) 
 > @Html.ActionLink(string.Format("(Respondent) {0}", Model.Respondent.PoliceDisplayName),"Details",new{id=Model.Respondent.respondentID}) > Delete

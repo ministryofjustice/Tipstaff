@@ -5,6 +5,7 @@
 @section head{
     <link href="@Url.Content("~/Content/form.css")" rel="stylesheet" type="text/css" />
 }
+<h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Reports","Index") > @ViewBag.Title</h6>
 
 @using (Html.BeginForm("ClosedWarrants", "Reports", FormMethod.Post, new { autocomplete = "false", @class = "form", style = "width:575px;" }))

@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.WarrantListViewModel
 @using PagedList.Mvc 
 @{
-    ViewBag.Title = "Warrants Index";
+    ViewBag.Title = "Warrants";
 }
 @section head
 {
@@ -11,7 +11,8 @@
         form {display:inline;}
     </style>
 }
-<h6>Warrants</h6>
+<h1>@ViewBag.Title</h1>
+<br />
 <table style="width:100%">
     <tr>@*Filter Row*@
         <th @if (User.IsInRole("Admin")) {@Html.Raw("colspan=\"2\"")}>Filters</th>

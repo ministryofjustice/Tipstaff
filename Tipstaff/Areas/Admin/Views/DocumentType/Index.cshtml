@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.DocumentTypeListView
 
 @{
-    ViewBag.Title = "Document Type index";
+    ViewBag.Title = "Document Types";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section head
@@ -12,6 +12,7 @@
         form {display:inline;}
     </style>
 }
+<h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Administration", "Index", "Admin") 
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > Document Types</h6>

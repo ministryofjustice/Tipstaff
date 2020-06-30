@@ -1,23 +1,28 @@
 ﻿@model IEnumerable<Tipstaff.Models.Template>
 
-@{
-    ViewBag.Title = "Templates index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@section head
+    @{
+        ViewBag.Title = "Templates";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    @section head
 {
-    <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
-    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
-    <style type="text/css">
-        form {display:inline;}
-    </style>
-}
-<h6>@Html.ActionLink("Administration", "Index", "Admin") 
-> @Html.ActionLink("Lookups", "Lookups", "Admin") 
-> Templates</h6>
+        <link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css" media="screen" />
+        <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+        <style type="text/css">
+            form {
+                display: inline;
+            }
+        </style>
+    }
+    <h1>@ViewBag.Title</h1>
+    <h6>
+        @Html.ActionLink("Administration", "Index", "Admin")
+    > @Html.ActionLink("Lookups", "Lookups", "Admin")
+    > Templates
+</h6>
 <p>
 
-	@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new template", "Create new template", "Create", null, null, null, null, "createButton")
+    @Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Create new template", "Create new template", "Create", null, null, null, null, "createButton")
 
 </p>
 <table>
@@ -37,35 +42,36 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr style="@(item.active ? "" : "color:gray;")">
-        <td style="text-align:right;">
-            @if (item.active)
-            {
-            @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "Templates", new { id = item.templateID }, null, null)
-            @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "Templates", new { id = item.templateID }, null, null) 
-            }
-            @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "Template", id = item.templateID }, null, null) 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Discriminator)
-        </td>
-        <td>
-            @if (item.active)
-            {
-            @Html.ImageAndTextLink(Url.Content("~/Images/icon_word.png"), item.templateName, string.Format("Click to open {0} template in Word", item.templateName), "Open", "Templates", new { id = item.templateID }, new { title = string.Format("Click to open the {0} template in Word", item.templateName) }, null, "createButton")
-            }
-            else
-            {
-            @: @item.templateName deactivated @(((DateTime)item.deactivated).ToShortDateString()) by @item.deactivatedBy
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.addresseerequired)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.active)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr style="@(item.active ? "" : "color:gray;")">
+            <td style="text-align:right;">
+                @if (item.active)
+                {
+                    @Html.ImageLink(Url.Content("~/Images/edit.png"), "Edit", "Edit", "Templates", new { id = item.templateID }, null, null)
+                    @Html.ImageLink(Url.Content("~/Images/delete.png"), "Deactivate", "Deactivate", "Templates", new { id = item.templateID }, null, null)
+                }
+                @Html.ImageLink(Url.Content("~/Images/Audit.png"), "Audit", "Audit", "Audit", new { area = "", auditType = "Template", id = item.templateID }, null, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discriminator)
+            </td>
+            <td>
+                @if (item.active)
+                {
+                    @Html.ImageAndTextLink(Url.Content("~/Images/icon_word.png"), item.templateName, string.Format("Click to open {0} template in Word", item.templateName), "Open", "Templates", new { id = item.templateID }, new { title = string.Format("Click to open the {0} template in Word", item.templateName) }, null, "createButton")
+                }
+                else
+                {
+                    @: @item.templateName deactivated @(((DateTime)item.deactivated).ToShortDateString()) by @item.deactivatedBy
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.addresseerequired)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.active)
+            </td>
+        </tr>
+    }
 </table>

@@ -4,7 +4,7 @@
     ViewBag.Title = string.Format("Edit contact {0}", Model.contact.fullName);
 }
 
-
+<h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Contacts","Index") 
 > @Html.ActionLink(Model.contact.fullName, "Details", "Contact", new { id = Model.contact.contactID }, null)
 > Edit</h6>

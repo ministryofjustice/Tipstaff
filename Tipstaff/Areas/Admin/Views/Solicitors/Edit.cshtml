@@ -1,10 +1,10 @@
 ﻿@model Tipstaff.Models.SolicitorAdmin
 
 @{
-    ViewBag.Title = ViewBag.Title = string.Format("Edit solicitor {0}", Model.solicitor.solicitorName);
+    ViewBag.Title = string.Format("Edit solicitor {0}", Model.solicitor.solicitorName);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+    <h1>@ViewBag.Title</h1>
 <h6>@Html.ActionLink("Administration", "Index", "Admin") 
 > @Html.ActionLink("Lookups", "Lookups", "Admin") 
 > @Html.ActionLink("Solicitors", "Index") 
