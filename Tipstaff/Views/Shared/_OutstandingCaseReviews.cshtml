@@ -30,7 +30,7 @@
     }
     </fieldset>
     <fieldset class="FieldsetCR" style="border:1px solid red;">
-        <legend style="color:Orange;"><img src="@Url.Content("~/Images/error.png")" style="vertical-align:middle;" alt="Due today" /> Due Today (@Model.DueTodayCaseReviews.Count() records)</legend>
+        <legend style="color: #A36A00;"><img src="@Url.Content("~/Images/error.png")" style="vertical-align:middle;" alt="Due today" /> Due Today (@Model.DueTodayCaseReviews.Count() records)</legend>
     @if ((Model.DueTodayCaseReviews.Count() > 0) && (Model.DueTodayCaseReviews != null))
     {
         int rowCount = 0;
@@ -56,7 +56,7 @@
     }
     </fieldset>
     <fieldset class="FieldsetCR" style="border:1px solid red;">
-        <legend style="color:Red;"><img src="@Url.Content("~/Images/exclamation.png")" style="vertical-align:middle;" alt="Overdue" /> Overdue (@Model.OverdueCaseReviews.Count() records)</legend>
+        <legend style="color: #EB0000;"><img src="@Url.Content("~/Images/exclamation.png")" style="vertical-align:middle;" alt="Overdue" /> Overdue (@Model.OverdueCaseReviews.Count() records)</legend>
     @if ((Model.OverdueCaseReviews.Count() > 0) && (Model.OverdueCaseReviews != null))
     {
         int rowCount = 0;

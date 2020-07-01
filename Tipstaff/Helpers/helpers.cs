@@ -678,7 +678,7 @@ namespace Tipstaff.Helpers
         }
         public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, ListViewModel Model, string sortValue, string sortButtonText, string ColumnWidth, string token = "")
         {
-            TagBuilder headerCell = new TagBuilder("th");
+            TagBuilder headerCell = new TagBuilder("td");
             TagBuilder form = new TagBuilder("form");
             //action="/Warrant/IndexNew" method="post"//
             form.Attributes.Add("method", "post");
@@ -697,6 +697,7 @@ namespace Tipstaff.Helpers
             TagBuilder button = new TagBuilder("input");
             button.MergeAttribute("type", "Submit");
             button.MergeAttribute("value", sortButtonText);
+            button.MergeAttribute("title", sortButtonText);
             button.AddCssClass("sortButton");
 
             TagBuilder includeFinal = new TagBuilder("input");
@@ -755,9 +756,13 @@ namespace Tipstaff.Helpers
             form.InnerHtml += includeFinal;
             form.InnerHtml += button;
             //set column width if applicable
-            if(!string.IsNullOrEmpty(ColumnWidth))
+            if (!string.IsNullOrEmpty(ColumnWidth))
             {
-                headerCell.MergeAttribute("style", string.Format("max-width:{0}",ColumnWidth));
+                headerCell.MergeAttribute("style", string.Format("max-width:{0};background-color: #dddddd", ColumnWidth));
+            }
+            else
+            {
+                headerCell.MergeAttribute("style", "background-color: #dddddd");
             }
             headerCell.InnerHtml = form.ToString();
             return MvcHtmlString.Create(headerCell.ToString());
@@ -815,7 +820,7 @@ namespace Tipstaff.Helpers
         }
         public static MvcHtmlString DropDownListForWithSubmit<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel, string defaultValue)
         {
-            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList,optionLabel,null);
+            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList,optionLabel,new { title=expression.Body.ToString()});
             return MvcHtmlString.Create(DDLF.ToString().Replace("id=", "onchange=\"this.form.submit()\" id=").Replace("alue=\"\"",string.Format("alue=\"{0}\"",defaultValue)));
         }
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, string optionLabel, string defaultValue)

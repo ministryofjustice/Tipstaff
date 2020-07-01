@@ -17,19 +17,19 @@
 <table style="width:100%;">
     <tr>
         <th>Filters</th>
-        <th style="white-space:nowrap">
+        <td style="white-space: nowrap;background-color: #dddddd">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken();
                 @Html.HiddenFor(model => model.sortOrder)
                 @Html.HiddenFor(model => model.includeFinal)
                 @Html.HiddenFor(model => model.ContactTypeID)
-                @Html.TextBox("NameContains", null, new { @style = "width: 9em;", AccessKey = "F" })
-                <input alt="Filter case numbers" type="image" value="Search" src="@Url.Content("~/Images/view.png") "/>
+                @Html.TextBox("NameContains", null, new { @style = "width: 9em;", AccessKey = "F", title="Filter case numbers" })
+                <input title="Filter case numbers" alt="Filter case numbers" type="image" value="Search" src="@Url.Content("~/Images/view.png") "/>
             }
-        </th>
-        <th colspan="6">&nbsp;</th>
-        <th style="white-space:nowrap;">
+        </td>
+        <td colspan="6" style="background-color: #dddddd">&nbsp;</td>
+        <td style="white-space: nowrap;background-color: #dddddd" colspan="2">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken();
@@ -38,10 +38,10 @@
                 @Html.HiddenFor(model => model.NameContains)
                 @Html.DropDownListForWithSubmit(model => model.ContactTypeID, (SelectList)Model.ContactTypeList, "All types", "-1")
             }
-        </th>
+        </td>
     </tr>
     <tr>
-        <th style="min-width:20px;width:20px;"></th>
+        <td style="min-width: 20px;width: 20px;background-color: #dddddd"></td>
         <th>
             @Html.LabelFor(model => model.Contacts.First().fullName)
         </th>
@@ -95,10 +95,13 @@
             @Html.DisplayFor(modelItem => item.phoneMobile)
         </td>
         <td>
-            <a class="createButton" style="color:#3399ff;"
-               title="Send mail to @Html.DisplayFor(modelItem => item.email)"
-               href="mailto:@Html.DisplayFor(modelItem => item.email)?subject=Tipstaff query">@Html.DisplayFor(modelItem => item.email)</a>
+            @if (!string.IsNullOrEmpty(item.email))
+            {
+                <a class="createButton" style="color:#0070e0;"
+                   title="Send mail to @Html.DisplayFor(modelItem => item.email)"
+                   href="mailto:@Html.DisplayFor(modelItem => item.email)?subject=Tipstaff query">@Html.DisplayFor(modelItem => item.email)</a>
 
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.notes)

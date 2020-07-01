@@ -38,7 +38,7 @@
                 @using (Html.BeginForm("Search", "Home", new { area = "" }))
                 {
                     @Html.AntiForgeryToken();
-                    @Html.TextBox("searchRecord", null, new { @style = "width: 75px;", AccessKey = "S" })
+                    @Html.TextBox("searchRecord", null, new { @style = "width: 75px;", AccessKey = "S", title="Search for record" })
                     <input alt="Search for record" type="image" value="Search" src="@Url.Content("~/Images/view.png")" />
                 }
             </li>
