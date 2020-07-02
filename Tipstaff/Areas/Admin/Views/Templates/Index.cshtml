@@ -27,7 +27,7 @@
 </p>
 <table>
     <tr>
-        <th></th>
+        <td style="background-color:#dddddd"></td>
         <th>
             @Html.LabelFor(model => model.FirstOrDefault().Discriminator)
         </th>
@@ -44,7 +44,7 @@
 
     @foreach (var item in Model)
     {
-        <tr style="@(item.active ? "" : "color:gray;")">
+        <tr style="@(item.active ? "" : "color:#6E6E6E;")">
             <td style="text-align:right;">
                 @if (item.active)
                 {
@@ -67,10 +67,10 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.addresseerequired)
+                @Html.CheckBoxFor(modelItem => item.addresseerequired, new { title="Addressee required?", disabled = "disabled"})
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.active)
+                @Html.CheckBoxFor(modelItem => item.active, new { title = "Active?", disabled = "disabled" })
             </td>
         </tr>
     }

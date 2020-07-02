@@ -25,7 +25,7 @@
 
 <table>
     <tr>
-        <th></th>
+        <td style="background-color: #dddddd"></td>
         <th>
             @Html.LabelFor(model => model.Genders.First().detail)
         </th>
@@ -53,7 +53,7 @@
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.detail, string.Format("Details for {0}", item.detail), "Details", "Gender", new { id = item.genderID }, null, null, "createButton")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.active)
+            @Html.CheckBoxFor(modelItem => item.active, new { title="Active", disabled="disabled"})
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.deactivated)

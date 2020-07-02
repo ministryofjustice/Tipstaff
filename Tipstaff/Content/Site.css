@@ -91,13 +91,12 @@ a.createButton:hover
 {
 	vertical-align:middle;
 }
-.required-star
-{
-    padding-left:3px;
-    color:Red;
-    height:14px;
-    font-size:large;
-    vertical-align:top;
+.required-star {
+    padding-left: 3px;
+    color: #DB0000;
+    height: 14px;
+    font-size: large;
+    vertical-align: top;
 }
 table.statement th 
 {

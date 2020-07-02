@@ -400,7 +400,7 @@ namespace Tipstaff.Helpers
                 else
                 {
                     firstBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img first disabled\" disabled=\"disabled\" value=\"{0}\">{0}</button>", 1));
-                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"\">&nbsp;</button>", ""));
+                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"-1\">-1</button>", ""));
                 }
                 //build next buttons
                 if (pagedList.HasNextPage)
@@ -614,7 +614,8 @@ namespace Tipstaff.Helpers
         }
         public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, AdminListView Model, string sortValue, string sortButtonText, string token="")
         {
-            TagBuilder headerCell = new TagBuilder("th");
+            TagBuilder headerCell = new TagBuilder("td");
+            headerCell.MergeAttribute("style", "background-color: #dddddd");
             TagBuilder form = new TagBuilder("form");
             //action="/Warrant/IndexNew" method="post"//
             form.Attributes.Add("method", "post");
@@ -634,6 +635,7 @@ namespace Tipstaff.Helpers
             TagBuilder button = new TagBuilder("input");
             button.MergeAttribute("type", "Submit");
             button.MergeAttribute("value", sortButtonText);
+            button.MergeAttribute("title", sortButtonText);
             button.AddCssClass("sortButton");
 
             TagBuilder onlyActive = new TagBuilder("input");
@@ -1085,7 +1087,7 @@ namespace Tipstaff.Helpers
                 else
                 {
                     firstBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img first disabled\" disabled=\"disabled\" value=\"{0}\">{0}</button>", 1));
-                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"\">&nbsp;</button>", ""));
+                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"-1\">-1</button>", ""));
                 }
                 //build next buttons
                 if (pagedList.HasNextPage)
@@ -1198,7 +1200,7 @@ namespace Tipstaff.Helpers
                 else
                 {
                     firstBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img first disabled\" disabled=\"disabled\" value=\"{0}\">{0}</button>", 1));
-                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"\">&nbsp;</button>", ""));
+                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"-1\">-1</button>", ""));
                 }
                 //build next buttons
                 if (pagedList.HasNextPage)

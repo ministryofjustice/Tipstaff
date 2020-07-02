@@ -69,7 +69,7 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken();
-                @Html.TextBox("searchString", null, new { @style = "width: 3em;", AccessKey = "n" })
+                @Html.TextBox("searchString", null, new { @style = "width: 3em;", AccessKey = "n", title= "Filter Solicitor names" })
                 <input alt="Filter Solicitor names" type="image" value="Search" src="@Url.Content("~/Images/view.png")" />
                 @Html.HiddenFor(model => model.searchFirm)
             }
@@ -79,12 +79,12 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken();
-                @Html.TextBox("searchFirm", null, new { @style = "width: 3em;", AccessKey = "f" })
+                @Html.TextBox("searchFirm", null, new { @style = "width: 3em;", AccessKey = "f", title= "Filter Solicitor firms" })
                 <input alt="Filter Solicitor firms" type="image" value="Search" src="@Url.Content("~/Images/view.png")" />
                 @Html.HiddenFor(model => model.searchString)
             }
         </th>
-        <th colspan="3">&nbsp;</th>
+        <td colspan="3" style="background-color: #dddddd">&nbsp;</td>
     </tr>
     <tr>
         @*Header row *@

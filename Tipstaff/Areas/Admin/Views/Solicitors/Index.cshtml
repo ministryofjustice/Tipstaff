@@ -30,7 +30,7 @@
         @using (Html.BeginForm())
            {    
             @Html.AntiForgeryToken()
-            @Html.TextBox("detailContains", null, new { @style = "width: 5em;", AccessKey = "F" })@:&nbsp;
+            @Html.TextBox("detailContains", null, new { @style = "width: 5em;", AccessKey = "F", title="Filter country" })@:&nbsp;
                             <input alt="Filter Country" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
             @Html.HiddenFor(model => model.onlyActive)
         }
@@ -58,7 +58,7 @@
         </th>
     </tr>
     <tr>
-        <th></th>
+        <td style="background-color: #dddddd"></td>
         @{
             var token = @Html.AntiForgeryToken().ToHtmlString();
 
@@ -94,7 +94,7 @@
             @Html.DisplayFor(modelItem => item.SolicitorFirm.firmName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.active)
+            @Html.CheckBoxFor(modelItem => item.active, new { title="Active", disabled="disabled"})
         </td>
         <td>
             @item.TipstaffRecords.Count()

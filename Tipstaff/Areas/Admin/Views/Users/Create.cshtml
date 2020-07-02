@@ -9,17 +9,17 @@
     <fieldset>
         <div class="editor-label">User name</div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.User.Name, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.User.Name, new { @class = "form-control", @title="User name" })
             @Html.ValidationMessageFor(model => model.User.DisplayName)
         </div>
         <div class="editor-label">Display name</div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.User.DisplayName, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.User.DisplayName, new { @class = "form-control", @title="Display name" })
             @Html.ValidationMessageFor(model => model.User.Name)
         </div>
         <div class="editor-label">Role</div>
         <div class="editor-field">
-             @Html.DropDownListFor(model => model.User.RoleStrength, Model.Roles, "Please select a role", new { @class = "form-control" })
+             @Html.DropDownListFor(model => model.User.RoleStrength, Model.Roles, "Please select a role", new { @class = "form-control", @title="Role" })
             @Html.ValidationMessageFor(model => model.User.RoleStrength)
         </div>
         @Html.ValidationMessage("CreateError")

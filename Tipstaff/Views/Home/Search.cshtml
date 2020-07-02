@@ -3,8 +3,7 @@
     ViewBag.Title = "Search tipstaff records";
 }
 
-<h6>Search</h6>
-<h6>@Model.errorMessage</h6>
+<h6>Search<br />@Model.errorMessage</h6>
 
 @if ((Model.searchResults == null) || (Model.searchResults.Count() <= 0))
 {
