@@ -25,7 +25,7 @@
 
 <table>
     <tr>
-        <th></th>
+        <td style="background-color: #dddddd"></td>
         <th>
             @Html.LabelFor(model=>model.DocumentTypes.First().Detail)
         </th>
@@ -57,7 +57,7 @@
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.Detail, string.Format("Details for {0}", item.Detail), "Details", "DocumentType", new { id = item.documentTypeID }, null, null, "createButton")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.active)
+            @Html.CheckBoxFor(modelItem => item.active, new { title="Active", disabled="disabled"})
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.deactivated)

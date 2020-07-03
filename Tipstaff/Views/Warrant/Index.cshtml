@@ -16,7 +16,7 @@
 <table style="width:100%">
     <tr>@*Filter Row*@
         <th @if (User.IsInRole("Admin")) {@Html.Raw("colspan=\"2\"")}>Filters</th>
-        <th style="white-space:nowrap">        
+        <td style="white-space:nowrap;background-color: #dddddd">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken();
@@ -25,11 +25,11 @@
                 @Html.HiddenFor(model => model.caseStatusID)
                 @Html.HiddenFor(model => model.divisionID)
                 @Html.HiddenFor(model => model.respondentNameContains)
-                @Html.TextBox("caseNumberContains", null, new { @style = "width: 5em;", AccessKey = "F" })
-                <input alt="Filter case numbers" type="image" value="Search" src="@Url.Content("~/Images/view.png") "/>
+                @Html.TextBox("caseNumberContains", null, new { @style = "width: 5em;", AccessKey = "F", title="Filter case numbers" })
+                <input alt="Filter case numbers" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
             }
-        </th>
-        <th style="white-space:nowrap;width:14em;">        
+        </td>
+        <td style="white-space: nowrap;width: 14em;background-color: #dddddd">        
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken(); 
@@ -38,12 +38,12 @@
                 @Html.HiddenFor(model => model.caseStatusID)
                 @Html.HiddenFor(model => model.divisionID)
                 @Html.HiddenFor(model => model.caseNumberContains)
-                @Html.TextBox("respondentNameContains", null, new { @style = "width: 7em;", AccessKey = "F" })
+                @Html.TextBox("respondentNameContains", null, new { @style = "width: 7em;", AccessKey = "F", title="Filter respondents name" })
                 <input alt="Filter respondents name" type="image" value="Search" src="@Url.Content("~/Images/view.png") "/>
             }
-        </th>
-        <th colspan="2">&nbsp;</th> @* Empty columns *@
-        <th style="white-space:nowrap;">
+        </td>
+        <td colspan="2" style="background-color: #dddddd">&nbsp;</td> @* Empty columns *@
+        <td style="white-space: nowrap;background-color: #dddddd">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken();
@@ -54,9 +54,9 @@
                 @Html.HiddenFor(model => model.caseNumberContains)
                 @Html.DropDownListForWithSubmit(model => model.divisionID, (SelectList)Model.DivisionList, "All", "-1")
             }
-        </th>
-        <th colspan="2">&nbsp;</th> @* Empty columns *@
-        <th style="white-space:nowrap;">
+        </td>
+        <td colspan="2" style="background-color: #dddddd">&nbsp;</td> @* Empty columns *@
+        <td style="white-space: nowrap;background-color: #dddddd">
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken();
@@ -67,7 +67,7 @@
                 @Html.HiddenFor(model => model.caseNumberContains)
                 @Html.DropDownListForWithSubmit(model => model.caseStatusID, (SelectList)Model.StatusList, "All statuses", "-1")
             }
-        </th>
+        </td>
         <th>
         @using (Html.BeginForm())
         {
@@ -93,13 +93,13 @@
             }
         }
         </th>
-        <th>&nbsp;</th>
-        <th @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
-            {@Html.Raw("colspan=\"2\"")}>&nbsp;</th> @* Empty columns *@
+        <td style="background-color:#dddddd">&nbsp;</td>
+        <td @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
+            {@Html.Raw("colspan=\"2\"")} style="background-color: #dddddd">&nbsp;</td> @* Empty columns *@
     </tr>@* End Filter Row*@
     <tr> @* HeaderRow *@
         @if (User.IsInRole("Admin"))
-        {<th style="width:20px;">&nbsp;</th>}
+        {<td style="width: 20px;background-color: #dddddd">&nbsp;</td>}
         @{
             var token = @Html.AntiForgeryToken().ToHtmlString();
 
@@ -110,7 +110,6 @@
         }
         @Html.SortHeader(Model, "uniqueid", "Unique record ID", token)
         @Html.SortHeader(Model, "casenumber", "Case Number", token)
-        @*<th>Full name of respondent</th>*@
         @Html.SortHeader(Model, "displayName", "Full name of respondent", "14em", token)
         @Html.SortHeader(Model, "reviewDate", "Next review date", token)
         @Html.SortHeader(Model, "expiryDate", "Expiry Date ", token)
@@ -122,7 +121,7 @@
         @Html.SortHeader(Model, "resultEnter", "Result entered by", token)
         <th>Retention</th>
         @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
-        {<th style="width:20px;">&nbsp;</th>}
+        {<td style="width:20px;background-color:#dddddd">&nbsp;</td>}
     </tr>@* End HeaderRow *@
 @{var isAltRow = false;
   foreach (var item in Model.Warrants)

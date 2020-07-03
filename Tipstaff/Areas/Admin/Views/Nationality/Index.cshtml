@@ -29,7 +29,7 @@
         @using (Html.BeginForm())
         {    
             @Html.AntiForgeryToken()
-            @Html.TextBox("detailContains", null, new { @style = "width: 3em;", AccessKey = "F" })
+            @Html.TextBox("detailContains", null, new { @style = "width: 3em;", AccessKey = "F", title="Filter country" })
                             <input alt="Filter Country" type="image" value="Search" src="@Url.Content("~/Images/view.png")"/>
             @Html.HiddenFor(model => model.onlyActive)
         }
@@ -57,7 +57,7 @@
         </th>
     </tr>
     <tr>
-        <th></th>
+        <td style="background-color: #dddddd"></td>
         <th>
             @Html.LabelFor(model => model.Nationalities.First().Detail)
         </th>
@@ -87,7 +87,7 @@
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.Detail, string.Format("Details for {0}", item.Detail), "Details", "Nationality", new { id = item.nationalityID }, null, null, "createButton")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.active)
+            @Html.CheckBoxFor(modelItem => item.active, new { title="Active", disabled="disabled"})
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.deactivated)

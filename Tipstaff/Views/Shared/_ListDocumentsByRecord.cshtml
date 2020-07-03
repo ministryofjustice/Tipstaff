@@ -10,7 +10,7 @@ else
 <table width="100%" style="padding-top:5px;margin-top:5px;">
     <tr>
         @if (!Model.TipstaffRecordClosed)
-        {<th style="width:20px;">&nbsp;</th>}
+        {<td style="width:20px;background-color: #dddddd">&nbsp;</td>}
         <th>
             @Html.LabelFor(model => model.Documents.First().createdOn)
         </th>
@@ -23,7 +23,7 @@ else
         <th>
             @Html.LabelFor(model => model.Documents.First().documentType.Detail)
         </th>
-        <th>&nbsp;</th>
+        <td style="background-color: #dddddd">&nbsp;</td>
     </tr>
 @{ var isAltRow = false;
    foreach (var item in Model.Documents.OrderByDescending(x => x.createdOn))

@@ -20,7 +20,7 @@
     <legend>Case Review details</legend>
 
     <div class="editor-label">
-        Date review taken
+        @Html.LabelFor(model => model.CaseReview.reviewDate)Date review taken
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.CaseReview.reviewDate)
@@ -48,7 +48,7 @@
         @Html.EditorFor(model => model.CaseReview.nextReviewDate)
         @Html.ValidationMessageFor(model => model.CaseReview.nextReviewDate)
     </div>
-    (If setting file to closed, leave the default date present in @Html.LabelFor(model => model.CaseReview.nextReviewDate) )
+    (If setting file to closed, leave the default date present in Next Review Date )
     @Html.HiddenFor(model => model.CaseReview.tipstaffRecordID)
 
 

@@ -400,7 +400,7 @@ namespace Tipstaff.Helpers
                 else
                 {
                     firstBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img first disabled\" disabled=\"disabled\" value=\"{0}\">{0}</button>", 1));
-                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"\">&nbsp;</button>", ""));
+                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"-1\">-1</button>", ""));
                 }
                 //build next buttons
                 if (pagedList.HasNextPage)
@@ -614,7 +614,8 @@ namespace Tipstaff.Helpers
         }
         public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, AdminListView Model, string sortValue, string sortButtonText, string token="")
         {
-            TagBuilder headerCell = new TagBuilder("th");
+            TagBuilder headerCell = new TagBuilder("td");
+            headerCell.MergeAttribute("style", "background-color: #dddddd");
             TagBuilder form = new TagBuilder("form");
             //action="/Warrant/IndexNew" method="post"//
             form.Attributes.Add("method", "post");
@@ -634,6 +635,7 @@ namespace Tipstaff.Helpers
             TagBuilder button = new TagBuilder("input");
             button.MergeAttribute("type", "Submit");
             button.MergeAttribute("value", sortButtonText);
+            button.MergeAttribute("title", sortButtonText);
             button.AddCssClass("sortButton");
 
             TagBuilder onlyActive = new TagBuilder("input");
@@ -678,7 +680,7 @@ namespace Tipstaff.Helpers
         }
         public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, ListViewModel Model, string sortValue, string sortButtonText, string ColumnWidth, string token = "")
         {
-            TagBuilder headerCell = new TagBuilder("th");
+            TagBuilder headerCell = new TagBuilder("td");
             TagBuilder form = new TagBuilder("form");
             //action="/Warrant/IndexNew" method="post"//
             form.Attributes.Add("method", "post");
@@ -697,6 +699,7 @@ namespace Tipstaff.Helpers
             TagBuilder button = new TagBuilder("input");
             button.MergeAttribute("type", "Submit");
             button.MergeAttribute("value", sortButtonText);
+            button.MergeAttribute("title", sortButtonText);
             button.AddCssClass("sortButton");
 
             TagBuilder includeFinal = new TagBuilder("input");
@@ -755,9 +758,13 @@ namespace Tipstaff.Helpers
             form.InnerHtml += includeFinal;
             form.InnerHtml += button;
             //set column width if applicable
-            if(!string.IsNullOrEmpty(ColumnWidth))
+            if (!string.IsNullOrEmpty(ColumnWidth))
             {
-                headerCell.MergeAttribute("style", string.Format("max-width:{0}",ColumnWidth));
+                headerCell.MergeAttribute("style", string.Format("max-width:{0};background-color: #dddddd", ColumnWidth));
+            }
+            else
+            {
+                headerCell.MergeAttribute("style", "background-color: #dddddd");
             }
             headerCell.InnerHtml = form.ToString();
             return MvcHtmlString.Create(headerCell.ToString());
@@ -815,7 +822,7 @@ namespace Tipstaff.Helpers
         }
         public static MvcHtmlString DropDownListForWithSubmit<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel, string defaultValue)
         {
-            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList,optionLabel,null);
+            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList,optionLabel,new { title=expression.Body.ToString()});
             return MvcHtmlString.Create(DDLF.ToString().Replace("id=", "onchange=\"this.form.submit()\" id=").Replace("alue=\"\"",string.Format("alue=\"{0}\"",defaultValue)));
         }
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, string optionLabel, string defaultValue)
@@ -1080,7 +1087,7 @@ namespace Tipstaff.Helpers
                 else
                 {
                     firstBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img first disabled\" disabled=\"disabled\" value=\"{0}\">{0}</button>", 1));
-                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"\">&nbsp;</button>", ""));
+                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"-1\">-1</button>", ""));
                 }
                 //build next buttons
                 if (pagedList.HasNextPage)
@@ -1193,7 +1200,7 @@ namespace Tipstaff.Helpers
                 else
                 {
                     firstBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img first disabled\" disabled=\"disabled\" value=\"{0}\">{0}</button>", 1));
-                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"\">&nbsp;</button>", ""));
+                    prevBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" name=\"page\" class=\"pageButton img prev disabled\" disabled=\"disabled\" value=\"-1\">-1</button>", ""));
                 }
                 //build next buttons
                 if (pagedList.HasNextPage)

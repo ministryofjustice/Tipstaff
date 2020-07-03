@@ -168,7 +168,7 @@
 	padding-left:10px;
 	padding-right: 10px;
 	line-height: 45px; /*to center text vertically without padding */
-	float:right;
+	float:left;
 	display: inline; /* to avoid double-margin bug */
 	text-decoration:none;
 	color:#fff;

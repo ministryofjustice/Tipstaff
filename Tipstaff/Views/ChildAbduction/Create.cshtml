@@ -46,7 +46,7 @@
         </div>
 
         <div class="editor-label">
-            Initial review date<span class="required-star">*</span>
+            @Html.LabelFor(model => model.nextReviewDate)<span class="required-star">*</span>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.nextReviewDate)

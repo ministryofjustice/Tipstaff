@@ -16,9 +16,9 @@
 <table>
     <tr>
         @*Filter Row*@
-    <th @if (User.IsInRole("Admin")) { @Html.Raw("colspan=\"2\"") }>Filters</th>
-    <th colspan="5">&nbsp;</th>
-    <th style="white-space:nowrap;">
+    <th @if (User.IsInRole("Admin")) { @Html.Raw("colspan=\"2\"")}>Filters</th>
+    <td colspan="5" style="background-color: #dddddd">&nbsp;</td>
+    <td style="white-space:nowrap;background-color: #dddddd">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -28,8 +28,8 @@
             @Html.HiddenFor(model => model.childNameContains)
             @Html.DropDownListForWithSubmit(model => model.caOrderTypeID, (SelectList)Model.OrderTypeList, "All types", "-1")
         }
-    </th>
-    <th style="white-space:nowrap;">
+    </td>
+    <td style="white-space:nowrap;background-color: #dddddd">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -37,12 +37,12 @@
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caseStatusID)
             @Html.HiddenFor(model => model.caOrderTypeID)
-            @Html.TextBox("childNameContains", null, new { @style = "width: 7em;", AccessKey = "F" })
+            @Html.TextBox("childNameContains", null, new { @style = "width: 7em;", AccessKey = "F", title="Filter child name" })
             <input alt="Filter Child name" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
         }
-    </th>
-    <th colspan="2">&nbsp;</th>
-    <th style="white-space:nowrap;">
+    </td>
+    <td colspan="2" style="background-color: #dddddd">&nbsp;</td>
+    <td style="white-space:nowrap;background-color: #dddddd">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -52,15 +52,15 @@
             @Html.HiddenFor(model => model.childNameContains)
             @Html.DropDownListForWithSubmit(model => model.caseStatusID, (SelectList)Model.StatusList, "All statuses", "-1")
         }
-    </th>
-    <th colspan="5">&nbsp;</th>
+    </td>
+    <td colspan="5" style="background-color: #dddddd">&nbsp;</td>
 </tr>
 @* End Filter Row*@
 <tr>
     @* HeaderRow *@
     @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
     {
-        <th style="width:20px;">&nbsp;</th>
+        <td style="width:20px;background-color: #dddddd">&nbsp;</td>
 }
     @{
         var token = @Html.AntiForgeryToken().ToHtmlString();
@@ -87,7 +87,7 @@
     <th>Retention</th>
     @if (User.IsInRole("Admin") || User.IsInRole("System Admin"))
     {
-        <th style="width:20px;">&nbsp;</th>
+        <td style="width:20px;background-color: #dddddd">&nbsp;</td>
 }
 </tr>
 @* End HeaderRow *@

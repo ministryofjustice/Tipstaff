@@ -70,12 +70,12 @@
     <div style="float:left;padding-left:2em;">
         @using (Ajax.BeginForm("OPTReport"
                                         , "Reports"
-                                        , new AjaxOptions { UpdateTargetId = "ShowOPTData", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }, new { style = "float:left;" }))
+                                        , new AjaxOptions { UpdateTargetId = "ShowOPTData", InsertionMode = InsertionMode.Replace, HttpMethod = "POST", LoadingElementId = "Refresh" }, new { style = "float:left;", title="OPT Report" }))
         {
             <input type="submit" value="Generate" style="display:inline;float:left; margin-right:0.5em" />
 
             <div style="padding-left:0.5em;">
-                <select class="required" data-val="true" data-val-number="The field Protective Marking must be a number." data-val-required="The duration field is required." id="period" name="period">
+                <select class="required" data-val="true" data-val-number="The field Protective Marking must be a number." data-val-required="The duration field is required." id="period" name="period" title="Period">
                     <option value="">Please choose a duration</option>
                     <option value="0">Daily</option>
                     <option value="1">Weekly</option>
@@ -83,7 +83,7 @@
                     <option value="3">Yearly</option>
                 </select>
                 <span class="field-validation-valid" data-valmsg-for="period" data-valmsg-replace="true"></span><br />
-                <input class="textbox" data-val="true" data-val-required="The date field is required." id="chosenDate" name="chosenDate" type="text" value="" />
+                <input class="textbox" data-val="true" data-val-required="The date field is required." id="chosenDate" name="chosenDate" type="text" value="" title="Chosen date" />
                 <script type="text/javascript">
                 $(document).ready(function () {
                     $("#chosenDate").datepicker

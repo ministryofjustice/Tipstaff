@@ -40,7 +40,7 @@ else
         @{var isAltRow = false; }
         @foreach (var user in Model.OrderBy(x => x.DisplayName))
         {
-            <tr class="@(isAltRow ? "normRow" : "altRow")">
+            <tr class="@(isAltRow ? "" : "altRow")">
                 <td>@Html.ImageAndTextLink(Url.Content("~/Images/edit.png"), user.DisplayName, string.Format("Edit {0}", user.DisplayName), "Edit", "Users", new { id = user.UserID }, null, null, "createButton")</td>
                 <td>
                     @if (user.LastActive.HasValue)
