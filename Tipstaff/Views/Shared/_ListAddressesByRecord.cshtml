@@ -14,6 +14,9 @@ else
         <th>
             Address
         </th>
+        <th>
+            Telephone
+        </th>
     </tr>
 
 	@{var isAltRow = false;
@@ -32,6 +35,9 @@ else
         }
         <td>
             @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.outputAddressSingleLine, string.Format("View {0}", item.outputAddressSingleLine), "Details", "Address", new { id = item.addressID }, null, null, "createButton") 
+        </td>
+        <td>
+            @item.phone
         </td>
     </tr>
     isAltRow = !isAltRow;
