@@ -413,24 +413,13 @@ ul.recordMenu-tabs >li >a
 ----------------------------------------------------------*/
 .display-label, 
 .editor-label {
-	width:16em;
+	width:10em;
 	font-weight:bold;
 	text-align:right;
-	margin: 0.5em 1em 0 0;
+	margin: 0.5em 0.2em 0 0;
 	position:relative;
 	float:left;
-	display:block;
-	clear:both;
-}
-.display-label, 
-.editor-label {
-	width:16em;
-	font-weight:bold;
-	text-align:right;
-	margin: 0.5em 1em 0 0;
-	position:relative;
-	float:left;
-	display:block;
+	display:inline-block;
 	clear:both;
 }
 .alert 
@@ -454,6 +443,7 @@ ul.recordMenu-tabs >li >a
     line-height:normal;
     padding-top:0.5em;
     padding-bottom:0.5em;
+    text-align: left;
 }
 
 .text-box {
