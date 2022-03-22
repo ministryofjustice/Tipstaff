@@ -486,14 +486,14 @@ namespace Tipstaff.Controllers
                 {
                     if (r.PNCID != null && r.PNCID != "")
                     {
-                        pncids += "(Respondent) " + r.PoliceDisplayName + " - " + r.PNCID + " - " + r.dateOfBirth.ToString() + "<w:br/>";
+                        pncids += "(Respondent) " + r.PoliceDisplayName + " - " + r.PNCID + " - " + r.DateofBirthDisplay + "<w:br/>";
                     }
                 }
                 foreach (Child c in ca.children)
                 {
                     if (c.PNCID != null && c.PNCID != "")
                     {
-                        pncids += "(Child) " + c.PoliceDisplayName + " - " + c.PNCID + " - " + c.dateOfBirth.ToString() + "<w:br/>";
+                        pncids += "(Child) " + c.PoliceDisplayName + " - " + c.PNCID + " - " + c.DateofBirthDisplay + "<w:br/>";
                     }
                 }
                 if (pncids == "")
