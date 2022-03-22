@@ -486,7 +486,7 @@ namespace Tipstaff.Controllers
                 {
                     if (r.PNCID != null && r.PNCID != "")
                     {
-                        pncids += "(Respondent) " + r.PoliceDisplayName + " " + r.PNCID + "<w:br/>";
+                        pncids += "(Respondent - TEST AM I IN RIGHT PLACE) " + r.PoliceDisplayName + " " + r.PNCID + "<w:br/>";
                     }
                 }
                 foreach (Child c in ca.children)
