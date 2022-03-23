@@ -411,22 +411,29 @@ ul.recordMenu-tabs >li >a
 }
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
-.display-label, 
+.display-label,
 .editor-label {
-	width:10em;
-	font-weight:bold;
-	text-align:right;
-	margin: 0.5em 0.2em 0 0;
-	position:relative;
-	float:left;
-	display:inline-block;
-	clear:both;
+    width: 16em;
+    font-weight: bold;
+    text-align: right;
+    margin: 0.5em 1em 0 0;
+    position: relative;
+    float: left;
+    display: block;
+    clear: both;
+}
+.display-label-details {
+    width: 10em;
+    text-align: left;
 }
 .alert 
 {
     color:Red;
 	background: white url('../Images/exclamation.png') no-repeat left;
     padding-left:20px;
+}
+.alert-details {
+    margin-left: 10em;
 }
 .editor-field {
 	font-size:1em;
@@ -443,6 +450,8 @@ ul.recordMenu-tabs >li >a
     line-height:normal;
     padding-top:0.5em;
     padding-bottom:0.5em;
+}
+.display-field-details {
     text-align: left;
 }
 
