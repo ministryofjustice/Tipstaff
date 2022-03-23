@@ -445,6 +445,9 @@ ul.recordMenu-tabs >li >a
     padding-bottom:0.5em;
     text-align: left;
 }
+.details-wrapround {
+    margin-left: 11em;
+}
 .alert-details {
     margin-left: 10em;
 }

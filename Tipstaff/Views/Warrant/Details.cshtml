@@ -87,17 +87,17 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
 <div id="WarrantData" style="width:33%;float:left;">
 
     <div class="display-label">@Html.LabelFor(model => model.expiryDate)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.expiryDate)
     </div>
 
     <div class="display-label">@Html.LabelFor(model => model.caseNumber)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.caseNumber)
     </div>
 
     <div class="display-label">@Html.LabelFor(model => model.division)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.division.Detail)
     </div>
 
@@ -113,33 +113,33 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
                 @Html.LabelFor(model => model.nextReviewDate)
             }
         </div>
-        <div class="display-field @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
+        <div class="display-field details-wrapround @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
             @Html.DisplayFor(model => model.nextReviewDate)
         </div>
     }
 
     <div class="display-label">@Html.LabelFor(model => model.caseStatusID)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.caseStatus.Detail)
     </div>
 
     <div class="display-label">@Html.LabelFor(model => model.createdBy)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.ToShortDateString()
     </div>
 
     <div class="display-label">@Html.LabelFor(model => model.protectiveMarking)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.protectiveMarking.Detail)
     </div>
 
     <div class="display-label">@Html.LabelFor(model => model.DateCirculated)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.DateCirculated)
     </div>
 
     <div class="display-label">@Html.LabelFor(model => model.Retention)</div>
-    <div class="display-field">
+    <div class="display-field details-wrapround">
         @if (Model.Retention)
         {
             @Html.Raw("Yes");
@@ -153,12 +153,12 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
     @if (Model.result != null)
     {
         <div class="display-label">@Html.LabelFor(model => model.result)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.result.Detail) <strong>on</strong> @(((DateTime)Model.DateExecuted).ToShortDateString())
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.resultDate)</div>
-        <div class="display-field">@Html.DisplayFor(model => model.resultDate) <strong>by</strong> @Model.resultEnteredBy</div>
+        <div class="display-field details-wrapround">@Html.DisplayFor(model => model.resultDate) <strong>by</strong> @Model.resultEnteredBy</div>
     }
 </div>
 @switch (Model.Respondents.Count())
@@ -169,83 +169,83 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
     case 1: 
     <div id="respdataPt1" style="width:33%;float:right;clear:none">
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().hairColour)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().hairColour)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().eyeColour)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().eyeColour)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().skinColourID)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().SkinColour.Detail)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().height)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().height)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().build)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().build)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().specialfeatures)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().specialfeatures)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfViolence)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfViolence)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().riskOfDrugs)
         </div>
     </div>
     <div id="respdataPt2" style="width:33%;float:right;clear:none">
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameLast)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Model.Respondents.SingleOrDefault().nameLast.ToUpper() 
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameFirst)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameFirst)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nameMiddle) </div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nameMiddle)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().DateofBirthDisplay)
         </div>
 
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().genderID)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().gender.detail)
         </div>
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().country)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().country.Detail)
         </div>
         <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().nationality)</div>
-        <div class="display-field">
+        <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.Respondents.SingleOrDefault().nationality.Detail)
         </div>
         
         @if (Model.Respondents.SingleOrDefault().PNCID != null)
         { 
             <div class="display-label">@Html.LabelFor(model => model.Respondents.SingleOrDefault().PNCID)</div>
-            <div class="display-field">
+            <div class="display-field details-wrapround">
                 @Html.DisplayFor(model => model.Respondents.SingleOrDefault().PNCID)
             </div>
         }
