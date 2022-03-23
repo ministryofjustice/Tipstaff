@@ -416,10 +416,10 @@ ul.recordMenu-tabs >li >a
 	width:10em;
 	font-weight:bold;
 	text-align:right;
-	margin: 0.5em 0.2em 0 0;
+	margin: 0.5em 1em 0 0;
 	position:relative;
 	float:left;
-	display:inline-block;
+	display:block;
 	clear:both;
 }
 .alert 
