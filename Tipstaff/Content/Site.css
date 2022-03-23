@@ -447,7 +447,8 @@ ul.recordMenu-tabs >li >a
 }
 .details-wrapround {
     margin-left: 11em;
-    padding: 1em;
+    height: auto;
+    min-height: 15px;
 }
 .alert-details {
     margin-left: 10em;
