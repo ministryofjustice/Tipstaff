@@ -432,9 +432,6 @@ ul.recordMenu-tabs >li >a
 	background: white url('../Images/exclamation.png') no-repeat left;
     padding-left:20px;
 }
-.alert-details {
-    margin-left: 10em;
-}
 .editor-field {
 	font-size:1em;
     padding:2px;
@@ -454,7 +451,9 @@ ul.recordMenu-tabs >li >a
 .display-field-details {
     text-align: left;
 }
-
+.alert-details {
+    margin-left: 10em;
+}
 .text-box {
     width: 30em;
 }
