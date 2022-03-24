@@ -413,7 +413,7 @@ ul.recordMenu-tabs >li >a
 ----------------------------------------------------------*/
 .display-label, 
 .editor-label {
-	width:10em;
+	width:16em;
 	font-weight:bold;
 	text-align:right;
 	margin: 0.5em 1em 0 0;
@@ -421,6 +421,9 @@ ul.recordMenu-tabs >li >a
 	float:left;
 	display:block;
 	clear:both;
+}
+display-label-details {
+    width: 10em;
 }
 .alert 
 {
