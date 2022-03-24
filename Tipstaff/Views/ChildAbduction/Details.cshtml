@@ -96,24 +96,24 @@
         </ul>
     }
 
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.sentSCD26)</div>
+    <div class="display-label">@Html.LabelFor(model => model.sentSCD26)</div>
     <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.sentSCD26)
     </div>
 
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.orderReceived)</div>
+    <div class="display-label">@Html.LabelFor(model => model.orderReceived)</div>
     <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.orderReceived)
     </div>
 
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.officerDealing)</div>
+    <div class="display-label">@Html.LabelFor(model => model.officerDealing)</div>
     <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.officerDealing)
     </div>
 
     @if (Model.resultID == null)
     {
-        <div class="display-field display-label-details">
+        <div class="display-label">
             @if (Model.caseReviews.Count() == 0)
             {
                 <span>Initial review date</span>
@@ -128,26 +128,26 @@
         </div>
     }
 
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.caOrderTypeID)</div>
+    <div class="display-label">@Html.LabelFor(model => model.caOrderTypeID)</div>
     <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.caOrderType.Detail)
     </div>
 
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.caseStatusID)</div>
+    <div class="display-label">@Html.LabelFor(model => model.caseStatusID)</div>
     <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.caseStatus.Detail)
     </div>
 
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.createdBy)</div>
+    <div class="display-label">@Html.LabelFor(model => model.createdBy)</div>
     <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.createdBy) <strong>on</strong> @Model.createdOn.ToShortDateString()
     </div>
 
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.protectiveMarking)</div>
+    <div class="display-label">@Html.LabelFor(model => model.protectiveMarking)</div>
     <div class="display-field details-wrapround">
         @Html.DisplayFor(model => model.protectiveMarking.Detail)
     </div>
-    <div class="display-field display-label-details">@Html.LabelFor(model => model.Retention)</div>
+    <div class="display-label">@Html.LabelFor(model => model.Retention)</div>
     <div class="display-field details-wrapround">
         @if (Model.Retention)
         {
@@ -160,12 +160,12 @@
     </div>
     @if (Model.result != null)
     {
-        <div class="display-field display-label-details">@Html.LabelFor(model => model.result)</div>
+        <div class="display-label">@Html.LabelFor(model => model.result)</div>
         <div class="display-field details-wrapround">
             @Html.DisplayFor(model => model.result.Detail) <strong>on</strong> @(((DateTime)Model.DateExecuted).ToShortDateString())
         </div>
 
-        <div class="display-field display-label-details">@Html.LabelFor(model => model.resultDate)</div>
+        <div class="display-label">@Html.LabelFor(model => model.resultDate)</div>
         <div class="display-field details-wrapround">@Html.DisplayFor(model => model.resultDate) <strong>by</strong> @Model.resultEnteredBy</div>
     }
 
