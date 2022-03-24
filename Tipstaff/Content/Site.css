@@ -422,7 +422,7 @@ ul.recordMenu-tabs >li >a
 	display:block;
 	clear:both;
 }
-display-label-details {
+.display-label-details {
     width: 10em;
 }
 .alert 
