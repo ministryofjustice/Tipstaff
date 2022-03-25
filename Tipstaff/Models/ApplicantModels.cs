@@ -13,26 +13,36 @@ namespace Tipstaff.Models
     {
         [Key]
         public int ApplicantID { get; set; }
+
         [Required, Display(Name = "Title")]
         public int salutationID { get; set; }
+
         [Required, MaxLength(50), Display(Name = "Last name")]
         public string nameLast { get; set; }
-        [MaxLength(50), Display(Name = "First name")]
+
+        [Required, MaxLength(50), Display(Name = "First name")]
         public string nameFirst { get; set; }
-        [Required(ErrorMessage = "The first line of the address is mandatory"), MaxLength(100), Display(Name = "Address Line 1")]
+
+        [MaxLength(100), Display(Name = "Address Line 1"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string addressLine1 { get; set; }
-        [MaxLength(100), Display(Name = "Address Line 2")]
+
+        [MaxLength(100), Display(Name = "Address Line 2"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string addressLine2 { get; set; }
-        [MaxLength(100), Display(Name = "Address Line 3")]
+
+        [MaxLength(100), Display(Name = "Address Line 3"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string addressLine3 { get; set; }
-        [MaxLength(100), Display(Name = "Town")]
+
+        [MaxLength(100), Display(Name = "Town"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string town { get; set; }
-        [MaxLength(100), Display(Name = "County")]
+
+        [MaxLength(100), Display(Name = "County"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string county { get; set; }
+
         [MaxLength(10), Display(Name = "Postcode")]
         [Required]
         public string postcode { get; set; }
-        [MaxLength(20), Display(Name = "Phone")]
+
+        [MaxLength(20), Display(Name = "Phone"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string phone { get; set; }
 
         [Required]
