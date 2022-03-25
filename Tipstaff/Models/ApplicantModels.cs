@@ -19,7 +19,7 @@ namespace Tipstaff.Models
         public string nameLast { get; set; }
         [MaxLength(50), Display(Name = "First name")]
         public string nameFirst { get; set; }
-        [MaxLength(100), Display(Name = "Address Line 1")]//[Required(ErrorMessage = "The first line of the address is mandatory"), MaxLength(100), Display(Name = "Address Line 1")]
+        [Required(ErrorMessage = "The first line of the address is mandatory"), MaxLength(100), Display(Name = "Address Line 1")]
         public string addressLine1 { get; set; }
         [MaxLength(100), Display(Name = "Address Line 2")]
         public string addressLine2 { get; set; }
