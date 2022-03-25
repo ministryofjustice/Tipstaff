@@ -67,6 +67,7 @@ namespace Tipstaff.Models
         
         public string PNCID { get; set; }
         
+        [Display(Name ="Gender")]
         public virtual Gender gender { get; set; }
         [Display(Name = "Country of Origin")]
         public virtual Country country { get; set; }
