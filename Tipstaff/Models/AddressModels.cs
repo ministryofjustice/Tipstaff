@@ -46,7 +46,7 @@ namespace Tipstaff.Models
         public string county { get; set; }
         [MaxLength(10), Display(Name = "Post code")]
         public string postcode { get; set; }
-        [MaxLength(20), Display(Name = "phone")]
+        [MaxLength(20), Display(Name = "Phone")]
         public string phone { get; set; }
         [Required]
         public int tipstaffRecordID { get; set; }
