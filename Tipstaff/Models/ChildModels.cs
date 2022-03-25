@@ -23,7 +23,7 @@ namespace Tipstaff.Models
         public DateTime? dateOfBirth { get; set; }
         [Required,Display(Name="Gender")]
         public int genderID { get; set; }
-        [Required,Display(Name="Height")]
+        [Display(Name="Height"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string height { get; set; }
         [Required, Display(Name = "Build")]
         public string build { get; set; }
