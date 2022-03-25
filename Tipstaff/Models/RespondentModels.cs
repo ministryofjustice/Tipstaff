@@ -12,39 +12,56 @@ namespace Tipstaff.Models
     {
         [Key]
         public int respondentID { get; set; }
+
         [Required, MaxLength(50), Display(Name = "Last name")]
         public string nameLast { get; set; }
+
         [Required, MaxLength(50), Display(Name = "First name")]
         public string nameFirst { get; set; }
-        [MaxLength(50), Display(Name = "Middle name(s)")]
+
+        [MaxLength(50), Display(Name = "Middle name(s)"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string nameMiddle { get; set; }
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true),
+
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true, NullDisplayText = "N/K"),
             Display(Name = "Date of Birth"), PastDateorNull(ErrorMessage = "Birth date cannot be in the future")]
         public DateTime? dateOfBirth { get; set; }
+
         [Required, Display(Name = "Gender")]
         public int genderID { get; set; }
+
         [Required, Display(Name="Relationship to child")]
         public int? childRelationshipID { get; set; }
+
         [MaxLength(50), Display(Name = "Hair colour"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string hairColour { get; set; }
+
         [MaxLength(50), Display(Name = "Eye colour"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string eyeColour { get; set; }
+
         [Required, Display(Name = "Skin colour")]
         public int skinColourID { get; set; }
+
         [MaxLength(50), Display(Name = "Height"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string height { get; set; }
+
         [MaxLength(50), Display(Name = "Build"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string build { get; set; }
+
         [MaxLength(250), Display(Name = "Special Features"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string specialfeatures { get; set; }
+
         [Required, Display(Name = "Country of Origin")]
         public int countryID { get; set; }
+
         [Required, Display(Name = "Nationality")]
         public int? nationalityID { get; set; }
+
         [MaxLength(100), Display(Name = "Risk of Violence?"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string riskOfViolence { get; set; }
+
         [MaxLength(100), Display(Name="Risk of Drugs?"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string riskOfDrugs { get; set; }
+
         [Required]
         public int tipstaffRecordID  { get; set; }
         
