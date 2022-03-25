@@ -422,16 +422,8 @@ ul.recordMenu-tabs >li >a
 	display:block;
 	clear:both;
 }
-.display-label, 
-.editor-label {
-	width:16em;
-	font-weight:bold;
-	text-align:right;
-	margin: 0.5em 1em 0 0;
-	position:relative;
-	float:left;
-	display:block;
-	clear:both;
+.display-label-details {
+    width: 10em;
 }
 .alert 
 {
@@ -454,8 +446,16 @@ ul.recordMenu-tabs >li >a
     line-height:normal;
     padding-top:0.5em;
     padding-bottom:0.5em;
+    text-align: left;
 }
-
+.details-wrapround {
+    margin-left: 11em;
+    height: auto;
+    min-height: 15px;
+}
+.alert-details {
+    margin-left: 10em;
+}
 .text-box {
     width: 30em;
 }
