@@ -33,8 +33,8 @@ namespace Tipstaff.Models
         [Required, Display(Name="Relationship to child")]
         public int? childRelationshipID { get; set; }
 
-        [MaxLength(50), Display(Name = "Hair colour"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K"), DefaultValueAttribute("N/K")]
-        public string hairColour { get; set; }
+        [MaxLength(50), Display(Name = "Hair colour"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
+        public string hairColour { get; set; } = "N/K";
 
         [MaxLength(50), Display(Name = "Eye colour"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string eyeColour { get; set; }
