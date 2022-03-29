@@ -18,7 +18,7 @@ namespace Tipstaff.Models
         public string nameFirst { get; set; }
         [MaxLength(50), Display(Name = "Middle name(s)"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
         public string nameMiddle { get; set; }
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true, NullDisplayText = "N/K")]
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true]
         [Display(Name = "Date of Birth"),PastDateorNull(ErrorMessage="Birth date cannot be in the future")]
         public DateTime? dateOfBirth { get; set; }
         [Required,Display(Name="Gender")]
