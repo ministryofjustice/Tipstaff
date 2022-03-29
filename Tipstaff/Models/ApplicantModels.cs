@@ -23,26 +23,26 @@ namespace Tipstaff.Models
         [Required, MaxLength(50), Display(Name = "First name")]
         public string nameFirst { get; set; }
 
-        [MaxLength(100), Display(Name = "Address Line 1"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
+        [MaxLength(100), Display(Name = "Address Line 1"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string addressLine1 { get; set; }
 
-        [MaxLength(100), Display(Name = "Address Line 2"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
+        [MaxLength(100), Display(Name = "Address Line 2"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string addressLine2 { get; set; }
 
-        [MaxLength(100), Display(Name = "Address Line 3"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
+        [MaxLength(100), Display(Name = "Address Line 3"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string addressLine3 { get; set; }
 
-        [MaxLength(100), Display(Name = "Town"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
+        [MaxLength(100), Display(Name = "Town"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string town { get; set; }
 
-        [MaxLength(100), Display(Name = "County"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
+        [MaxLength(100), Display(Name = "County"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string county { get; set; }
 
         [MaxLength(10), Display(Name = "Postcode")]
         [Required]
         public string postcode { get; set; }
 
-        [MaxLength(20), Display(Name = "Phone"), DisplayFormat(ConvertEmptyStringToNull = true, NullDisplayText = "N/K")]
+        [MaxLength(20), Display(Name = "Phone"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string phone { get; set; }
 
         [Required]
