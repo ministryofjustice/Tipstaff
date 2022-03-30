@@ -14,26 +14,26 @@ namespace Tipstaff.Models
         public int childID { get; set; }
         [Required, MaxLength(50), Display(Name = "Last name")]
         public string nameLast { get; set; }
-        [MaxLength(50), Display(Name = "First name")]
+        [Required, MaxLength(50), Display(Name = "First name")]
         public string nameFirst { get; set; }
-        [MaxLength(50), Display(Name = "Middle name(s)")]
+        [MaxLength(50), Display(Name = "Middle name(s)"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string nameMiddle { get; set; }
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date of Birth"),PastDateorNull(ErrorMessage="Birth date cannot be in the future")]
         public DateTime? dateOfBirth { get; set; }
         [Required,Display(Name="Gender")]
         public int genderID { get; set; }
-        [Required,Display(Name="Height")]
+        [Display(Name="Height"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string height { get; set; }
-        [Required, Display(Name = "Build")]
+        [Display(Name = "Build"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string build { get; set; }
-        [Required, Display(Name = "Hair colour")]
+        [Display(Name = "Hair colour"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string hairColour { get; set; }
-        [Required, Display(Name = "Eye colour")]
+        [Display(Name = "Eye colour"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string eyeColour { get; set; }
         [Required, Display(Name = "Skin colour")]
         public int? skinColourID { get; set; }
-        [Required, Display(Name = "Special Features")]
+        [Display(Name = "Special Features"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string specialfeatures { get; set; }
         [Required, Display(Name="Country of Origin")]
         public int countryID { get; set; }
