@@ -83,7 +83,7 @@ namespace Tipstaff.Models
         public string county { get; set; }
 
         [MaxLength(10), Display(Name = "Postcode")]
-        [Required]
+        // [Required]
         public string postcode { get; set; }
 
         [MaxLength(20), Display(Name = "Phone"), DisplayFormat(ConvertEmptyStringToNull = true)]
