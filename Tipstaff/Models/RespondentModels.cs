@@ -89,6 +89,9 @@ namespace Tipstaff.Models
         [MaxLength(20), Display(Name = "Phone"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string phone { get; set; }
 
+        [MaxLength(100), Display(Name = "Email"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string email { get; set; }
+
         [Display(Name ="Gender")]
         public virtual Gender gender { get; set; }
         [Display(Name = "Country of Origin")]
