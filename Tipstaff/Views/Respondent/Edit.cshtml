@@ -169,6 +169,72 @@
             @Html.ValidationMessageFor(model => model.respondent.PNCID)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.addressLine1, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.addressLine1)
+            @Html.ValidationMessageFor(model => model.respondent.addressLine1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.addressLine2, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.addressLine2)
+            @Html.ValidationMessageFor(model => model.respondent.addressLine2)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.addressLine3, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.addressLine3)
+            @Html.ValidationMessageFor(model => model.respondent.addressLine3)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.town, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.town)
+            @Html.ValidationMessageFor(model => model.respondent.town)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.county, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.county)
+            @Html.ValidationMessageFor(model => model.respondent.county)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.postcode, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.postcode)
+            @Html.ValidationMessageFor(model => model.respondent.postcode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.phone, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.phone)
+            @Html.ValidationMessageFor(model => model.respondent.phone)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.respondent.email, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.respondent.email)
+            @Html.ValidationMessageFor(model => model.respondent.email)
+        </div>
+
+
+
         @Html.HiddenFor(model => model.respondent.tipstaffRecordID)
 
         <p>
