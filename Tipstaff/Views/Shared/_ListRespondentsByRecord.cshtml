@@ -11,7 +11,9 @@
 <table width="100%" style="padding-top:5px;margin-top:5px;">
     <tr>
         @if (!Model.TipstaffRecordClosed)
-        {<td style="width:40px;background-color: #dddddd">&nbsp;</td>}
+        {
+            <td style="width:40px;background-color: #dddddd">&nbsp;</td>
+        }
         <th>
             @Html.LabelFor(model => model.Respondents.First().fullname)
         </th>
@@ -24,6 +26,12 @@
         <th>
             @Html.LabelFor(model => model.Respondents.First().PNCID)
         </th>
+        <th>
+            @Html.LabelFor(model => model.Respondents.First().screenAddressSingleLine)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Respondents.First().phone)
+        </th>
     </tr>
 
 @{var isAltRow = false;
@@ -33,31 +41,37 @@
         @if (!Model.TipstaffRecordClosed)
         {
             <td>
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete respondent", "Delete", "Respondent", new { id = item.respondentID }, null, null) 
-            }
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete respondent", "Delete", "Respondent", new { id = item.respondentID }, null, null)
+                }
                 @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend respondent", "Edit", "Respondent", new { id = item.respondentID }, null, null)
             </td>
         }
         <td>
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.PoliceDisplayName), "Details", "Respondent", new { id = item.respondentID }, null, null, "createButton") 
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.PoliceDisplayName, string.Format("View {0}", item.PoliceDisplayName), "Details", "Respondent", new { id = item.respondentID }, null, null, "createButton")
         </td>
         <td>
             @if (item.nationality == null)
-            { 
-            @Html.DisplayFor(modelItem => item.country.Detail)
+            {
+                @Html.DisplayFor(modelItem => item.country.Detail)
             }
             else
-            { 
-            @Html.DisplayFor(modelItem => item.nationality.Detail)
-            } 
+            {
+                @Html.DisplayFor(modelItem => item.nationality.Detail)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.dateOfBirth)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PNCID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.screenAddressSingleLine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phone)
         </td>
     </tr>
  	isAltRow = !isAltRow;
