@@ -10,12 +10,17 @@ else
 <table width="100%" style="padding-top:5px;margin-top:5px;">
     <tr>
         @if (!Model.TipstaffRecordClosed)
-        {<td style="width: 40px;background-color: #dddddd">&nbsp;</td>}
+        {
+            <td style="width: 40px;background-color: #dddddd">&nbsp;</td>
+}
         <th>
             Address
         </th>
         <th>
             Telephone
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Applicants.First().email)
         </th>
     </tr>
 
@@ -38,6 +43,9 @@ else
         </td>
         <td>
             @item.phone
+        </td>
+        <td>
+            @item.email
         </td>
     </tr>
     isAltRow = !isAltRow;
