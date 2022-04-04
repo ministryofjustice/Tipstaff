@@ -22,6 +22,9 @@ else
         <th>
             @Html.LabelFor(model => model.Applicants.First().phone)
         </th>
+        <th>
+            @Html.LabelFor(model => model.Applicants.First().email)
+        </th>
     </tr>
 
 	@{var isAltRow = false;
@@ -48,6 +51,9 @@ else
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
         </td>
     </tr>
         isAltRow = !isAltRow;
