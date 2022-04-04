@@ -45,6 +45,9 @@ namespace Tipstaff.Models
         [MaxLength(20), Display(Name = "Phone"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string phone { get; set; }
 
+        [MaxLength(100), Display(Name = "Email"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string email { get; set; }
+
         [Required]
         public int tipstaffRecordID { get; set; }
         public virtual ChildAbduction childAbduction { get; set; }

@@ -11,12 +11,12 @@
 <fieldset>
     <legend>Applicant</legend>
 
-    <div class="display-label">@Html.LabelFor(model=>model.fullname)</div>
+    <div class="display-label">@Html.LabelFor(model => model.fullname)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.fullname)
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.screenAddressMultiLine)</div>
+    <div class="display-label">@Html.LabelFor(model => model.screenAddressMultiLine)</div>
     <div style="display:block;padding-left:218px;">
         @Html.Raw(Model.screenAddressMultiLine)
     </div>
@@ -24,6 +24,11 @@
     <div class="display-label">phone</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.phone)
+    </div>
+
+    <div class="display-label">email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
     </div>
 
     @Html.HiddenFor(model => model.tipstaffRecordID)
