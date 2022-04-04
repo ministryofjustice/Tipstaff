@@ -18,77 +18,85 @@
 {
     @Html.AntiForgeryToken();
 <fieldset>
-        <legend>Address details</legend>
+    <legend>Address details</legend>
 
-        @Html.HiddenFor(model => model.tipstaffRecordID)
+    @Html.HiddenFor(model => model.tipstaffRecordID)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.addresseeName, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.addresseeName)
-            @Html.ValidationMessageFor(model => model.address.addresseeName)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.addresseeName, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.addresseeName)
+        @Html.ValidationMessageFor(model => model.address.addresseeName)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.addressLine1, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.addressLine1)
-            @Html.ValidationMessageFor(model => model.address.addressLine1)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.addressLine1, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.addressLine1)
+        @Html.ValidationMessageFor(model => model.address.addressLine1)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.addressLine2, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.addressLine2)
-            @Html.ValidationMessageFor(model => model.address.addressLine2)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.addressLine2, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.addressLine2)
+        @Html.ValidationMessageFor(model => model.address.addressLine2)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.addressLine3, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.addressLine3)
-            @Html.ValidationMessageFor(model => model.address.addressLine3)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.addressLine3, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.addressLine3)
+        @Html.ValidationMessageFor(model => model.address.addressLine3)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.town, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.town)
-            @Html.ValidationMessageFor(model => model.address.town)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.town, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.town)
+        @Html.ValidationMessageFor(model => model.address.town)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.county, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.county)
-            @Html.ValidationMessageFor(model => model.address.county)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.county, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.county)
+        @Html.ValidationMessageFor(model => model.address.county)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.postcode, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.postcode)
-            @Html.ValidationMessageFor(model => model.address.postcode)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.postcode, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.postcode)
+        @Html.ValidationMessageFor(model => model.address.postcode)
+    </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.address.phone, true)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.address.phone)
-            @Html.ValidationMessageFor(model => model.address.phone)
-        </div>
-        
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-        <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
-    </fieldset>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.phone, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.phone)
+        @Html.ValidationMessageFor(model => model.address.phone)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.email, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.email)
+        @Html.ValidationMessageFor(model => model.address.email)
+    </div>
+
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+    <div>Fields marked<span class="required-star">*</span> are mandatory and must be completed before the record can be saved.</div>
+</fieldset>
 }
