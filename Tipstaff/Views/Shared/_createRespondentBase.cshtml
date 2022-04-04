@@ -1,6 +1,6 @@
 ﻿@model Tipstaff.Models.RespondentCreationModel
-<div style="display:flex;width:100%;">
-    <div>
+<div style="display:flex;">
+    <div style="width: 100%;">
         <div class="editor-label">
             @Html.LabelFor(model => model.respondent.nameLast, true)
         </div>
@@ -136,7 +136,7 @@
         </div>
     </div>
 
-    <div>
+    <div style="width: 100%;">
         @if (genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) != "Warrant")
         {
             <div class="editor-label">
