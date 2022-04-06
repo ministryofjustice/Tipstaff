@@ -25,11 +25,11 @@ namespace Tipstaff.Controllers
         {
             TipstaffRecord w = db.TipstaffRecord.Find(id);
 
-            ListDocumentsByTipstaffRecord model = new ListDocumentsByTipstaffRecord();
+            ListPassportsByTipstaffRecord model = new ListPassportsByTipstaffRecord();
             model.tipstaffRecordID = w.tipstaffRecordID;
             model.TipstaffRecordClosed = w.caseStatusID > 2;
-            model.Documents = w.Documents.OrderByDescending(d => d.createdOn).ToXPagedList<Document>(page ?? 1, 8);
-            return PartialView("_ListDocumentsByRecord", model);
+            model.Passports = w.Passports.OrderByDescending(d => d.createdOn).ToXPagedList<Passport>(page ?? 1, 8);
+            return PartialView("_ListPassportsByRecord", model);
         }
 
      }

@@ -57,6 +57,13 @@ namespace Tipstaff.Models
         public bool TipstaffRecordClosed { get; set; }
     }
 
+    public class ListPassportsByTipstaffRecord : IListByTipstaffRecord
+    {
+        public int tipstaffRecordID { get; set; }
+        public Tipstaff.xPagedList<Passport> Passports { get; set; }
+        public bool TipstaffRecordClosed { get; set; }
+    }
+
     public class DocumentUploadModel
     {
         public int tipstaffRecordID { get; set; }
