@@ -28,45 +28,48 @@ else
 @{ var isAltRow = false;
    foreach (var item in Model.Passports.OrderByDescending(x => x.createdOn))
    {
-        <tr class="@(isAltRow ? "altRow" : "")">
+    <tr class="@(isAltRow ? "altRow" : "")">
         @if (!Model.TipstaffRecordClosed)
         {
             <td>
-            @if (User.IsInRole("Admin"))
-            {
-                @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Document", new { id = item.documentID }, null, null) 
-            }
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Document", new { id = item.documentID }, null, null)
+                }
             </td>
         }
         <td>
-            @item.createdOn 
+            @item.createdOn
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.createdBy) 
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.documentReference) 
+            @Html.DisplayFor(modelItem => item.createdBy)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.documentType.Detail) 
+            @Html.DisplayFor(modelItem => item.documentReference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.documentType.Detail)
             @if (item.documentTypeID > 1 && item.fileName != null)
             {
-            @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => item.fileName)
+                @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => item.fileName)
             }
         </td>
         <td>
             @if (item.binaryFile != null && item.documentStatusID > 1)
-            { 
-                @Html.DisplayFor(modelitem => item.documentStatus.Detail)  @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton") 
+            {
+                @Html.DisplayFor(modelitem => item.documentStatus.Detail) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton")
             }
             else if (item.binaryFile != null && item.documentStatusID == 1)
-            { 
-                @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton") 
+            {
+                @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.documentID }, null, null, "createButton")
             }
             else
             {
-                @Html.DisplayFor(modelitem => item.documentStatus.Detail) 
-            } 
+                @Html.DisplayFor(modelitem => item.documentStatus.Detail)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comments)
         </td>
     </tr>
             isAltRow = !isAltRow;
