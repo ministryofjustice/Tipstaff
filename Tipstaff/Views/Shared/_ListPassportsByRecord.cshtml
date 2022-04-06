@@ -10,18 +10,23 @@ else
 <table width="100%" style="padding-top:5px;margin-top:5px;">
     <tr>
         @if (!Model.TipstaffRecordClosed)
-        {<td style="width:20px;background-color: #dddddd">&nbsp;</td>}
+        {
+            <td style="width:20px;background-color: #dddddd">&nbsp;</td>
+}
         <th>
             @Html.LabelFor(model => model.Passports.First().createdOn)
         </th>
         <th>
-            @Html.LabelFor(model => model.Passports.First().createdBy) 
+            @Html.LabelFor(model => model.Passports.First().createdBy)
         </th>
         <th>
-            @Html.LabelFor(model => model.Passports.First().documentReference) 
+            @Html.LabelFor(model => model.Passports.First().documentReference)
         </th>
         <th>
             @Html.LabelFor(model => model.Passports.First().documentType.Detail)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Passports.First().comments)
         </th>
         <td style="background-color: #dddddd">&nbsp;</td>
     </tr>
@@ -69,7 +74,14 @@ else
             }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.comments)
+            @if (item.comments == null && item.comments == "")
+            {
+                @Html.Raw("No Comments")
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.comments)
+            }
         </td>
     </tr>
             isAltRow = !isAltRow;
