@@ -86,4 +86,10 @@ namespace Tipstaff.Models
         public int solicitorID { get; set; }
         public int applicantID { get; set; }
     }
+
+    public class Passport : Document
+    {
+        [MaxLength(250), Display(Name ="Comments")]
+        public string comment { get; set; }
+    }
 }
