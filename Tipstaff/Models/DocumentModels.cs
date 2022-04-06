@@ -101,4 +101,9 @@ namespace Tipstaff.Models
         public string comments { get; set; }
     }
 
+    public class PassportUploadModel : Document
+    {
+        [MaxLength(250), Display(Name = "Comments")]
+        public string comments { get; set; }
+    }
 }
