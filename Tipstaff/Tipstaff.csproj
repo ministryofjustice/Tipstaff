@@ -269,6 +269,7 @@
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChildRelationshipController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\PassportController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FAQController.cs" />

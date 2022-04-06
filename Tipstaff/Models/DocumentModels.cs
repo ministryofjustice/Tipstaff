@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Web.Mvc;
 using System.Linq;
+using Tipstaff.Models;
 
 namespace Tipstaff.Models
 {
@@ -90,6 +91,7 @@ namespace Tipstaff.Models
     public class Passport : Document
     {
         [MaxLength(250), Display(Name ="Comments")]
-        public string comment { get; set; }
+        public string comments { get; set; }
     }
+
 }
