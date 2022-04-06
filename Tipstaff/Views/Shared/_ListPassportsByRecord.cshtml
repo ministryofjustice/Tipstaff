@@ -24,6 +24,7 @@ else
         </th>
         <th>
             @Html.LabelFor(model => model.Passports.First().documentType.Detail)
+            Passports
         </th>
         <th>
             @Html.LabelFor(model => model.Passports.First().comments)
@@ -74,14 +75,7 @@ else
             }
         </td>
         <td>
-            @if (item.comments == null && item.comments == "")
-            {
-                @Html.Raw("No Comments")
-            }
-            else
-            {
                 @Html.DisplayFor(modelItem => item.comments)
-            }
         </td>
     </tr>
             isAltRow = !isAltRow;
