@@ -66,6 +66,14 @@
         </div>
         @Html.HiddenFor(model => model.tipstaffRecordID)
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Passport.comments, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Passport.comments)
+            @Html.ValidationMessageFor(model => model.Passport.comments)
+        </div>
+
         <p>
             <input type="submit" value="Create" />
         </p>
