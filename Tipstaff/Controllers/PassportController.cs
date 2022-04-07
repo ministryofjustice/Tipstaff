@@ -62,8 +62,6 @@ namespace Tipstaff.Controllers
             return View(model);
         }
 
-
-
         public PartialViewResult ListPassportsByRecord(int id, int? page)
         {
             TipstaffRecord w = db.TipstaffRecord.Find(id);
