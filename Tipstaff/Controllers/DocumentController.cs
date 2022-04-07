@@ -157,17 +157,6 @@ namespace Tipstaff.Controllers
             return PartialView("_ListDocumentsByRecord", model);
         }
 
-        public PartialViewResult ListPassportsByRecord(int id, int? page)
-        {
-            TipstaffRecord w = db.TipstaffRecord.Find(id);
-
-            ListDocumentsByTipstaffRecord model = new ListDocumentsByTipstaffRecord();
-            model.tipstaffRecordID = w.tipstaffRecordID;
-            model.TipstaffRecordClosed = w.caseStatusID > 2;
-            model.Documents = w.Documents.OrderByDescending(d => d.createdOn).ToXPagedList<Document>(page ?? 1, 8);
-            return PartialView("_ListPassportsByRecord", model);
-        }
-
         public ActionResult ExtractDocument(int id)
         {
             try
