@@ -75,18 +75,6 @@ namespace Tipstaff.Controllers
             return PartialView("_ListPassportsByRecord", model);
         }
 
-        public ActionResult Edit(int id)
-        {
-            PassportEditModel model = new PassportEditModel();
-            model.passport = db.Passports.Find(id);
-            if (model.passport.childAbduction.caseStatus.sequence > 3)
-            {
-                TempData["UID"] = model.applicant.childAbduction.UniqueRecordID;
-                return RedirectToAction("ClosedFile", "Error");
-            }
-            return View(model);
-        }
-
         [HttpPost]
         public ActionResult Edit(PassportEditModel model)
         {
