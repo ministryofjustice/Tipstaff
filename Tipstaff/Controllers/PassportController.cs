@@ -75,17 +75,5 @@ namespace Tipstaff.Controllers
             return PartialView("_ListPassportsByRecord", model);
         }
 
-        [HttpPost]
-        public ActionResult Edit(PassportEditModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(model.passport).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details", "ChildAbduction", new { id = model.passport.tipstaffRecordID });
-            }
-            return View(model);
-        }
-
     }
 }
