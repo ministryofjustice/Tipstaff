@@ -99,6 +99,8 @@ namespace Tipstaff.Models
     {
         [MaxLength(250), Display(Name ="Comments")]
         public string comments { get; set; }
+        [Display(Name = "Passport Reference number")]
+        public string passportReference { get; set; }
     }
 
     public class PassportUploadModel : DocumentUploadModel
