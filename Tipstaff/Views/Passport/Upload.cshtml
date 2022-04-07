@@ -23,26 +23,26 @@
         <legend>Upload details</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.document.documentReference, true)
+            @Html.LabelFor(model => model.passport.documentReference, true)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.document.documentReference)
-            @Html.ValidationMessageFor(model => model.document.documentReference)
+            @Html.EditorFor(model => model.passport.documentReference)
+            @Html.ValidationMessageFor(model => model.passport.documentReference)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.document.countryID, true)
+            @Html.LabelFor(model => model.passport.countryID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.document.countryID, Model.CountryList, "Select a country", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.document.countryID)
+            @Html.DropDownListFor(model => model.passport.countryID, Model.CountryList, "Select a country", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.passport.countryID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.document.nationalityID, true)
+            @Html.LabelFor(model => model.passport.nationalityID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.document.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.document.nationalityID)
+            @Html.DropDownListFor(model => model.passport.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.passport.nationalityID)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.document.documentTypeID, true)
