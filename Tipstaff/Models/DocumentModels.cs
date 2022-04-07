@@ -103,7 +103,6 @@ namespace Tipstaff.Models
 
     public class PassportUploadModel : DocumentUploadModel
     {
-        [MaxLength(250), Display(Name = "Comments")]
-        public string comments { get; set; }
+        public Passport passport { get; set; }
     }
 }
