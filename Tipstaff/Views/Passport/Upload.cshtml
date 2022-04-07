@@ -23,40 +23,40 @@
         <legend>Upload details</legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.passport.documentReference, true)
+            @Html.LabelFor(model => model.document.documentReference, true)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.passport.documentReference)
+            @Html.EditorFor(model => model.document.documentReference)
             @Html.ValidationMessageFor(model => model.document.documentReference)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.passport.countryID, true)
+            @Html.LabelFor(model => model.document.countryID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.passport.countryID, Model.CountryList, "Select a country", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.passport.countryID)
+            @Html.DropDownListFor(model => model.document.countryID, Model.CountryList, "Select a country", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.document.countryID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.passport.nationalityID, true)
+            @Html.LabelFor(model => model.document.nationalityID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.passport.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.passport.nationalityID)
+            @Html.DropDownListFor(model => model.document.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.document.nationalityID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.passport.documentTypeID, true)
+            @Html.LabelFor(model => model.document.documentTypeID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.passport.documentTypeID, Model.TypeList, "Select a Type", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.passport.documentTypeID)
+            @Html.DropDownListFor(model => model.document.documentTypeID, Model.TypeList, "Select a Type", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.document.documentTypeID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.passport.documentStatusID, true)
+            @Html.LabelFor(model => model.document.documentStatusID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.passport.documentStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.passport.documentStatusID)
+            @Html.DropDownListFor(model => model.document.documentStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.document.documentStatusID)
         </div>
         <div class="editor-label">
             Please select file to upload
