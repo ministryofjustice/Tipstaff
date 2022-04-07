@@ -54,7 +54,7 @@ namespace Tipstaff.Controllers
             if (ModelState.IsValid)
             {
                 TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
-                tr.Documents.Add(model.passport);
+                tr.Documents.Add(model.document);
                 db.SaveChanges();
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.tipstaffRecordID });
             }
