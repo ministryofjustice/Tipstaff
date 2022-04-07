@@ -75,5 +75,29 @@ namespace Tipstaff.Controllers
             return PartialView("_ListPassportsByRecord", model);
         }
 
-     }
+        public ActionResult Edit(int id)
+        {
+            PassportEditModel model = new PassportEditModel();
+            model.passport = db.Passports.Find(id);
+            if (model.passport.childAbduction.caseStatus.sequence > 3)
+            {
+                TempData["UID"] = model.applicant.childAbduction.UniqueRecordID;
+                return RedirectToAction("ClosedFile", "Error");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(PassportEditModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(model.passport).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", "ChildAbduction", new { id = model.passport.tipstaffRecordID });
+            }
+            return View(model);
+        }
+
+    }
 }

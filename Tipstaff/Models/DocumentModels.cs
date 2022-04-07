@@ -107,4 +107,14 @@ namespace Tipstaff.Models
     {
         public Passport passport { get; set; }
     }
+
+    public class PassportEditModel
+    {
+        public Passport passport { get; set; }
+        public PassportEditModel()
+        {
+            SalutationList = new SelectList(myDBContextHelper.CurrentContext.Salutations.Where(x => x.active == true).ToList(), "salutationID", "Detail");
+        }
+
+    }
 }
