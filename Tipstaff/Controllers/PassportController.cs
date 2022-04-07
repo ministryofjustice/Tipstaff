@@ -39,22 +39,22 @@ namespace Tipstaff.Controllers
         public ActionResult Upload(PassportUploadModel model)
         {
             User user = db.GetUserByLoginName(User.Identity.Name.Split('\\').Last());
-            model.document.createdBy = user.DisplayName;
-            model.document.createdOn = DateTime.Now;
-            model.document.tipstaffRecordID = model.tipstaffRecordID;
+            model.passport.createdBy = user.DisplayName;
+            model.passport.createdOn = DateTime.Now;
+            model.passport.tipstaffRecordID = model.tipstaffRecordID;
             if (model.uploadFile != null)
             {
                 var stream = model.uploadFile.InputStream;
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                model.document.binaryFile = buffer;
-                model.document.fileName = System.IO.Path.GetFileName(model.uploadFile.FileName);
-                model.document.mimeType = model.uploadFile.ContentType;
+                model.passport.binaryFile = buffer;
+                model.passport.fileName = System.IO.Path.GetFileName(model.uploadFile.FileName);
+                model.passport.mimeType = model.uploadFile.ContentType;
             }
             if (ModelState.IsValid)
             {
                 TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
-                tr.Documents.Add(model.document);
+                tr.Passports.Add(model.passport);
                 db.SaveChanges();
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.tipstaffRecordID });
             }
