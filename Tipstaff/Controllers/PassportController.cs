@@ -47,9 +47,9 @@ namespace Tipstaff.Controllers
                 var stream = model.uploadFile.InputStream;
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
-                model.passport.binaryFile = buffer;
-                model.passport.fileName = System.IO.Path.GetFileName(model.uploadFile.FileName);
-                model.passport.mimeType = model.uploadFile.ContentType;
+                model.document.binaryFile = buffer;
+                model.document.fileName = System.IO.Path.GetFileName(model.uploadFile.FileName);
+                model.document.mimeType = model.uploadFile.ContentType;
             }
             if (ModelState.IsValid)
             {
