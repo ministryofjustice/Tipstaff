@@ -26,6 +26,7 @@ namespace Tipstaff.Controllers
         {
             PassportUploadModel model = new PassportUploadModel();
             model.tipstaffRecordID = id;
+            model.documentTypeID = 336;
             model.tipstaffRecord = db.TipstaffRecord.Find(id);
             if (model.tipstaffRecord.caseStatus.sequence > 3)
             {

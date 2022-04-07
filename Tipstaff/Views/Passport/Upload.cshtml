@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.PassportUploadModel
 
 @{
-    ViewBag.Title = string.Format("Upload a document for {0}", Model.tipstaffRecord.UniqueRecordID);
+    ViewBag.Title = string.Format("Upload a passport for {0}", Model.tipstaffRecord.UniqueRecordID);
 }
 @{
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecord.tipstaffRecordID);
@@ -43,13 +43,6 @@
         <div class="editor-field">
             @Html.DropDownListFor(model => model.passport.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })
             @Html.ValidationMessageFor(model => model.passport.nationalityID)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.passport.documentTypeID, true)
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.passport.documentTypeID, Model.TypeList, "Select a Type", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.passport.documentTypeID)
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.passport.documentStatusID, true)
