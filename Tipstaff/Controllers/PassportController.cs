@@ -93,7 +93,6 @@ namespace Tipstaff.Controllers
                 db.Entry(model.passport).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecordID), new { id = model.passport.tipstaffRecordID });
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.tipstaffRecordID });
             }
 
             return View(model);

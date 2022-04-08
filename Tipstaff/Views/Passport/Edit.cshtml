@@ -6,12 +6,11 @@
 @{
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID);
     string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
-    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
 }
 <h1>@ViewBag.Title</h1>
 <h6>
     @Html.ActionLink(display, "Index", controller)
-> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.tipstaffRecord.tipstaffRecordID }, null)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", "ChildAbduction", new { id = Model.tipstaffRecord.tipstaffRecordID }, null)
 > Edit passport
 </h6>
 
