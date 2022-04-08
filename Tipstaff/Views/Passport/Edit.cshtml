@@ -11,7 +11,7 @@
 <h1>@ViewBag.Title</h1>
 <h6>
     @Html.ActionLink(display, "Index", controller)
-    @*> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.tipstaffRecord.tipstaffRecordID }, null)*@
+    > @Html.ActionLink(Model.passport.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.passport.tipstaffRecord.tipstaffRecordID }, null)
     > Edit passport
 </h6>
 
@@ -21,9 +21,6 @@
     @Html.AntiForgeryToken();
 <fieldset>
     <legend>Edit details</legend>
-    @Html.EditorFor(model => model.passport.tipstaffRecord.tipstaffRecordID)
-    @Html.EditorFor(model => model.tipstaffRecord.tipstaffRecordID)
-    @Html.EditorFor(model => model.tipstaffRecord.UniqueRecordID)
 
     <div class="editor-label">
         @Html.LabelFor(model => model.passport.documentReference, true)
