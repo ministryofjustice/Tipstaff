@@ -68,7 +68,8 @@ namespace Tipstaff.Controllers
         {
             PassportUploadModel model = new PassportUploadModel();
             model.passport = db.Passports.Find(id);
-            model.tipstaffRecordID = model.passport.tipstaffRecordID;
+            //model.tipstaffRecordID = model.passport.tipstaffRecordID;
+            model.passport.tipstaffRecordID = model.tipstaffRecordID;
             if (model.passport == null)
             {
                 ErrorModel errModel = new ErrorModel();
