@@ -9,11 +9,11 @@
     string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
 }
 <h1>@ViewBag.Title</h1>
-<h6>
+@*<h6>
     @Html.ActionLink(display, "Index", controller)
-> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.tipstaffRecord.tipstaffRecordID }, null)
+> @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.tipstaffRecordID }, null)
 > Edit passport
-</h6>
+</h6>*@
 
 @using (Html.BeginForm("Upload", "Passport", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
