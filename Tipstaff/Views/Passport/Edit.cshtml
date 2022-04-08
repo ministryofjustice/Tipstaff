@@ -3,11 +3,6 @@
 @{
     ViewBag.Title = string.Format("Edit passport details for {0}", Model.passport.documentReference);
 }
-@{
-    string controller = genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecord.tipstaffRecordID);
-    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
-    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
-}
 <h1>@ViewBag.Title</h1>
 <h6>
     @Html.ActionLink(display, "Index", controller)
