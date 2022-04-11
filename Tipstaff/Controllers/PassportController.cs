@@ -76,11 +76,11 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = errModel;
                 return RedirectToAction("IndexByModel", "Error", errModel ?? null);
             }
-            //if (model.passport.tipstaffRecord.caseStatus.sequence > 3)
-            //{
-            //    TempData["UID"] = model.passport.tipstaffRecord.UniqueRecordID;
-            //    return RedirectToAction("ClosedFile", "Error");
-            //}
+            if (model.passport.tipstaffRecord.caseStatus.sequence > 3)
+            {
+                TempData["UID"] = model.passport.tipstaffRecord.UniqueRecordID;
+                return RedirectToAction("ClosedFile", "Error");
+            }
             return View(model);
         }
 

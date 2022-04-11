@@ -37,8 +37,8 @@ else
    foreach (var item in Model.Passports.OrderByDescending(x => x.createdOn))
    {
     <tr class="@(isAltRow ? "altRow" : "")">
-        @*@if (!Model.TipstaffRecordClosed)
-        {*@
+        @if (!Model.TipstaffRecordClosed)
+        {
             <td>
                 @if (User.IsInRole("Admin"))
                 {
@@ -46,7 +46,7 @@ else
                 }
                     @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend passport", "Edit", "Passport", new { id = item.documentID }, null, null)
             </td>
-        @*}*@
+        }
         <td>
             @item.createdOn
         </td>
