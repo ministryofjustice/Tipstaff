@@ -1,0 +1,52 @@
+﻿@model Tipstaff.Models.DeletePassport
+
+@{
+    ViewBag.Title = string.Format("Delete passport {0}", Model.Passport.documentReference);
+}
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.Passport.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h1>@ViewBag.Title</h1>
+<h6>
+    @Html.ActionLink(display, "Index", controller)
+    > @Html.ActionLink(Model.passport.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.Passport.tipstaffRecord.tipstaffRecordID }, null)
+    > Delete passport
+</h6>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken();
+    <fieldset>
+        <legend>Are you sure you want to delete this passport?</legend>
+        @Html.HiddenFor(model => model.DeleteModelID)
+        @Html.HiddenFor(model => model.Passport.documentID)
+        <div class="display-label">Passport Reference</div>
+        <div class="display-field">
+            @Html.DisplayFor(modelItem => modelItem.Passport.documentType.Detail)
+            @if (Model.Passport.documentTypeID > 1 && Model.Passport.fileName != null)
+            {
+                @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => modelItem.Passport.fileName)
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => modelItem.Passport.documentReference)
+            }
+        </div>
+        <div class="display-label">CreationData</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => Model.Passport.CreationData)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => Model.DeletedReasonID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.DeletedReasonID)
+        </div>
+    </fieldset>
+    <p>
+        <input type="submit" value="Delete" />
+    </p>
+}
