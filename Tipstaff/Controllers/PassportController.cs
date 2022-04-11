@@ -89,7 +89,7 @@ namespace Tipstaff.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
+                TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
                 db.Entry(model.passport).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecordID), new { id = model.passport.tipstaffRecordID });
