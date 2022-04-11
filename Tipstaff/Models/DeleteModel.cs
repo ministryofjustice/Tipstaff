@@ -94,7 +94,7 @@ namespace Tipstaff.Models
         public DeletePassport() { }
         public DeletePassport(int id)
         {
-            Document = myDBContextHelper.CurrentContext.Passports.Find(id);
+            Passport = myDBContextHelper.CurrentContext.Passports.Find(id);
             DeleteModelID = id;
         }
     }
