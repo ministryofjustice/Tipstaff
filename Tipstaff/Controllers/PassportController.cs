@@ -87,12 +87,20 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Edit(PassportUploadModel model)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
+            //    db.Entry(model.passport).State = EntityState.Modified;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecordID), new { id = model.passport.tipstaffRecordID });
+            //}
+
             if (ModelState.IsValid)
             {
-                TipstaffRecord tr = db.TipstaffRecord.Find(model.passport.tipstaffRecordID);
+                TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
                 db.Entry(model.passport).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecordID), new { id = model.passport.tipstaffRecordID });
+                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.tipstaffRecordID });
             }
 
             return View(model);
