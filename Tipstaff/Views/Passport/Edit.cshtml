@@ -15,7 +15,7 @@
     > Edit passport
 </h6>
 
-@using (Html.BeginForm("Edit", "Passport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken();
