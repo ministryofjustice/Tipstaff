@@ -109,5 +109,39 @@ namespace Tipstaff.Controllers
             return PartialView("_ListPassportsByRecord", model);
         }
 
+        [AuthorizeRedirect(Roles = "Admin")]
+        public ActionResult Delete(int id)
+        {
+            DeletePassport model = new DeletePassport(id);
+            if (model.Passport == null)
+            {
+                ErrorModel errModel = new ErrorModel(2);
+                errModel.ErrorMessage = string.Format("Passport {0} has been deleted, please raise a help desk call if you think this has been deleted in error.", id);
+                TempData["ErrorModel"] = errModel;
+                return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
+            }
+            return View(model);
+        }
+
+        //
+        // POST: /Passport/Delete/5
+
+        [HttpPost, ActionName("Delete"), AuthorizeRedirect(Roles = "Admin")]
+        public ActionResult DeleteConfirmed(DeletePassport model)
+        {
+            model.Passport = db.Passports.Find(model.DeleteModelID);
+            int tipstaffRecordID = model.Passport.tipstaffRecordID;
+            string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
+            db.Passports.Remove(model.Passport);
+            db.SaveChanges();
+            string recDeleted = model.DeleteModelID.ToString();
+            AuditEvent AE = db.AuditEvents.Where(a => a.auditEventDescription.AuditDescription == "Passport deleted" && a.RecordChanged == recDeleted).OrderByDescending(a => a.EventDate).Take(1).Single();
+            //add a deleted reason
+            AE.DeletedReasonID = model.DeletedReasonID;
+            //and save again
+            db.SaveChanges();
+            return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
+        }
+
     }
 }
