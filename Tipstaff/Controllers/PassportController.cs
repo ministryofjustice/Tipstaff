@@ -97,10 +97,10 @@ namespace Tipstaff.Controllers
 
             if (ModelState.IsValid)
             {
-                TipstaffRecord tr = db.TipstaffRecord.Find(Model.passport.tipstaffRecord.tipstaffRecordID);
+                TipstaffRecord tr = db.TipstaffRecord.Find(model.passport.tipstaffRecord.tipstaffRecordID);
                 db.Entry(model.passport).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = Model.passport.tipstaffRecord.tipstaffRecordID });
+                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(tr), new { id = model.passport.tipstaffRecord.tipstaffRecordID });
             }
 
             return View(model);
