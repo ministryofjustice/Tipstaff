@@ -66,7 +66,7 @@ namespace Tipstaff.Controllers
 
         public ActionResult Edit(int id)
         {
-            PassportUploadModel model = new PassportUploadModel(id);
+            PassportUploadModel model = new PassportUploadModel();
             model.passport = db.Passports.Find(id);
             model.tipstaffRecordID = model.passport.tipstaffRecordID;
             if (model.passport == null)
@@ -87,6 +87,7 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Edit(PassportUploadModel model)
         {
+            TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
             if (ModelState.IsValid)
             {
                 db.Entry(model.passport).State = EntityState.Modified;
