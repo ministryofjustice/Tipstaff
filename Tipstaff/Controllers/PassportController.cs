@@ -87,22 +87,22 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Edit(PassportUploadModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    db.Entry(model.passport).State = EntityState.Modified;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecord.tipstaffRecordID), new { id = model.passport.tipstaffRecord.tipstaffRecordID });
-            //}
-
             if (ModelState.IsValid)
             {
-             model.passport = db.Passports.Find(model.passport.documentID);
-             int tipstaffRecordID = model.passport.tipstaffRecordID;
-             string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
-             db.Passports.Update(model.passport);
-             db.SaveChanges();
-             return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
+                db.Entry(model.passport).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecord.tipstaffRecordID), new { id = model.passport.tipstaffRecord.tipstaffRecordID });
             }
+            //model.passport = db.Passports.Find(model.passport.documentID);
+            //int tipstaffRecordID = model.passport.tipstaffRecordID;
+            //string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
+            //if (ModelState.IsValid)
+            //{
+            // TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
+            // tr.Passports.Update(model.passport);
+            // db.SaveChanges();
+            // return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
+            //}
             return View(model);
         }
 
