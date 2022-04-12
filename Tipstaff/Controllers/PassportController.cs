@@ -67,7 +67,7 @@ namespace Tipstaff.Controllers
         public ActionResult Edit(int id)
         {
             PassportUploadModel model = new PassportUploadModel();
-            model.passport = db.Passports.Find(id);
+            model.passport = db.Documents.Find(id);
             model.tipstaffRecordID = model.passport.tipstaffRecordID;
             if (model.passport == null)
             {
@@ -91,18 +91,8 @@ namespace Tipstaff.Controllers
             {
                 db.Entry(model.passport).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecord.tipstaffRecordID), new { id = model.passport.tipstaffRecord.tipstaffRecordID });
+                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecordID), new { id = model.passport.tipstaffRecordID });
             }
-            //model.passport = db.Passports.Find(model.passport.documentID);
-            //int tipstaffRecordID = model.passport.tipstaffRecordID;
-            //string controller = genericFunctions.TypeOfTipstaffRecord(tipstaffRecordID);
-            //if (ModelState.IsValid)
-            //{
-            // TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
-            // tr.Passports.Update(model.passport);
-            // db.SaveChanges();
-            // return RedirectToAction("Details", controller, new { id = tipstaffRecordID });
-            //}
             return View(model);
         }
 
