@@ -66,8 +66,8 @@ namespace Tipstaff.Controllers
 
         public ActionResult Edit(int id)
         {
-            PassportUploadModel model = new PassportUploadModel();
-            model.passport = db.Documents.Find(id);
+            PassportUploadModel model = new PassportUploadModel(id);
+            model.passport = db.Passports.Find(id);
             model.tipstaffRecordID = model.passport.tipstaffRecordID;
             if (model.passport == null)
             {
