@@ -324,6 +324,7 @@
     <Compile Include="Models\ContactModels.cs" />
     <Compile Include="Models\DeletedTipstaffRecords.cs" />
     <Compile Include="Models\DeleteModel.cs" />
+    <Compile Include="Models\PassportModel.cs" />
     <Compile Include="Models\DocumentModels.cs" />
     <Compile Include="DAL\TipstaffDB.cs" />
     <Compile Include="Models\ErrorModels.cs" />
