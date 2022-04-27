@@ -22,7 +22,7 @@ namespace Tipstaff.Models
         [Required, Display(Name = "Passport Status")]
         public int passportStatusID { get; set; }
         [Required, Display(Name = "Passport Type")]
-        public int passportTypeID { get; set; }
+        public int documentTypeID { get; set; }
         public int? templateID { get; set; }
         [ScaffoldColumn(false),Display(Name="Created on")]
         public DateTime createdOn { get; set; }
