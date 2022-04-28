@@ -21,7 +21,7 @@
     <fieldset>
         <legend>Are you sure you want to delete this passport?</legend>
         @Html.HiddenFor(model => model.DeleteModelID)
-        @Html.HiddenFor(model => model.Passport.documentID)
+        @Html.HiddenFor(model => model.Passport.passportID)
         <div class="display-label">Passport Reference</div>
         <div class="display-field">
             @Html.DisplayFor(modelItem => modelItem.Passport.documentType.Detail)
