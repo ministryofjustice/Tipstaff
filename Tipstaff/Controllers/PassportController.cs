@@ -67,25 +67,57 @@ namespace Tipstaff.Controllers
         // GET: /Passport/Edit/5
         public ActionResult Edit(int id)
         {
-            //PassportEditModel model = new PassportEditModel();
-            //model.passport = db.Passports.Find(id);
-            Passport model = db.Passports.Find(id);
+            PassportEditModel model = new PassportEditModel();
+            model.passport = db.Passports.Find(id);
             return View(model);
         }
 
         //
         // POST: /Passport/Edit/5
         [HttpPost]
-        public ActionResult Edit(Passport passport)
+        public ActionResult Edit(PassportEditModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(passport).State = EntityState.Modified;
+                db.Entry(model.passport).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(passport.tipstaffRecordID), new { id = passport.tipstaffRecordID });
+                return RedirectToAction("Details", "ChildAbduction", new { id = model.passport.tipstaffRecordID });
             }
-            return View(passport);
+            return View(model);
         }
+
+        //public ActionResult Edit(int id)
+        //{
+        //    PassportUploadModel model = new PassportUploadModel(id);
+        //    model.passport = db.Passports.Find(id);
+        //    model.tipstaffRecordID = model.passport.tipstaffRecordID;
+        //    if (model.passport == null)
+        //    {
+        //        ErrorModel errModel = new ErrorModel();
+        //        errModel.ErrorMessage = "No respondent with that ID can be found";
+        //        TempData["ErrorModel"] = errModel;
+        //        return RedirectToAction("IndexByModel", "Error", errModel ?? null);
+        //    }
+        //    if (model.passport.tipstaffRecord.caseStatus.sequence > 3)
+        //    {
+        //        TempData["UID"] = model.passport.tipstaffRecord.UniqueRecordID;
+        //        return RedirectToAction("ClosedFile", "Error");
+        //    }
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public ActionResult Edit(PassportUploadModel model)
+        //{
+        //    TipstaffRecord tr = db.TipstaffRecord.Find(model.tipstaffRecordID);
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(model.passport).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Details", genericFunctions.TypeOfTipstaffRecord(model.passport.tipstaffRecordID), new { id = model.passport.tipstaffRecordID });
+        //    }
+        //    return View(model);
+        //}
 
         public PartialViewResult ListPassportsByRecord(int id, int? page)
         {
