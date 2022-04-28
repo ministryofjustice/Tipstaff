@@ -1,7 +1,7 @@
 ﻿@model Tipstaff.Models.DeletePassport
 
 @{
-    ViewBag.Title = string.Format("Delete passport {0}", Model.Passport.documentReference);
+    ViewBag.Title = string.Format("Delete passport {0}", Model.Passport.passportReference);
 }
 @{
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.Passport.tipstaffRecordID);
@@ -31,7 +31,7 @@
             }
             else
             {
-                @Html.DisplayFor(modelItem => modelItem.Passport.documentReference)
+                @Html.DisplayFor(modelItem => modelItem.Passport.passportReference)
             }
         </div>
         <div class="display-label">CreationData</div>
