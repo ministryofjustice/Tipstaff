@@ -254,7 +254,6 @@ namespace Tipstaff.Models
                                 foreach (string propertyName in entry.GetModifiedProperties())
                                 {
                                     System.Diagnostics.Debug.Print(propertyName);
-                                    MessageBox.Show(propertyName);
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
                                     string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
                                     if (oldValue == "") oldValue = "Empty";
