@@ -249,7 +249,7 @@ namespace Tipstaff.Models
                                 //System.Diagnostics.Trace.TraceInformation("Test message.");
                                 //// You must close or flush the trace to empty the output buffer.
                                 //System.Diagnostics.Trace.Flush();
-                                System.IO.FileStream fs = System.IO.File.Create("TipstaffOutput.log");
+                                System.IO.FileStream fs = System.IO.File.Create("C:\tmp\TipstaffOutput.log");
                                 fs.Write(System.Text.Encoding.ASCII.GetBytes("blah"), 0, 4);
                                 fs.Flush();
                                 string objName = string.Format("{0} Amended", objType);
