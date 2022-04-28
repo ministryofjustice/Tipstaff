@@ -466,6 +466,21 @@ namespace Tipstaff.Models
         public string deactivatedBy { get; set; }
     }
 
+    public class PassportStatus
+    {
+        [Key]
+        public int PassportStatusID { get; set; }
+
+        [Required, MaxLength(40), Display(Name = "Passport Status")]
+        public string Detail { get; set; }
+
+        public bool active { get; set; }
+        public DateTime? deactivated { get; set; }
+
+        [MaxLength(50)]
+        public string deactivatedBy { get; set; }
+    }
+
     public class ChildRelationship
     {
         [Key]
