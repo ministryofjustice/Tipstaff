@@ -245,6 +245,10 @@ namespace Tipstaff.Models
                             }
                         case EntityState.Modified:
                             {
+                                System.Diagnostics.Trace.Listeners.Add(new System.Diagnostics.TextWriterTraceListener("TipstaffOutput.log", "myListener"));
+                                System.Diagnostics.Trace.TraceInformation("Test message.");
+                                // You must close or flush the trace to empty the output buffer.
+                                System.Diagnostics.Trace.Flush();
                                 string objName = string.Format("{0} Amended", objType);
                                 int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
@@ -253,8 +257,7 @@ namespace Tipstaff.Models
                                 List<AuditEventDataRow> data = new List<AuditEventDataRow>();
                                 foreach (string propertyName in entry.GetModifiedProperties())
                                 {
-                                    System.Diagnostics.Debug.Print(propertyName);
-                                    Console.WriteLine(propertyName);
+                                    System.Diagnostics.Trace.TraceInformation(propertyName);
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
                                     string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
                                     if (oldValue == "") oldValue = "Empty";
