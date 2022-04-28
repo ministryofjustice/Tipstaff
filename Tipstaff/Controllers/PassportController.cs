@@ -67,7 +67,7 @@ namespace Tipstaff.Controllers
         // GET: /Passport/Edit/5
         public ActionResult Edit(int id)
         {
-            PassportUploadModel model = new PassportUploadModel();
+            PassportEditModel model = new PassportEditModel();
             model.passport = db.Passports.Find(id);
             return View(model);
         }
@@ -75,7 +75,7 @@ namespace Tipstaff.Controllers
         //
         // POST: /Passport/Edit/5
         [HttpPost]
-        public ActionResult Edit(PassportUploadModel model)
+        public ActionResult Edit(PassportEditModel model)
         {
             if (ModelState.IsValid)
             {

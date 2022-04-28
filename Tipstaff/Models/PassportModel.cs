@@ -90,4 +90,21 @@ namespace Tipstaff.Models
             NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
         }
     }
+
+    public class PassportEditModel
+    {
+        public Passport passport { get; set; }
+        public SelectList CountryList { get; set; }
+        public SelectList NationalityList { get; set; }
+        public SelectList StatusList { get; set; }
+        public SelectList TypeList { get; set; }
+        public PassportEditModel()
+        {
+            CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
+            StatusList = new SelectList(myDBContextHelper.CurrentContext.DocumentStatuses.Where(x => x.active == true).Where(s => s.Detail != "Generated").ToList(), "passportStatusID", "Detail");
+            TypeList = new SelectList(myDBContextHelper.CurrentContext.DocumentTypes.Where(x => x.active == true).Where(t => t.Detail != "Generated").ToList(), "documentTypeID", "Detail");
+            NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+        }
+
+    }
 }
