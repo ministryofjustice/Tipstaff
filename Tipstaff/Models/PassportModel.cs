@@ -93,6 +93,7 @@ namespace Tipstaff.Models
 
     public class PassportEditModel
     {
+        public int tipstaffRecordID { get; set; }
         public Passport passport { get; set; }
         public SelectList CountryList { get; set; }
         public SelectList NationalityList { get; set; }

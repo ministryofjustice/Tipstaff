@@ -11,6 +11,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Configuration;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Tipstaff.Models
 {
@@ -253,7 +254,8 @@ namespace Tipstaff.Models
                                 List<AuditEventDataRow> data = new List<AuditEventDataRow>();
                                 foreach (string propertyName in entry.GetModifiedProperties())
                                 {
-
+                                    System.Diagnostics.Debug.Print(propertyName);
+                                    MessageBox.Show(propertyName);
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
                                     string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
                                     if (oldValue == "") oldValue = "Empty";
