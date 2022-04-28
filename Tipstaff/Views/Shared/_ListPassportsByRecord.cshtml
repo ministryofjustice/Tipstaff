@@ -42,9 +42,9 @@ else
             <td>
                 @if (User.IsInRole("Admin"))
                 {
-                    @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Passport", new { id = item.documentID }, null, null)
+                    @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Passport", new { id = item.passportID }, null, null)
                 }
-                    @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend passport", "Edit", "Passport", new { id = item.documentID }, null, null)
+                    @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend passport", "Edit", "Passport", new { id = item.passportID }, null, null)
             </td>
         }
         <td>
@@ -86,7 +86,7 @@ else
 }
     </table>
 }
-@Html.AjaxPager(Model.Passports, "ListPassportsByRecord", "Passport"
+@Html.AjaxPager(Model.Passports, "ListPassportsByRecord", "Document"
                                     , new PagerOptions
                                     {
                                         ShowFirstLast = true,
