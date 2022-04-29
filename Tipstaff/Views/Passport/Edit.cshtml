@@ -1,7 +1,8 @@
 ﻿@model Tipstaff.Models.PassportEditModel
 
 @{
-    ViewBag.Title = string.Format("Edit passport details for {0}", Model.passport.passportReference);
+    ViewBag.Title = string.Format("Edit passport details for {0} ID: {1} UniqueID: {2}",
+    Model.passport.passportReference, Model.passport.passportID, Model.passport.tipstaffRecord.tipstaffRecordID);
 }
 @{
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.passport.tipstaffRecordID);
