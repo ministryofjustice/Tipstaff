@@ -40,7 +40,7 @@ namespace Tipstaff.Models
         public virtual DocumentStatus documentStatus { get; set; }
         public virtual DocumentType documentType { get; set; }
         public virtual Template template { get; set; }
-        public virtual TipstaffRecord tipstaffRecord { get; set; }
+        // public virtual TipstaffRecord tipstaffRecord { get; set; }
         [MaxLength(250), Display(Name = "Comments")]
         public string comments { get; set; }
         public string CreationData
