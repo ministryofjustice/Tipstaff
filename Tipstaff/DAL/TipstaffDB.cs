@@ -11,6 +11,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Configuration;
 using System.Reflection;
+using System.Data.Objects;
 
 namespace Tipstaff.Models
 {
@@ -265,10 +266,12 @@ namespace Tipstaff.Models
                                 fs.Write(System.Text.Encoding.ASCII.GetBytes(auditRecord.RecordChanged), 0, auditRecord.RecordChanged.Length);
                                 List<AuditEventDataRow> data = new List<AuditEventDataRow>();
 
-                                for(var i = 0; i < entry.CurrentValues.FieldCount; i++)
+                                CurrentValueRecord cr = entry.CurrentValues;
+
+                                for(var i = 0; i < cr.FieldCount; i++)
                                 {
-                                    string item = entry.CurrentValues.Item[i].ToString();
-                                    string val = entry.CurrentValues.GetValue(i).ToString();
+                                    string item = cr.GetName(i);
+                                    string val = cr.GetValue(i).ToString();
                                     fs.Write(System.Text.Encoding.ASCII.GetBytes("Item: "), 0, 6);
                                     fs.Write(System.Text.Encoding.ASCII.GetBytes(item), 0, item.Length);
                                     fs.Write(newline, 0, newline.Length);
