@@ -249,14 +249,14 @@ namespace Tipstaff.Models
                                 //System.Diagnostics.Trace.TraceInformation("Test message.");
                                 //// You must close or flush the trace to empty the output buffer.
                                 //System.Diagnostics.Trace.Flush();
-                                System.IO.FileStream fs = System.IO.File.Create("C:\\tmp\\TipstaffOutput.log");
-                                fs.Write(System.Text.Encoding.ASCII.GetBytes("blah"), 0, 4);
-                                fs.Flush();
+                                System.IO.FileStream fs = System.IO.File.Open("C:\\tmp\\TipstaffOutput.log", System.IO.FileMode.Append);
                                 string objName = string.Format("{0} Amended", objType);
+                                fs.Write(System.Text.Encoding.ASCII.GetBytes(objName), 0, objName.Length);
                                 int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
                                 auditRecord.idAuditEventDescription = AuditType;
                                 auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
+                                fs.Write(System.Text.Encoding.ASCII.GetBytes(auditRecord.RecordChanged), 0, auditRecord.RecordChanged.Length);
                                 List<AuditEventDataRow> data = new List<AuditEventDataRow>();
                                 foreach (string propertyName in entry.GetModifiedProperties())
                                 {
@@ -290,6 +290,7 @@ namespace Tipstaff.Models
                                 {
                                     auditRecord.AuditEventDataRows = data;
                                 }
+                                fs.Close();
                                 break;
                             }
                     }
