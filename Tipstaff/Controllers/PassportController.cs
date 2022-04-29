@@ -24,17 +24,17 @@ namespace Tipstaff.Controllers
         }
 
         [HttpGet]
-        public ActionResult Upload(int id)
+        public ActionResult Upload(int id, bool initial = false)
         {
-            PassportUploadModel model = new PassportUploadModel();
-            model.tipstaffRecordID = id;
-            model.tipstaffRecord = db.TipstaffRecord.Find(id);
+            PassportUploadModel model = new PassportUploadModel(id);
+            //model.tipstaffRecordID = id;
+            //model.tipstaffRecord = db.TipstaffRecord.Find(id);
             if (model.tipstaffRecord.caseStatus.sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
                 return RedirectToAction("ClosedFile", "Error");
             }
-
+            model.initial = initial;
             return View(model);
         }
         [HttpPost]
@@ -67,7 +67,7 @@ namespace Tipstaff.Controllers
         // GET: /Passport/Edit/5
         public ActionResult Edit(int id)
         {
-            PassportEditModel model = new PassportEditModel();
+            PassportUploadModel model = new PassportUploadModel();
             model.passport = db.Passports.Find(id);
             return View(model);
         }
@@ -75,7 +75,7 @@ namespace Tipstaff.Controllers
         //
         // POST: /Passport/Edit/5
         [HttpPost]
-        public ActionResult Edit(PassportEditModel model)
+        public ActionResult Edit(PassportUploadModel model)
         {
             if (ModelState.IsValid)
             {

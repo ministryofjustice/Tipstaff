@@ -40,7 +40,6 @@ namespace Tipstaff.Models
         public virtual DocumentStatus documentStatus { get; set; }
         public virtual DocumentType documentType { get; set; }
         public virtual Template template { get; set; }
-        public virtual TipstaffRecord tipstaffRecord { get; set; }
         // public virtual TipstaffRecord tipstaffRecord { get; set; }
         [MaxLength(250), Display(Name = "Comments")]
         public string comments { get; set; }
@@ -61,18 +60,16 @@ namespace Tipstaff.Models
 
     public class PassportUploadModel
     {
-        public Passport passport { get; set; }
         public int tipstaffRecordID { get; set; }
-        public TipstaffRecord tipstaffRecord { get; set; }
+        public Passport passport { get; set; }
         public HttpPostedFileBase uploadFile { get; set; }
-        public Document document { get; set; }
         public SelectList CountryList { get; set; }
         public SelectList NationalityList { get; set; }
         [Required]
         public SelectList StatusList { get; set; }
         public SelectList TypeList { get; set; }
-        //public List<DocumentStatus> Statuses { get; set; }
-        //public List<DocumentType> Types { get; set; }
+        public virtual TipstaffRecord tipstaffRecord { get; set; }
+        public bool initial { get; set; }
         public PassportUploadModel()
         {
             CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
@@ -89,23 +86,5 @@ namespace Tipstaff.Models
             TypeList = new SelectList(myDBContextHelper.CurrentContext.DocumentTypes.Where(x => x.active == true).Where(t => t.Detail != "Generated").ToList(), "documentTypeID", "Detail");
             NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
         }
-    }
-
-    public class PassportEditModel
-    {
-        public int tipstaffRecordID { get; set; }
-        public Passport passport { get; set; }
-        public SelectList CountryList { get; set; }
-        public SelectList NationalityList { get; set; }
-        public SelectList StatusList { get; set; }
-        public SelectList TypeList { get; set; }
-        public PassportEditModel()
-        {
-            CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
-            StatusList = new SelectList(myDBContextHelper.CurrentContext.DocumentStatuses.Where(x => x.active == true).Where(s => s.Detail != "Generated").ToList(), "documentStatusID", "Detail");
-            TypeList = new SelectList(myDBContextHelper.CurrentContext.DocumentTypes.Where(x => x.active == true).Where(t => t.Detail != "Generated").ToList(), "documentTypeID", "Detail");
-            NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
-        }
-
     }
 }
