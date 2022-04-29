@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = string.Format("Edit passport details for {0} ID: {1} UniqueID: {2}",
-    Model.passport.passportReference, Model.passport.passportID, Model.passport.tipstaffRecord.tipstaffRecordID);
+    Model.passport.passportReference, Model.passport.passportID, Model.tipstaffRecord.tipstaffRecordID);
 }
 @{
     string controller = genericFunctions.TypeOfTipstaffRecord(Model.passport.tipstaffRecordID);
@@ -12,7 +12,7 @@
 <h1>@ViewBag.Title</h1>
 <h6>
     @Html.ActionLink(display, "Index", controller)
-    > @Html.ActionLink(Model.passport.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.passport.tipstaffRecord.tipstaffRecordID }, null)
+    > @Html.ActionLink(Model.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.tipstaffRecord.tipstaffRecordID }, null)
     > Edit passport
 </h6>
 
