@@ -50,6 +50,8 @@ namespace Tipstaff.Models
         public string phone { get; set; }
         [MaxLength(100), Display(Name = "Email"), DisplayFormat(ConvertEmptyStringToNull = true)]
         public string email { get; set; }
+        [MaxLength(20), Display(Name = "Secondary Phone")]
+        public string secondaryPhone { get; set; }
         [Required]
         public int tipstaffRecordID { get; set; }
 

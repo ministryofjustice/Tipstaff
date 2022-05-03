@@ -239,6 +239,14 @@
                     @Html.EditorFor(model => model.respondent.email)
                     @Html.ValidationMessageFor(model => model.respondent.email)
                 </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.respondent.secondaryPhone, true)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.respondent.secondaryPhone)
+                    @Html.ValidationMessageFor(model => model.respondent.secondaryPhone)
+                </div>
             }
 
 
