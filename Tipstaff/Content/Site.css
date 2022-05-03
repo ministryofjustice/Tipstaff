@@ -439,14 +439,15 @@ ul.recordMenu-tabs >li >a
     line-height:normal;
     padding-bottom:1em;
 }
-.display-field
-{
-    margin:0px;
-    height:15px;
-    line-height:normal;
-    padding-top:0.5em;
-    padding-bottom:0.5em;
+.display-field {
+    margin: 0px;
+    height: 15px;
+    line-height: normal;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     text-align: left;
+    min-height: 8em;
+    padding-left: 218px;
 }
 .details-wrapround {
     margin-left: 11em;
