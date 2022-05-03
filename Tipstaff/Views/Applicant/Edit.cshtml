@@ -106,6 +106,14 @@
             @Html.ValidationMessageFor(model => model.applicant.email)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.secondaryPhone, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.secondaryPhone)
+            @Html.ValidationMessageFor(model => model.applicant.secondaryPhone)
+        </div>
+
         <p>
             <input type="submit" value="Save" />
         </p>
