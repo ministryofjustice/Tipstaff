@@ -94,6 +94,14 @@
         @Html.ValidationMessageFor(model => model.address.email)
     </div>
 
+    <div class="editor-label">
+        @Html.LabelFor(model => model.address.secondaryPhone, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.address.secondaryPhone)
+        @Html.ValidationMessageFor(model => model.address.secondaryPhone)
+    </div>
+
     <p>
         <input type="submit" value="Save" />
     </p>
