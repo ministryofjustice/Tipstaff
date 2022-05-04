@@ -244,48 +244,15 @@ namespace Tipstaff.Models
                                 break;
                             }
                         case EntityState.Modified:
-                            {
-                                byte[] newline = System.Text.Encoding.ASCII.GetBytes(Environment.NewLine);
-                                
-                                //System.Diagnostics.Trace.Listeners.Add(new System.Diagnostics.TextWriterTraceListener("TipstaffOutput.log", "myListener"));
-                                //System.Diagnostics.Trace.TraceInformation("Test message.");
-                                //// You must close or flush the trace to empty the output buffer.
-                                //System.Diagnostics.Trace.Flush();
-                                System.IO.FileStream fs = System.IO.File.Open("C:\\tmp\\TipstaffOutput.log", System.IO.FileMode.Append);
+                            {                                
                                 string objName = string.Format("{0} Amended", objType);
-
-
-                                fs.Write(System.Text.Encoding.ASCII.GetBytes(objName), 0, objName.Length);
-                                fs.Write(newline, 0, newline.Length);
-
                                 int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
                                 auditRecord.idAuditEventDescription = AuditType;
                                 auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
-                                fs.Write(System.Text.Encoding.ASCII.GetBytes(auditRecord.RecordChanged), 0, auditRecord.RecordChanged.Length);
                                 List<AuditEventDataRow> data = new List<AuditEventDataRow>();
-
-                                System.Data.Objects.CurrentValueRecord cr = entry.CurrentValues;
-
-                                for(var i = 0; i < cr.FieldCount; i++)
-                                {
-                                    string item = cr.GetName(i);
-                                    string val = cr.GetValue(i).ToString();
-                                    fs.Write(System.Text.Encoding.ASCII.GetBytes("Item: "), 0, 6);
-                                    fs.Write(System.Text.Encoding.ASCII.GetBytes(item), 0, item.Length);
-                                    fs.Write(newline, 0, newline.Length);
-                                    fs.Write(System.Text.Encoding.ASCII.GetBytes("Value: "), 0, 8);
-                                    fs.Write(System.Text.Encoding.ASCII.GetBytes(val), 0, val.Length);
-                                    fs.Write(newline, 0, newline.Length);
-                                }
-
-
                                 foreach (string propertyName in entry.GetModifiedProperties())
                                 {
-                                    //System.Diagnostics.Trace.TraceInformation(propertyName);
-                                    fs.Write(System.Text.Encoding.ASCII.GetBytes(propertyName), 0, propertyName.Length);
-                                    fs.Write(newline, 0, newline.Length);
-                                    fs.Flush();
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
                                     string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
                                     if (oldValue == "") oldValue = "Empty";
@@ -313,7 +280,6 @@ namespace Tipstaff.Models
                                 {
                                     auditRecord.AuditEventDataRows = data;
                                 }
-                                fs.Close();
                                 break;
                             }
                     }
