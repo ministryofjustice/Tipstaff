@@ -60,12 +60,12 @@
         @Html.DropDownListFor(model => model.passport.passportStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
         @Html.ValidationMessageFor(model => model.passport.passportStatusID)
     </div>
-    @*<div class="editor-label">
-            Please select file to upload
-        </div>
-        <div class="editor-field">
-            <input name="uploadFile" type="file" title="Upload file" />
-        </div>*@
+    <div class="editor-label">
+        Please select file to upload
+    </div>
+    <div class="editor-field">
+        <input name="uploadFile" type="file" title="Upload file" />
+    </div>
     @Html.HiddenFor(model => model.passport.tipstaffRecordID)
 
     <div class="editor-label">
