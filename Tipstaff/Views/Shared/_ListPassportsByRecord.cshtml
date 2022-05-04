@@ -28,6 +28,9 @@ else
         <th>
             @Html.LabelFor(model => model.Passports.First().comments)
         </th>
+        <th>
+            View Details
+        </th>
         <td style="background-color: #dddddd">&nbsp;</td>
     </tr>
 @{ var isAltRow = false;
@@ -60,7 +63,7 @@ else
             @Html.DisplayFor(modelItem => item.passportReference)
         </td>
         <td>
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.documentType.Detail, string.Format("View {0}", item.documentType.Detail), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
+            @Html.DisplayFor(modelItem => item.documentType.Detail)
             @if (item.documentTypeID > 1 && item.fileName != null)
             {
                 @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => item.fileName)
@@ -82,6 +85,9 @@ else
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.comments)
+        </td>
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), "Details", string.Format("View {0}", "Details"), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
         </td>
     </tr>
             isAltRow = !isAltRow;
