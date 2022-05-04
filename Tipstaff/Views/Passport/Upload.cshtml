@@ -44,6 +44,13 @@
             @Html.DropDownListFor(model => model.passport.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })
             @Html.ValidationMessageFor(model => model.passport.nationalityID)
         </div>
+                <div class="editor-label">
+            @Html.LabelFor(model => model.passport.documentTypeID, true)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.passport.documentTypeID, Model.TypeList, "Select a Type", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.passport.documentTypeID)
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.passport.passportStatusID, true)
         </div>
