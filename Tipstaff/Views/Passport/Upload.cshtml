@@ -45,11 +45,11 @@
             @Html.ValidationMessageFor(model => model.passport.nationalityID)
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => model.passport.documentStatusID, true)
+            @Html.LabelFor(model => model.passport.passportStatusID, true)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.passport.documentStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.passport.documentStatusID)
+            @Html.DropDownListFor(model => model.passport.passportStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.passport.passportStatusID)
         </div>
         <div class="editor-label">
             Please select file to upload
