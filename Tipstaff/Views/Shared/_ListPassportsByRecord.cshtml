@@ -69,11 +69,11 @@ else
         <td>
             @if (item.binaryFile != null && item.passportStatusID > 1)
             {
-                @Html.DisplayFor(modelitem => item.documentStatus.Detail) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.passportID }, null, null, "createButton")
+                @Html.DisplayFor(modelitem => item.documentStatus.Detail) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
             }
             else if (item.binaryFile != null && item.passportStatusID == 1)
             {
-                @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractDocument", "Document", new { id = item.passportID }, null, null, "createButton")
+                @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
             }
             else
             {
