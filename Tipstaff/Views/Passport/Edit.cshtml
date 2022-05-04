@@ -28,6 +28,8 @@
     @Html.HiddenFor(model => model.passport.createdOn)
     @Html.HiddenFor(model => model.passport.createdBy)
     @Html.HiddenFor(model => model.passport.fileName)
+    @Html.HiddenFor(model => model.passport.binaryFile)
+    @Html.HiddenFor(model => model.passport.mimeType)
 
     <div class="editor-label">
         @Html.LabelFor(model => model.passport.passportReference, true)
@@ -59,11 +61,11 @@
         @Html.ValidationMessageFor(model => model.passport.passportStatusID)
     </div>
     @*<div class="editor-label">
-        Please select file to upload
-    </div>
-    <div class="editor-field">
-        <input name="uploadFile" type="file" title="Upload file" />
-    </div>*@
+            Please select file to upload
+        </div>
+        <div class="editor-field">
+            <input name="uploadFile" type="file" title="Upload file" />
+        </div>*@
     @Html.HiddenFor(model => model.passport.tipstaffRecordID)
 
     <div class="editor-label">
