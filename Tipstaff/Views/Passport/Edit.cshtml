@@ -26,6 +26,9 @@
     @Html.HiddenFor(model => model.passport.passportID)
     @Html.HiddenFor(model => model.passport.documentTypeID)
 
+    @Html.HiddenFor(model => model.passport.createdOn)
+    @Html.HiddenFor(model => model.passport.createdBy)
+
     <div class="editor-label">
         @Html.LabelFor(model => model.passport.passportReference, true)
     </div>
