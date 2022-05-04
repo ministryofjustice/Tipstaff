@@ -97,6 +97,29 @@ namespace Tipstaff.Controllers
             return PartialView("_ListPassportsByRecord", model);
         }
 
+        public ActionResult ExtractPassport(int id)
+        {
+            try
+            {
+                Passport doc = db.Passports.Find(id);
+                if (doc == null)
+                {
+                    ErrorModel errModel = new ErrorModel(2);
+                    errModel.ErrorMessage = string.Format("Passport {0} has been deleted, please raise a help desk call if you think this has been deleted in error.", id);
+                    TempData["ErrorModel"] = errModel;
+                    return RedirectToAction("IndexByModel", "Error", new { area = "", model = errModel ?? null });
+                }
+                byte[] file = doc.binaryFile;
+                return File(file, doc.mimeType, doc.fileName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception in PassportController in ExtractPassport method, for user {((CPrincipal)User).UserID}");
+
+                return View("Error");
+            }
+        }
+
         [AuthorizeRedirect(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
