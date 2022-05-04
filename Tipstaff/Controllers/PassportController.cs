@@ -25,7 +25,7 @@ namespace Tipstaff.Controllers
 
         public ActionResult Details(int id)
         {
-            Passport model = db.Passport.Find(id);
+            Passport model = db.Passports.Find(id);
             return View(model);
         }
 
