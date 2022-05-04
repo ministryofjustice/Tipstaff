@@ -23,6 +23,12 @@ namespace Tipstaff.Controllers
             _logger = logger;
         }
 
+        public ActionResult Details(int id)
+        {
+            Passport model = db.Passport.Find(id);
+            return View(model);
+        }
+
         [HttpGet]
         public ActionResult Upload(int id, bool initial = false)
         {
