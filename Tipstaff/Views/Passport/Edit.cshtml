@@ -27,6 +27,7 @@
     @Html.HiddenFor(model => model.passport.documentTypeID)
     @Html.HiddenFor(model => model.passport.createdOn)
     @Html.HiddenFor(model => model.passport.createdBy)
+    @Html.HiddenFor(model => model.passport.fileName)
 
     <div class="editor-label">
         @Html.LabelFor(model => model.passport.passportReference, true)
@@ -57,12 +58,12 @@
         @Html.DropDownListFor(model => model.passport.passportStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
         @Html.ValidationMessageFor(model => model.passport.passportStatusID)
     </div>
-    <div class="editor-label">
+    @*<div class="editor-label">
         Please select file to upload
     </div>
     <div class="editor-field">
         <input name="uploadFile" type="file" title="Upload file" />
-    </div>
+    </div>*@
     @Html.HiddenFor(model => model.passport.tipstaffRecordID)
 
     <div class="editor-label">

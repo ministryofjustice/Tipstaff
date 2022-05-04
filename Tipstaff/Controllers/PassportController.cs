@@ -33,8 +33,8 @@ namespace Tipstaff.Controllers
         public ActionResult Upload(int id, bool initial = false)
         {
             PassportUploadModel model = new PassportUploadModel(id);
-            //model.tipstaffRecordID = id;
-            //model.tipstaffRecord = db.TipstaffRecord.Find(id);
+            model.tipstaffRecordID = id;
+            model.tipstaffRecord = db.TipstaffRecord.Find(id);
             if (model.tipstaffRecord.caseStatus.sequence > 3)
             {
                 TempData["UID"] = model.tipstaffRecord.UniqueRecordID;
