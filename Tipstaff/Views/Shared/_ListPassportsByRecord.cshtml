@@ -57,11 +57,10 @@ else
             @Html.DisplayFor(modelItem => item.createdBy)
         </td>
         <td>
-            @*@Html.DisplayFor(modelItem => item.passportReference)*@
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.passportReference, string.Format("View {0}", item.passportReference), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
+            @Html.DisplayFor(modelItem => item.passportReference)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.documentType.Detail)
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.documentType.Detail, string.Format("View {0}", item.documentType.Detail), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
             @if (item.documentTypeID > 1 && item.fileName != null)
             {
                 @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => item.fileName)
