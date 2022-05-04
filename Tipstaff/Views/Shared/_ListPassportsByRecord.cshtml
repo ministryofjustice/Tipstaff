@@ -29,7 +29,7 @@ else
             @Html.LabelFor(model => model.Passports.First().comments)
         </th>
         <th>
-            View Details
+            Details
         </th>
         <td style="background-color: #dddddd">&nbsp;</td>
     </tr>
@@ -87,7 +87,7 @@ else
             @Html.DisplayFor(modelItem => item.comments)
         </td>
         <td>
-            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), "Details", string.Format("View {0}", "Details"), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), string.Format("View {0}", "Details"), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
         </td>
     </tr>
             isAltRow = !isAltRow;
