@@ -245,24 +245,14 @@ namespace Tipstaff.Models
                             }
                         case EntityState.Modified:
                             {
-                                //System.Diagnostics.Trace.Listeners.Add(new System.Diagnostics.TextWriterTraceListener("TipstaffOutput.log", "myListener"));
-                                //System.Diagnostics.Trace.TraceInformation("Test message.");
-                                //// You must close or flush the trace to empty the output buffer.
-                                //System.Diagnostics.Trace.Flush();
-                                System.IO.FileStream fs = System.IO.File.Open("C:\\tmp\\TipstaffOutput.log", System.IO.FileMode.Append);
                                 string objName = string.Format("{0} Amended", objType);
-                                fs.Write(System.Text.Encoding.ASCII.GetBytes(objName), 0, objName.Length);
                                 int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
                                 auditRecord.idAuditEventDescription = AuditType;
                                 auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
-                                fs.Write(System.Text.Encoding.ASCII.GetBytes(auditRecord.RecordChanged), 0, auditRecord.RecordChanged.Length);
                                 List<AuditEventDataRow> data = new List<AuditEventDataRow>();
                                 foreach (string propertyName in entry.GetModifiedProperties())
                                 {
-                                    //System.Diagnostics.Trace.TraceInformation(propertyName);
-                                    fs.Write(System.Text.Encoding.ASCII.GetBytes(propertyName), 0, propertyName.Length);
-                                    fs.Flush();
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
                                     string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
                                     if (oldValue == "") oldValue = "Empty";
@@ -290,7 +280,6 @@ namespace Tipstaff.Models
                                 {
                                     auditRecord.AuditEventDataRows = data;
                                 }
-                                fs.Close();
                                 break;
                             }
                     }
