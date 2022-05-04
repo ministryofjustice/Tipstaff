@@ -9,10 +9,7 @@ else
 {
 <table width="100%" style="padding-top:5px;margin-top:5px;">
     <tr>
-        @if (!Model.TipstaffRecordClosed)
-        {
-         <td style="width:20px;background-color: #dddddd">&nbsp;</td>
-        }
+        <td style="width:20px;background-color: #dddddd">&nbsp;</td>
         <th>
             @Html.LabelFor(model => model.Passports.First().createdOn)
         </th>
@@ -44,7 +41,13 @@ else
                 {
                     @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Passport", new { id = item.passportID }, null, null)
                 }
-                    @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend passport", "Edit", "Passport", new { id = item.passportID }, null, null)
+                @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend passport", "Edit", "Passport", new { id = item.passportID }, null, null)
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend passport", "Edit", "Passport", new { id = item.passportID }, null, null)
             </td>
         }
         <td>
@@ -78,7 +81,7 @@ else
             }
         </td>
         <td>
-                @Html.DisplayFor(modelItem => item.comments)
+            @Html.DisplayFor(modelItem => item.comments)
         </td>
     </tr>
             isAltRow = !isAltRow;
