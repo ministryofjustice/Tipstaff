@@ -57,7 +57,8 @@ else
             @Html.DisplayFor(modelItem => item.createdBy)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.passportReference)
+            @*@Html.DisplayFor(modelItem => item.passportReference)*@
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.passportReference, string.Format("View {0}", item.passportReference), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.documentType.Detail)

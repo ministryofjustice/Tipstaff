@@ -733,6 +733,7 @@
     <Content Include="Views\Passport\Upload.cshtml" />
     <Content Include="Views\Passport\Edit.cshtml" />
     <Content Include="Views\Passport\Delete.cshtml" />
+    <Content Include="Views\Passport\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documents\" />
