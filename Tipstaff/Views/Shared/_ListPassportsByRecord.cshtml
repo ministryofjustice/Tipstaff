@@ -56,7 +56,7 @@ else
         <td>
             @if (item.fileName != null)
             {
-                @Html.DisplayFor(modelItem => item.fileName) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
+                @Html.DisplayFor(modelItem => item.fileName) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", "Passport"), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
             }
         </td>
         <td>
