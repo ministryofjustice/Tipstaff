@@ -50,7 +50,6 @@ namespace Tipstaff.Controllers
             model.passport.createdBy = user.DisplayName;
             model.passport.createdOn = DateTime.Now;
             model.passport.tipstaffRecordID = model.tipstaffRecordID;
-            model.passport.documentTypeID = 336; // fixing the ID for the document to Passport
             if (model.uploadFile != null)
             {
                 var stream = model.uploadFile.InputStream;

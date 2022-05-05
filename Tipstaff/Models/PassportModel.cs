@@ -21,8 +21,6 @@ namespace Tipstaff.Models
         public int? nationalityID { get; set; }
         [Required, Display(Name = "Passport Status")]
         public int documentStatusID { get; set; }
-        [Required, Display(Name = "Passport Type")]
-        public int documentTypeID { get; set; }
         public int? templateID { get; set; }
         [ScaffoldColumn(false),Display(Name="Created on")]
         public DateTime createdOn { get; set; }

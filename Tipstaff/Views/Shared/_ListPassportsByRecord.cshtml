@@ -20,7 +20,7 @@ else
             @Html.LabelFor(model => model.Passports.First().passportReference)
         </th>
         <th>
-            Passports
+            File Uploaded
         </th>
         <th>
 
@@ -54,20 +54,14 @@ else
             @Html.DisplayFor(modelItem => item.passportReference)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.documentType.Detail)
-            @if (item.documentTypeID > 1 && item.fileName != null)
+            @if (item.fileName != null)
             {
-                @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => item.fileName)
+                @Html.DisplayFor(modelItem => item.fileName) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
             }
         </td>
         <td>
-            @if (item.binaryFile != null && item.documentStatusID > 1)
+            @if (item.binaryFile != null && item.documentStatusID == 1)
             {
-                @Html.DisplayFor(modelitem => item.documentStatus.Detail) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
-            }
-            else if (item.binaryFile != null && item.documentStatusID == 1)
-            {
-                @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", item.documentType.Detail), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
             }
             else
             {
