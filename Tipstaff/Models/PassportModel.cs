@@ -20,7 +20,7 @@ namespace Tipstaff.Models
         [Required, Display(Name = "Nationality")]
         public int? nationalityID { get; set; }
         [Required, Display(Name = "Passport Status")]
-        public int passportStatusID { get; set; }
+        public int documentStatusID { get; set; }
         [Required, Display(Name = "Passport Type")]
         public int documentTypeID { get; set; }
         public int? templateID { get; set; }
