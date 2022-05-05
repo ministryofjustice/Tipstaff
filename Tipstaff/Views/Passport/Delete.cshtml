@@ -25,7 +25,7 @@
         <div class="display-label">Passport Reference</div>
         <div class="display-field">
             @Html.DisplayFor(modelItem => modelItem.Passport.documentType.Detail)
-            @if (Model.Passport.documentTypeID > 1 && Model.Passport.fileName != null)
+            @if (Model.Passport.fileName != null)
             {
                 @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => modelItem.Passport.fileName)
             }
