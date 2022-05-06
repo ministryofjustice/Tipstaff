@@ -36,7 +36,6 @@ namespace Tipstaff.Models
         public virtual Country country { get; set; }
         public virtual Nationality nationality { get; set; }
         public virtual DocumentStatus documentStatus { get; set; }
-        public virtual DocumentType documentType { get; set; }
         public virtual Template template { get; set; }
         public virtual TipstaffRecord tipstaffRecord { get; set; }
         [MaxLength(1000), Display(Name = "Comments")]
