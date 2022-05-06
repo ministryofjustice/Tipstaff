@@ -269,6 +269,7 @@
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Areas\Admin\Controllers\ChildRelationshipController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\PassportController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
@@ -323,6 +324,7 @@
     <Compile Include="Models\ContactModels.cs" />
     <Compile Include="Models\DeletedTipstaffRecords.cs" />
     <Compile Include="Models\DeleteModel.cs" />
+    <Compile Include="Models\PassportModel.cs" />
     <Compile Include="Models\DocumentModels.cs" />
     <Compile Include="DAL\TipstaffDB.cs" />
     <Compile Include="Models\ErrorModels.cs" />
@@ -727,6 +729,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
     <Content Include="Views\Contact\Delete.cshtml" />
+    <Content Include="Views\Shared\_ListPassportsByRecord.cshtml" />
+    <Content Include="Views\Passport\Upload.cshtml" />
+    <Content Include="Views\Passport\Edit.cshtml" />
+    <Content Include="Views\Passport\Delete.cshtml" />
+    <Content Include="Views\Passport\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documents\" />

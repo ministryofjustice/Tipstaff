@@ -1,0 +1,100 @@
+﻿@model Tipstaff.Models.ListPassportsByTipstaffRecord
+<div id="documents">
+
+@if ((Model.Passports == null) || (Model.Passports.Count() == 0))
+{
+      <div>No passports recorded</div>
+}
+else
+{
+<table width="100%" style="padding-top:5px;margin-top:5px;">
+    <tr>
+        <td style="width:20px;background-color: #dddddd">&nbsp;</td>
+        <th>
+            @Html.LabelFor(model => model.Passports.First().createdOn)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Passports.First().createdBy)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Passports.First().passportReference)
+        </th>
+        <th>
+            File Uploaded
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Passports.First().documentStatusID)
+        </th>
+        <th>
+            @Html.LabelFor(model => model.Passports.First().comments)
+        </th>
+        <th>
+            Details
+        </th>
+        <td style="background-color: #dddddd">&nbsp;</td>
+    </tr>
+@{ var isAltRow = false;
+   foreach (var item in Model.Passports.OrderByDescending(x => x.createdOn))
+   {
+    <tr class="@(isAltRow ? "altRow" : "")">
+        <td>
+           @if (User.IsInRole("Admin"))
+           {
+              @Html.ImageLink(Url.Content("~/Images/delete.png"), "Delete", "Delete", "Passport", new { id = item.passportID }, null, null)
+           }
+           @Html.ImageLink(Url.Content("~/Images/arrow_refresh.png"), "Amend passport", "Edit", "Passport", new { id = item.passportID }, null, null)
+        </td>
+        <td>
+            @item.createdOn
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createdBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.passportReference)
+        </td>
+        <td>
+            @if (item.fileName != null)
+            {
+                @Html.DisplayFor(modelItem => item.fileName) @Html.ImageAndTextLink(Url.Content("~/Images/page.png"), "Open File", string.Format("Open {0}", "Passport"), "ExtractPassport", "Passport", new { id = item.passportID }, null, null, "createButton")
+            }
+        </td>
+        <td>
+            @if (item.binaryFile != null && item.documentStatusID == 1)
+            {
+            }
+            else
+            {
+                @Html.DisplayFor(modelitem => item.documentStatus.Detail)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comments)
+        </td>
+        <td>
+            @Html.ImageAndTextLink(Url.Content("~/Images/view.png"), "Details", string.Format("View {0}", "Details"), "Details", "Passport", new { id = item.passportID }, null, null, "createButton")
+        </td>
+    </tr>
+            isAltRow = !isAltRow;
+   }
+}
+    </table>
+}
+@Html.AjaxPager(Model.Passports, "ListPassportsByRecord", "Document"
+                                    , new PagerOptions
+                                    {
+                                        ShowFirstLast = true,
+                                        ShowPrevNext = true,
+                                        ShowNumericPagerItems = true,
+                                        AlwaysShowFirstLastPageNumber = true,
+                                        CssClass = "PagedList-pager"
+                                    }
+                                    , new RouteValueDictionary(new { warrantID = Model.tipstaffRecordID })
+                                    , new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        UpdateTargetId = "documents",
+                                        InsertionMode = InsertionMode.Replace,
+                                        LoadingElementId = "documentsLoading"
+                                    })
+</div>

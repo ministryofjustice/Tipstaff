@@ -58,6 +58,7 @@ namespace Tipstaff.Models
 
         public virtual Result result { get; set; }
         public virtual ICollection<Document> Documents { get; set; }
+        public virtual ICollection<Passport> Passports { get; set; }
         public virtual ICollection<AttendanceNote> AttendanceNotes { get; set; }
         public virtual ICollection<CaseReview> caseReviews { get; set; }
         public virtual ICollection<TipstaffRecordSolicitor> LinkedSolicitors { get; set; }

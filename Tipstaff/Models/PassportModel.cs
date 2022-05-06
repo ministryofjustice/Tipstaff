@@ -8,21 +8,19 @@ using Tipstaff.Models;
 
 namespace Tipstaff.Models
 {
-    public class Document
+    public class Passport
     {
         [Key]
-        public int documentID { get; set; }
-        [Required(ErrorMessage = "Document Reference must be completed"), MaxLength(60)]
-        [Display(Name = "Document Reference number")]
-        public string documentReference { get; set; }
+        public int passportID { get; set; }
+        [Required(ErrorMessage = "Passport Reference must be completed"), MaxLength(60)]
+        [Display(Name = "Passport Reference number")]
+        public string passportReference { get; set; }
         [Display(Name = "Country of Origin")]
         public int? countryID { get; set; }
         [Required, Display(Name = "Nationality")]
         public int? nationalityID { get; set; }
-        [Required, Display(Name = "Document Status")]
+        [Required, Display(Name = "Passport Status")]
         public int documentStatusID { get; set; }
-        [Required, Display(Name = "Document Type")]
-        public int documentTypeID { get; set; }
         public int? templateID { get; set; }
         [ScaffoldColumn(false),Display(Name="Created on")]
         public DateTime createdOn { get; set; }
@@ -41,7 +39,8 @@ namespace Tipstaff.Models
         public virtual DocumentType documentType { get; set; }
         public virtual Template template { get; set; }
         public virtual TipstaffRecord tipstaffRecord { get; set; }
-        // public virtual TipstaffRecord tipstaffRecord { get; set; }
+        [MaxLength(1000), Display(Name = "Comments")]
+        public string comments { get; set; }
         public string CreationData
         {
             get
@@ -50,41 +49,38 @@ namespace Tipstaff.Models
             }
         }
     }
-    public class ListDocumentsByTipstaffRecord :IListByTipstaffRecord
+    public class ListPassportsByTipstaffRecord :IListByTipstaffRecord
     {
         public int tipstaffRecordID { get; set; }
-        public Tipstaff.xPagedList<Document> Documents { get; set; }
+        public Tipstaff.xPagedList<Passport> Passports { get; set; }
         public bool TipstaffRecordClosed { get; set; }
     }
 
-    public class DocumentUploadModel
+    public class PassportUploadModel
     {
         public int tipstaffRecordID { get; set; }
-        public TipstaffRecord tipstaffRecord { get; set; }
+        public Passport passport { get; set; }
         public HttpPostedFileBase uploadFile { get; set; }
-        public Document document { get; set; }
         public SelectList CountryList { get; set; }
         public SelectList NationalityList { get; set; }
         [Required]
         public SelectList StatusList { get; set; }
         public SelectList TypeList { get; set; }
-        //public List<DocumentStatus> Statuses { get; set; }
-        //public List<DocumentType> Types { get; set; }
-        public DocumentUploadModel()
+        public virtual TipstaffRecord tipstaffRecord { get; set; }
+        public bool initial { get; set; }
+        public PassportUploadModel()
         {
             CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
             StatusList = new SelectList(myDBContextHelper.CurrentContext.DocumentStatuses.Where(x => x.active == true).Where(s => s.Detail != "Generated").ToList(), "DocumentStatusID", "Detail");
-            TypeList = new SelectList(myDBContextHelper.CurrentContext.DocumentTypes.Where(x => x.active == true).Where(t => t.Detail != "Generated").ToList(), "documentTypeID", "Detail");
             NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
         }
-    }
-    public class ChooseAddresseeModel
-    {
-        public TipstaffRecord tipstaffRecord { get; set; }
-        public IEnumerable<TipstaffRecordSolicitor> SolicitorsOnRecord { get; set; }
-        public IEnumerable<Applicant> Applicants { get; set; }
-        public Template template { get; set; }
-        public int solicitorID { get; set; }
-        public int applicantID { get; set; }
+        public PassportUploadModel(int id)
+        {
+            tipstaffRecord = myDBContextHelper.CurrentContext.TipstaffRecord.Find(id);
+            tipstaffRecordID = id;
+            CountryList = new SelectList(myDBContextHelper.CurrentContext.IssuingCountries.Where(x => x.active == true).ToList(), "countryID", "Detail");
+            StatusList = new SelectList(myDBContextHelper.CurrentContext.DocumentStatuses.Where(x => x.active == true).Where(s => s.Detail != "Generated").ToList(), "DocumentStatusID", "Detail");
+            NationalityList = new SelectList(myDBContextHelper.CurrentContext.Nationalities.Where(x => x.active == true).ToList(), "nationalityID", "Detail");
+        }
     }
 }

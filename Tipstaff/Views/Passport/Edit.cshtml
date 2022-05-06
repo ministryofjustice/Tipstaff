@@ -1,0 +1,76 @@
+﻿@model Tipstaff.Models.PassportUploadModel
+
+@{
+    ViewBag.Title = string.Format("Edit passport details for {0}",
+    Model.passport.passportReference, Model.passport.passportID, Model.passport.tipstaffRecord.tipstaffRecordID);
+}
+@{
+    string controller = genericFunctions.TypeOfTipstaffRecord(Model.passport.tipstaffRecord.tipstaffRecordID);
+    string display = controller == "Warrant" ? "Warrants" : "Child Abductions";
+    string nameType = controller == "Warrant" ? "Contemnor" : "Respondent";
+}
+<h1>@ViewBag.Title</h1>
+<h6>
+    @Html.ActionLink(display, "Index", controller)
+    > @Html.ActionLink(Model.passport.tipstaffRecord.UniqueRecordID, "Details", controller, new { id = Model.passport.tipstaffRecord.tipstaffRecordID }, null)
+    > Edit passport
+</h6>
+
+@using (Html.BeginForm("Edit", "Passport", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
+<fieldset>
+    <legend>Edit details</legend>
+
+    @Html.HiddenFor(model => model.passport.passportID)
+    @Html.HiddenFor(model => model.passport.createdOn)
+    @Html.HiddenFor(model => model.passport.createdBy)
+    @Html.HiddenFor(model => model.passport.fileName)
+    @Html.HiddenFor(model => model.passport.binaryFile)
+    @Html.HiddenFor(model => model.passport.mimeType)
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.passport.passportReference, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.passport.passportReference)
+        @Html.ValidationMessageFor(model => model.passport.passportReference)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.passport.countryID, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.passport.countryID, Model.CountryList, "Select a country", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.passport.countryID)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.passport.nationalityID, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.passport.nationalityID, Model.NationalityList, "Select a nationality", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.passport.nationalityID)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.passport.documentStatusID, true)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.passport.documentStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.passport.documentStatusID)
+    </div>
+    @Html.HiddenFor(model => model.passport.tipstaffRecordID)
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.passport.comments, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.passport.comments)
+        @Html.ValidationMessageFor(model => model.passport.comments)
+    </div>
+
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+</fieldset>
+}

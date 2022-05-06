@@ -61,6 +61,7 @@ namespace Tipstaff.Models
         //public DbSet<ChildAbductionCaseStatus> ChildAbductionCaseStatuses { get; set; }
         public DbSet<CaseReviewStatus> CaseReviewStatuses { get; set; }
         public DbSet<Document> Documents { get; set; }
+        public DbSet<Passport> Passports { get; set; }
         public DbSet<DocumentStatus> DocumentStatuses { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Country> IssuingCountries { get; set; }
@@ -243,7 +244,7 @@ namespace Tipstaff.Models
                                 break;
                             }
                         case EntityState.Modified:
-                            {
+                            {                                
                                 string objName = string.Format("{0} Amended", objType);
                                 int AuditType = this.AuditDescriptions.Where(a => a.AuditDescription.ToLower() == objName.ToLower()).Take(1).Single().idAuditEventDescription;
                                 auditRecord.EventDescription = objName;
@@ -252,7 +253,6 @@ namespace Tipstaff.Models
                                 List<AuditEventDataRow> data = new List<AuditEventDataRow>();
                                 foreach (string propertyName in entry.GetModifiedProperties())
                                 {
-
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
                                     string oldValue = (oldData.GetValue<object>(propertyName) != null) ? oldData.GetValue<object>(propertyName).ToString() : "Empty";
                                     if (oldValue == "") oldValue = "Empty";
