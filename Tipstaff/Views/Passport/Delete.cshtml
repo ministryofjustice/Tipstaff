@@ -23,7 +23,8 @@
         @Html.HiddenFor(model => model.DeleteModelID)
         @Html.HiddenFor(model => model.Passport.passportID)
         <div class="display-label">Passport Reference</div>
-        <div class="display-field">    
+        <div class="display-field">
+            @Html.Raw("Passport ")
             @if (Model.Passport.fileName != null)
             {
                 @Html.Raw("&nbsp; &ndash; &nbsp;") @Html.DisplayFor(modelItem => modelItem.Passport.fileName)
