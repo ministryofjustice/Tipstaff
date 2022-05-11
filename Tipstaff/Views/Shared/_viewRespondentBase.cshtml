@@ -1,88 +1,119 @@
 ﻿@model Tipstaff.Models.Respondent
-    <div class="display-label">@Html.LabelFor(model=>model.nameLast)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.nameLast)
+
+<div style="display:flex;">
+
+    <div style="width: 100%;">
+
+        <div class="display-label">@Html.LabelFor(model => model.nameLast)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.nameLast)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.nameFirst)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.nameFirst)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.nameMiddle)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.nameMiddle)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.dateOfBirth)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.dateOfBirth)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.gender)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.gender.detail)
+        </div>
+
+        @if (genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) != "Warrant")
+        {
+            <div class="display-label">@Html.LabelFor(model => model.childRelationshipID)</div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.childRelationship.Detail)
+            </div>
+        }
+        <div class="display-label">@Html.LabelFor(model => model.hairColour)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.hairColour)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.eyeColour)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.eyeColour)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.skinColourID)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.SkinColour.Detail)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.height)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.height)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.build)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.build)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.specialfeatures)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.specialfeatures)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.country)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.country.Detail)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.nationality)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.nationality.Detail)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.riskOfViolence)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.riskOfViolence)
+        </div>
+
+        <div class="display-label">@Html.LabelFor(model => model.riskOfDrugs)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.riskOfDrugs)
+        </div>
+
     </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.nameFirst)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.nameFirst)
-    </div>
+    <div style="width: 100%;">
 
-    <div class="display-label">@Html.LabelFor(model=>model.nameMiddle)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.nameMiddle)
-    </div>
+        <div class="display-label">@Html.LabelFor(model => model.screenAddressMultiLine)</div>
+        <div style="display:block;padding-left:218px;padding-top:0.5em;">
+            @Html.Raw(Model.screenAddressMultiLine)
+        </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.dateOfBirth)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.dateOfBirth)
-    </div>
+        <div class="display-label">@Html.LabelFor(model => model.phone)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.phone)
+        </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.gender)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.gender.detail)
-    </div>
+        <div class="display-label">@Html.LabelFor(model => model.email)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.email)
+        </div>
 
-    @if (genericFunctions.TypeOfTipstaffRecord(Model.tipstaffRecordID) != "Warrant")
-    {
-    <div class="display-label">@Html.LabelFor(model=>model.childRelationshipID)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.childRelationship.Detail)
-    </div>
-    }
-    <div class="display-label">@Html.LabelFor(model=>model.hairColour)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.hairColour)
-    </div>
+        <div class="display-label">@Html.LabelFor(model => model.secondaryPhone)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.secondaryPhone)
+        </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.eyeColour)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.eyeColour)
-    </div>
+        <div class="display-label">@Html.LabelFor(model => model.PNCID)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.PNCID)
+        </div>
 
-    <div class="display-label">@Html.LabelFor(model=>model.skinColourID)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.SkinColour.Detail)
     </div>
-
-    <div class="display-label">@Html.LabelFor(model=>model.height)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.height)
-    </div>
-
-    <div class="display-label">@Html.LabelFor(model=>model.build)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.build)
-    </div>
-
-    <div class="display-label">@Html.LabelFor(model=>model.specialfeatures)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.specialfeatures)
-    </div>
-
-    <div class="display-label">@Html.LabelFor(model=>model.country)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.country.Detail)
-    </div>
-    
-    <div class="display-label">@Html.LabelFor(model=>model.nationality)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.nationality.Detail)
-    </div>
-
-    <div class="display-label">@Html.LabelFor(model=>model.riskOfViolence)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.riskOfViolence)
-    </div>
-
-    <div class="display-label">@Html.LabelFor(model=>model.riskOfDrugs)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.riskOfDrugs)
-    </div>
-
-    <div class="display-label">@Html.LabelFor(model=>model.PNCID)</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.PNCID)
-    </div>
-
+</div>

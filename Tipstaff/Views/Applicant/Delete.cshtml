@@ -25,8 +25,16 @@
     <div class="display-field" style="min-height: 8em; clear: right; padding-left: 218px;">
         @Html.Raw(Model.Applicant.screenAddressMultiLine)
     </div>
+    <div class="display-label">email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Applicant.email)
+    </div>
+    <div class="display-label">secondary phone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Applicant.secondaryPhone)
+    </div>
     <div class="editor-label">
-        @Html.LabelFor(model => model.DeletedReasonID,true)
+        @Html.LabelFor(model => model.DeletedReasonID, true)
     </div>
     <div class="editor-field">
         @Html.DropDownListFor(model => model.DeletedReasonID, Model.DeletedReasons, "Please select a reason for deletion", new { @class = "required" })

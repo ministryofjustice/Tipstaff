@@ -90,6 +90,22 @@
             @Html.EditorFor(model => model.applicant.phone)
             @Html.ValidationMessageFor(model => model.applicant.phone)
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.email, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.email)
+            @Html.ValidationMessageFor(model => model.applicant.email)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.applicant.secondaryPhone, true)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.applicant.secondaryPhone)
+            @Html.ValidationMessageFor(model => model.applicant.secondaryPhone)
+        </div>
       
         @Html.HiddenFor(model => model.applicant.tipstaffRecordID, new { Value = Model.tipstaffRecordID })
         @Html.HiddenFor(model=>model.tipstaffRecordID)

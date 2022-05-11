@@ -66,7 +66,34 @@ namespace Tipstaff.Models
         public int tipstaffRecordID  { get; set; }
         
         public string PNCID { get; set; }
-        
+
+        [MaxLength(100), Display(Name = "Address Line 1"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string addressLine1 { get; set; }
+
+        [MaxLength(100), Display(Name = "Address Line 2"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string addressLine2 { get; set; }
+
+        [MaxLength(100), Display(Name = "Address Line 3"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string addressLine3 { get; set; }
+
+        [MaxLength(100), Display(Name = "Town"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string town { get; set; }
+
+        [MaxLength(100), Display(Name = "County"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string county { get; set; }
+
+        [MaxLength(10), Display(Name = "Postcode")]
+        public string postcode { get; set; }
+
+        [MaxLength(20), Display(Name = "Phone"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string phone { get; set; }
+
+        [MaxLength(100), Display(Name = "Email"), DisplayFormat(ConvertEmptyStringToNull = true)]
+        public string email { get; set; }
+
+        [MaxLength(20), Display(Name = "Secondary Phone")]
+        public string secondaryPhone { get; set; }
+
         [Display(Name ="Gender")]
         public virtual Gender gender { get; set; }
         [Display(Name = "Country of Origin")]
@@ -128,6 +155,68 @@ namespace Tipstaff.Models
                 return age.ToString();
             }
         }
+
+        [Display(Name = "Address")]
+        public virtual string printAddressMultiLine
+        {
+            get
+            {
+                List<string> popLines = new List<string>();
+                foreach (var line in populatedLines)
+                {
+                    popLines.Add(SecurityElement.Escape(line));
+                }
+                return string.Join("<w:br/>", popLines.ToArray());
+            }
+        }
+        [Display(Name = "Address")]
+        public virtual string screenAddressMultiLine
+        {
+            get
+            {
+                List<string> popLines = populatedLines;
+                return string.Join("<br />", popLines.ToArray());
+            }
+        }
+        [Display(Name = "Address")]
+        public virtual string screenAddressSingleLine
+        {
+            get
+            {
+                List<string> popLines = populatedLines;
+                string result = string.Join(",", popLines.ToArray());
+                return result;
+            }
+        }
+        [Display(Name = "Address")]
+        public virtual string PrintAddressSingleLine
+        {
+            get
+            {
+                List<string> popLines = new List<string>();
+                foreach (var line in populatedLines)
+                {
+                    popLines.Add(SecurityElement.Escape(line));
+                }
+                return string.Join(", ", popLines.ToArray());
+            }
+        }
+
+        private List<string> populatedLines
+        {
+            get
+            {
+                List<string> outputAddress = new List<string>();
+                outputAddress.Add(addressLine1);
+                if (addressLine2 != null) outputAddress.Add(addressLine2);
+                if (addressLine3 != null) outputAddress.Add(addressLine3);
+                if (town != null) outputAddress.Add(town);
+                if (county != null) outputAddress.Add(county);
+                if (postcode != null) outputAddress.Add(postcode);
+                return outputAddress;
+            }
+        }
+
 
         public virtual string xmlBlock
         {

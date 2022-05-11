@@ -15,13 +15,23 @@
     <legend>Address</legend>
 
     <div class="display-label">Full name and address</div>
-    <div class="display-field" style="min-height: 5em; clear:right;">
+    <div class="display-field" style="min-height: 8em; clear:right; padding-left:218px;">
         @Html.Raw(Model.screenAddressMultiLine)
     </div>
 
     <div class="display-label">phone</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.phone)
+    </div>
+
+    <div class="display-label">email</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.email)
+    </div>
+
+    <div class="display-label">secondary phone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.secondaryPhone)
     </div>
 
 </fieldset>
