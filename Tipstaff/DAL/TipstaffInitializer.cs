@@ -404,7 +404,8 @@ namespace Tipstaff.Models
                 new Division{Detail="Chancery", Prefix="CH", active=true},
                 new Division{Detail="Family", Prefix="FAM", active=true},
                 new Division{Detail="Insolvency", Prefix="IN", active=true},
-                new Division{Detail="Queen's Bench", Prefix="QB", active=true}
+                new Division{Detail="Queen's Bench", Prefix="QB", active=false},
+                new Division{Detail="King's Bench", Prefix="KB", active=true}
             };
 
             //var w = new List<Warrant>
