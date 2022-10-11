@@ -29,7 +29,7 @@
     @Html.HiddenFor(model => model.passport.fileName)
     @Html.HiddenFor(model => model.passport.binaryFile)
     @Html.HiddenFor(model => model.passport.mimeType)
-    @Html.HiddenFor(model => model.uploadFile)
+    @Html.HiddenFor(model => model.uploadFile.fileName)
 
     <div class="editor-label">
         @Html.LabelFor(model => model.passport.passportReference, true)
