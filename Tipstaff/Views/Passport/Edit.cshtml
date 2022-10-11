@@ -29,7 +29,6 @@
     @Html.HiddenFor(model => model.passport.fileName)
     @Html.HiddenFor(model => model.passport.binaryFile)
     @Html.HiddenFor(model => model.passport.mimeType)
-    @Html.HiddenFor(model => model.uploadFile.fileName)
 
     <div class="editor-label">
         @Html.LabelFor(model => model.passport.passportReference, true)
@@ -60,14 +59,6 @@
         @Html.DropDownListFor(model => model.passport.documentStatusID, Model.StatusList, "Select a Status", new { @class = "required" })
         @Html.ValidationMessageFor(model => model.passport.documentStatusID)
     </div>
-
-    <div class="editor-label">
-        Please select file to upload
-    </div>
-    <div class="editor-field">
-        <input name="uploadFile" type="file" title="Upload file" />
-    </div>
-
     @Html.HiddenFor(model => model.passport.tipstaffRecordID)
 
     <div class="editor-label">
