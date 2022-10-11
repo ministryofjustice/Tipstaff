@@ -17,6 +17,9 @@ else
         <th>
             Telephone
         </th>
+        <th>
+            Secondary Phone
+        </th>
     </tr>
 
 	@{var isAltRow = false;
@@ -38,6 +41,9 @@ else
         </td>
         <td>
             @item.phone
+        </td>
+        <td>
+            @item.secondaryPhone
         </td>
     </tr>
     isAltRow = !isAltRow;
