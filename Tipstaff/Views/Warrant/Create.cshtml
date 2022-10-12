@@ -72,6 +72,8 @@
             @Html.ValidationMessageFor(model => model.caseStatusID) 
         </div>
 
+        @Html.HiddenFor(model => model.Retention, new { Value = true })
+
         @Html.HiddenFor(model => model.createdBy) 
         <p>
             <input type="submit" value="Create" />

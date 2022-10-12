@@ -76,6 +76,8 @@
             @Html.ValidationMessageFor(model => model.protectiveMarkingID)
         </div>
 
+        @Html.HiddenFor(model => model.Retention, new { Value = true })
+
         @Html.HiddenFor(model => model.createdBy) 
         @Html.HiddenFor(model => model.createdOn, DateTime.Today,null)
 
