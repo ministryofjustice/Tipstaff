@@ -30,6 +30,13 @@ namespace Tipstaff.Models
                 var fi = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
                 fi.SetValue(settings, false);
                 settings.ConnectionString = "Server=" + hostname + ";port=" + port + ";database=" + dbname + ";user id=" + username + ";password=" + password;
+
+                using (EventLog eventLog = new EventLog("Application"))
+                {
+                    eventLog.Source = "Application";
+                    eventLog.WriteEntry("ConnectionString: " + settings.ConnectionString, EventLogEntryType.Information, 101, 1);
+                }
+
             }
             return appConfig["DataContextName"];
         }
