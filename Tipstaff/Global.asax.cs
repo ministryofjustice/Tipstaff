@@ -190,6 +190,8 @@ namespace Tipstaff
         }
         protected void Application_Start(object sender, EventArgs e)
         {
+
+            MyDebug("In Application_Start");
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
             AreaRegistration.RegisterAllAreas();
 
@@ -228,5 +230,14 @@ namespace Tipstaff
                 Response.Redirect(Request.RawUrl);
             }
         }
+
+        Public Shared Function MyDebug(msg As String)
+            using (EventLog eventLog = new EventLog("Application"))
+            {
+                eventLog.Source = "Application";
+                eventLog.WriteEntry(msg, EventLogEntryType.Information, 101, 1);
+            }
+        End Function
+
     }
 }
