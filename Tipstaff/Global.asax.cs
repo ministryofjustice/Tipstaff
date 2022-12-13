@@ -16,6 +16,7 @@ using Tipstaff.Infrastructure;
 using Castle.MicroKernel.Registration;
 using TPLibrary.Logger;
 using Microsoft.IdentityModel.Protocols;
+using System.Diagnostics;
 
 namespace Tipstaff
 {
