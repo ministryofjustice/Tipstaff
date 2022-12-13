@@ -232,7 +232,7 @@ namespace Tipstaff
             }
         }
 
-        Public MyDebug(string msg) {
+        public MyDebug(string msg) {
             using (EventLog eventLog = new EventLog("Application"))
             {
                 eventLog.Source = "Application";
