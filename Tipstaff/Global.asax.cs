@@ -232,13 +232,13 @@ namespace Tipstaff
             }
         }
 
-        Public Shared Function MyDebug(msg As String)
+        Public MyDebug(string msg) {
             using (EventLog eventLog = new EventLog("Application"))
             {
                 eventLog.Source = "Application";
                 eventLog.WriteEntry(msg, EventLogEntryType.Information, 101, 1);
             }
-        End Function
+        }
 
     }
 }
