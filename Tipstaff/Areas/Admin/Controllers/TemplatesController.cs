@@ -51,7 +51,8 @@ namespace Tipstaff.Areas.Admin.Controllers
                 {
                     if (!Path.GetExtension(model.uploadFile.FileName.ToLower()).EndsWith("xml")) { throw new NotUploaded("Please select an XML file to upload"); }
                     if (model.uploadFile.ContentLength == 0) { throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try"); }
-                    Directory.CreateDirectory(@"C:\TipstaffUploads");
+                    Directory.CreateDirectory(@"C:\\TipstaffUploads");
+
                     //Upload
                     var fileName = Path.Combine("C:\\TipstaffUploads", Path.GetFileName(model.uploadFile.FileName));
                     model.uploadFile.SaveAs(fileName); //Save to uploads folder     
@@ -101,7 +102,8 @@ namespace Tipstaff.Areas.Admin.Controllers
                 {
                     if (!Path.GetExtension(model.uploadFile.FileName.ToLower()).EndsWith("xml")) { throw new NotUploaded("Please select an XML file to upload"); }
                     if (model.uploadFile.ContentLength == 0) { throw new NotUploaded("The selected file appears to be empty, please select a different file and re-try"); }
-                    Directory.CreateDirectory(@"C:\TipstaffUploads");
+                    Directory.CreateDirectory(@"C:\\TipstaffUploads");
+
                     //Upload
                     var fileName = Path.Combine("C:\\TipstaffUploads", Path.GetFileName(model.uploadFile.FileName));
                     model.uploadFile.SaveAs(fileName); //Save to uploads folder     
