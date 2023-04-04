@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  variables:
+    PROJECT: Tipstaff
+    DOTNET_FRAMEWORK: 4.6.1
+phases:
+  install:
+    runtime-versions:
+      dotnet: 4.6.1
+  build:
+    commands:
+      - msbuild $env:PROJECT.sln /p:TargetFrameworkVersion=v$env:DOTNET_FRAMEWORK /p:Configuration=Release
+      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
+artifacts:
+  files:
+    - '**/*'
+  name: BuildOutput
