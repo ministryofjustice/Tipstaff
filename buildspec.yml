@@ -14,12 +14,7 @@ phases:
       dotnet: 4.6.1
       docker: latest
     commands:
-      - |
-        # Install the AWS CLI
-        $ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'; 
-        Invoke-WebRequest -UseBasicParsing https://awscli.amazonaws.com/AWSCLIV2.msi -OutFile AWSCLIV2.msi; 
-        Start-Process msiexec -Wait -ArgumentList '/I AWSCLIV2.msi /quiet'; 
-        Remove-Item -Force AWSCLIV2.msi
+      - powershell.exe -ExecutionPolicy Bypass -File .\install-awscli.ps1
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
