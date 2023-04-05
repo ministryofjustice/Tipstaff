@@ -4,8 +4,6 @@ env:
   variables:
     PROJECT: Tipstaff
     DOTNET_FRAMEWORK: 4.6.1
-    IMAGE_REPO_NAME: "tipstaff-ecr-repo"
-    IMAGE_TAG: 1
     AWS_ACCOUNT_ID: 913862848426
     CONTAINER_NAME: "tipstaff-task"
 phases:
