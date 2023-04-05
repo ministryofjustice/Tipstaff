@@ -19,25 +19,3 @@ artifacts:
   files:
     - '**/*'
   name: BuildOutput
-
-
-# version: 0.2
-
-# env:
-#   variables:
-#     PROJECT: Tipstaff
-#     DOTNET_FRAMEWORK: 4.8
-# phases:
-#   build:
-#     commands:
-#       - nuget restore
-#       - msbuild $env:PROJECT.csproj /p:TargetFrameworkVersion=v$env:DOTNET_FRAMEWORK /p:Configuration=Release /p:DeployIisAppPath="Default Web Site" /p:PackageAsSingleFile=false /p:OutDir=C:\codebuild\artifacts\ /t:Package /p:AppSpecFile=appspec.yml
-#   post_build:
-#     commands:
-#       - copy appspec.yml C:\codebuild\artifacts\_PublishedWebsites\${env:PROJECT}_Package\Archive\
-#       - copy ConfigureIIS.ps1 C:\codebuild\artifacts\_PublishedWebsites\${env:PROJECT}_Package\Archive\
-#       - copy StopAppPool.ps1 C:\codebuild\artifacts\_PublishedWebsites\${env:PROJECT}_Package\Archive\
-# artifacts:
-#   files:
-#     - '**/*'
-#   base-directory: 'C:\codebuild\artifacts\_PublishedWebsites\${env:PROJECT}_Package\Archive\'
