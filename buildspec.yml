@@ -4,18 +4,34 @@ env:
   variables:
     PROJECT: Tipstaff
     DOTNET_FRAMEWORK: 4.6.1
+    IMAGE_REPO_NAME: "tipstaff-ecr-repo"
+    IMAGE_TAG: 1
+    AWS_ACCOUNT_ID: 913862848426
+    CONTAINER_NAME: "tipstaff-task"
 phases:
   install:
     runtime-versions:
       dotnet: 4.6.1
+      docker: latest
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
   build:
     commands:
       - nuget restore
+      - echo Building the Docker image...
       - msbuild $env:PROJECT.sln /p:TargetFrameworkVersion=v$env:DOTNET_FRAMEWORK /p:Configuration=Release
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-      - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files:
-    - '**/*'
+    - imagedefinitions.json
   name: BuildOutput
