@@ -16,10 +16,8 @@ phases:
       - Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe" -OutFile "python-installer.exe"
       - Start-Process -FilePath "python-installer.exe" -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
       - Remove-Item "python-installer.exe"
-      - echo Adding Python Scripts to PATH
-      - $env:Path += ";C:\Program Files\Python39\Scripts"
       - echo Installing AWS CLI
-      - pip install --upgrade --user awscli
+      - & "C:\Program Files\Python39\Scripts\pip.exe" install --upgrade --user awscli
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
