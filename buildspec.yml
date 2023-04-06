@@ -12,7 +12,12 @@ phases:
       dotnet: 4.6.1
       docker: latest
     commands:
-      - powershell.exe -ExecutionPolicy Bypass -File .\install-awscli.ps1
+      - echo Installing AWS CLI
+      - iex ((New-Object System.Net.WebClient).DownloadString('https://scoop.sh'))
+      - scoop install python
+      - $env:Path += ";C:\Python\Scripts"
+      - pip install --upgrade --user awscli
+      - $env:Path += ";$env:USERPROFILE\AppData\Roaming\Python\PythonXY\Scripts"
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
