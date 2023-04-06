@@ -13,7 +13,7 @@ phases:
       docker: latest
     commands:
       - echo Installing Python
-      - Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe" -OutFile "python-installer.exe"
+      - Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe -OutFile "python-installer.exe"
       - Start-Process -FilePath "python-installer.exe" -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1" -Wait
       - Remove-Item "python-installer.exe"
       - echo Installing AWS CLI
