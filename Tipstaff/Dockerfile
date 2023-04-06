@@ -1,9 +1,23 @@
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
+# Set the base image
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8 AS build
 
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.8
-ARG source
+# Set the working directory
+WORKDIR /app
+
+# Copy your application files
+COPY . ./
+
+# Restore NuGet packages
+RUN nuget restore
+
+# Build the application
+RUN msbuild /p:Configuration=Release
+
+# Set up the runtime image
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8 AS runtime
+
+# Set the working directory
 WORKDIR /inetpub/wwwroot
-COPY ${source:-obj/Docker/publish} .
-EXPOSE 80
-CMD ["dotnet", "Tipstaff.dll"]
+
+# Copy the built application from the build image
+COPY --from=build /app/. /inetpub/wwwroot/
