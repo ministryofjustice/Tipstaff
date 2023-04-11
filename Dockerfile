@@ -7,7 +7,7 @@ RUN powershell -Command \
     Add-WindowsFeature Web-Mgmt-Tools
 
 # Copy the application files
-COPY your_application_folder/ /inetpub/wwwroot/
+COPY . /inetpub/wwwroot/
 
 # Expose the IIS port
 EXPOSE 80
