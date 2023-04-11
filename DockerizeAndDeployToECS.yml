@@ -42,10 +42,13 @@ stages:
         configuration: '$(buildConfiguration)'
         msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
 
-    - script: |
-        New-Item -Path $(Build.ArtifactStagingDirectory)\WebApp -ItemType Directory
-        Expand-Archive -Path $(Build.ArtifactStagingDirectory)\WebApp.zip -DestinationPath $(Build.ArtifactStagingDirectory)\WebApp
+    - task: PowerShell@2
       displayName: 'Extract WebApp.zip to a temporary folder'
+      inputs:
+        targetType: 'inline'
+        script: |
+          New-Item -Path $(Build.ArtifactStagingDirectory)\WebApp -ItemType Directory
+          Expand-Archive -Path $(Build.ArtifactStagingDirectory)\WebApp.zip -DestinationPath $(Build.ArtifactStagingDirectory)\WebApp
 
     - task: VSTest@2
       inputs:
