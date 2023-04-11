@@ -1,5 +1,5 @@
 # Use the official .NET Framework 4.6.1 ASP.NET image as the base image
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.6.1-windowsservercore-ltsc2019
+FROM mcr.microsoft.com/windows/servercore/iis
 
 # Install IIS features and management tools
 RUN powershell -Command \
