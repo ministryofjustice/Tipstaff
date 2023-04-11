@@ -52,7 +52,6 @@ stages:
   jobs:
   - job: DockerizeAndDeploy
     displayName: 'Dockerize and Deploy'
-    dependsOn: BuildAndTest
     pool:
       vmImage: 'windows-latest'
     steps:
