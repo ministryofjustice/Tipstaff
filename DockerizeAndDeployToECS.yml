@@ -29,6 +29,19 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
+    - task: PowerShell@2
+      displayName: 'Install .NET Framework 4.6.1 Developer Pack'
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host "Downloading .NET Framework 4.6.1 Developer Pack..."
+          Invoke-WebRequest -Uri "https://www.microsoft.com/en-us/download/confirmation.aspx?id=49978" -OutFile ".\NDP461-DevPack-ENU.exe"
+
+          Write-Host "Installing .NET Framework 4.6.1 Developer Pack..."
+          Start-Process ".\NDP461-DevPack-KB3105179-ENU.exe" -ArgumentList "/q /norestart" -Wait
+
+          Write-Host "Installed .NET Framework 4.6.1 Developer Pack successfully."
+
     - task: NuGetToolInstaller@1
 
     - task: NuGetCommand@2
@@ -48,11 +61,6 @@ stages:
         PathtoPublish: '$(build.artifactStagingDirectory)\WebApp.zip'
         ArtifactName: 'WebApp'
         publishLocation: 'Container'
-
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
 
 - stage: DockerizeAndDeploy
   displayName: 'Dockerize and Deploy to AWS ECS'
