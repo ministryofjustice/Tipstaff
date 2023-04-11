@@ -6,8 +6,11 @@ RUN powershell -Command \
     Add-WindowsFeature Web-Server; \
     Add-WindowsFeature Web-Mgmt-Tools
 
-# Copy the application files to the Docker image
-COPY WebApp/ /inetpub/wwwroot
+# Copy the WebApp.zip file and extract its contents
+COPY $(build.artifactStagingDirectory)\WebApp.zip /inetpub/
+RUN powershell -Command \
+    Expand-Archive -Path C:\inetpub\WebApp.zip -DestinationPath C:\inetpub\wwwroot; \
+    Remove-Item -Path C:\inetpub\WebApp.zip -Force
 
 # Expose the IIS port
 EXPOSE 80
