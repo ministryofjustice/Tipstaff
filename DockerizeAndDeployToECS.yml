@@ -1,0 +1,88 @@
+# This file defines an Azure DevOps pipeline that builds, tests, and Dockerizes
+# an ASP.NET Framework application as a Windows container and then deploys it to Amazon ECS.
+
+trigger:
+  branches:
+    include:
+    - main
+    - develop
+
+resources:
+  - repo: self
+
+variables:
+  - group: 'PipelineVariables'
+  - name: 'ecsClusterName'
+    value: 'tipstaff_cluster'
+  - name: 'ecsServiceName'
+    value: 'tipstaff'
+  - name: 'dockerfilePath'
+    value: 'Dockerfile'
+  - name: 'taskDefinitionFile'
+    value: 'task-definition.json'
+
+stages:
+- stage: BuildAndTest
+  displayName: 'Build and Test Application'
+  jobs:
+  - job: BuildAndTest
+    displayName: 'Build and Test'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: NuGetToolInstaller@1
+
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+
+    - task: VSBuild@1
+      inputs:
+        solution: '**/*.sln'
+        configuration: '$(buildConfiguration)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+
+- stage: DockerizeAndDeploy
+  displayName: 'Dockerize and Deploy to AWS ECS'
+  jobs:
+  - job: DockerizeAndDeploy
+    displayName: 'Dockerize and Deploy'
+    dependsOn: BuildAndTest
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: Docker@2
+      displayName: 'Build Docker Image'
+      inputs:
+        command: 'build'
+        Dockerfile: '$(dockerfilePath)'
+        buildContext: '$(Build.SourcesDirectory)'
+        tags: |
+          $(Build.Repository.Name):$(Build.BuildId)
+
+    - task: Docker@2
+      displayName: 'Push Docker Image to Docker Hub'
+      inputs:
+        command: 'push'
+        repository: '$(Build.Repository.Name)'
+        tags: |
+          $(Build.BuildId)
+
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'Update ECS Service'
+      inputs:
+        awsCredentials: 'Your-AWS-Service-Connection-Name'
+        regionName: '$(awsEcrRegion)'
+        scriptType: 'inline'
+        inlineScript: |
+          # Register a new task definition
+          $(aws) ecs register-task-definition --cli-input-json file://$(taskDefinitionFile)
+
+          # Update the ECS service with the new task definition
+          $(aws) ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $(Build.Repository.Name) --force-new-deployment

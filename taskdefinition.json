@@ -1,0 +1,27 @@
+{
+    "family": "tipstaff-task",
+    "taskRoleArn": "arn:aws:iam::your_aws_account_id:role/your-task-role",
+    "executionRoleArn": "arn:aws:iam::your_aws_account_id:role/your-execution-role",
+    "containerDefinitions": [
+      {
+        "name": "tipstaff-container",
+        "image": "913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest",
+        "essential": true,
+        "memory": 1024,
+        "cpu": 512,
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "hostPort": 0,
+            "protocol": "tcp"
+          }
+        ]
+      }
+    ],
+    "requiresCompatibilities": [
+      "EC2"
+    ],
+    "networkMode": "bridge",
+    "cpu": "512",
+    "memory": "1024"
+}
