@@ -1,7 +1,7 @@
 {
     "family": "tipstaff-task",
-    "taskRoleArn": "arn:aws:iam::your_aws_account_id:role/your-task-role",
-    "executionRoleArn": "arn:aws:iam::your_aws_account_id:role/your-execution-role",
+    "taskRoleArn": "arn:aws:iam::913862848426:role/task-tipstaff",
+    "executionRoleArn": "arn:aws:iam::913862848426:role/execution-tipstaff",
     "containerDefinitions": [
       {
         "name": "tipstaff-container",
