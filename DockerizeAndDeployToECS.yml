@@ -27,7 +27,7 @@ stages:
   - job: BuildAndTest
     displayName: 'Build and Test'
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'windows-2019'
     steps:
     - task: PowerShell@2
       displayName: 'Install .NET Framework 4.6.1 Developer Pack'
@@ -68,7 +68,7 @@ stages:
   - job: DockerizeAndDeploy
     displayName: 'Dockerize and Deploy'
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'windows-2019'
     steps:
     # Replace the current CopyFiles@2 task in the DockerizeAndDeploy stage with this
     - task: DownloadBuildArtifacts@0
