@@ -28,7 +28,6 @@ stages:
     displayName: 'Build and Test'
     pool:
       vmImage: 'windows-2019'
-      
     - task: NuGetToolInstaller@1
 
     - task: NuGetCommand@2
