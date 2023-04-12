@@ -66,7 +66,7 @@ stages:
         downloadPath: '$(Build.SourcesDirectory)'
 
     - script: |
-        mkdir $(Build.SourcesDirectory)\WebApp
+        dir $(Build.SourcesDirectory)\WebApp
         move $(Build.SourcesDirectory)\WebApp.zip $(Build.SourcesDirectory)\WebApp\WebApp.zip
       displayName: 'Move WebApp.zip to WebApp folder'
 
