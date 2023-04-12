@@ -65,6 +65,11 @@ stages:
         artifactName: 'WebApp'
         downloadPath: '$(Build.SourcesDirectory)'
 
+    - script: |
+        mkdir $(Build.SourcesDirectory)\WebApp
+        move $(Build.SourcesDirectory)\WebApp.zip $(Build.SourcesDirectory)\WebApp\WebApp.zip
+      displayName: 'Move WebApp.zip to WebApp folder'
+
     - task: Docker@2
       displayName: 'Build Docker Image'
       inputs:
