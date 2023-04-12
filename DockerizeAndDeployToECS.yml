@@ -23,6 +23,8 @@ variables:
     value: 'eu-west-2'
   - name: imageName
     value: tipstaff-image
+  - name: 'AWS_SDK_LOAD_CONFIG'
+    value: '1'
 
 stages:
 - stage: BuildAndTest
