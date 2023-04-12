@@ -76,7 +76,6 @@ stages:
         tags: |
           $(awsEcrRepository):$(Build.BuildId)
 
-
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'Log in to Amazon ECR'
       inputs:
@@ -84,9 +83,10 @@ stages:
         regionName: '$(awsEcrRegion)'
         scriptType: 'inline'
         inlineScript: |
-          $ecrLoginPassword = aws ecr get-login-password --region $(awsEcrRegion)
-          echo $ecrLoginPassword | docker login --username AWS --password-stdin $(awsEcrRepository)
-
+          powershell {
+            $ecrLoginPassword = aws ecr get-login-password --region $(awsEcrRegion)
+            echo $ecrLoginPassword | docker login --username AWS --password-stdin $(awsEcrRepository)
+          }
 
     - task: Docker@2
       displayName: 'Push Docker Image to Amazon ECR'
