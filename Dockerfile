@@ -7,7 +7,7 @@ RUN powershell -Command \
     Add-WindowsFeature Web-Mgmt-Tools
 
 # Copy the WebApp.zip file and extract its contents
-COPY WebApp/WebApp.zip /inetpub/
+COPY WebApp.zip /inetpub/
 RUN powershell -Command \
     Expand-Archive -Path C:\inetpub\WebApp.zip -DestinationPath C:\inetpub\wwwroot; \
     Remove-Item -Path C:\inetpub\WebApp.zip -Force
