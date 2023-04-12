@@ -76,6 +76,12 @@ stages:
         tags: |
           $(awsEcrRepository):$(Build.BuildId)
 
+    - task: PowerShell@2
+      displayName: 'Set Shell to PowerShell'
+      inputs:
+        targetType: 'inline'
+        script: 'Write-Host "##vso[task.setvariable variable=Agent.UseGlobalEnvironmentShell;]true"'
+
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'Log in to Amazon ECR'
       inputs:
@@ -83,10 +89,10 @@ stages:
         regionName: '$(awsEcrRegion)'
         scriptType: 'inline'
         inlineScript: |
-          powershell {
-            $ecrLoginPassword = aws ecr get-login-password --region $(awsEcrRegion)
-            echo $ecrLoginPassword | docker login --username AWS --password-stdin $(awsEcrRepository)
-          }
+          $ecrLoginPassword = aws ecr get-login-password --region $(awsEcrRegion)
+          echo $ecrLoginPassword | docker login --username AWS --password-stdin $(awsEcrRepository)
+      env:
+        POWERSHELL_FORCE_EXTERNAL_CONSOLE: 1
 
     - task: Docker@2
       displayName: 'Push Docker Image to Amazon ECR'
