@@ -23,8 +23,6 @@ variables:
     value: 'eu-west-2'
   - name: imageName
     value: tipstaff-image
-  - name: 'AWS_SDK_LOAD_CONFIG'
-    value: '1'
 
 stages:
 - stage: BuildAndTest
@@ -81,6 +79,7 @@ stages:
           $(awsEcrRepository):$(Build.BuildId)
 
     - task: ECRPushImage@1
+      displayName: 'Push image to ECR'
       inputs:
         awsCredentials: 'AWS-Tipstaff-Dev-Connection'
         regionName: $(awsEcrRegion)
