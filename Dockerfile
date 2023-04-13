@@ -1,4 +1,4 @@
-# Use the official .NET Framework 4.6.1 ASP.NET image as the base image
+# Pull the Windows Server IIS base image
 FROM mcr.microsoft.com/windows/servercore/iis
 
 # Install IIS features and management tools
