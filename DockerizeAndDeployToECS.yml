@@ -59,7 +59,7 @@ stages:
     - task: PublishBuildArtifacts@1
       displayName: 'Publish WebApp.zip Artifact'
       inputs:
-        PathtoPublish: '$(build.artifactStagingDirectory)\WebApp.zip'
+        PathtoPublish: '$(build.artifactStagingDirectory)\WebApp\Tipstaff.zip'
         ArtifactName: 'WebApp'
         publishLocation: 'Container'
 
@@ -72,7 +72,7 @@ stages:
       vmImage: 'windows-2019'
     steps:
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download WebApp.zip Artifact'
+      displayName: 'Download Tipstaff.zip Artifact'
       inputs:
         buildType: 'current'
         downloadType: 'single'
