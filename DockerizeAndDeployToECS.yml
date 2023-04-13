@@ -69,7 +69,7 @@ stages:
         artifactName: 'WebApp'
         downloadPath: '$(Build.SourcesDirectory)'
 
-    - script: |
+    - powershell: |
         Expand-Archive -LiteralPath $(Build.SourcesDirectory)\WebApp\WebApp.zip -DestinationPath $(Build.SourcesDirectory)\WebApp\Extracted
         Get-ChildItem -Path $(Build.SourcesDirectory)\WebApp\Extracted -Recurse
       displayName: 'List Contents of WebApp.zip'
