@@ -78,13 +78,16 @@ stages:
         tags: |
           $(awsEcrRepository):$(Build.BuildId)
 
+    - script: docker images
+      displayName: 'List Docker Images'
+
     - task: ECRPushImage@1
       displayName: 'Push image to ECR'
       inputs:
         awsCredentials: 'AWS-Tipstaff-Dev-Connection'
         regionName: $(awsEcrRegion)
         imageSource: 'imagename'
-        sourceImageName: $(imageName)
+        sourceImageName: $(awsEcrRepository)
         sourceImageTag: $(Build.BuildId)
         pushTag: latest
         repositoryName: 'tipstaff-ecr-repo'
