@@ -73,6 +73,7 @@ stages:
         command: 'build'
         Dockerfile: '$(dockerfilePath)'
         buildContext: '$(Build.SourcesDirectory)\WebApp'
+        repository: $(awsEcrRepository)
 
     - script: docker images
       displayName: 'List Docker Images'
