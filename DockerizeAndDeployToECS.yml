@@ -73,9 +73,6 @@ stages:
         command: 'build'
         Dockerfile: '$(dockerfilePath)'
         buildContext: '$(Build.SourcesDirectory)\WebApp'
-        tags: |
-          913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest
-        arguments: '--no-cache'
 
     - script: docker images
       displayName: 'List Docker Images'
