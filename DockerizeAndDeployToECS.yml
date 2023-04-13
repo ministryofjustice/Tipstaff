@@ -44,7 +44,17 @@ stages:
       inputs:
         solution: '**/*.sln'
         configuration: 'Release'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=false /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)" /p:DeployIisAppPath="Default Web Site"'
+
+    - task: PowerShell@2
+      displayName: 'List Contents of Artifact Staging Directory'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $artifactPath = "$(build.artifactStagingDirectory)"
+          Get-ChildItem -Path $artifactPath -Recurse | ForEach-Object {
+            Write-Host $_.FullName
+          }
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish WebApp.zip Artifact'
