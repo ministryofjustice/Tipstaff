@@ -86,6 +86,7 @@ stages:
         imageSource: 'imagename'
         sourceImageName: $(awsEcrRepository)
         sourceImageTag: $(Build.BuildId)
+        pushTag: $(Build.BuildId)
         repositoryName: 'tipstaff-ecr-repo'
 
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
