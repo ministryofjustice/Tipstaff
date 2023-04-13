@@ -69,6 +69,11 @@ stages:
         artifactName: 'WebApp'
         downloadPath: '$(Build.SourcesDirectory)'
 
+    - script: |
+        Expand-Archive -LiteralPath $(Build.SourcesDirectory)\WebApp\WebApp.zip -DestinationPath $(Build.SourcesDirectory)\WebApp\Extracted
+        Get-ChildItem -Path $(Build.SourcesDirectory)\WebApp\Extracted -Recurse
+      displayName: 'List Contents of WebApp.zip'
+
     - task: Docker@2
       displayName: 'Build Docker Image'
       inputs:
