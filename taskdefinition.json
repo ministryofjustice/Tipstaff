@@ -1,5 +1,5 @@
 {
-    "family": "tipstaff-task",
+    "family": "tipstaffTask",
     "taskRoleArn": "arn:aws:iam::913862848426:role/task-tipstaff",
     "executionRoleArn": "arn:aws:iam::913862848426:role/execution-tipstaff",
     "runtimePlatform": {
