@@ -2,26 +2,30 @@
     "family": "tipstaff-task",
     "taskRoleArn": "arn:aws:iam::913862848426:role/task-tipstaff",
     "executionRoleArn": "arn:aws:iam::913862848426:role/execution-tipstaff",
+    "runtimePlatform": {
+        "operatingSystemFamily": "WINDOWS_SERVER_2019_CORE",
+        "cpuArchitecture": "X86_64"
+      },
     "containerDefinitions": [
       {
         "name": "tipstaff-container",
         "image": "913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo",
         "essential": true,
-        "memory": 1024,
-        "cpu": 512,
+        "memory": 2048,
+        "cpu": 1024,
         "portMappings": [
           {
             "containerPort": 80,
-            "hostPort": 0,
+            "hostPort": 80,
             "protocol": "tcp"
           }
         ]
       }
     ],
     "requiresCompatibilities": [
-      "EC2"
+      "FARGATE"
     ],
-    "networkMode": "bridge",
-    "cpu": "512",
-    "memory": "1024"
+    "networkMode": "awsvpc",
+    "cpu": "1024",
+    "memory": "2048"
 }

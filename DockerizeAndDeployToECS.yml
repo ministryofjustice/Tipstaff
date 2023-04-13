@@ -21,6 +21,8 @@ variables:
     value: '913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo'
   - name: 'awsEcrRegion'
     value: 'eu-west-2'
+  - name: 'taskDefinitionFile'
+    value: 'taskdefinition.json'
 
 stages:
 - stage: BuildAndTest
@@ -97,7 +99,7 @@ stages:
         scriptType: 'inline'
         inlineScript: |
           # Register a new task definition
-          $(aws) ecs register-task-definition --cli-input-json file://$(taskDefinitionFile)
+          aws ecs register-task-definition --cli-input-json file://$(taskDefinitionFile)
 
           # Update the ECS service with the new task definition
-          $(aws) ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $(Build.Repository.Name) --force-new-deployment
+          aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $(Build.Repository.Name) --force-new-deployment
