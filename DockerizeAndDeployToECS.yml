@@ -98,8 +98,10 @@ stages:
         regionName: '$(awsEcrRegion)'
         scriptType: 'inline'
         inlineScript: |
-          # Register a new task definition
-          aws ecs register-task-definition --cli-input-json file://$(taskDefinitionFile)
+          TASK_DEFINITION_OUTPUT=$( $(aws) ecs register-task-definition --cli-input-json file://$(taskDefinitionFile) )
+          echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
 
-          # Update the ECS service with the new task definition
-          aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $(Build.Repository.Name) --force-new-deployment
+          FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
+          echo "Family Name: $FAMILY_NAME"
+
+          $(aws) ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
