@@ -21,8 +21,6 @@ variables:
     value: '913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo'
   - name: 'awsEcrRegion'
     value: 'eu-west-2'
-  - name: imageName
-    value: tipstaff-image
 
 stages:
 - stage: BuildAndTest
@@ -76,7 +74,8 @@ stages:
         Dockerfile: '$(dockerfilePath)'
         buildContext: '$(Build.SourcesDirectory)\WebApp'
         tags: |
-          $(awsEcrRepository):$(Build.BuildId)
+          913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest
+        arguments: '--no-cache'
 
     - script: docker images
       displayName: 'List Docker Images'
