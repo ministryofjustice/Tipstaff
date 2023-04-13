@@ -44,7 +44,7 @@ stages:
       inputs:
         solution: '**/*.sln'
         configuration: 'Release'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:PackageAsSingleFile=false /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)/Tipstaff" /p:DeployIisAppPath="Default Web Site"'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp" /p:DeployIisAppPath="Default Web Site"'
 
     - task: PowerShell@2
       displayName: 'List Contents of Artifact Staging Directory'
