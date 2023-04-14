@@ -44,22 +44,12 @@ stages:
       inputs:
         solution: '**/*.sln'
         configuration: 'Release'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp" /p:DeployIisAppPath="Default Web Site"'
-
-    - task: PowerShell@2
-      displayName: 'List Contents of Artifact Staging Directory'
-      inputs:
-        targetType: 'inline'
-        script: |
-          $artifactPath = "$(build.artifactStagingDirectory)"
-          Get-ChildItem -Path $artifactPath -Recurse | ForEach-Object {
-            Write-Host $_.FullName
-          }
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish WebApp.zip Artifact'
       inputs:
-        PathtoPublish: '$(build.artifactStagingDirectory)\WebApp\Tipstaff.zip'
+        PathtoPublish: '$(build.artifactStagingDirectory)\WebApp.zip'
         ArtifactName: 'WebApp'
         publishLocation: 'Container'
 
@@ -72,17 +62,12 @@ stages:
       vmImage: 'windows-2019'
     steps:
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download Tipstaff.zip Artifact'
+      displayName: 'Download WebApp.zip Artifact'
       inputs:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'WebApp'
         downloadPath: '$(Build.SourcesDirectory)'
-
-    - powershell: |
-        Expand-Archive -LiteralPath $(Build.SourcesDirectory)\WebApp\Tipstaff.zip -DestinationPath $(Build.SourcesDirectory)\WebApp\Extracted
-        Get-ChildItem -Path $(Build.SourcesDirectory)\WebApp\Extracted -Recurse
-      displayName: 'List Contents of WebApp.zip'
 
     - task: Docker@2
       displayName: 'Build Docker Image'
