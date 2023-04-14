@@ -18,5 +18,8 @@ RUN powershell -Command " \
 # Remove the temporary extracted directory
 RUN powershell -Command "Remove-Item -Recurse -Force C:\temp_extracted"
 
+# Show the contents of wwwroot
+RUN powershell -Command "Get-ChildItem -Path C:\inetpub\wwwroot"
+
 # Expose the IIS port
 EXPOSE 80
