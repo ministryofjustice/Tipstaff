@@ -21,8 +21,6 @@ variables:
     value: '913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo'
   - name: 'awsEcrRegion'
     value: 'eu-west-2'
-  - name: 'taskDefinitionFile'
-    value: 'taskdefinition.json'
   - name: 'taskDefinitionFamily'
     value: 'tipstaffFamily'
   - name: 'newDockerImage'
@@ -95,21 +93,6 @@ stages:
         pushTag: 'latest'
         repositoryName: 'tipstaff-ecr-repo'
 
-    # - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-    #   displayName: 'Update ECS Service'
-    #   inputs:
-    #     awsCredentials: 'AWS-Tipstaff-Dev-Connection'
-    #     regionName: '$(awsEcrRegion)'
-    #     scriptType: 'inline'
-    #     inlineScript: |
-    #       TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://$(taskDefinitionFile) )
-    #       echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
-
-    #       FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
-    #       echo "Family Name: $FAMILY_NAME"
-
-    #       aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
-
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'Update ECS Service'
       inputs:
@@ -125,8 +108,6 @@ stages:
 
           # Save the updated task definition to a file
           echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
-
-          cat updated-task-definition.json
 
           # Register the updated task definition
           TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )

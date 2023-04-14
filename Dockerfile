@@ -6,8 +6,6 @@ RUN powershell -Command \
     Add-WindowsFeature Web-Server; \
     Add-WindowsFeature Web-Mgmt-Tools
 
-RUN powershell -NoProfile -Command Remove-Item -Recurse C:\inetpub\wwwroot\*
-
 # Copy the WebApp.zip file
 COPY WebApp.zip /inetpub/
 
@@ -16,17 +14,6 @@ RUN powershell -Command " \
     Expand-Archive -Path C:\inetpub\WebApp.zip -DestinationPath C:\temp_extracted; \
     xcopy C:\temp_extracted\Content\D_C\a\1\s\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I \
     "
-
-# RUN powershell -Command "xcopy C:\temp_extracted\Content\D_C\a\1\s\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I"
-
-# Output the contents of the extracted directory to the pipeline console
-# RUN powershell -Command "Get-ChildItem -Path C:\temp_extracted -Recurse"
-
-# Select a particular nested file within the extracted directory
-# COPY C:/temp_extracted/Content/D_C/a/1/s/Tipstaff/obj/Release/Package/PackageTmp C:/inetpub/wwwroot
-
-# Output the contents of C:\inetpub\wwwroot
-RUN powershell -Command "Get-ChildItem -Path C:\inetpub\wwwroot -Recurse"
 
 # Remove the temporary extracted directory
 RUN powershell -Command "Remove-Item -Recurse -Force C:\temp_extracted"
