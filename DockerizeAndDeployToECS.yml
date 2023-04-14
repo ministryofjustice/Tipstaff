@@ -24,7 +24,7 @@ variables:
   - name: 'taskDefinitionFile'
     value: 'taskdefinition.json'
   - name: 'taskDefinitionFamily'
-    value: 'tipstaff-task'
+    value: 'tipstaffFamily'
   - name: 'newDockerImage'
     value: '913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest'
 
@@ -72,15 +72,6 @@ stages:
         downloadType: 'single'
         artifactName: 'WebApp'
         downloadPath: '$(Build.SourcesDirectory)'
-
-    - task: AWSShellScript@1
-      inputs:
-        awsCredentials: 'AWS-Tipstaff-Dev-Connection'
-        regionName: $(awsEcrRegion)
-        scriptType: 'inline'
-        inlineScript: |
-          secret_value=$(aws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:eu-west-2:913862848426:secret:tipstaff-dev-db-secrets-8Qc18f --query SecretString --output text)
-          echo "##vso[task.setvariable variable=DB_SECRET]$secret_value"
 
     - task: Docker@2
       displayName: 'Build Docker Image'
