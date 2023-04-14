@@ -23,6 +23,10 @@ variables:
     value: 'eu-west-2'
   - name: 'taskDefinitionFile'
     value: 'taskdefinition.json'
+  - name: 'taskDefinitionFamily'
+    value: 'tipstaff-task'
+  - name: 'newDockerImage'
+    value: '913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest'
 
 stages:
 - stage: BuildAndTest
@@ -69,6 +73,15 @@ stages:
         artifactName: 'WebApp'
         downloadPath: '$(Build.SourcesDirectory)'
 
+    - task: AWSShellScript@1
+      inputs:
+        awsCredentials: 'AWS-Tipstaff-Dev-Connection'
+        regionName: $(awsEcrRegion)
+        scriptType: 'inline'
+        inlineScript: |
+          secret_value=$(aws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:eu-west-2:913862848426:secret:tipstaff-dev-db-secrets-8Qc18f --query SecretString --output text)
+          echo "##vso[task.setvariable variable=DB_SECRET]$secret_value"
+
     - task: Docker@2
       displayName: 'Build Docker Image'
       inputs:
@@ -91,6 +104,21 @@ stages:
         pushTag: 'latest'
         repositoryName: 'tipstaff-ecr-repo'
 
+    # - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+    #   displayName: 'Update ECS Service'
+    #   inputs:
+    #     awsCredentials: 'AWS-Tipstaff-Dev-Connection'
+    #     regionName: '$(awsEcrRegion)'
+    #     scriptType: 'inline'
+    #     inlineScript: |
+    #       TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://$(taskDefinitionFile) )
+    #       echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
+
+    #       FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
+    #       echo "Family Name: $FAMILY_NAME"
+
+    #       aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
+
     - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
       displayName: 'Update ECS Service'
       inputs:
@@ -98,10 +126,21 @@ stages:
         regionName: '$(awsEcrRegion)'
         scriptType: 'inline'
         inlineScript: |
-          TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://$(taskDefinitionFile) )
+          # Retrieve the existing task definition
+          EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
+
+          # Replace the Docker image with the new one
+          NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImage)" '.taskDefinition | .containerDefinitions[0].image = $newImage' )
+
+          # Save the updated task definition to a file
+          echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
+
+          # Register the updated task definition
+          TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )
           echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
 
           FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
           echo "Family Name: $FAMILY_NAME"
 
+          # Update the ECS service with the new task definition
           aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
