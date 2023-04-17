@@ -104,7 +104,7 @@ stages:
           EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
 
           # Replace the Docker image with the new one
-          NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImage)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory} | .containerDefinitions[0].image = $newImage' )
+          NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImage)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory, runtimePlatform: .taskDefinition.runtimePlatform} | .containerDefinitions[0].image = $newImage' )
 
           # Save the updated task definition to a file
           echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
