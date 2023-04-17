@@ -23,6 +23,3 @@ RUN powershell -Command "Get-ChildItem -Path C:\inetpub\wwwroot"
 
 # Expose the IIS port
 EXPOSE 80
-
-# Start the application when the container starts
-ENTRYPOINT ["dotnet", "Tipstaff.dll"]
