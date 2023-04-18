@@ -16,7 +16,6 @@ using Tipstaff.Infrastructure;
 using Castle.MicroKernel.Registration;
 using TPLibrary.Logger;
 using Microsoft.IdentityModel.Protocols;
-using System.Net;
 
 namespace Tipstaff
 {
@@ -191,7 +190,6 @@ namespace Tipstaff
         }
         protected void Application_Start(object sender, EventArgs e)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Ssl3; // only allow TLSV1.2 and SSL3
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
             AreaRegistration.RegisterAllAreas();
 
