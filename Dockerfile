@@ -1,11 +1,6 @@
 # Pull the Windows Server IIS base image
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
 
-# Install IIS features and management tools
-RUN powershell -Command \
-    Add-WindowsFeature Web-Server; \
-    Add-WindowsFeature Web-Mgmt-Tools;
-
 # Copy the WebApp.zip file
 COPY WebApp.zip /inetpub/
 
