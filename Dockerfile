@@ -1,12 +1,5 @@
 # Pull the Windows Server IIS base image
-FROM mcr.microsoft.com/windows/servercore/iis
-
-# Install IIS features and management tools
-RUN powershell -Command \
-    Add-WindowsFeature Web-Server; \
-    Add-WindowsFeature Web-Mgmt-Tools; \
-    Add-WindowsFeature NET-Framework-45-ASPNET; \
-    Add-WindowsFeature Web-Asp-Net45
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2019
 
 # Copy the WebApp.zip file
 COPY WebApp.zip /inetpub/
