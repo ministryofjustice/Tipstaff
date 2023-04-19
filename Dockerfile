@@ -8,6 +8,10 @@ RUN powershell -Command \
     Add-WindowsFeature NET-Framework-45-ASPNET; \
     Add-WindowsFeature Web-Asp-Net45
 
+# Download and install .NET 4.6.1
+ADD https://download.microsoft.com/download/E/4/1/E4173890-A24A-4936-9FC9-AF930FE3FA40/NDP461-KB3102436-x86-x64-AllOS-ENU.exe /NDP461-KB3102436-x86-x64-AllOS-ENU.exe
+RUN /NDP461-KB3102436-x86-x64-AllOS-ENU.exe /q /norestart /log C:\net461.log
+
 # Copy the WebApp.zip file
 COPY WebApp.zip /inetpub/
 
