@@ -18,3 +18,6 @@ RUN powershell -Command "Get-ChildItem -Path C:\inetpub\wwwroot"
 
 # Expose the IIS port
 EXPOSE 80
+
+# Start the W3SVC service
+ENTRYPOINT ["powershell", "-Command", "Start-Service W3SVC; Invoke-WebRequest http://localhost -UseBasicParsing; while ($true) { Start-Sleep -Seconds 3600 }"]
