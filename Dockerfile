@@ -1,5 +1,5 @@
 # Pull the Windows Server IIS base image
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2019
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
 
 # Install IIS features and management tools
 RUN powershell -Command \
