@@ -98,9 +98,6 @@ stages:
         repository: $(awsEcrRepository)
         arguments: '--build-arg RDS_USERNAME=$(PIPELINE_RDS_USERNAME) --build-arg RDS_PASSWORD=$(PIPELINE_RDS_PASSWORD)'
 
-    - script: docker images
-      displayName: 'List Docker Images'
-
     - task: ECRPushImage@1
       displayName: 'Push image to ECR'
       inputs:
