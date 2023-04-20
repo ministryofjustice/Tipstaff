@@ -114,10 +114,10 @@ stages:
           echo "##vso[task.setvariable variable=PIPELINE_RDS_PASSWORD]$RDS_PASSWORD"
 
     - script: |
-        echo "Pipeline RDS_USERNAME: $PIPELINE_RDS_USERNAME"
-        echo "Pipeline RDS_PASSWORD: $PIPELINE_RDS_PASSWORD"
-        echo "RDS_USERNAME: $RDS_USERNAME"
-        echo "RDS_PASSWORD: $RDS_PASSWORD"
+        echo Pipeline RDS_USERNAME: %PIPELINE_RDS_USERNAME%
+        echo Pipeline RDS_PASSWORD: %PIPELINE_RDS_PASSWORD%
+        echo RDS_USERNAME: %RDS_USERNAME%
+        echo RDS_PASSWORD: %RDS_PASSWORD%
       displayName: 'Debug: Print RDS_USERNAME and RDS_PASSWORD'
 
     - task: Docker@2
@@ -127,10 +127,7 @@ stages:
         Dockerfile: '$(dockerfilePath)'
         buildContext: '$(Build.SourcesDirectory)\WebApp'
         repository: $(awsEcrRepository)
-        buildArgs: |
-          RDS_USERNAME=$PIPELINE_RDS_USERNAME
-          RDS_PASSWORD=$PIPELINE_RDS_PASSWORD
-        noCache: true
+        arguments: '--build-arg RDS_USERNAME=$(PIPELINE_RDS_USERNAME) --build-arg RDS_PASSWORD=$(PIPELINE_RDS_PASSWORD)'
 
     - script: docker images
       displayName: 'List Docker Images'
