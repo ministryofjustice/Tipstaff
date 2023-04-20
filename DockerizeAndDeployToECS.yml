@@ -110,8 +110,13 @@ stages:
           RDS_PASSWORD=$(echo "$secretsJson" | jq -r '.LOCAL_DB_PASSWORD')
           
           # Export secrets as environment variables
-          echo "##vso[task.setvariable variable=RDS_USERNAME]$RDS_USERNAME"
-          echo "##vso[task.setvariable variable=RDS_PASSWORD]$RDS_PASSWORD"
+          echo "##vso[task.setvariable variable=PIPELINE_RDS_USERNAME]$RDS_USERNAME"
+          echo "##vso[task.setvariable variable=PIPELINE_RDS_PASSWORD]$RDS_PASSWORD"
+
+    - script: |
+        echo "Pipeline RDS_USERNAME: $(RDS_USERNAME)"
+        echo "Pipeline RDS_PASSWORD: $(RDS_PASSWORD)"
+      displayName: 'Debug: Print RDS_USERNAME and RDS_PASSWORD'
 
     - task: Docker@2
       displayName: 'Build Docker Image'
@@ -121,8 +126,9 @@ stages:
         buildContext: '$(Build.SourcesDirectory)\WebApp'
         repository: $(awsEcrRepository)
         buildArgs: |
-          RDS_USERNAME=$(RDS_USERNAME)
-          RDS_PASSWORD=$(RDS_PASSWORD)
+          RDS_USERNAME=$(PIPELINE_RDS_USERNAME)
+          RDS_PASSWORD=$(PIPELINE_RDS_PASSWORD)
+        noCache: true
 
     - script: docker images
       displayName: 'List Docker Images'

@@ -1,13 +1,13 @@
 # Pull the Windows Server IIS base image
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
 
-# Add environment variables from AWS Secrets Manager
+# Add the ARG values from the build pipeline
 ARG RDS_USERNAME
-ENV RDS_USERNAME=$RDS_USERNAME
 ARG RDS_PASSWORD
-ENV RDS_PASSWORD=$RDS_PASSWORD
 
-# Add the other required environment variables
+# Set the required environment variables
+ENV RDS_USERNAME=$RDS_USERNAME
+ENV RDS_PASSWORD=$RDS_PASSWORD
 ENV DB_NAME="tipstaffdbdev"
 ENV RDS_HOSTNAME="tipstaff-db-dev.cx4fhff2nzo3.eu-west-2.rds.amazonaws.com"
 ENV RDS_PORT="5432"
