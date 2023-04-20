@@ -11,7 +11,6 @@ ENV RDS_PASSWORD=$RDS_PASSWORD
 ENV DB_NAME="tipstaffdbdev"
 ENV RDS_HOSTNAME="tipstaff-db-dev.cx4fhff2nzo3.eu-west-2.rds.amazonaws.com"
 ENV RDS_PORT="5432"
-ENV RDS_USERNAME="dbadmin"
 ENV supportEmail="dts-legacy-apps-support-team@hmcts.net"
 ENV supportTeam="DTS Legacy Apps Support Team"
 ENV CurServer="DEVELOPMENT"
