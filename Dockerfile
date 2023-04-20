@@ -2,18 +2,18 @@
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
 
 # Add the ARG values from the build pipeline
-ARG RDS_USERNAME
 ARG RDS_PASSWORD
+ARG RDS_USERNAME
 
 # Set the required environment variables
-ENV RDS_USERNAME=$RDS_USERNAME
-ENV RDS_PASSWORD=$RDS_PASSWORD
-ENV DB_NAME="tipstaffdbdev"
+ENV CurServer="DEVELOPMENT"
+ENV DB_NAME="tipstaff-db-dev"
 ENV RDS_HOSTNAME="tipstaff-db-dev.cx4fhff2nzo3.eu-west-2.rds.amazonaws.com"
 ENV RDS_PORT="5432"
+ENV RDS_PASSWORD=$RDS_PASSWORD
+ENV RDS_USERNAME=$RDS_USERNAME
 ENV supportEmail="dts-legacy-apps-support-team@hmcts.net"
 ENV supportTeam="DTS Legacy Apps Support Team"
-ENV CurServer="DEVELOPMENT"
 
 # Copy the WebApp.zip file
 COPY WebApp.zip /inetpub/
