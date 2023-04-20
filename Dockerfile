@@ -31,4 +31,4 @@ RUN powershell -Command "Remove-Item -Recurse -Force C:\temp_extracted"
 EXPOSE 80
 
 # Start the W3SVC service
-ENTRYPOINT ["powershell", "-Command", "Start-Service W3SVC; Invoke-WebRequest http://localhost -UseBasicParsing; while ($true) { Start-Sleep -Seconds 3600 }"]
+ENTRYPOINT ["powershell", "-Command", "Start-Service W3SVC; Invoke-WebRequest http://localhost -UseBasicParsing; iisreset /restart; while ($true) { Start-Sleep -Seconds 3600 }"]
