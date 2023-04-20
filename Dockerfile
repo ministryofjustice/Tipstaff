@@ -7,8 +7,8 @@ ARG RDS_USERNAME
 
 # Set the required environment variables
 ENV CurServer="DEVELOPMENT"
-ENV DB_NAME="tipstaff-db-dev"
-ENV RDS_HOSTNAME="tipstaff-db-dev.cx4fhff2nzo3.eu-west-2.rds.amazonaws.com"
+ENV DB_NAME="tipstaffdbdev"
+ENV RDS_HOSTNAME="tipstaffdbdev.cx4fhff2nzo3.eu-west-2.rds.amazonaws.com"
 ENV RDS_PORT="5432"
 ENV RDS_PASSWORD=$RDS_PASSWORD
 ENV RDS_USERNAME=$RDS_USERNAME

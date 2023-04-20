@@ -22,16 +22,10 @@ namespace Tipstaff.Models
             string dbname = appConfig["DB_NAME"];
             if (!string.IsNullOrEmpty(dbname))
             {
-                // string username = appConfig["RDS_USERNAME"];
-                // string password = appConfig["RDS_PASSWORD"];
-                // string hostname = appConfig["RDS_HOSTNAME"];
-                // string port = appConfig["RDS_PORT"];
-
-                string username = Environment.GetEnvironmentVariable("RDS_USERNAME");
-                string password = Environment.GetEnvironmentVariable("RDS_PASSWORD");
-                string hostname = Environment.GetEnvironmentVariable("RDS_HOSTNAME");
-                string port = Environment.GetEnvironmentVariable("RDS_PORT");
-                
+                string username = appConfig["RDS_USERNAME"];
+                string password = appConfig["RDS_PASSWORD"];
+                string hostname = appConfig["RDS_HOSTNAME"];
+                string port = appConfig["RDS_PORT"];
                 var settings = ConfigurationManager.ConnectionStrings[1];
                 var fi = typeof(ConfigurationElement).GetField("_bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
                 fi.SetValue(settings, false);
