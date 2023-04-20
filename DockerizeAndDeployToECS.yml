@@ -103,11 +103,15 @@ stages:
         scriptType: 'inline'
         inlineScript: |
           # Retrieve secrets from AWS Secrets Manager
-          $secretsJson = $(aws secretsmanager get-secret-value --secret-id "arn:aws:secretsmanager:eu-west-2:913862848426:secret:tipstaff-dev-db-secrets-8Qc18f" --query SecretString --output text) | ConvertFrom-Json
+          secretsJson=$(aws secretsmanager get-secret-value --secret-id "arn:aws:secretsmanager:eu-west-2:913862848426:secret:tipstaff-dev-db-secrets-8Qc18f" --query SecretString --output text)
+          
+          # Decode JSON and extract secrets
+          RDS_USERNAME=$(echo "$secretsJson" | jq -r '.LOCAL_DB_USERNAME')
+          RDS_PASSWORD=$(echo "$secretsJson" | jq -r '.LOCAL_DB_PASSWORD')
           
           # Export secrets as environment variables
-          Write-Host "##vso[task.setvariable variable=RDS_USERNAME]$($secretsJson.LOCAL_DB_USERNAME)"
-          Write-Host "##vso[task.setvariable variable=RDS_PASSWORD]$($secretsJson.LOCAL_DB_PASSWORD)"
+          echo "##vso[task.setvariable variable=RDS_USERNAME]$RDS_USERNAME"
+          echo "##vso[task.setvariable variable=RDS_PASSWORD]$RDS_PASSWORD"
 
     - task: Docker@2
       displayName: 'Build Docker Image'
