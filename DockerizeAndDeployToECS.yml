@@ -71,6 +71,44 @@ stages:
         artifactName: 'WebApp'
         downloadPath: '$(Build.SourcesDirectory)'
 
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: '3.x'
+    #     addToPath: true
+
+    # - task: PowerShell@2
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       # Install AWS CLI
+    #       pip install awscli
+
+    # - task: PowerShell@2
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: |
+    #       # Retrieve secrets from AWS Secrets Manager
+    #       $secretsJson = $(aws secretsmanager get-secret-value --secret-id "arn:aws:secretsmanager:eu-west-2:913862848426:secret:tipstaff-dev-db-secrets-8Qc18f" --query SecretString --output text) | ConvertFrom-Json
+          
+    #       # Export secrets as environment variables
+    #       Write-Host "##vso[task.setvariable variable=RDS_USERNAME]$($secretsJson.LOCAL_DB_USERNAME)"
+    #       Write-Host "##vso[task.setvariable variable=RDS_PASSWORD]$($secretsJson.LOCAL_DB_PASSWORD)"
+    #   displayName: 'Fetch Secrets from AWS Secrets Manager'
+
+    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+      displayName: 'Fetch Secrets from AWS Secrets Manager'
+      inputs:
+        awsCredentials: 'AWS-Tipstaff-Dev-Connection'
+        regionName: 'eu-west-2'
+        scriptType: 'inline'
+        inlineScript: |
+          # Retrieve secrets from AWS Secrets Manager
+          $secretsJson = $(aws secretsmanager get-secret-value --secret-id "arn:aws:secretsmanager:eu-west-2:913862848426:secret:tipstaff-dev-db-secrets-8Qc18f" --query SecretString --output text) | ConvertFrom-Json
+          
+          # Export secrets as environment variables
+          Write-Host "##vso[task.setvariable variable=RDS_USERNAME]$($secretsJson.LOCAL_DB_USERNAME)"
+          Write-Host "##vso[task.setvariable variable=RDS_PASSWORD]$($secretsJson.LOCAL_DB_PASSWORD)"
+
     - task: Docker@2
       displayName: 'Build Docker Image'
       inputs:
@@ -78,6 +116,7 @@ stages:
         Dockerfile: '$(dockerfilePath)'
         buildContext: '$(Build.SourcesDirectory)\WebApp'
         repository: $(awsEcrRepository)
+        buildArgs: '--build-arg RDS_USERNAME=$(RDS_USERNAME) --build-arg RDS_PASSWORD=$(RDS_PASSWORD)'
 
     - script: docker images
       displayName: 'List Docker Images'
