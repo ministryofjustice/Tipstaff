@@ -19,15 +19,13 @@ ENV ida:ClientId="09730739-d16b-47e6-a8c6-007ad48bed2d"
 # Copy the WebApp.zip file
 COPY WebApp.zip /inetpub/
 
-# Extract the contents of WebApp.zip to a temporary directory
+# Extract the contents of WebApp.zip to a temporary directory and clean up the files that are no longer needed
 RUN powershell -Command " \
     Expand-Archive -Path C:\inetpub\WebApp.zip -DestinationPath C:\temp_extracted; \
-    xcopy C:\temp_extracted\Content\D_C\a\1\s\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I \
-    Remove-Item -Path C:\inetpub\wwwroot\WebApp.zip -Force \
+    xcopy C:\temp_extracted\Content\D_C\a\1\s\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I; \
+    Remove-Item -Path C:\inetpub\wwwroot\WebApp.zip -Force; \
+    Remove-Item -Recurse -Force C:\temp_extracted \
     "
-
-# Remove the temporary extracted directory
-RUN powershell -Command "Remove-Item -Recurse -Force C:\temp_extracted"
 
 # Download ServiceMonitor
 RUN powershell -Command " \
