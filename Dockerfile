@@ -23,7 +23,7 @@ COPY WebApp.zip /inetpub/
 RUN powershell -Command " \
     Expand-Archive -Path C:\inetpub\WebApp.zip -DestinationPath C:\temp_extracted; \
     xcopy C:\temp_extracted\Content\D_C\a\1\s\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I; \
-    Remove-Item -Path C:\inetpub\wwwroot\WebApp.zip -Force; \
+    Remove-Item -Path C:\inetpub\WebApp.zip -Force; \
     Remove-Item -Recurse -Force C:\temp_extracted \
     "
 
