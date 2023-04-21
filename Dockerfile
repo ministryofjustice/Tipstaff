@@ -16,17 +16,18 @@ ENV supportEmail="dts-legacy-apps-support-team@hmcts.net"
 ENV supportTeam="DTS Legacy Apps Support Team"
 ENV ida:ClientId="09730739-d16b-47e6-a8c6-007ad48bed2d"
 
+# Copy the WebApp.zip file
+COPY WebApp.zip /inetpub/
+
 # Extract the contents of WebApp.zip to a temporary directory
 RUN powershell -Command " \
-    Expand-Archive -Path C:\WebApp.zip -DestinationPath C:\temp_extracted; \
+    Expand-Archive -Path C:\inetpub\WebApp.zip -DestinationPath C:\temp_extracted; \
     xcopy C:\temp_extracted\Content\D_C\a\1\s\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I \
+    Remove-Item -Path C:\inetpub\wwwroot\WebApp.zip -Force \
     "
 
 # Remove the temporary extracted directory
 RUN powershell -Command "Remove-Item -Recurse -Force C:\temp_extracted"
-
-# Remove the WebApp.zip file
-RUN powershell -Command "Remove-Item -Recurse -Force C:\WebApp.zip"
 
 # Download ServiceMonitor
 RUN powershell -Command " \
