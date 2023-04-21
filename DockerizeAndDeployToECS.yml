@@ -82,8 +82,8 @@ stages:
           secretsJson=$(aws secretsmanager get-secret-value --secret-id "arn:aws:secretsmanager:eu-west-2:913862848426:secret:tipstaff-dev-db-secrets-8Qc18f" --query SecretString --output text)
           
           # Decode JSON and extract secrets
-          RDS_USERNAME=$(echo "$secretsJson" | jq -r '.LOCAL_DB_USERNAME')
-          RDS_PASSWORD=$(echo "$secretsJson" | jq -r '.LOCAL_DB_PASSWORD')
+          RDS_USERNAME=$(echo "$secretsJson" | jq -r '.TIPSTAFF_DB_USERNAME_DEV')
+          RDS_PASSWORD=$(echo "$secretsJson" | jq -r '.TIPSTAFF_DB_PASSWORD_DEV')
           
           # Export secrets as environment variables
           echo "##vso[task.setvariable variable=PIPELINE_RDS_USERNAME]$RDS_USERNAME"
