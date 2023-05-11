@@ -81,6 +81,7 @@ stages:
         command: 'build'
         Dockerfile: '$(dockerfilePath)'
         buildContext: '$(Build.SourcesDirectory)\WebApp'
+        repository: $(awsEcrRepositoryDev)
 
       - task: ECRPushImage@1
         displayName: 'Push image to ECR'
