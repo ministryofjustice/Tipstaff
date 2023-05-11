@@ -83,7 +83,7 @@ stages:
         buildContext: '$(Build.SourcesDirectory)\WebApp'
         repository: $(awsEcrRepositoryDev)
 
-    - task: ManualIntervention@8
+    - task: ManualIntervention@0
       inputs:
         instructions: 'Review and approve the task.'
 
