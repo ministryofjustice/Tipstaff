@@ -83,10 +83,6 @@ stages:
         buildContext: '$(Build.SourcesDirectory)\WebApp'
         repository: $(awsEcrRepositoryDev)
 
-    - task: ManualIntervention@0
-      inputs:
-        instructions: 'Review and approve the task.'
-
     - task: ECRPushImage@1
       displayName: 'Push image to ECR'
       inputs:
