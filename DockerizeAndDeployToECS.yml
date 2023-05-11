@@ -83,7 +83,7 @@ stages:
 
   - stage: ReleaseDev
     displayName: "Release to Development"
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dockerize'))
+    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dockerize'))
     jobs:
       - deployment: DeploymentJobDev
         displayName: "Deployment Job - Development"
