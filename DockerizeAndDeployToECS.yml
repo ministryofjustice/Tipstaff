@@ -82,10 +82,6 @@ stages:
         Dockerfile: '$(dockerfilePath)'
         buildContext: '$(Build.SourcesDirectory)\WebApp'
 
-      - task: ManualIntervention@8
-        inputs:
-          instructions: 'Review and approve the task.'
-
       - task: ECRPushImage@1
         displayName: 'Push image to ECR'
         inputs:
