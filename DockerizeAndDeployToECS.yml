@@ -113,7 +113,7 @@ stages:
             displayName: 'Publish Docker image as build artifact'
             inputs:
               targetPath: '$(Build.SourcesDirectory)/$(dockerfilePath)'
-              artifact: 'TipstaffDockerImage'
+              artifact: 'tipstaff-docker-image'
 
         # - task: ECRPushImage@1
         #   displayName: 'Push image to ECR - Preprod'
