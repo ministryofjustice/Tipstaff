@@ -80,16 +80,16 @@ stages:
             inputs:
               command: "build"
               Dockerfile: "$(dockerfilePath)"
-              buildContext: '$(Build.SourcesDirectory)\WebApp'
+              buildContext: '$(Build.SourcesDirectory)\TipstaffDockerImage'
               repository: $(awsEcrRepositoryDev)
 
-          - task: Docker@2
-            displayName: "Build Docker Image - Preprod"
-            inputs:
-              command: "build"
-              Dockerfile: "$(dockerfilePath)"
-              buildContext: '$(Build.SourcesDirectory)\WebApp'
-              repository: $(awsEcrRepositoryPreProd)
+          # - task: Docker@2
+          #   displayName: "Build Docker Image - Preprod"
+          #   inputs:
+          #     command: "build"
+          #     Dockerfile: "$(dockerfilePath)"
+          #     buildContext: '$(Build.SourcesDirectory)\WebApp'
+          #     repository: $(awsEcrRepositoryPreProd)
 
           - task: PublishBuildArtifacts@1
             displayName: "Publish Docker Image Artifact"
