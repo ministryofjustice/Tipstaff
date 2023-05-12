@@ -112,7 +112,7 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: 'Publish Docker image as build artifact'
             inputs:
-              targetPath: '$(Build.SourcesDirectory)/$(dockerfilePath)'
+              targetPath: '$(Build.SourcesDirectory)/tipstaff-docker-image'
               artifact: 'tipstaff-docker-image'
 
         # - task: ECRPushImage@1
