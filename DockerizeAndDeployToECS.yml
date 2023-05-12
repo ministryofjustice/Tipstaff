@@ -56,7 +56,7 @@ stages:
             displayName: "Publish WebApp.zip Artifact"
             inputs:
               PathtoPublish: '$(build.artifactStagingDirectory)\WebApp.zip'
-              ArtifactName: "WebApp"
+              ArtifactName: "TipstaffDockerImage"
               publishLocation: "Container"
 
   - stage: DockerizeAndDeploy
@@ -72,7 +72,7 @@ stages:
             inputs:
               buildType: "current"
               downloadType: "single"
-              artifactName: "WebApp"
+              artifactName: "TipstaffDockerImage"
               downloadPath: "$(Build.SourcesDirectory)"
 
           - task: Docker@2
