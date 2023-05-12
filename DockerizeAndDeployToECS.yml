@@ -104,7 +104,7 @@ stages:
               awsCredentials: 'AWS-Tipstaff-Dev-Connection'
               regionName: $(awsEcrRegion)
               imageSource: 'imagename'
-              sourceImageName: $(awsEcrRepositoryDev)
+              sourceImageName: 'tipstaff-docker-image'
               sourceImageTag: $(Build.BuildId)
               pushTag: 'latest'
               repositoryName: 'tipstaff-ecr-repo'
