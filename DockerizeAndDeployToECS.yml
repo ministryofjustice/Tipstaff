@@ -91,23 +91,29 @@ stages:
           #     buildContext: '$(Build.SourcesDirectory)\WebApp'
           #     repository: $(awsEcrRepositoryPreProd)
 
-          - task: PublishBuildArtifacts@1
-            displayName: 'Publish Docker Image Artifact'
-            inputs:
-              PathtoPublish: '$(Build.SourcesDirectory)\WebApp'
-              ArtifactName: 'TipstaffDockerImage'
-              publishLocation: 'Container'
+          # - task: PublishBuildArtifacts@1
+          #   displayName: 'Publish Docker Image Artifact'
+          #   inputs:
+          #     PathtoPublish: '$(Build.SourcesDirectory)\WebApp'
+          #     ArtifactName: 'TipstaffDockerImage'
+          #     publishLocation: 'Container'
 
-        # - task: ECRPushImage@1
-        #   displayName: 'Push image to ECR - Dev'
-        #   inputs:
-        #     awsCredentials: 'AWS-Tipstaff-Dev-Connection'
-        #     regionName: $(awsEcrRegion)
-        #     imageSource: 'imagename'
-        #     sourceImageName: $(awsEcrRepositoryDev)
-        #     sourceImageTag: $(Build.BuildId)
-        #     pushTag: 'latest'
-        #     repositoryName: 'tipstaff-ecr-repo'
+          - task: ECRPushImage@1
+            displayName: 'Push image to ECR - Dev'
+            inputs:
+              awsCredentials: 'AWS-Tipstaff-Dev-Connection'
+              regionName: $(awsEcrRegion)
+              imageSource: 'imagename'
+              sourceImageName: $(awsEcrRepositoryDev)
+              sourceImageTag: $(Build.BuildId)
+              pushTag: 'latest'
+              repositoryName: 'tipstaff-ecr-repo'
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish Docker image as build artifact'
+            inputs:
+              targetPath: '$(Build.SourcesDirectory)/$(dockerfilePath)'
+              artifact: 'TipstaffDockerImage'
 
         # - task: ECRPushImage@1
         #   displayName: 'Push image to ECR - Preprod'
