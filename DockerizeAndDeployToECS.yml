@@ -81,7 +81,7 @@ stages:
               command: 'build'
               Dockerfile: '$(dockerfilePath)'
               buildContext: '$(Build.SourcesDirectory)\WebApp'
-              repository: $(awsEcrRepositoryDev)
+              repository: 'tipstaff-docker-image'
 
           # - task: Docker@2
           #   displayName: 'Build Docker Image - Preprod'
@@ -112,7 +112,7 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: 'Publish Docker image as build artifact'
             inputs:
-              targetPath: '$(Build.SourcesDirectory)/tipstaff-docker-image'
+              targetPath: '$(Build.SourcesDirectory)/$(dockerfilePath)'
               artifact: 'tipstaff-docker-image'
 
         # - task: ECRPushImage@1
