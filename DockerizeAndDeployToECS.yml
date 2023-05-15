@@ -113,7 +113,7 @@ stages:
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
 
-  - stage: Approve
+  - stage: ApproveDev
     displayName: "Approve Deployment (Development)"
     jobs:
       - job: waitForValidation
@@ -127,7 +127,7 @@ stages:
             instructions: 'Validate the build configuration to resume dev deployment'
             onTimeout: 'resume'
 
-  - stage: DeployToECS
+  - stage: DeployToECSdev
     displayName: "Deploy to AWS ECS"
     jobs:
       - job: DeployToECS
@@ -161,7 +161,7 @@ stages:
                 # Update the ECS service with the new task definition
                 aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
 
-  - stage: Approve
+  - stage: ApprovePreProd
     displayName: "Approve Deployment (Pre Production)"
     jobs:
       - job: waitForValidation
@@ -174,7 +174,7 @@ stages:
           inputs:
             instructions: 'Validate the build configuration to resume dev deployment'
             onTimeout: 'resume'
-  - stage: DeployToECS
+  - stage: DeployToECSpreprod
     displayName: "Deploy to AWS ECS"
     jobs:
       - job: DeployToECS
