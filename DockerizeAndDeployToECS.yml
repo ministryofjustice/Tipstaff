@@ -4,163 +4,171 @@
 trigger:
   branches:
     include:
-    - main
-    - develop
+      - main
+      - develop
 
 resources:
   - repo: self
 
 variables:
-  - name: 'ecsClusterName'
-    value: 'tipstaff_cluster'
-  - name: 'ecsServiceName'
-    value: 'tipstaff'
-  - name: 'dockerfilePath'
-    value: 'Dockerfile'
-  - name: 'DevImageName'
-    value: 'tipstaff-docker-image-dev'
-  - name: 'PreProdImageName'
-    value: 'tipstaff-docker-image-preprod'
-  - name: 'awsEcrRegion'
-    value: 'eu-west-2'
-  - name: 'taskDefinitionFamily'
-    value: 'tipstaffFamily'
-  - name: 'newDockerImageDev'
-    value: '913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest'
-  - name: 'newDockerImagePreProd'
-    value: '842764906196.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest'
+  - name: "ecsClusterName"
+    value: "tipstaff_cluster"
+  - name: "ecsServiceName"
+    value: "tipstaff"
+  - name: "dockerfilePath"
+    value: "Dockerfile"
+  - name: "DevImageName"
+    value: "tipstaff-docker-image-dev"
+  - name: "PreProdImageName"
+    value: "tipstaff-docker-image-preprod"
+  - name: "awsEcrRegion"
+    value: "eu-west-2"
+  - name: "taskDefinitionFamily"
+    value: "tipstaffFamily"
+  - name: "newDockerImageDev"
+    value: "913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest"
+  - name: "newDockerImagePreProd"
+    value: "842764906196.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest"
 
 stages:
-- stage: BuildAndTest
-  displayName: 'Build and Test Application'
-  jobs:
-  - job: BuildAndTest
-    displayName: 'Build and Test'
-    pool:
-      vmImage: 'windows-2019'
-    steps:
-    - task: NuGetToolInstaller@1
+  - stage: BuildAndTest
+    displayName: "Build and Test Application"
+    jobs:
+      - job: BuildAndTest
+        displayName: "Build and Test"
+        pool:
+          vmImage: "windows-2019"
+        steps:
+          - task: NuGetToolInstaller@1
 
-    - task: NuGetCommand@2
-      inputs:
-        command: 'restore'
-        restoreSolution: '**/*.sln'
+          - task: NuGetCommand@2
+            inputs:
+              command: "restore"
+              restoreSolution: "**/*.sln"
 
-    - task: VSBuild@1
-      inputs:
-        solution: '**/*.sln'
-        configuration: 'Release'
-        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+          - task: VSBuild@1
+            inputs:
+              solution: "**/*.sln"
+              configuration: "Release"
+              msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish WebApp.zip Artifact'
-      inputs:
-        PathtoPublish: '$(build.artifactStagingDirectory)\WebApp.zip'
-        ArtifactName: 'WebApp'
-        publishLocation: 'Container'
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish WebApp.zip Artifact"
+            inputs:
+              PathtoPublish: '$(build.artifactStagingDirectory)\WebApp.zip'
+              ArtifactName: "WebApp"
+              publishLocation: "Container"
 
-- stage: DockerizeAndDeploy
-  displayName: 'Dockerize and Deploy to AWS ECS'
-  jobs:
-  - job: DockerizeAndDeploy
-    displayName: 'Dockerize and Deploy'
-    pool:
-      vmImage: 'windows-2019'
-    steps:
-    - task: DownloadBuildArtifacts@0
-      displayName: 'Download WebApp.zip Artifact'
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'WebApp'
-        downloadPath: '$(Build.SourcesDirectory)'
+  - stage: DockerizeAndPushToECR
+    displayName: "Dockerize and push image to AWS ECR"
+    jobs:
+      - job: DockerizeAndPushToECR
+        displayName: "Dockerize and Deploy"
+        pool:
+          vmImage: "windows-2019"
+        steps:
+          - task: DownloadBuildArtifacts@0
+            displayName: "Download WebApp.zip Artifact"
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "WebApp"
+              downloadPath: "$(Build.SourcesDirectory)"
 
-    - task: Docker@2
-      displayName: 'Build Docker Image - Dev'
-      inputs:
-        command: 'build'
-        Dockerfile: '$(dockerfilePath)'
-        buildContext: '$(Build.SourcesDirectory)\WebApp'
-        repository: $(DevImageName)
+          - task: Docker@2
+            displayName: "Build Docker Image - Dev"
+            inputs:
+              command: "build"
+              Dockerfile: "$(dockerfilePath)"
+              buildContext: '$(Build.SourcesDirectory)\WebApp'
+              repository: $(DevImageName)
 
-    - task: Docker@2
-      displayName: 'Build Docker Image - Preprod'
-      inputs:
-        command: 'build'
-        Dockerfile: '$(dockerfilePath)'
-        buildContext: '$(Build.SourcesDirectory)\WebApp'
-        repository: $(PreProdImageName)
+          - task: Docker@2
+            displayName: "Build Docker Image - Preprod"
+            inputs:
+              command: "build"
+              Dockerfile: "$(dockerfilePath)"
+              buildContext: '$(Build.SourcesDirectory)\WebApp'
+              repository: $(PreProdImageName)
 
-    - task: ECRPushImage@1
-      displayName: 'Push image to ECR - Dev'
-      inputs:
-        awsCredentials: 'AWS-Tipstaff-Dev-Connection'
-        regionName: $(awsEcrRegion)
-        imageSource: 'imagename'
-        sourceImageName: $(DevImageName)
-        sourceImageTag: $(Build.BuildId)
-        pushTag: 'latest'
-        repositoryName: 'tipstaff-ecr-repo'
+          - task: ECRPushImage@1
+            displayName: "Push image to ECR - Dev"
+            inputs:
+              awsCredentials: "AWS-Tipstaff-Dev-Connection"
+              regionName: $(awsEcrRegion)
+              imageSource: "imagename"
+              sourceImageName: $(DevImageName)
+              sourceImageTag: $(Build.BuildId)
+              pushTag: "latest"
+              repositoryName: "tipstaff-ecr-repo"
 
-    - task: ECRPushImage@1
-      displayName: 'Push image to ECR - Preprod'
-      inputs:
-        awsCredentials: 'AWS-Tipstaff-Pre-Prod-Connection'
-        regionName: $(awsEcrRegion)
-        imageSource: 'imagename'
-        sourceImageName: $(PreProdImageName)
-        sourceImageTag: $(Build.BuildId)
-        pushTag: 'latest'
-        repositoryName: 'tipstaff-ecr-repo'
+          - task: ECRPushImage@1
+            displayName: "Push image to ECR - Preprod"
+            inputs:
+              awsCredentials: "AWS-Tipstaff-Pre-Prod-Connection"
+              regionName: $(awsEcrRegion)
+              imageSource: "imagename"
+              sourceImageName: $(PreProdImageName)
+              sourceImageTag: $(Build.BuildId)
+              pushTag: "latest"
+              repositoryName: "tipstaff-ecr-repo"
 
-    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-      displayName: 'Update ECS Service'
-      inputs:
-        awsCredentials: 'AWS-Tipstaff-Dev-Connection'
-        regionName: '$(awsEcrRegion)'
-        scriptType: 'inline'
-        inlineScript: |
-          # Retrieve the existing task definition
-          EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
+  - stage: DeployToECS
+    displayName: "Deploy to AWS ECS"
+    jobs:
+      - job: DeployToECS
+        displayName: "Deploy to AWS ECS"
+        pool:
+          vmImage: "windows-2019"
+        steps:
+          - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+            displayName: "Update ECS Service"
+            inputs:
+              awsCredentials: "AWS-Tipstaff-Dev-Connection"
+              regionName: "$(awsEcrRegion)"
+              scriptType: "inline"
+              inlineScript: |
+                # Retrieve the existing task definition
+                EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
 
-          # Replace the Docker image with the new one
-          NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImageDev)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory, runtimePlatform: .taskDefinition.runtimePlatform} | .containerDefinitions[0].image = $newImage' )
+                # Replace the Docker image with the new one
+                NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImageDev)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory, runtimePlatform: .taskDefinition.runtimePlatform} | .containerDefinitions[0].image = $newImage' )
 
-          # Save the updated task definition to a file
-          echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
+                # Save the updated task definition to a file
+                echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
 
-          # Register the updated task definition
-          TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )
-          echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
+                # Register the updated task definition
+                TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )
+                echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
 
-          FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
-          echo "Family Name: $FAMILY_NAME"
+                FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
+                echo "Family Name: $FAMILY_NAME"
 
-          # Update the ECS service with the new task definition
-          aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
+                # Update the ECS service with the new task definition
+                aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
 
-    - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-      displayName: 'Update ECS Service'
-      inputs:
-        awsCredentials: 'AWS-Tipstaff-Pre-Prod-Connection'
-        regionName: '$(awsEcrRegion)'
-        scriptType: 'inline'
-        inlineScript: |
-          # Retrieve the existing task definition
-          EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
+          - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+            displayName: "Update ECS Service"
+            inputs:
+              awsCredentials: "AWS-Tipstaff-Pre-Prod-Connection"
+              regionName: "$(awsEcrRegion)"
+              scriptType: "inline"
+              inlineScript: |
+                # Retrieve the existing task definition
+                EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
 
-          # Replace the Docker image with the new one
-          NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImagePreProd)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory, runtimePlatform: .taskDefinition.runtimePlatform} | .containerDefinitions[0].image = $newImage' )
+                # Replace the Docker image with the new one
+                NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImagePreProd)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory, runtimePlatform: .taskDefinition.runtimePlatform} | .containerDefinitions[0].image = $newImage' )
 
-          # Save the updated task definition to a file
-          echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
+                # Save the updated task definition to a file
+                echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
 
-          # Register the updated task definition
-          TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )
-          echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
+                # Register the updated task definition
+                TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )
+                echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
 
-          FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
-          echo "Family Name: $FAMILY_NAME"
+                FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
+                echo "Family Name: $FAMILY_NAME"
 
-          # Update the ECS service with the new task definition
-          aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
+                # Update the ECS service with the new task definition
+                aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
