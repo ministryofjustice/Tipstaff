@@ -116,6 +116,17 @@ stages:
   - stage: DeployToECS
     displayName: "Deploy to AWS ECS"
     jobs:
+      - job: waitForValidation
+        displayName: Wait for Approval (Dev)
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+        - task: ManualValidation@0
+          timeoutInMinutes: 1440
+          inputs:
+            instructions: 'Validate the build configuration to resume dev deployment'
+            onTimeout: 'resume'
+
       - job: DeployToECS
         displayName: "Deploy to AWS ECS"
         pool:
