@@ -87,7 +87,7 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: "Publish Docker image artifact"
             inputs:
-              targetPath: '$(Build.SourcesDirectory)\tipstaff-docker-image:$(Build.BuildId)'
+              targetPath: '$(Build.SourcesDirectory)\WebApp\tipstaff-docker-image:$(Build.BuildId)'
               artifactName: "docker-image"
 
           # - task: ECRPushImage@1
