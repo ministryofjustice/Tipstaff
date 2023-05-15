@@ -84,23 +84,23 @@ stages:
               repository: "tipstaff-docker-image"
               tags: "$(Build.BuildId)"
 
-          - task: PublishPipelineArtifact@1
-            displayName: "Publish Docker image artifact"
-            inputs:
-              targetPath: '$(Build.SourcesDirectory)\WebApp'
-              artifactName: "docker-image"
-              publishLocation: "pipeline"
-
-          # - task: ECRPushImage@1
-          #   displayName: "Push image to ECR - Dev"
+          # - task: PublishPipelineArtifact@1
+          #   displayName: "Publish Docker image artifact"
           #   inputs:
-          #     awsCredentials: "AWS-Tipstaff-Dev-Connection"
-          #     regionName: $(awsEcrRegion)
-          #     imageSource: "imagename"
-          #     sourceImageName: "tipstaff-docker-image"
-          #     sourceImageTag: $(Build.BuildId)
-          #     pushTag: "latest"
-          #     repositoryName: "tipstaff-ecr-repo"
+          #     targetPath: '$(Build.SourcesDirectory)\WebApp'
+          #     artifactName: "docker-image"
+          #     publishLocation: "pipeline"
+
+          - task: ECRPushImage@1
+            displayName: "Push image to ECR - Dev"
+            inputs:
+              awsCredentials: "AWS-Tipstaff-Dev-Connection"
+              regionName: $(awsEcrRegion)
+              imageSource: "imagename"
+              sourceImageName: "tipstaff-docker-image"
+              sourceImageTag: $(Build.BuildId)
+              pushTag: "latest"
+              repositoryName: "tipstaff-ecr-repo"
 
         # - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
         #   displayName: 'Update ECS Service'
