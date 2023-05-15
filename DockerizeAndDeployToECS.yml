@@ -73,21 +73,21 @@ stages:
               buildType: "current"
               downloadType: "single"
               artifactName: "WebApp"
-              downloadPath: "$(Build.SourcesDirectory)"
+              downloadPath: "$(System.ArtifactsDirectory)"
 
           - task: Docker@2
             displayName: "Build Docker Image - Dev"
             inputs:
               command: "build"
               Dockerfile: "$(dockerfilePath)"
-              buildContext: '$(Build.SourcesDirectory)\WebApp'
+              buildContext: "**"
               repository: "tipstaff-docker-image"
               tags: "$(Build.BuildId)"
 
           - task: PublishPipelineArtifact@1
             displayName: "Publish Docker image artifact"
             inputs:
-              targetPath: '$(Build.SourcesDirectory)\WebApp'
+              targetPath: "$(Pipeline.Workspace)"
               artifactName: "docker-image"
 
           # - task: ECRPushImage@1
