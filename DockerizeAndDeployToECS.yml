@@ -89,6 +89,7 @@ stages:
             inputs:
               targetPath: '$(Build.SourcesDirectory)\WebApp'
               artifactName: "docker-image"
+              publishLocation: "pipeline"
 
           # - task: ECRPushImage@1
           #   displayName: "Push image to ECR - Dev"
