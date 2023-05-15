@@ -113,11 +113,11 @@ stages:
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
 
-  - stage: DeployToECS
-    displayName: "Deploy to AWS ECS"
+  - stage: Approve
+    displayName: "Approve Deployment (Development)"
     jobs:
       - job: waitForValidation
-        displayName: Wait for Approval (Dev)
+        displayName: Approve Deployment (Development)
         pool: server
         timeoutInMinutes: 4320
         steps:
@@ -127,8 +127,11 @@ stages:
             instructions: 'Validate the build configuration to resume dev deployment'
             onTimeout: 'resume'
 
+  - stage: DeployToECS
+    displayName: "Deploy to AWS ECS"
+    jobs:
       - job: DeployToECS
-        displayName: "Deploy to AWS ECS"
+        displayName: "Deploy to AWS ECS (Development)"
         pool:
           vmImage: "windows-2019"
         steps:
@@ -158,6 +161,27 @@ stages:
                 # Update the ECS service with the new task definition
                 aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
 
+  - stage: Approve
+    displayName: "Approve Deployment (Pre Production)"
+    jobs:
+      - job: waitForValidation
+        displayName: Approve Deployment (Pre Production)
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+        - task: ManualValidation@0
+          timeoutInMinutes: 1440
+          inputs:
+            instructions: 'Validate the build configuration to resume dev deployment'
+            onTimeout: 'resume'
+  - stage: DeployToECS
+    displayName: "Deploy to AWS ECS"
+    jobs:
+      - job: DeployToECS
+        displayName: "Deploy to AWS ECS (Pre Production)"
+        pool:
+          vmImage: "windows-2019"
+        steps:
           - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
             displayName: "Update ECS Service"
             inputs:
