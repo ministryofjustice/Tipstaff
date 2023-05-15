@@ -26,9 +26,9 @@ variables:
   - name: 'taskDefinitionFamily'
     value: 'tipstaffFamily'
   - name: 'newDockerImageDev'
-    value: 'tipstaff-docker-image-dev:latest'
+    value: '913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest'
   - name: 'newDockerImagePreProd'
-    value: 'tipstaff-docker-image-preprod:latest'
+    value: '842764906196.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest'
 
 stages:
 - stage: BuildAndTest
