@@ -11,22 +11,12 @@ resources:
   - repo: self
 
 variables:
-  - name: "ecsClusterName"
-    value: "tipstaff_cluster"
-  - name: "ecsServiceName"
-    value: "tipstaff"
   - name: "dockerfilePath"
     value: "Dockerfile"
   - name: "imageName"
     value: "tipstaff-docker-image"
   - name: "awsEcrRegion"
     value: "eu-west-2"
-  - name: "taskDefinitionFamily"
-    value: "tipstaffFamily"
-  - name: "newDockerImageDev"
-    value: "913862848426.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest"
-  - name: "newDockerImagePreProd"
-    value: "842764906196.dkr.ecr.eu-west-2.amazonaws.com/tipstaff-ecr-repo:latest"
 
 stages:
   - stage: BuildAndTest
@@ -103,16 +93,27 @@ stages:
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
 
-  - stage: ApproveDev
-    displayName: "Approve Deployment (Development)"
+  - stage: ApproveProd
+    displayName: "Approve Push Image to ECR (PRODUCTION)"
     jobs:
       - job: waitForValidation
-        displayName: Approve Deployment (Development)
+        displayName: Approve Updating Image on ECR (PRODUCTION)
         pool: server
         timeoutInMinutes: 4320
         steps:
           - task: ManualValidation@0
             timeoutInMinutes: 1440
             inputs:
-              instructions: "Validate the build configuration to resume dev deployment"
-              onTimeout: "resume"
+              instructions: "Are you sure you want to update the image on ECR PRODUCTION?"
+              onTimeout: "reject"
+
+          - task: ECRPushImage@1
+            displayName: "Push image to ECR - PRODUCTION"
+            inputs:
+              awsCredentials: "AWS-Tipstaff-Prod-Connection"
+              regionName: $(awsEcrRegion)
+              imageSource: "imagename"
+              sourceImageName: $(imageName)
+              sourceImageTag: $(Build.BuildId)
+              pushTag: "latest"
+              repositoryName: "tipstaff-ecr-repo"
