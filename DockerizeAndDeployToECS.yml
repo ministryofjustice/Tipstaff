@@ -93,10 +93,13 @@ stages:
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
 
-      - job: ApproveProdPushToECR
-        displayName: "APPROVE PRODUCTION Deploy Docker Image"
-        pool:
-          vmImage: "server"
+  - stage: ApproveProd
+    displayName: "APPROVE PRODUCTION"
+    jobs:
+      - job: waitForValidation
+        displayName: PRODUCTION Update Image on ECR
+        pool: server
+        timeoutInMinutes: 4320
         steps:
           - task: ManualValidation@0
             timeoutInMinutes: 1440
@@ -104,11 +107,30 @@ stages:
               instructions: "Are you sure you want to update the image on ECR PRODUCTION?"
               onTimeout: "reject"
 
-      - job: ProdPushToECR
-        displayName: "PRODUCTION Deploy Docker Image"
+  - stage: ProdDockerizeAndPushToECR
+    displayName: "PRODUCTION Dockerize and push image to AWS ECR"
+    jobs:
+      - job: DockerizeAndPushToECR
+        displayName: "Dockerize and Deploy"
         pool:
           vmImage: "windows-2019"
         steps:
+          - task: DownloadBuildArtifacts@0
+            displayName: "Download WebApp.zip Artifact"
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "WebApp"
+              downloadPath: "$(Build.SourcesDirectory)"
+
+          - task: Docker@2
+            displayName: "Build Docker Image"
+            inputs:
+              command: "build"
+              Dockerfile: "$(dockerfilePath)"
+              buildContext: '$(Build.SourcesDirectory)\WebApp'
+              repository: "$(imageName)"
+
           - task: ECRPushImage@1
             displayName: "Push image to ECR - PRODUCTION"
             inputs:
@@ -119,34 +141,3 @@ stages:
               sourceImageTag: $(Build.BuildId)
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
-
-  # - stage: ApproveProd
-  #   displayName: "APPROVE PRODUCTION"
-  #   jobs:
-  #     - job: waitForValidation
-  #       displayName: PRODUCTION Update Image on ECR
-  #       pool: server
-  #       timeoutInMinutes: 4320
-  #       steps:
-  #         - task: ManualValidation@0
-  #           timeoutInMinutes: 1440
-  #           inputs:
-  #             instructions: "Are you sure you want to update the image on ECR PRODUCTION?"
-  #             onTimeout: "reject"
-
-  # - stage: PushImageToProd
-  #   displayName: "Push Docker Image to AWS ECR on PRODUCTION"
-  #   jobs:
-  #     - job: pushToECRprod
-  #       displayName: "Push image to ECR PROD"
-  #       steps:
-  #         - task: ECRPushImage@1
-  #           displayName: "Push image to ECR - PRODUCTION"
-  #           inputs:
-  #             awsCredentials: "AWS-Tipstaff-Prod-Connection"
-  #             regionName: $(awsEcrRegion)
-  #             imageSource: "imagename"
-  #             sourceImageName: $(imageName)
-  #             sourceImageTag: $(Build.BuildId)
-  #             pushTag: "latest"
-  #             repositoryName: "tipstaff-ecr-repo"
