@@ -81,13 +81,6 @@ stages:
               buildContext: '$(Build.SourcesDirectory)\WebApp'
               repository: "$(imageName)"
 
-          - task: PublishPipelineArtifact@1
-            displayName: "Publish Docker image artifact"
-            inputs:
-              targetPath: '$(Pipeline.Workspace)/s/$(imageName)'
-              artifactName: "built-tipstaff-image"
-              publishLocation: "pipeline"
-
           - task: ECRPushImage@1
             displayName: "Push image to ECR - Dev"
             inputs:
@@ -123,84 +116,3 @@ stages:
             inputs:
               instructions: "Validate the build configuration to resume dev deployment"
               onTimeout: "resume"
-
-  - stage: DeployToECSdev
-    displayName: "Deploy to AWS ECS"
-    jobs:
-      - job: DeployToECS
-        displayName: "Deploy to AWS ECS (Development)"
-        pool:
-          vmImage: "windows-2019"
-        steps:
-          - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-            displayName: "Update ECS Service"
-            inputs:
-              awsCredentials: "AWS-Tipstaff-Dev-Connection"
-              regionName: "$(awsEcrRegion)"
-              scriptType: "inline"
-              inlineScript: |
-                # Retrieve the existing task definition
-                EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
-
-                # Replace the Docker image with the new one
-                NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImageDev)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory, runtimePlatform: .taskDefinition.runtimePlatform} | .containerDefinitions[0].image = $newImage' )
-
-                # Save the updated task definition to a file
-                echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
-
-                # Register the updated task definition
-                TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )
-                echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
-
-                FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
-                echo "Family Name: $FAMILY_NAME"
-
-                # Update the ECS service with the new task definition
-                aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
-
-  - stage: ApprovePreProd
-    displayName: "Approve Deployment (Pre Production)"
-    jobs:
-      - job: waitForValidation
-        displayName: Approve Deployment (Pre Production)
-        pool: server
-        timeoutInMinutes: 4320
-        steps:
-          - task: ManualValidation@0
-            timeoutInMinutes: 1440
-            inputs:
-              instructions: "Validate the build configuration to resume dev deployment"
-              onTimeout: "resume"
-  - stage: DeployToECSpreprod
-    displayName: "Deploy to AWS ECS"
-    jobs:
-      - job: DeployToECS
-        displayName: "Deploy to AWS ECS (Pre Production)"
-        pool:
-          vmImage: "windows-2019"
-        steps:
-          - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-            displayName: "Update ECS Service"
-            inputs:
-              awsCredentials: "AWS-Tipstaff-Pre-Prod-Connection"
-              regionName: "$(awsEcrRegion)"
-              scriptType: "inline"
-              inlineScript: |
-                # Retrieve the existing task definition
-                EXISTING_TASK_DEFINITION=$( aws ecs describe-task-definition --task-definition $(taskDefinitionFamily) )
-
-                # Replace the Docker image with the new one
-                NEW_TASK_DEFINITION=$( echo "$EXISTING_TASK_DEFINITION" | jq --arg newImage "$(newDockerImagePreProd)" '{family: .taskDefinition.family, taskRoleArn: .taskDefinition.taskRoleArn, executionRoleArn: .taskDefinition.executionRoleArn, networkMode: .taskDefinition.networkMode, containerDefinitions: .taskDefinition.containerDefinitions, volumes: .taskDefinition.volumes, placementConstraints: .taskDefinition.placementConstraints, requiresCompatibilities: .taskDefinition.requiresCompatibilities, cpu: .taskDefinition.cpu, memory: .taskDefinition.memory, runtimePlatform: .taskDefinition.runtimePlatform} | .containerDefinitions[0].image = $newImage' )
-
-                # Save the updated task definition to a file
-                echo "$NEW_TASK_DEFINITION" > updated-task-definition.json
-
-                # Register the updated task definition
-                TASK_DEFINITION_OUTPUT=$( aws ecs register-task-definition --cli-input-json file://updated-task-definition.json )
-                echo "Task Definition Output: $TASK_DEFINITION_OUTPUT"
-
-                FAMILY_NAME=$( echo "$TASK_DEFINITION_OUTPUT" | jq -r '.taskDefinition.family' )
-                echo "Family Name: $FAMILY_NAME"
-
-                # Update the ECS service with the new task definition
-                aws ecs update-service --cluster $(ecsClusterName) --service $(ecsServiceName) --task-definition $FAMILY_NAME --force-new-deployment
