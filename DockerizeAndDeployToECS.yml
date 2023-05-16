@@ -93,12 +93,22 @@ stages:
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
 
+      - job: ApproveProdPushToECR
+        displayName: "APPROVE PRODUCTION Deploy Docker Image"
+        pool:
+          vmImage: "server"
+        steps:
           - task: ManualValidation@0
             timeoutInMinutes: 1440
             inputs:
               instructions: "Are you sure you want to update the image on ECR PRODUCTION?"
               onTimeout: "reject"
 
+      - job: ProdPushToECR
+        displayName: "PRODUCTION Deploy Docker Image"
+        pool:
+          vmImage: "windows-2019"
+        steps:
           - task: ECRPushImage@1
             displayName: "Push image to ECR - PRODUCTION"
             inputs:
