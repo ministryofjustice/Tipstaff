@@ -81,6 +81,13 @@ stages:
               buildContext: '$(Build.SourcesDirectory)\WebApp'
               repository: $(imageName)
 
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish Docker image artifact"
+            inputs:
+              targetPath: "$(imageName)"
+              artifactName: "built-tipstaff-image"
+              publishLocation: "pipeline"
+
           - task: ECRPushImage@1
             displayName: "Push image to ECR - Dev"
             inputs:
@@ -159,11 +166,11 @@ stages:
         pool: server
         timeoutInMinutes: 4320
         steps:
-        - task: ManualValidation@0
-          timeoutInMinutes: 1440
-          inputs:
-            instructions: 'Validate the build configuration to resume dev deployment'
-            onTimeout: 'resume'
+          - task: ManualValidation@0
+            timeoutInMinutes: 1440
+            inputs:
+              instructions: "Validate the build configuration to resume dev deployment"
+              onTimeout: "resume"
   - stage: DeployToECSpreprod
     displayName: "Deploy to AWS ECS"
     jobs:
