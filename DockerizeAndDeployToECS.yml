@@ -107,6 +107,12 @@ stages:
               instructions: "Are you sure you want to update the image on ECR PRODUCTION?"
               onTimeout: "reject"
 
+  - stage: PushImageToProd
+    displayName: "Push the docker image to AWS ECR on PRODUCTION"
+    jobs:
+      - job: pushToECRprod
+        displayName: "Deploy"
+        steps:
           - task: ECRPushImage@1
             displayName: "Push image to ECR - PRODUCTION"
             inputs:
