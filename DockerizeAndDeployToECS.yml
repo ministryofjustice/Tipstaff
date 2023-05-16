@@ -17,10 +17,8 @@ variables:
     value: "tipstaff"
   - name: "dockerfilePath"
     value: "Dockerfile"
-  - name: "DevImageName"
-    value: "tipstaff-docker-image-dev"
-  - name: "PreProdImageName"
-    value: "tipstaff-docker-image-preprod"
+  - name: "imageName"
+    value: "tipstaff-docker-image"
   - name: "awsEcrRegion"
     value: "eu-west-2"
   - name: "taskDefinitionFamily"
@@ -76,20 +74,12 @@ stages:
               downloadPath: "$(Build.SourcesDirectory)"
 
           - task: Docker@2
-            displayName: "Build Docker Image - Dev"
+            displayName: "Build Docker Image"
             inputs:
               command: "build"
               Dockerfile: "$(dockerfilePath)"
               buildContext: '$(Build.SourcesDirectory)\WebApp'
-              repository: $(DevImageName)
-
-          - task: Docker@2
-            displayName: "Build Docker Image - Preprod"
-            inputs:
-              command: "build"
-              Dockerfile: "$(dockerfilePath)"
-              buildContext: '$(Build.SourcesDirectory)\WebApp'
-              repository: $(PreProdImageName)
+              repository: $(imageName)
 
           - task: ECRPushImage@1
             displayName: "Push image to ECR - Dev"
@@ -97,7 +87,7 @@ stages:
               awsCredentials: "AWS-Tipstaff-Dev-Connection"
               regionName: $(awsEcrRegion)
               imageSource: "imagename"
-              sourceImageName: $(DevImageName)
+              sourceImageName: $(imageName)
               sourceImageTag: $(Build.BuildId)
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
@@ -108,7 +98,7 @@ stages:
               awsCredentials: "AWS-Tipstaff-Pre-Prod-Connection"
               regionName: $(awsEcrRegion)
               imageSource: "imagename"
-              sourceImageName: $(PreProdImageName)
+              sourceImageName: $(imageName)
               sourceImageTag: $(Build.BuildId)
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
@@ -121,11 +111,11 @@ stages:
         pool: server
         timeoutInMinutes: 4320
         steps:
-        - task: ManualValidation@0
-          timeoutInMinutes: 1440
-          inputs:
-            instructions: 'Validate the build configuration to resume dev deployment'
-            onTimeout: 'resume'
+          - task: ManualValidation@0
+            timeoutInMinutes: 1440
+            inputs:
+              instructions: "Validate the build configuration to resume dev deployment"
+              onTimeout: "resume"
 
   - stage: DeployToECSdev
     displayName: "Deploy to AWS ECS"
