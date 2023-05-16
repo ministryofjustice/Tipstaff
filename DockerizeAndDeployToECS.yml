@@ -74,12 +74,12 @@ stages:
               downloadPath: "$(Build.SourcesDirectory)"
 
           - task: Docker@2
-            displayName: "Build Docker Image"
+            displayName: "Build and Push Docker Image"
             inputs:
-              command: "build"
+              command: "buildAndPush"
               Dockerfile: "$(dockerfilePath)"
               buildContext: '$(Build.SourcesDirectory)\WebApp'
-              repository: $(imageName)
+              repository: "$(imageName)"
 
           - task: PublishPipelineArtifact@1
             displayName: "Publish Docker image artifact"
