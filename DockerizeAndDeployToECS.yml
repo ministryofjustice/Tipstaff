@@ -93,26 +93,12 @@ stages:
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
 
-  - stage: ApproveProd
-    displayName: "Approve Push Image to ECR (PRODUCTION)"
-    jobs:
-      - job: waitForValidation
-        displayName: Approve Updating Image on ECR (PRODUCTION)
-        pool: server
-        timeoutInMinutes: 4320
-        steps:
           - task: ManualValidation@0
             timeoutInMinutes: 1440
             inputs:
               instructions: "Are you sure you want to update the image on ECR PRODUCTION?"
               onTimeout: "reject"
 
-  - stage: PushImageToProd
-    displayName: "Push the docker image to AWS ECR on PRODUCTION"
-    jobs:
-      - job: pushToECRprod
-        displayName: "Deploy"
-        steps:
           - task: ECRPushImage@1
             displayName: "Push image to ECR - PRODUCTION"
             inputs:
@@ -123,3 +109,34 @@ stages:
               sourceImageTag: $(Build.BuildId)
               pushTag: "latest"
               repositoryName: "tipstaff-ecr-repo"
+
+  # - stage: ApproveProd
+  #   displayName: "APPROVE PRODUCTION"
+  #   jobs:
+  #     - job: waitForValidation
+  #       displayName: PRODUCTION Update Image on ECR
+  #       pool: server
+  #       timeoutInMinutes: 4320
+  #       steps:
+  #         - task: ManualValidation@0
+  #           timeoutInMinutes: 1440
+  #           inputs:
+  #             instructions: "Are you sure you want to update the image on ECR PRODUCTION?"
+  #             onTimeout: "reject"
+
+  # - stage: PushImageToProd
+  #   displayName: "Push Docker Image to AWS ECR on PRODUCTION"
+  #   jobs:
+  #     - job: pushToECRprod
+  #       displayName: "Push image to ECR PROD"
+  #       steps:
+  #         - task: ECRPushImage@1
+  #           displayName: "Push image to ECR - PRODUCTION"
+  #           inputs:
+  #             awsCredentials: "AWS-Tipstaff-Prod-Connection"
+  #             regionName: $(awsEcrRegion)
+  #             imageSource: "imagename"
+  #             sourceImageName: $(imageName)
+  #             sourceImageTag: $(Build.BuildId)
+  #             pushTag: "latest"
+  #             repositoryName: "tipstaff-ecr-repo"
