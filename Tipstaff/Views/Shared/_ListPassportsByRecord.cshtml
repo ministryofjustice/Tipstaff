@@ -1,5 +1,5 @@
 ﻿@model Tipstaff.Models.ListPassportsByTipstaffRecord
-<div id="documents">
+<div id="passports">
 
 @if ((Model.Passports == null) || (Model.Passports.Count() == 0))
 {
@@ -80,7 +80,7 @@ else
 }
     </table>
 }
-@Html.AjaxPager(Model.Passports, "ListPassportsByRecord", "Document"
+@Html.AjaxPager(Model.Passports, "ListPassportsByRecord", "Passport"
                                     , new PagerOptions
                                     {
                                         ShowFirstLast = true,
@@ -93,7 +93,7 @@ else
                                     , new AjaxOptions
                                     {
                                         HttpMethod = "POST",
-                                        UpdateTargetId = "documents",
+                                        UpdateTargetId = "passports",
                                         InsertionMode = InsertionMode.Replace,
                                         LoadingElementId = "documentsLoading"
                                     })
