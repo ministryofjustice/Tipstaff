@@ -37,3 +37,4 @@ Set up Environment Variables
 supportTeam - The name of the team supporting the application
 
 supportEmail - The email of the support team
+ 

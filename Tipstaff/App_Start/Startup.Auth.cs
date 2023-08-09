@@ -14,7 +14,7 @@ namespace Tipstaff
 {
     public partial class Startup
     {
-        private static string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
+        private static string clientId = Environment.GetEnvironmentVariable("ida:ClientId");
         private static string aadInstance = ConfigurationManager.AppSettings["ida:AADInstance"];
         private static string tenantId = ConfigurationManager.AppSettings["ida:TenantId"];
         private static string postLogoutRedirectUri = ConfigurationManager.AppSettings["ida:PostLogoutRedirectUri"];
