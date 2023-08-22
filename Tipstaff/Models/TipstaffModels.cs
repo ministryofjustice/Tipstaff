@@ -171,7 +171,7 @@ namespace Tipstaff.Models
         }
 
         [MaxLength(50), Display(Name = "Court File Number")]
-        public string CourtFileNumber { get; set; }
+        public virtual string CourtFileNumber { get; set; }
 
         //[NotMapped]
         //public virtual string EldestChild
