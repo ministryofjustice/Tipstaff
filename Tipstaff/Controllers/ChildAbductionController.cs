@@ -49,6 +49,10 @@ namespace Tipstaff.Controllers
                 //TRs = TRs.Where(w=>w.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
                 TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.childNameContains.ToUpper()));
             }
+            if (!string.IsNullOrEmpty(model.CourtFileNumber))
+            {
+                TRs = TRs.Where(w => w.CourtFileNumber.ToUpper().Contains(model.CourtFileNumber.ToUpper()));
+            }
             model.FilteredRecordCount = TRs.Count();
 
             //IOrderedQueryable<ChildAbduction> TRs = ((IOrderedQueryable<ChildAbduction>)CAs);
