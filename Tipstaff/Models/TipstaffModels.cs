@@ -317,6 +317,7 @@ namespace Tipstaff.Models
         public SelectList OrderTypeList { get; set; }
         public int caOrderTypeID { get; set; }
         public string childNameContains { get; set; }
+        public string CourtFileNumber { get; set; }
 
         public ChildAbductionListViewModel()
         {
