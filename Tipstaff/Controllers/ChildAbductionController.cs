@@ -87,11 +87,11 @@ namespace Tipstaff.Controllers
                     break;
 
                 case "CaseReviewNumber asc":
-                    TRs = TRs.OrderBy(a => a.caseReviewNumber).ThenBy(b => b.tipstaffRecordID);
+                    TRs = TRs.OrderBy(a => a.CaseReviewNumber).ThenBy(b => b.tipstaffRecordID);
                     break;
 
                 case "CaseReviewNumber desc":
-                    TRs = TRs.OrderByDescending(a => a.caseReviewNumber).ThenBy(b => b.tipstaffRecordID);
+                    TRs = TRs.OrderByDescending(a => a.CaseReviewNumber).ThenBy(b => b.tipstaffRecordID);
                     break;
 
                 case "officer asc":
