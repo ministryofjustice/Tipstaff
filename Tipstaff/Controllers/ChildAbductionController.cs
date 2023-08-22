@@ -86,6 +86,14 @@ namespace Tipstaff.Controllers
                     TRs = TRs.OrderByDescending(a => a.orderReceived).ThenBy(b => b.tipstaffRecordID);
                     break;
 
+                case "CaseReviewNumber asc":
+                    TRs = TRs.OrderBy(a => a.caseReviewNumber).ThenBy(b => b.tipstaffRecordID);
+                    break;
+
+                case "CaseReviewNumber desc":
+                    TRs = TRs.OrderByDescending(a => a.caseReviewNumber).ThenBy(b => b.tipstaffRecordID);
+                    break;
+
                 case "officer asc":
                     TRs = TRs.OrderBy(a => a.officerDealing).ThenBy(b => b.tipstaffRecordID);
                     break;
@@ -328,7 +336,7 @@ namespace Tipstaff.Controllers
         {
             ////model.ChildAbduction = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
             ////db.ChildAbductions.Remove(model.ChildAbduction);
-            
+
             var ca = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
             foreach (var c in ca.children.ToList())
             {
