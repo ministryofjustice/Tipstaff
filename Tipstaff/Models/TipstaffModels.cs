@@ -170,6 +170,9 @@ namespace Tipstaff.Models
             get { return this.children.Count() > 1 ? "children" : "child"; }
         }
 
+        [MaxLength(50), Display(Name = "Court File Number")]
+        public string CourtFileNumber { get; set; }
+
         //[NotMapped]
         //public virtual string EldestChild
         //{
