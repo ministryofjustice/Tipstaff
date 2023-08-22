@@ -30,7 +30,7 @@ namespace Tipstaff.Controllers
         public ViewResult Index(ChildAbductionListViewModel model)
         {
             int pageSize = Int32.Parse(ConfigurationManager.AppSettings["pageSize"]);
-            IQueryable<ChildAbduction> TRs = myDBContextHelper.CurrentContext.ChildAbductions.Include(c => c.protectiveMarking).Include(c => c.result).Include(c => c.caseStatus).Include(c => c.CourtFileNumber);
+            IQueryable<ChildAbduction> TRs = myDBContextHelper.CurrentContext.ChildAbductions.Include(c => c.protectiveMarking).Include(c => c.result).Include(c => c.caseStatus);
             model.TotalRecordCount = TRs.Count();
             if (!model.includeFinal)
             {
