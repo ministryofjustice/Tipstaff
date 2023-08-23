@@ -44,11 +44,6 @@ namespace Tipstaff.Controllers
             {
                 TRs = TRs.Where(w => w.caOrderTypeID == model.caOrderTypeID);
             }
-            // if (!string.IsNullOrEmpty(model.childNameContains))
-            // {
-            //     //TRs = TRs.Where(w=>w.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
-            //     TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.childNameContains.ToUpper()));
-            // }
             if (!string.IsNullOrEmpty(model.SearchQuery))
             {
                 TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.SearchQuery.ToUpper())

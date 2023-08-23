@@ -38,9 +38,7 @@
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caseStatusID)
             @Html.HiddenFor(model => model.caOrderTypeID)
-            @* @Html.HiddenFor(model => model.CourtFileNumber) *@
             @Html.TextBoxFor(model => model.SearchQuery, new { @style = "width: 7em;", AccessKey = "F", title = "Search" })
-            @* @Html.TextBox("childNameContains", null, new { @style = "width: 7em;", AccessKey = "F", title="Filter child name" }) *@
             <input alt="Filter Child name" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
         }
     </td>
