@@ -125,6 +125,9 @@ namespace Tipstaff.Models
         [MaxLength(50), Display(Name = "Eldest Child")]
         public string EldestChild { get; set; }
 
+        [MaxLength(50), Display(Name = "Court File Number")]
+        public string CourtFileNumber { get; set; }
+
         //[Required,Display(Name = "Current case status")]
         //public int childAbductionCaseStatusID { get; set; }
 
@@ -169,9 +172,6 @@ namespace Tipstaff.Models
         {
             get { return this.children.Count() > 1 ? "children" : "child"; }
         }
-
-        [MaxLength(50), Display(Name = "Court File Number")]
-        public virtual string CourtFileNumber { get; set; }
 
         //[NotMapped]
         //public virtual string EldestChild
@@ -318,6 +318,7 @@ namespace Tipstaff.Models
         public int caOrderTypeID { get; set; }
         public string childNameContains { get; set; }
         public string CourtFileNumber { get; set; }
+        public string SearchQuery { get; set; }
 
         public ChildAbductionListViewModel()
         {
