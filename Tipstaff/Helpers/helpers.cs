@@ -449,8 +449,14 @@ namespace Tipstaff.Helpers
                     childNameContains.MergeAttribute("type", "hidden");
                     childNameContains.MergeAttribute("value", temp.childNameContains ?? "");
                     form.InnerHtml += childNameContains.ToString();
+                    TagBuilder CourtFileNumber = new TagBuilder("input");
+                    CourtFileNumber.Attributes.Add("id", "CourtFileNumber");
+                    CourtFileNumber.Attributes.Add("name", "CourtFileNumber");
+                    CourtFileNumber.MergeAttribute("type", "hidden");
+                    CourtFileNumber.MergeAttribute("value", temp.CourtFileNumber ?? "");
+                    form.InnerHtml += CourtFileNumber.ToString();
                 }
-                else if( model is WarrantListViewModel)
+                else if (model is WarrantListViewModel)
                 {
                     WarrantListViewModel temp = (WarrantListViewModel)model;
                     TagBuilder respondentNameContains = new TagBuilder("input");
@@ -548,13 +554,13 @@ namespace Tipstaff.Helpers
                 MvcHtmlString recBtn;
                 MvcHtmlString undoBtn;
                 TagBuilder divTag = new TagBuilder("div");
-               
+
                 //record count
                 string recCount = genericFunctions.DisplayFieldDescriptorWithRecordCount(pagedList.TotalItemCount, "records");
                 if (pagedList.TotalItemCount < model.TotalRecordCount)
                 {
                     recCount += " (filtered)";
-                    string img = string.Format("<img src=\"{0}arrow_undo.png\" alt=\"Clear filters\">",imagePath);
+                    string img = string.Format("<img src=\"{0}arrow_undo.png\" alt=\"Clear filters\">", imagePath);
                     recBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton text\" disabled=\"disabled\">{0}</button>", recCount));
                     undoBtn = MvcHtmlString.Create(string.Format("<button type=\"submit\" value=\"{0}\" class=\"pageButton undo\"  alt=\"{0}\" title=\"{0}\">{0}</button>", "clear filters"));
                     divTag.InnerHtml += recBtn.ToString();
@@ -612,7 +618,7 @@ namespace Tipstaff.Helpers
             //var propertyName = ExpressionHelper.GetExpressionText(primary);
             return MvcHtmlString.Create(string.Format("<script type=\"text/javascript\">document.getElementById('{0}').focus()</script>", propertyName));
         }
-        public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, AdminListView Model, string sortValue, string sortButtonText, string token="")
+        public static MvcHtmlString SortHeader(this HtmlHelper htmlHelper, AdminListView Model, string sortValue, string sortButtonText, string token = "")
         {
             TagBuilder headerCell = new TagBuilder("td");
             headerCell.MergeAttribute("style", "background-color: #dddddd");
@@ -751,6 +757,12 @@ namespace Tipstaff.Helpers
                 childNameContains.MergeAttribute("type", "hidden");
                 childNameContains.MergeAttribute("value", temp.childNameContains ?? "");
                 form.InnerHtml += childNameContains.ToString();
+                TagBuilder CourtFileNumber = new TagBuilder("input");
+                CourtFileNumber.Attributes.Add("id", "CourtFileNumber");
+                CourtFileNumber.Attributes.Add("name", "CourtFileNumber");
+                CourtFileNumber.MergeAttribute("type", "hidden");
+                CourtFileNumber.MergeAttribute("value", temp.CourtFileNumber ?? "");
+                form.InnerHtml += CourtFileNumber.ToString();
             }
             //Add leading fields to DIV
             form.InnerHtml += caseStatusID.ToString();
@@ -771,7 +783,7 @@ namespace Tipstaff.Helpers
         }
 
         #region CBHelpers
-        public static MvcHtmlString DropDownList(this HtmlHelper helper, 
+        public static MvcHtmlString DropDownList(this HtmlHelper helper,
             string name, Dictionary<int, string> dictionary)
         {
             var selectListItems = new SelectList(dictionary, "Key", "Value");
@@ -822,20 +834,20 @@ namespace Tipstaff.Helpers
         }
         public static MvcHtmlString DropDownListForWithSubmit<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel, string defaultValue)
         {
-            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList,optionLabel,new { title=expression.Body.ToString()});
-            return MvcHtmlString.Create(DDLF.ToString().Replace("id=", "onchange=\"this.form.submit()\" id=").Replace("alue=\"\"",string.Format("alue=\"{0}\"",defaultValue)));
+            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList, optionLabel, new { title = expression.Body.ToString() });
+            return MvcHtmlString.Create(DDLF.ToString().Replace("id=", "onchange=\"this.form.submit()\" id=").Replace("alue=\"\"", string.Format("alue=\"{0}\"", defaultValue)));
         }
         public static MvcHtmlString DropDownList(this HtmlHelper htmlHelper, string name, string optionLabel, string defaultValue)
         {
             MvcHtmlString DDL = htmlHelper.DropDownList(name, optionLabel);
-            string find = string.Format("=\"{0}\"",defaultValue);
+            string find = string.Format("=\"{0}\"", defaultValue);
             return MvcHtmlString.Create(DDL.ToString().Replace(find, string.Format("{0} selected", find)));
         }
 
         public static MvcHtmlString DropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionLabel, object htmlAttributes, string defaultValue)
         {
-            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList,optionLabel,htmlAttributes);
-            string find = string.Format("=\"{0}\"",defaultValue);
+            MvcHtmlString DDLF = htmlHelper.DropDownListFor(expression, selectList, optionLabel, htmlAttributes);
+            string find = string.Format("=\"{0}\"", defaultValue);
             return MvcHtmlString.Create(DDLF.ToString().Replace(find, string.Format("{0} selected", find)));
         }
 
@@ -855,14 +867,14 @@ namespace Tipstaff.Helpers
             string result = imglink.ToString();
             return MvcHtmlString.Create(result);
         }
-        public static MvcHtmlString ImageActionLink(this AjaxHelper helper, string imageUrl, string titleText, string actionName, string controller , object routeValues
+        public static MvcHtmlString ImageActionLink(this AjaxHelper helper, string imageUrl, string titleText, string actionName, string controller, object routeValues
                                             , AjaxOptions ajaxOptions, object htmlAttributes)
         {
             var imgTag = new TagBuilder("img");
             imgTag.MergeAttribute("src", imageUrl);
             imgTag.MergeAttribute("title", titleText);
             var link = helper.ActionLink("[replaceme] " + titleText, actionName, controller, routeValues, ajaxOptions, htmlAttributes).ToHtmlString();   //update
-            
+
             return new MvcHtmlString(link.Replace("[replaceme]", imgTag.ToString(TagRenderMode.SelfClosing)));
         }
 
@@ -926,7 +938,7 @@ namespace Tipstaff.Helpers
         /// <param name="controllerName">Controller that hosts the action</param>
         /// <param name="routeValues">a RouteValueDictionary collection</param>
         /// <returns>An MVCHTMLString</returns>
-        public static MvcHtmlString SolicitorPaging(this HtmlHelper htmlHelper, IPagedList pagedList, 
+        public static MvcHtmlString SolicitorPaging(this HtmlHelper htmlHelper, IPagedList pagedList,
                                     string actionName, string controllerName, RouteValueDictionary routeValues,
                                     ChooseSolicitorModel model)
         {
@@ -982,7 +994,7 @@ namespace Tipstaff.Helpers
                 TagBuilder liLast = new TagBuilder("li");
                 liLast.InnerHtml = liLastStr.ToString();
                 TagBuilder liRecs = new TagBuilder("li");
-                liRecs.InnerHtml = string.Format("{0} record{1}", pagedList.TotalItemCount, pagedList.TotalItemCount==1?"":"s");
+                liRecs.InnerHtml = string.Format("{0} record{1}", pagedList.TotalItemCount, pagedList.TotalItemCount == 1 ? "" : "s");
 
                 //add LIs to UL
                 list.InnerHtml += liPage.ToString();
@@ -1219,12 +1231,12 @@ namespace Tipstaff.Helpers
                 searchFirm.Attributes.Add("id", "searchFirm");
                 searchFirm.Attributes.Add("name", "searchFirm");
                 searchFirm.MergeAttribute("type", "hidden");
-                searchFirm.MergeAttribute("value", model.searchFirm.ToString()??"");
+                searchFirm.MergeAttribute("value", model.searchFirm.ToString() ?? "");
                 TagBuilder searchSols = new TagBuilder("input");
                 searchSols.Attributes.Add("id", "searchString");
                 searchSols.Attributes.Add("name", "searchString");
                 searchSols.MergeAttribute("type", "hidden");
-                searchSols.MergeAttribute("value", model.searchString.ToString()??"");
+                searchSols.MergeAttribute("value", model.searchString.ToString() ?? "");
                 //Add leading fields to DIV
                 form.InnerHtml += searchFirm.ToString();
                 form.InnerHtml += searchSols.ToString();
@@ -1276,7 +1288,7 @@ namespace Tipstaff.Helpers
         {
             string nextSortOrder = "asc";
             string dispSortOrder = null;
-            if (sortOrder!=null && sortOrder.Contains(sortColumn))
+            if (sortOrder != null && sortOrder.Contains(sortColumn))
             {
                 sortOrder = sortOrder.Replace(sortColumn, "").Trim();
                 switch (sortOrder)
@@ -1294,16 +1306,16 @@ namespace Tipstaff.Helpers
                         dispSortOrder = null;
                         break;
                 }
-            } 
+            }
             TagBuilder button = new TagBuilder("button");
-            button.Attributes.Add("type","submit");
-            button.Attributes.Add("value",string.Format("{0} {1}", sortColumn, nextSortOrder).Trim());
+            button.Attributes.Add("type", "submit");
+            button.Attributes.Add("value", string.Format("{0} {1}", sortColumn, nextSortOrder).Trim());
             button.Attributes.Add("name", "sortOrder");
             button.InnerHtml = DisplayText;
-            
 
-            button.AddCssClass(string.Format("sortButton {0}",dispSortOrder).Trim());  
-            
+
+            button.AddCssClass(string.Format("sortButton {0}", dispSortOrder).Trim());
+
             return MvcHtmlString.Create(button.ToString());
         }
         /// <summary>
@@ -1407,7 +1419,7 @@ namespace Tipstaff.Helpers
         }
 
     }
-        #endregion
+    #endregion
     public static class AutocompleteHelper
     {
         /// <summary>
@@ -1452,6 +1464,6 @@ namespace Tipstaff.Helpers
             string both = textbox + " " + hidden + " " + valid;
             return MvcHtmlString.Create(both);
         }
-    }    
+    }
 }
 
