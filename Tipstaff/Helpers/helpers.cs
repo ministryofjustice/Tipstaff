@@ -90,7 +90,15 @@ namespace Tipstaff.Helpers
                     else
                     {
                         UrlHelper urlHelper = ((Controller)htmlHelper.ViewContext.Controller).Url;
-                        string url = urlHelper.Action(actionName, controllerName, new { page = page });
+                        string url = urlHelper.Action(actionName, controllerName, new
+                        {
+                            page = page,
+                            caseStatusID = model.caseStatusID,
+                            caOrderTypeID = model.caOrderTypeID,
+                            childNameContains = model.childNameContains,
+                            CourtFileNumber = model.CourtFileNumber,
+                            SearchQuery = model.SearchQuery
+                        });
                         TagBuilder pageA = new TagBuilder("a");
                         pageA.MergeAttribute("href", url);
                         pageA.InnerHtml = page.ToString();
