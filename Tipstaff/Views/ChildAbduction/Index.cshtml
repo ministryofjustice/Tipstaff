@@ -110,6 +110,7 @@
             </td>
         }
         <td>@Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.UniqueRecordID, string.Format("View {0}", item.UniqueRecordID), "Details", "ChildAbduction", new { id = item.tipstaffRecordID }, null, null, "createButton")</td>
+        <td>@Html.DisplayFor(modelItem => item.CourtFileNumber)</td>
         <td>
             @if (item.resultID == null)
             {
@@ -120,7 +121,6 @@
                 @:&nbsp;
             }
         </td>
-        <td>@Html.DisplayFor(modelItem => item.CourtFileNumber)</td>
         <td>@Html.DisplayFor(modelItem => item.sentSCD26)</td>
         <td>@Html.DisplayFor(modelItem => item.orderDated)</td>
         <td>@Html.DisplayFor(modelItem => item.orderReceived)</td>
