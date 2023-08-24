@@ -17,8 +17,7 @@
     <tr>
         @*Filter Row*@
     <th @if (User.IsInRole("Admin")) { @Html.Raw("colspan=\"2\"")}>Filters</th>
-    <td colspan="5" style="background-color: #dddddd">&nbsp;</td>
-    <td style="white-space:nowrap;background-color: #dddddd">
+    <td colspan="1" style="white-space:nowrap;background-color: #dddddd">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -30,6 +29,18 @@
             @Html.HiddenFor(model => model.childNameContains)
             @Html.TextBox("CourtFileNumberContains", null, new { @style = "width: 5em;", AccessKey = "F", title="Filter Court File numbers" })
             <input alt="Filter Court File Numbers" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
+            @Html.DropDownListForWithSubmit(model => model.caOrderTypeID, (SelectList)Model.OrderTypeList, "All types", "-1")
+        }
+    </td>
+    <td colspan="4" style="background-color: #dddddd">&nbsp;</td>
+    <td style="white-space:nowrap;background-color: #dddddd">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.sortOrder)
+            @Html.HiddenFor(model => model.includeFinal)
+            @Html.HiddenFor(model => model.caseStatusID)
+            @Html.HiddenFor(model => model.childNameContains)
             @Html.DropDownListForWithSubmit(model => model.caOrderTypeID, (SelectList)Model.OrderTypeList, "All types", "-1")
         }
     </td>
