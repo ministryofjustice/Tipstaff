@@ -458,12 +458,6 @@ namespace Tipstaff.Helpers
                     CourtFileNumber.MergeAttribute("type", "hidden");
                     CourtFileNumber.MergeAttribute("value", temp.CourtFileNumber ?? "");
                     form.InnerHtml += CourtFileNumber.ToString();
-                    TagBuilder SearchQuery = new TagBuilder("input");
-                    SearchQuery.Attributes.Add("id", "SearchQuery");
-                    SearchQuery.Attributes.Add("name", "SearchQuery");
-                    SearchQuery.MergeAttribute("type", "hidden");
-                    SearchQuery.MergeAttribute("value", temp.SearchQuery ?? "");
-                    form.InnerHtml += SearchQuery.ToString();
                 }
                 else if (model is WarrantListViewModel)
                 {
@@ -772,12 +766,6 @@ namespace Tipstaff.Helpers
                 CourtFileNumber.MergeAttribute("type", "hidden");
                 CourtFileNumber.MergeAttribute("value", temp.CourtFileNumber ?? "");
                 form.InnerHtml += CourtFileNumber.ToString();
-                TagBuilder SearchQuery = new TagBuilder("input");
-                SearchQuery.Attributes.Add("id", "SearchQuery");
-                SearchQuery.Attributes.Add("name", "SearchQuery");
-                SearchQuery.MergeAttribute("type", "hidden");
-                SearchQuery.MergeAttribute("value", temp.SearchQuery ?? "");
-                form.InnerHtml += SearchQuery.ToString();
             }
             //Add leading fields to DIV
             form.InnerHtml += caseStatusID.ToString();

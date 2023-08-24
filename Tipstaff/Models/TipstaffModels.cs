@@ -125,7 +125,7 @@ namespace Tipstaff.Models
         [MaxLength(50), Display(Name = "Eldest Child")]
         public string EldestChild { get; set; }
 
-        [MaxLength(50), Display(Name = "Court File Number")]
+        [Required, MaxLength(50), Display(Name = "Court File Number")]
         public string CourtFileNumber { get; set; }
 
         //[Required,Display(Name = "Current case status")]
@@ -318,8 +318,6 @@ namespace Tipstaff.Models
         public int caOrderTypeID { get; set; }
         public string childNameContains { get; set; }
         public string CourtFileNumber { get; set; }
-        public string SearchQuery { get; set; }
-
         public ChildAbductionListViewModel()
         {
             caseStatusID = -1;

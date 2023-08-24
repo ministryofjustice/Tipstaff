@@ -27,7 +27,9 @@
             @Html.HiddenFor(model => model.caseStatusID)
             @Html.HiddenFor(model => model.childNameContains)
             @Html.HiddenFor(model => model.CourtFileNumber)
-            @Html.HiddenFor(model => model.SearchQuery)
+            @Html.HiddenFor(model => model.childNameContains)
+            @Html.TextBox("CourtFileNumberContains", null, new { @style = "width: 5em;", AccessKey = "F", title="Filter Court File numbers" })
+            <input alt="Filter Court File Numbers" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
             @Html.DropDownListForWithSubmit(model => model.caOrderTypeID, (SelectList)Model.OrderTypeList, "All types", "-1")
         }
     </td>
@@ -39,7 +41,8 @@
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caseStatusID)
             @Html.HiddenFor(model => model.caOrderTypeID)
-            @Html.TextBoxFor(model => model.SearchQuery, new { @style = "width: 7em;", AccessKey = "F", title = "Search" })
+            @Html.HiddenFor(model => model.CourtFileNumber)
+            @Html.TextBox("childNameContains", null, new { @style = "width: 7em;", AccessKey = "F", title="Filter child name" })
             <input alt="Filter Child name" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
         }
     </td>
@@ -75,11 +78,11 @@
 
     }
     @Html.SortHeader(Model, "uniqueid", "Unique record ID", token)
+    @Html.SortHeader(Model, "CourtFileNumber", "Court File Number", token)
     @Html.SortHeader(Model, "reviewDate", "Next review date", token)
     @Html.SortHeader(Model, "sentSCD", "Date to SCD26", token)
     @Html.SortHeader(Model, "orderDated", "Date Order made", token)
     @Html.SortHeader(Model, "orderRecd", "Date Order received", token)
-    @Html.SortHeader(Model, "CourtFileNumber", "Court File Number", token)
     @Html.SortHeader(Model, "officer", "Officer Dealing", token)
     @Html.SortHeader(Model, "orderType", "Order Type", token)
     @Html.SortHeader(Model, "eldestChild", "Surname of eldest child", token)
@@ -118,10 +121,10 @@
                 @:&nbsp;
             }
         </td>
+        <td>@Html.DisplayFor(modelItem => item.CourtFileNumber)</td>
         <td>@Html.DisplayFor(modelItem => item.sentSCD26)</td>
         <td>@Html.DisplayFor(modelItem => item.orderDated)</td>
         <td>@Html.DisplayFor(modelItem => item.orderReceived)</td>
-        <td>@Html.DisplayFor(modelItem => item.CourtFileNumber)</td>
         <td>@Html.DisplayFor(modelItem => item.officerDealing)</td>
         <td>@Html.DisplayFor(modelItem => item.caOrderType.Detail)</td>
         <td>

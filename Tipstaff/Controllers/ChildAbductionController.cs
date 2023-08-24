@@ -44,10 +44,13 @@ namespace Tipstaff.Controllers
             {
                 TRs = TRs.Where(w => w.caOrderTypeID == model.caOrderTypeID);
             }
-            if (!string.IsNullOrEmpty(model.SearchQuery))
+            if (!string.IsNullOrEmpty(model.childNameContains))
             {
-                TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.SearchQuery.ToUpper())
-                                    || w.CourtFileNumber.ToUpper().Contains(model.SearchQuery.ToUpper()));
+                TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.childNameContains.ToUpper()));
+            }
+            if (!string.IsNullOrEmpty(model.CourtFileNumber))
+            {
+                TRs = TRs.Where(w => w.CourtFileNumber.ToUpper().Contains(model.CourtFileNumber.ToUpper()));
             }
             model.FilteredRecordCount = TRs.Count();
 
