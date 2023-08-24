@@ -39,6 +39,14 @@
         @Html.ValidationMessageFor(model => model.sentSCD26)
     </div>
 
+     <div class="editor-label">
+        @Html.LabelFor(model => model.CourtFileNumber, true)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CourtFileNumber)
+        @Html.ValidationMessageFor(model => model.CourtFileNumber)
+    </div>
+
     <div class="editor-label">
         @Html.LabelFor(model => model.officerDealing, true)
     </div>
