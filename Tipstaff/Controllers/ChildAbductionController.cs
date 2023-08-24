@@ -48,9 +48,9 @@ namespace Tipstaff.Controllers
             {
                 TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.childNameContains.ToUpper()));
             }
-            if (!string.IsNullOrEmpty(model.CourtFileNumber))
+            if (!string.IsNullOrEmpty(model.courtFileNumberContains))
             {
-                TRs = TRs.Where(w => w.CourtFileNumber.ToUpper().Contains(model.CourtFileNumber.ToUpper()));
+                TRs = TRs.Where(w => w.CourtFileNumber.ToUpper().Contains(model.courtFileNumberContains.ToUpper()));
             }
             model.FilteredRecordCount = TRs.Count();
 
