@@ -452,12 +452,12 @@ namespace Tipstaff.Helpers
                     childNameContains.MergeAttribute("type", "hidden");
                     childNameContains.MergeAttribute("value", temp.childNameContains ?? "");
                     form.InnerHtml += childNameContains.ToString();
-                    TagBuilder CourtFileNumber = new TagBuilder("input");
-                    CourtFileNumber.Attributes.Add("id", "CourtFileNumber");
-                    CourtFileNumber.Attributes.Add("name", "CourtFileNumber");
-                    CourtFileNumber.MergeAttribute("type", "hidden");
-                    CourtFileNumber.MergeAttribute("value", temp.CourtFileNumber ?? "");
-                    form.InnerHtml += CourtFileNumber.ToString();
+                    TagBuilder courtFileNumberContains = new TagBuilder("input");
+                    courtFileNumberContains.Attributes.Add("id", "courtFileNumberContains");
+                    courtFileNumberContains.Attributes.Add("name", "courtFileNumberContains");
+                    courtFileNumberContains.MergeAttribute("type", "hidden");
+                    courtFileNumberContains.MergeAttribute("value", temp.courtFileNumberContains ?? "");
+                    form.InnerHtml += courtFileNumberContains.ToString();
                 }
                 else if (model is WarrantListViewModel)
                 {
@@ -760,12 +760,12 @@ namespace Tipstaff.Helpers
                 childNameContains.MergeAttribute("type", "hidden");
                 childNameContains.MergeAttribute("value", temp.childNameContains ?? "");
                 form.InnerHtml += childNameContains.ToString();
-                TagBuilder CourtFileNumber = new TagBuilder("input");
-                CourtFileNumber.Attributes.Add("id", "CourtFileNumber");
-                CourtFileNumber.Attributes.Add("name", "CourtFileNumber");
-                CourtFileNumber.MergeAttribute("type", "hidden");
-                CourtFileNumber.MergeAttribute("value", temp.CourtFileNumber ?? "");
-                form.InnerHtml += CourtFileNumber.ToString();
+                TagBuilder courtFileNumberContains = new TagBuilder("input");
+                courtFileNumberContains.Attributes.Add("id", "courtFileNumberContains");
+                courtFileNumberContains.Attributes.Add("name", "courtFileNumberContains");
+                courtFileNumberContains.MergeAttribute("type", "hidden");
+                courtFileNumberContains.MergeAttribute("value", temp.courtFileNumberContains ?? "");
+                form.InnerHtml += courtFileNumberContains.ToString();
             }
             //Add leading fields to DIV
             form.InnerHtml += caseStatusID.ToString();
