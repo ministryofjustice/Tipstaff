@@ -56,7 +56,6 @@
             @Html.HiddenFor(model => model.caOrderTypeID)
             @Html.HiddenFor(model => model.childNameContains)
             @Html.HiddenFor(model => model.CourtFileNumber)
-            @Html.HiddenFor(model => model.SearchQuery)
             @Html.DropDownListForWithSubmit(model => model.caseStatusID, (SelectList)Model.StatusList, "All statuses", "-1")
         }
     </td>
