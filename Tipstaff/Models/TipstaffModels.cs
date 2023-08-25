@@ -125,7 +125,7 @@ namespace Tipstaff.Models
         [MaxLength(50), Display(Name = "Eldest Child")]
         public string EldestChild { get; set; }
 
-        [Required, MaxLength(50), Display(Name = "Court File Number")]
+        [MaxLength(50), Display(Name = "Court File Number")]
         public string CourtFileNumber { get; set; }
 
         //[Required,Display(Name = "Current case status")]
