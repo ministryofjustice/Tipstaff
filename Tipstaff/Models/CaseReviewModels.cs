@@ -24,9 +24,9 @@ namespace Tipstaff.Models
         [Key]
         public int caseReviewID { get; set; }
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Review Date")]
+        [Display(Name = "Date Reviewed")]
         public DateTime? reviewDate { get; set; }
-        [MaxLength(800), DataType(DataType.MultilineText), Display(Name = "Action taken"), UIHint("TextAreaWithCountdown")]
+        [MaxLength(800), DataType(DataType.MultilineText), Display(Name = "Action To Be Taken"), UIHint("TextAreaWithCountdown")]
         [AdditionalMetadata("maxLength", 800)]
         //Note: Multiline text for textarea on page
         public string actionTaken { get; set; }
@@ -36,7 +36,7 @@ namespace Tipstaff.Models
         [Display(Name = "Next Review Date")]
         public DateTime nextReviewDate { get; set; }
         public int tipstaffRecordID { get; set; }
-        
+
         public virtual TipstaffRecord tipstaffRecord { get; set; }
         public virtual CaseReviewStatus caseReviewStatus { get; set; }
     }
@@ -56,7 +56,7 @@ namespace Tipstaff.Models
         public CaseReview CaseReview { get; set; }
         public SelectList CaseStatusList { get; set; }
         public SelectList CaseReviewStatusList { get; set; }
-        [Required, Display(Name="Case status")]
+        [Required, Display(Name = "Case status")]
         public int CaseStatusID { get; set; }
         public CaseReviewCreation()
         {

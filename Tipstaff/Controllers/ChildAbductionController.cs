@@ -46,8 +46,11 @@ namespace Tipstaff.Controllers
             }
             if (!string.IsNullOrEmpty(model.childNameContains))
             {
-                //TRs = TRs.Where(w=>w.children.OrderByDescending(c => c.dateOfBirth).ThenBy(c => c.childID).FirstOrDefault().nameLast.ToUpper().Contains(model.childNameContains.ToUpper()));#
                 TRs = TRs.Where(w => w.EldestChild.ToUpper().Contains(model.childNameContains.ToUpper()));
+            }
+            if (!string.IsNullOrEmpty(model.courtFileNumberContains))
+            {
+                TRs = TRs.Where(w => w.CourtFileNumber.ToUpper().Contains(model.courtFileNumberContains.ToUpper()));
             }
             model.FilteredRecordCount = TRs.Count();
 
@@ -84,6 +87,14 @@ namespace Tipstaff.Controllers
 
                 case "orderRecd desc":
                     TRs = TRs.OrderByDescending(a => a.orderReceived).ThenBy(b => b.tipstaffRecordID);
+                    break;
+
+                case "CourtFileNumber asc":
+                    TRs = TRs.OrderBy(a => a.CourtFileNumber).ThenBy(b => b.tipstaffRecordID);
+                    break;
+
+                case "CourtFileNumber desc":
+                    TRs = TRs.OrderByDescending(a => a.CourtFileNumber).ThenBy(b => b.tipstaffRecordID);
                     break;
 
                 case "officer asc":
@@ -328,7 +339,7 @@ namespace Tipstaff.Controllers
         {
             ////model.ChildAbduction = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
             ////db.ChildAbductions.Remove(model.ChildAbduction);
-            
+
             var ca = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
             foreach (var c in ca.children.ToList())
             {

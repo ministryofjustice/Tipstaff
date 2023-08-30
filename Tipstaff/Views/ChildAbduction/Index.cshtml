@@ -16,8 +16,20 @@
 <table>
     <tr>
         @*Filter Row*@
-    <th @if (User.IsInRole("Admin")) { @Html.Raw("colspan=\"2\"")}>Filters</th>
-    <td colspan="5" style="background-color: #dddddd">&nbsp;</td>
+    <th @if (User.IsInRole("Admin") || User.IsInRole("System Admin")) { @Html.Raw("colspan=\"2\"") }>Filters</th>
+    <td colspan="1" style="white-space:nowrap;background-color: #dddddd">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.sortOrder)
+            @Html.HiddenFor(model => model.includeFinal)
+            @Html.HiddenFor(model => model.caseStatusID)
+            @Html.HiddenFor(model => model.childNameContains)
+            @Html.TextBox("courtFileNumberContains", null, new { @style = "width: 5em;", AccessKey = "F", title="Filter Court File numbers" })
+            <input alt="Filter Court File Numbers" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
+        }
+    </td>
+    <td colspan="4" style="background-color: #dddddd">&nbsp;</td>
     <td style="white-space:nowrap;background-color: #dddddd">
         @using (Html.BeginForm())
         {
@@ -26,6 +38,7 @@
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caseStatusID)
             @Html.HiddenFor(model => model.childNameContains)
+            @Html.HiddenFor(model => model.courtFileNumberContains)
             @Html.DropDownListForWithSubmit(model => model.caOrderTypeID, (SelectList)Model.OrderTypeList, "All types", "-1")
         }
     </td>
@@ -37,6 +50,7 @@
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caseStatusID)
             @Html.HiddenFor(model => model.caOrderTypeID)
+            @Html.HiddenFor(model => model.courtFileNumberContains)
             @Html.TextBox("childNameContains", null, new { @style = "width: 7em;", AccessKey = "F", title="Filter child name" })
             <input alt="Filter Child name" type="image" value="Search" src="@Url.Content("~/Images/view.png") " />
         }
@@ -50,6 +64,7 @@
             @Html.HiddenFor(model => model.includeFinal)
             @Html.HiddenFor(model => model.caOrderTypeID)
             @Html.HiddenFor(model => model.childNameContains)
+            @Html.HiddenFor(model => model.courtFileNumberContains)
             @Html.DropDownListForWithSubmit(model => model.caseStatusID, (SelectList)Model.StatusList, "All statuses", "-1")
         }
     </td>
@@ -71,6 +86,7 @@
 
     }
     @Html.SortHeader(Model, "uniqueid", "Unique record ID", token)
+    @Html.SortHeader(Model, "CourtFileNumber", "Court File Number", token)
     @Html.SortHeader(Model, "reviewDate", "Next review date", token)
     @Html.SortHeader(Model, "sentSCD", "Date to SCD26", token)
     @Html.SortHeader(Model, "orderDated", "Date Order made", token)
@@ -103,6 +119,7 @@
             </td>
         }
         <td>@Html.ImageAndTextLink(Url.Content("~/Images/view.png"), item.UniqueRecordID, string.Format("View {0}", item.UniqueRecordID), "Details", "ChildAbduction", new { id = item.tipstaffRecordID }, null, null, "createButton")</td>
+        <td>@Html.DisplayFor(modelItem => item.CourtFileNumber)</td>
         <td>
             @if (item.resultID == null)
             {
