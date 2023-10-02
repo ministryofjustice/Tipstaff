@@ -11,7 +11,6 @@ COPY WebApp.zip .
 RUN powershell -Command " \
     Expand-Archive -Path C:\app\WebApp.zip -DestinationPath C:\temp_extracted; \
     xcopy C:\temp_extracted\Content\D_C\a\Tipstaff\Tipstaff\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I; \
-    Get-ChildItem -Path 'C:\inetpub\wwwroot' -Recurse; \
     Remove-Item -Path C:\app\WebApp.zip -Force; \
     Remove-Item -Recurse -Force C:\temp_extracted \
     "
