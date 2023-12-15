@@ -7,6 +7,7 @@ using System.Configuration;
 using PagedList;
 using Tipstaff.Models;
 using TPLibrary.Logger;
+using Newtonsoft.Json;
 
 namespace Tipstaff.Controllers
 {
@@ -53,6 +54,10 @@ namespace Tipstaff.Controllers
                 TRs = TRs.Where(w => w.CourtFileNumber.ToUpper().Contains(model.courtFileNumberContains.ToUpper()));
             }
             model.FilteredRecordCount = TRs.Count();
+
+            var filterString = "this is the model (child abductions): " + JsonConvert.SerializeObject(model);
+
+            _logger.LogInfo(filterString);
 
             //IOrderedQueryable<ChildAbduction> TRs = ((IOrderedQueryable<ChildAbduction>)CAs);
             switch (model.sortOrder)
