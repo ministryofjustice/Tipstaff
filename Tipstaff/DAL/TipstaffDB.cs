@@ -20,9 +20,9 @@ namespace Tipstaff.Models
 
         private readonly ICloudWatchLogger _logger;
 
-        public TipstaffDB(ICloudWatchLogger telemetryLogger)
+        public TipstaffDB()
         {
-            _logger = telemetryLogger;
+            _logger = new CloudWatchLogger();
         }
         public static string GetRDSConnectionString()
         {
@@ -325,7 +325,7 @@ namespace Tipstaff.Models
                 }
                 try
                 {  
-                    //base.SaveChanges();
+                    base.SaveChanges();
                     //only uncomment for error handling
                 }
                 catch (DbEntityValidationException ex)
