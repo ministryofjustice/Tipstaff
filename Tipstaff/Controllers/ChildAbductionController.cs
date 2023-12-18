@@ -8,10 +8,10 @@ using PagedList;
 using Tipstaff.Models;
 using TPLibrary.Logger;
 using Newtonsoft.Json;
-using Nlog;
-using Nlog.AWS.Logger;
-using Nlog.Config;
-using Nlog.Targets;
+using NLog;
+using NLog.AWS.Logger;
+using NLog.Config;
+using NLog.Targets;
 
 namespace Tipstaff.Controllers
 {
