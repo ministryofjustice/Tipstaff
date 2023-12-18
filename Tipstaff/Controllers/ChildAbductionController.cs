@@ -8,6 +8,7 @@ using PagedList;
 using Tipstaff.Models;
 using TPLibrary.Logger;
 using Newtonsoft.Json;
+using NLog;
 
 namespace Tipstaff.Controllers
 {
@@ -19,10 +20,12 @@ namespace Tipstaff.Controllers
         private TipstaffDB db = myDBContextHelper.CurrentContext;
 
         private readonly ICloudWatchLogger _logger;
+        private readonly Logger logger;
 
         public ChildAbductionController(ICloudWatchLogger telemetryLogger)
         {
             _logger = telemetryLogger;
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         //
@@ -58,6 +61,8 @@ namespace Tipstaff.Controllers
             var filterString = "this is the model (child abductions): " + JsonConvert.SerializeObject(model);
 
             _logger.LogInfo(filterString);
+
+            logger.Info(filterString);
 
             //IOrderedQueryable<ChildAbduction> TRs = ((IOrderedQueryable<ChildAbduction>)CAs);
             switch (model.sortOrder)
