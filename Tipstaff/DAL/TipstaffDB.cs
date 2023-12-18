@@ -20,10 +20,6 @@ namespace Tipstaff.Models
 
         private readonly ICloudWatchLogger _logger;
 
-        public TipstaffDB(ICloudWatchLogger telemetryLogger)
-        {
-            _logger = telemetryLogger;
-        }
         public static string GetRDSConnectionString()
         {
             var appConfig = ConfigurationManager.AppSettings;
@@ -45,7 +41,9 @@ namespace Tipstaff.Models
 
         public TipstaffDB()
            : base(GetRDSConnectionString())
-        { }
+        {
+            _logger = new CloudWatchLogger();
+        }
 
         //SSG Standard Models
         public DbSet<FAQ> FAQs { get; set; }
