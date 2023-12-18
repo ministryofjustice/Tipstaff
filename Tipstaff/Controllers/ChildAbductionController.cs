@@ -8,6 +8,10 @@ using PagedList;
 using Tipstaff.Models;
 using TPLibrary.Logger;
 using Newtonsoft.Json;
+using Nlog;
+using Nlog.AWS.Logger;
+using Nlog.Config;
+using Nlog.Targets;
 
 namespace Tipstaff.Controllers
 {
@@ -24,6 +28,16 @@ namespace Tipstaff.Controllers
         {
             _logger = telemetryLogger;
         }
+
+        var config = new LoggingConfiguration();
+        config.AddRule(LogLevel.Trace, LogLevel.Fatal, new AWSTarget()
+        {
+            LogGroup = "/dotnet/application-logs/nlog"
+        });
+
+        LogManager.Configuration = config;
+
+        var log = LogManager.GetCurrentClassLogger();
 
         //
         // GET: /ChildAbduction/
@@ -58,6 +72,10 @@ namespace Tipstaff.Controllers
             var filterString = "this is the model (child abductions): " + JsonConvert.SerializeObject(model);
 
             _logger.LogInfo(filterString);
+
+            log.Trace("Testing trace message");
+            log.Info("Testing info message");
+            log.Info(filterString);
 
             //IOrderedQueryable<ChildAbduction> TRs = ((IOrderedQueryable<ChildAbduction>)CAs);
             switch (model.sortOrder)
@@ -197,6 +215,7 @@ namespace Tipstaff.Controllers
         {
             ChildAbduction childabduction = db.ChildAbductions.Find(id);
             _logger.LogInfo("Child abduction details: " + childabduction);
+            log.Info("Child abduction details: " + childabduction);
             return View(childabduction);
         }
 
