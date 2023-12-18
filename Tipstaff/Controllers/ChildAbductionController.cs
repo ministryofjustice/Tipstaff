@@ -196,7 +196,7 @@ namespace Tipstaff.Controllers
         public ViewResult Details(int id)
         {
             ChildAbduction childabduction = db.ChildAbductions.Find(id);
-            _logger.LogInfo("Child abduction details: " + JsonConvert.SerializeObject(childabduction));
+            _logger.LogInfo("Child abduction details: " + childabduction);
             return View(childabduction);
         }
 
