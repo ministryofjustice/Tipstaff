@@ -11,11 +11,19 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Configuration;
 using System.Reflection;
+using TPLibrary.Logger;
 
 namespace Tipstaff.Models
 {
     public class TipstaffDB : DbContext
     {
+
+        private readonly ICloudWatchLogger _logger;
+
+        public TipstaffDB(ICloudWatchLogger telemetryLogger)
+        {
+            _logger = telemetryLogger;
+        }
         public static string GetRDSConnectionString()
         {
             var appConfig = ConfigurationManager.AppSettings;
@@ -290,6 +298,7 @@ namespace Tipstaff.Models
                 {
                     //New TipstaffRecord derivative record added, so...
                     //save the record
+                    _logger.LogInfo("SaveChanges line 301 executed");
                     base.SaveChanges();
                     //extract the new identity
                     auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
@@ -301,6 +310,7 @@ namespace Tipstaff.Models
                 {
                     //New record added, so...
                     //save the record
+                    _logger.LogInfo("SaveChanges line 312 executed");
                     base.SaveChanges();
                     //extract the new identity
                     auditRecord.RecordChanged = entry.CurrentValues.GetValue(0).ToString();
@@ -320,17 +330,21 @@ namespace Tipstaff.Models
                 }
                 catch (DbEntityValidationException ex)
                 {
+                    _logger.LogInfo("The exception is DbEntityValidationException, error: " + ex);
                     System.Diagnostics.Debug.Print(ex.Message);
                 }
                 catch (DbUpdateException ex)
                 {
+                    _logger.LogInfo("The exception is DbUpdateException, error: " + ex);
                     System.Diagnostics.Debug.Print(ex.Message);
                 }
                 catch (Exception ex)
                 {
+                    _logger.LogInfo("The exception is generic Exception, error: " + ex);
                     System.Diagnostics.Debug.Print(ex.Message);
                 }
             }
+            _logger.LogInfo("SaveChanges line 343 executed");
             return base.SaveChanges();
         }
 
