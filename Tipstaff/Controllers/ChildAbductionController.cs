@@ -346,7 +346,13 @@ namespace Tipstaff.Controllers
             ////model.ChildAbduction = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
             ////db.ChildAbductions.Remove(model.ChildAbduction);
 
+            var filterString = "this is the model (DeleteChildAbductionViewModel): " + JsonConvert.SerializeObject(model);
+            _logger.LogInfo(filterString);
+
             var ca = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
+
+            var filterString2 = "this is the model (model.deletedTipstaffRecord.TipstaffRecordID): " + JsonConvert.SerializeObject(ca);
+            _logger.LogInfo(filterString2);
             foreach (var c in ca.children.ToList())
             {
                 db.Entry(c).State = EntityState.Deleted;
@@ -388,6 +394,7 @@ namespace Tipstaff.Controllers
                 db.Entry(p).State = EntityState.Deleted;
             }
             db.Entry(ca).State = EntityState.Deleted;
+            _logger.LogInfo("object state set to deleted?" + db.Entry(ca).State);
             db.SaveChanges();
             return RedirectToAction("Index", "ChildAbduction");
         }
