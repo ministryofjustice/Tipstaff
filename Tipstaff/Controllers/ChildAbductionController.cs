@@ -346,9 +346,6 @@ namespace Tipstaff.Controllers
             ////model.ChildAbduction = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
             ////db.ChildAbductions.Remove(model.ChildAbduction);
 
-            var filterString = "this is the model (DeleteChildAbductionViewModel): " + JsonConvert.SerializeObject(model);
-            _logger.LogInfo(filterString);
-
             var ca = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
 
             var filterString2 = "this is the model (model.deletedTipstaffRecord.TipstaffRecordID): " + JsonConvert.SerializeObject(ca);
