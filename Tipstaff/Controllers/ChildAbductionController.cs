@@ -348,8 +348,6 @@ namespace Tipstaff.Controllers
 
             var ca = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
 
-            var filterString2 = "this is the model (model.deletedTipstaffRecord.TipstaffRecordID): " + JsonConvert.SerializeObject(ca);
-            _logger.LogInfo(filterString2);
             foreach (var c in ca.children.ToList())
             {
                 db.Entry(c).State = EntityState.Deleted;
