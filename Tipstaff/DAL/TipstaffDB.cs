@@ -18,7 +18,7 @@ namespace Tipstaff.Models
     public class TipstaffDB : DbContext
     {
 
-        private readonly ICloudWatchLogger _logger;
+        private ICloudWatchLogger _logger;
 
         public static string GetRDSConnectionString()
         {
