@@ -20,8 +20,6 @@ namespace Tipstaff.Models
 
         private readonly ICloudWatchLogger _logger;
 
-        _logger = new CloudWatchLogger();
-
         public static string GetRDSConnectionString()
         {
             var appConfig = ConfigurationManager.AppSettings;
@@ -98,6 +96,7 @@ namespace Tipstaff.Models
 
         public override int SaveChanges()
         {
+            _logger = new CloudWatchLogger();
             //int result = -1;
             DateTime eventDateTime = DateTime.Now;
             //string eventUser = HttpContext.Current.User.Identity.Name;
