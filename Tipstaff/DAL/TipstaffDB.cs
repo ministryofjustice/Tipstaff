@@ -322,7 +322,7 @@ namespace Tipstaff.Models
                 }
                 try
                 {  
-                    //base.SaveChanges();
+                    base.SaveChanges();
                     //only uncomment for error handling
                 }
                 catch (DbEntityValidationException ex)
