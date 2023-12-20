@@ -399,12 +399,10 @@ namespace Tipstaff.Controllers
             {
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    _logger.LogInfo("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    _logger.LogInfo("Entity of type " + eve.Entry.Entity.GetType().Name + "in state " + eve.Entry.State + "has the following validation errors:");
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        _logger.LogInfo("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
+                        _logger.LogInfo("Property: " + ve.PropertyName + "Error: " + ve.ErrorMessage);
                     }
                 }
                 throw;
