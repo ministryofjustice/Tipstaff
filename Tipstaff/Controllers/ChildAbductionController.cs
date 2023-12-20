@@ -56,10 +56,6 @@ namespace Tipstaff.Controllers
             }
             model.FilteredRecordCount = TRs.Count();
 
-            var filterString = "this is the model (child abductions): " + JsonConvert.SerializeObject(model);
-
-            _logger.LogInfo(filterString);
-
             //IOrderedQueryable<ChildAbduction> TRs = ((IOrderedQueryable<ChildAbduction>)CAs);
             switch (model.sortOrder)
             {
@@ -197,7 +193,6 @@ namespace Tipstaff.Controllers
         public ViewResult Details(int id)
         {
             ChildAbduction childabduction = db.ChildAbductions.Find(id);
-            _logger.LogInfo("Child abduction details: " + childabduction);
             return View(childabduction);
         }
 
@@ -390,19 +385,21 @@ namespace Tipstaff.Controllers
                 db.Entry(p).State = EntityState.Deleted;
             }
             db.Entry(ca).State = EntityState.Deleted;
-            _logger.LogInfo("object state set to deleted?" + db.Entry(ca).State);
             try
             {
                 db.SaveChanges();
             }
             catch (DbEntityValidationException e)
             {
+                _logger.LogInfo("DbEntityValidationException: " + e)
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    _logger.LogInfo("Entity of type " + eve.Entry.Entity.GetType().Name + "in state " + eve.Entry.State + "has the following validation errors:");
+                    _logger.LogInfo("e.EntityValidationErrors: " + eve)
+                    _logger.LogInfo("Entity of type " + eve.Entry.Entity.GetType().Name + " in state " + eve.Entry.State + " has the following validation errors: ");
                     foreach (var ve in eve.ValidationErrors)
                     {
-                        _logger.LogInfo("Property: " + ve.PropertyName + "Error: " + ve.ErrorMessage);
+                        _logger.LogInfo("Property: " + ve.PropertyName + " Error: " + ve.ErrorMessage);
+                        _logger.LogInfo("Full validation error: " + ve);
                     }
                 }
                 throw;
