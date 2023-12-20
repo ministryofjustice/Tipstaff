@@ -391,10 +391,10 @@ namespace Tipstaff.Controllers
             }
             catch (DbEntityValidationException e)
             {
-                _logger.LogInfo("DbEntityValidationException: " + e)
+                _logger.LogInfo("DbEntityValidationException: " + e);
                 foreach (var eve in e.EntityValidationErrors)
                 {
-                    _logger.LogInfo("e.EntityValidationErrors: " + eve)
+                    _logger.LogInfo("e.EntityValidationErrors: " + eve);
                     _logger.LogInfo("Entity of type " + eve.Entry.Entity.GetType().Name + " in state " + eve.Entry.State + " has the following validation errors: ");
                     foreach (var ve in eve.ValidationErrors)
                     {
