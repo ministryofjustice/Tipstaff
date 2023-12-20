@@ -390,7 +390,24 @@ namespace Tipstaff.Controllers
             }
             db.Entry(ca).State = EntityState.Deleted;
             _logger.LogInfo("object state set to deleted?" + db.Entry(ca).State);
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    _logger.LogInfo("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        _logger.LogInfo("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
             return RedirectToAction("Index", "ChildAbduction");
         }
     }
