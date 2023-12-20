@@ -8,6 +8,7 @@ using PagedList;
 using Tipstaff.Models;
 using TPLibrary.Logger;
 using Newtonsoft.Json;
+using System.Data.Entity.Validation;
 
 namespace Tipstaff.Controllers
 {
