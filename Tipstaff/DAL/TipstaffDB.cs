@@ -236,11 +236,13 @@ namespace Tipstaff.Models
                                     if ((oldValue != newValue) && (oldValue != "Could not be mapped")) // probably not necessary
                                     {
                                         AuditEventDataRow newAuditRow = new AuditEventDataRow();
-                                        _logger.LogInfo("newAuditRow before: " + newAuditRow);
+                                        _logger.LogInfo("newAuditRow.Was before: " + newAuditRow.Was);
+                                        _logger.LogInfo("newAuditRow.Now before: " + newAuditRow.Now);
                                         newAuditRow.ColumnName = propertyName;
                                         newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
                                         newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
-                                        _logger.LogInfo("newAuditRow after: " + newAuditRow);
+                                        _logger.LogInfo("newAuditRow.Was after: " + newAuditRow.Was);
+                                        _logger.LogInfo("newAuditRow.Now after: " + newAuditRow.Now);
                                         data.Add(newAuditRow);
                                     }
 
