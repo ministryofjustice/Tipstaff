@@ -240,7 +240,7 @@ namespace Tipstaff.Models
                                         newAuditRow.ColumnName = propertyName;
                                         newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
                                         newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
-                                        _logger.LogInfo($"Entity: <{entityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}> oldValue: <{oldValue}> oldValue.length: <{oldValue.length}>");
+                                        _logger.LogInfo($"Entity: <{entityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}> oldValue: <{oldValue}> oldValue.length: <{oldValue.Length}>");
                                         data.Add(newAuditRow);
                                     }
 
