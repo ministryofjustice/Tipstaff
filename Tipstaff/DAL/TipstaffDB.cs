@@ -222,7 +222,9 @@ namespace Tipstaff.Models
                                 foreach (EdmMember member in entry.EntitySet.ElementType.Members)
                                 {
                                     string propertyName = member.Name.ToString();
+                                    string entityName = entry.Entity.GetType().Name;
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
+                                    _logger.LogInfo("oldData: " + oldData);
                                     string oldValue = "";
                                     string newValue = "deleted";
                                     try
@@ -237,9 +239,10 @@ namespace Tipstaff.Models
                                     {
                                         AuditEventDataRow newAuditRow = new AuditEventDataRow();
                                         newAuditRow.ColumnName = propertyName;
+                                        newAuditRow.EntityName = entityName;
                                         newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
                                         newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
-                                        _logger.LogInfo("newAuditRow.Was: <" + newAuditRow.Was + "> newAuditRow.Now: <" + newAuditRow.Now + ">");
+                                        _logger.LogInfo($"Entity: <{newAuditRow.EntityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}>");
                                         data.Add(newAuditRow);
                                     }
 
