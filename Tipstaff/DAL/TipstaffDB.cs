@@ -224,7 +224,6 @@ namespace Tipstaff.Models
                                     string propertyName = member.Name.ToString();
                                     string entityName = entry.Entity.GetType().Name;
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
-                                    _logger.LogInfo("oldData: " + oldData);
                                     string oldValue = "";
                                     string newValue = "deleted";
                                     try
@@ -241,7 +240,7 @@ namespace Tipstaff.Models
                                         newAuditRow.ColumnName = propertyName;
                                         newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
                                         newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
-                                        _logger.LogInfo($"Entity: <{entityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}>");
+                                        _logger.LogInfo($"Entity: <{entityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}> oldValue: <{oldValue}> oldValue.length: <{oldValue.length}>");
                                         data.Add(newAuditRow);
                                     }
 
