@@ -55,7 +55,7 @@ namespace Tipstaff.Models
         public string ColumnName { get; set; }
         [Required, MaxLength(200)]
         public string Was { get; set; }
-        [Required, MaxLength(200)]
+        [MaxLength(200)]
         public string Now { get; set; }
 
         public virtual AuditEvent auditEvent { get; set; }   

@@ -240,7 +240,7 @@ namespace Tipstaff.Models
                                         newAuditRow.ColumnName = propertyName;
                                         newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
                                         newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
-                                        _logger.LogInfo($"Entity: <{entityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}> oldValue: <{oldValue}> oldValue.length: <{oldValue.Length}>");
+                                        _logger.LogInfo($"Entity: <{entityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}> oldValue: <{oldValue}> oldValue.Length: <{oldValue.Length}>");
                                         data.Add(newAuditRow);
                                     }
 
@@ -295,7 +295,6 @@ namespace Tipstaff.Models
 
                 if (auditRecord.RecordChanged == "0" && auditRecord.RecordAddedTo == 0 && auditRecord.EventDescription.Contains("Added"))
                 {
-                    _logger.LogInfo("Trying to add audit records - (if)");
                     //New TipstaffRecord derivative record added, so...
                     //save the record
                     base.SaveChanges();
@@ -307,7 +306,6 @@ namespace Tipstaff.Models
                 }
                 else if (auditRecord.RecordChanged == "0" && auditRecord.RecordAddedTo != 0 && auditRecord.EventDescription.Contains("Added"))
                 {
-                    _logger.LogInfo("Trying to add audit records - (first else if)");
                     //New record added, so...
                     //save the record
                     base.SaveChanges();
@@ -319,7 +317,6 @@ namespace Tipstaff.Models
                 }
                 else if (auditRecord.RecordChanged != "0" && auditRecord.RecordChanged != null && (auditRecord.AuditEventDataRows != null && auditRecord.AuditEventDataRows.Count > 0))
                 {
-                    _logger.LogInfo("Trying to add audit records - (last else if)");
                     this.AuditEvents.Add(auditRecord);
                     //base.SaveChanges();
                 }
