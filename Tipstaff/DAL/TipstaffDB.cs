@@ -236,13 +236,10 @@ namespace Tipstaff.Models
                                     if ((oldValue != newValue) && (oldValue != "Could not be mapped")) // probably not necessary
                                     {
                                         AuditEventDataRow newAuditRow = new AuditEventDataRow();
-                                        _logger.LogInfo("newAuditRow.Was before: " + newAuditRow.Was);
-                                        _logger.LogInfo("newAuditRow.Now before: " + newAuditRow.Now);
                                         newAuditRow.ColumnName = propertyName;
                                         newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
                                         newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
-                                        _logger.LogInfo("newAuditRow.Was after: " + newAuditRow.Was);
-                                        _logger.LogInfo("newAuditRow.Now after: " + newAuditRow.Now);
+                                        _logger.LogInfo("newAuditRow.Was: <" + newAuditRow.Was + "> newAuditRow.Now: <" + newAuditRow.Now + ">");
                                         data.Add(newAuditRow);
                                     }
 
@@ -297,6 +294,7 @@ namespace Tipstaff.Models
 
                 if (auditRecord.RecordChanged == "0" && auditRecord.RecordAddedTo == 0 && auditRecord.EventDescription.Contains("Added"))
                 {
+                    _logger.LogInfo("Trying to add audit records - (if)");
                     //New TipstaffRecord derivative record added, so...
                     //save the record
                     base.SaveChanges();
@@ -308,6 +306,7 @@ namespace Tipstaff.Models
                 }
                 else if (auditRecord.RecordChanged == "0" && auditRecord.RecordAddedTo != 0 && auditRecord.EventDescription.Contains("Added"))
                 {
+                    _logger.LogInfo("Trying to add audit records - (first else if)");
                     //New record added, so...
                     //save the record
                     base.SaveChanges();
@@ -319,6 +318,7 @@ namespace Tipstaff.Models
                 }
                 else if (auditRecord.RecordChanged != "0" && auditRecord.RecordChanged != null && (auditRecord.AuditEventDataRows != null && auditRecord.AuditEventDataRows.Count > 0))
                 {
+                    _logger.LogInfo("Trying to add audit records - (last else if)");
                     this.AuditEvents.Add(auditRecord);
                     //base.SaveChanges();
                 }
