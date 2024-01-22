@@ -11,15 +11,11 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Metadata.Edm;
 using System.Configuration;
 using System.Reflection;
-using TPLibrary.Logger;
 
 namespace Tipstaff.Models
 {
     public class TipstaffDB : DbContext
     {
-
-        private ICloudWatchLogger _logger;
-
         public static string GetRDSConnectionString()
         {
             var appConfig = ConfigurationManager.AppSettings;
@@ -96,7 +92,6 @@ namespace Tipstaff.Models
 
         public override int SaveChanges()
         {
-            _logger = new CloudWatchLogger();
             //int result = -1;
             DateTime eventDateTime = DateTime.Now;
             //string eventUser = HttpContext.Current.User.Identity.Name;
@@ -222,7 +217,6 @@ namespace Tipstaff.Models
                                 foreach (EdmMember member in entry.EntitySet.ElementType.Members)
                                 {
                                     string propertyName = member.Name.ToString();
-                                    string entityName = entry.Entity.GetType().Name;
                                     DbPropertyValues oldData = this.Entry(entry.Entity).GetDatabaseValues();
                                     string oldValue = "";
                                     string newValue = "deleted";
@@ -240,7 +234,6 @@ namespace Tipstaff.Models
                                         newAuditRow.ColumnName = propertyName;
                                         newAuditRow.Was = oldValue.Length <= 199 ? oldValue : oldValue.Substring(0, 199);
                                         newAuditRow.Now = newValue.Length <= 199 ? newValue : newValue.Substring(0, 199);
-                                        _logger.LogInfo($"Entity: <{entityName}> Column: <{newAuditRow.ColumnName}> Was: <{newAuditRow.Was}> Now: <{newAuditRow.Now}> oldValue: <{oldValue}> oldValue.Length: <{oldValue.Length}>");
                                         data.Add(newAuditRow);
                                     }
 

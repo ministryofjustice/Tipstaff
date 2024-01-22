@@ -7,8 +7,6 @@ using System.Configuration;
 using PagedList;
 using Tipstaff.Models;
 using TPLibrary.Logger;
-using Newtonsoft.Json;
-using System.Data.Entity.Validation;
 
 namespace Tipstaff.Controllers
 {
@@ -343,7 +341,6 @@ namespace Tipstaff.Controllers
             ////db.ChildAbductions.Remove(model.ChildAbduction);
 
             var ca = db.ChildAbductions.Find(model.deletedTipstaffRecord.TipstaffRecordID);
-
             foreach (var c in ca.children.ToList())
             {
                 db.Entry(c).State = EntityState.Deleted;
@@ -385,25 +382,7 @@ namespace Tipstaff.Controllers
                 db.Entry(p).State = EntityState.Deleted;
             }
             db.Entry(ca).State = EntityState.Deleted;
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbEntityValidationException e)
-            {
-                _logger.LogInfo("DbEntityValidationException: " + e);
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    _logger.LogInfo("e.EntityValidationErrors: " + eve);
-                    _logger.LogInfo("Entity of type " + eve.Entry.Entity.GetType().Name + " in state " + eve.Entry.State + " has the following validation errors: ");
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        _logger.LogInfo("Property: " + ve.PropertyName + " Error: " + ve.ErrorMessage);
-                        _logger.LogInfo("Full validation error: " + ve);
-                    }
-                }
-                throw;
-            }
+            db.SaveChanges();
             return RedirectToAction("Index", "ChildAbduction");
         }
     }
