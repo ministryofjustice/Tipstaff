@@ -343,6 +343,10 @@ namespace Tipstaff.Controllers
             {
                 db.Entry(d).State = EntityState.Deleted;
             }
+            foreach (var pass in w.Passports.ToList())
+            {
+                db.Entry(pass).State = EntityState.Deleted;
+            }
             foreach (var trs in w.LinkedSolicitors.ToList())
             {
                 db.Entry(trs).State = EntityState.Deleted;
