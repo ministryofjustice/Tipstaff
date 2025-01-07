@@ -97,7 +97,10 @@
                 }
             }
             <div class="logo">
-                <img src="@Url.Content("~/Images/govuk-crest.png")" alt="HMCTS Logo" style="float:left;" />
+                <div style="float:left; display: flex; align-items: center;">
+                    <img src="@Url.Content("~/Images/govuk-crest-black.svg")" alt="HMCTS Logo" height="50" style="float:left;" />
+                    <span style="font-family: 'Helvetica Neue', Arial; font-size: 35px;">HM Courts & Tribunals Service</span>
+                </div>
                 <img src="@Url.Content("~/Images/app-logo.png")" alt="Application Logo" style="float:right;margin-right:0px!important;vertical-align:bottom;" class="@logo" />
             </div>
             @Html.Partial("menuBar")
