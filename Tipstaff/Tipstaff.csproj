@@ -371,7 +371,7 @@
     <Content Include="Images\down.gif" />
     <Content Include="Images\external.png" />
     <Content Include="Images\filter.png" />
-    <Content Include="Images\hmcts-logo.png" />
+    <Content Include="Images\govuk-crest-black.svg" />
     <Content Include="Images\hmcts_dev.png" />
     <Content Include="Images\hmcts_train.PNG" />
     <Content Include="Images\stop_grey.png" />

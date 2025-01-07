@@ -2,7 +2,7 @@ name: Tipstaff-Modernisation-Platform
 
 on:
   push:
-    branches: [ "master", "dockerize", "staging" ]
+    branches: [ "master", "update-coat-of-arms", "staging" ]
 
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   deploy-dev:
-    if: github.ref == 'refs/heads/dockerize'
+    if: github.ref == 'refs/heads/update-coat-of-arms'
     name: Dev - Build & Deploy
     runs-on: windows-2019
     permissions:
@@ -50,7 +50,7 @@ jobs:
           msbuild "Tipstaff.sln" /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="${{ github.workspace }}/WebApp.zip" /p:DeployIisAppPath="Default Web Site"
 
       - name: Publish Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: webapp
           path: ${{ github.workspace }}/WebApp.zip
@@ -115,7 +115,7 @@ jobs:
           msbuild "Tipstaff.sln" /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="${{ github.workspace }}/WebApp.zip" /p:DeployIisAppPath="Default Web Site"
 
       - name: Publish Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: webapp
           path: ${{ github.workspace }}/WebApp.zip
@@ -180,7 +180,7 @@ jobs:
           msbuild "Tipstaff.sln" /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="${{ github.workspace }}/WebApp.zip" /p:DeployIisAppPath="Default Web Site"
 
       - name: Publish Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: webapp
           path: ${{ github.workspace }}/WebApp.zip
