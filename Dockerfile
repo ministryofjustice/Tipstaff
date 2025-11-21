@@ -15,11 +15,6 @@ RUN powershell -Command " \
     Remove-Item -Recurse -Force C:\temp_extracted \
     "
 
-# Download ServiceMonitor
-RUN powershell -Command " \
-    Invoke-WebRequest -Uri 'https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe' -OutFile 'C:\ServiceMonitor.exe' \
-    "
-
 # Expose the IIS port
 EXPOSE 80
 
