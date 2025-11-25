@@ -1,5 +1,5 @@
 # Pull the Windows Server IIS base image
-FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2022
 
 # Create a directory for your application
 WORKDIR C:/app
@@ -13,11 +13,6 @@ RUN powershell -Command " \
     xcopy C:\temp_extracted\Content\D_C\a\Tipstaff\Tipstaff\Tipstaff\obj\Release\Package\PackageTmp\* C:\inetpub\wwwroot /E /I; \
     Remove-Item -Path C:\app\WebApp.zip -Force; \
     Remove-Item -Recurse -Force C:\temp_extracted \
-    "
-
-# Download ServiceMonitor
-RUN powershell -Command " \
-    Invoke-WebRequest -Uri 'https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.6/ServiceMonitor.exe' -OutFile 'C:\ServiceMonitor.exe' \
     "
 
 # Expose the IIS port
