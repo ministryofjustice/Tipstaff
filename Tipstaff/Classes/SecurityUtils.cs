@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Security.Principal;
 using Tipstaff.Models;
+using TPLibrary.Logger;
 
 namespace Tipstaff
 {
@@ -27,13 +28,13 @@ namespace Tipstaff
         private readonly TimeSpan refreshInterval = TimeSpan.FromMinutes(10);
 
         public IIdentity Identity { get; private set; }
-        private ISourceRepository Db { get; }
+        private TipstaffDB Db { get; }
 
         private readonly Guid instanceId = Guid.NewGuid();
         private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
 
         // --- Constructors ---------------------------------------------------
-        public ICurrentUser(ISourceRepository repository)
+        public ICurrentUser(TipstaffDB repository)
         {
             Log($"CTOR(repo) instance={instanceId}");
             Db = repository ?? throw new ArgumentNullException(nameof(repository));
@@ -45,7 +46,7 @@ namespace Tipstaff
             Log($"CTOR(identity only) instance={instanceId}");
         }
 
-        public ICurrentUser(IIdentity identity, ISourceRepository repository)
+        public ICurrentUser(IIdentity identity, TipstaffDB repository)
         {
             Log($"CTOR(identity+repo) instance={instanceId} user={identity.Name}");
             Identity = identity ?? throw new ArgumentNullException(nameof(identity));
@@ -158,7 +159,7 @@ namespace Tipstaff
 
             logger.LogInfo($"User Identity <{identity}> Name <{identity.Name}>");
 
-            using (ISourceRepository db = new TipstaffDB())
+            using (TipstaffDB db = new TipstaffDB())
             {
                 var userAccessLevel =
                     (AccessLevel)db.UserAccessLevel(httpContext.User);
