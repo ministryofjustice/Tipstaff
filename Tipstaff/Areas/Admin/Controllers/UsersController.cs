@@ -10,13 +10,15 @@ using TPLibrary.Logger;
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
-    private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
+
 
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
     [ValidateAntiForgeryTokenOnAllPosts]
     public class UsersController : Controller
     {
+        private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
+
         TipstaffDB db = new TipstaffDB();
         public UsersController()
             : this(new TipstaffDB())
