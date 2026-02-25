@@ -34,19 +34,19 @@ namespace Tipstaff
         private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
 
         // --- Constructors ---------------------------------------------------
-        public ICurrentUser(TipstaffDB repository)
+        public CPrincipal(TipstaffDB repository)
         {
             Log($"CTOR(repo) instance={instanceId}");
             Db = repository ?? throw new ArgumentNullException(nameof(repository));
             lastCheck = DateTime.MinValue;
         }
 
-        public ICurrentUser(IIdentity identity) : this(identity, new TipstaffDB())
+        public CPrincipal(IIdentity identity) : this(identity, new TipstaffDB())
         {
             Log($"CTOR(identity only) instance={instanceId}");
         }
 
-        public ICurrentUser(IIdentity identity, TipstaffDB repository)
+        public CPrincipal(IIdentity identity, TipstaffDB repository)
         {
             Log($"CTOR(identity+repo) instance={instanceId} user={identity.Name}");
             Identity = identity ?? throw new ArgumentNullException(nameof(identity));
