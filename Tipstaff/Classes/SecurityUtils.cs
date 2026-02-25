@@ -199,7 +199,7 @@ namespace Tipstaff
             try
             {
                 IIdentity user = httpContext.User.Identity;
-                CPrincipal cPrincipal = new ICurrentUser(user);
+                CPrincipal cPrincipal = new CPrincipal(user);
                 httpContext.User = cPrincipal;
                 return true; // always true as anonymous allowed
             }
