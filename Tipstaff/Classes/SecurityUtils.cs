@@ -24,6 +24,7 @@ namespace Tipstaff
     {
         private DateTime lastCheck;
         private User systemUser;
+
         public int UserID { get; private set; }
         private readonly TimeSpan refreshInterval = TimeSpan.FromMinutes(10);
 
@@ -62,6 +63,15 @@ namespace Tipstaff
             {
                 LoadUserIfNeeded();
                 return systemUser?.UserID ?? 0;
+            }
+        }
+
+        public User User
+        {
+            get
+            {
+                LoadUserIfNeeded();
+                return systemUser;
             }
         }
 
@@ -189,7 +199,7 @@ namespace Tipstaff
             try
             {
                 IIdentity user = httpContext.User.Identity;
-                ICurrentUser cPrincipal = new ICurrentUser(user);
+                CPrincipal cPrincipal = new ICurrentUser(user);
                 httpContext.User = cPrincipal;
                 return true; // always true as anonymous allowed
             }
