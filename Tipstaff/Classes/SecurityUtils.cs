@@ -109,7 +109,7 @@ namespace Tipstaff
                 (now - lastCheck) > refreshInterval;
 
             if (!shouldReload) {
-                Log($"LoadUserIfNeeded returning cached user {systemUser.DisplayName}")
+                Log($"LoadUserIfNeeded returning cached user {systemUser.DisplayName}");
                 return systemUser;
             }
 

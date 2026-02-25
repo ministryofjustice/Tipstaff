@@ -34,7 +34,7 @@ namespace Tipstaff.Areas.Admin.Controllers
             Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
 
             var type = User.GetType().FullName;
-            logger.LogInfo($"in UsersController  with User type {type}")
+            logger.LogInfo($"in UsersController  with User type {type}");
 
             IEnumerable<User> allUsers = db.GetAllUsers();
             if (thisUser.AccessLevel == AccessLevel.SystemAdmin)
