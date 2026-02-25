@@ -61,7 +61,7 @@ namespace Tipstaff
         {
             get
             {
-                LoadUserIfNeeded();
+                systemUser = LoadUserIfNeeded();
                 return systemUser?.UserID ?? 0;
             }
         }
@@ -70,7 +70,7 @@ namespace Tipstaff
         {
             get
             {
-                LoadUserIfNeeded();
+                systemUser = LoadUserIfNeeded();
                 return systemUser;
             }
         }
@@ -79,7 +79,7 @@ namespace Tipstaff
         {
             get
             {
-                LoadUserIfNeeded();
+                systemUser = LoadUserIfNeeded();
                 return (AccessLevel)(systemUser?.Role.strength ?? 0);
             }
         }
@@ -88,7 +88,7 @@ namespace Tipstaff
         {
             get
             {
-                LoadUserIfNeeded();
+                systemUser = LoadUserIfNeeded();
                 return systemUser?.DisplayName ?? string.Empty;
             }
         }
@@ -100,20 +100,23 @@ namespace Tipstaff
 
         // --- Internal refresh logic ---------------------------------------------
 
-        private void LoadUserIfNeeded()
+        private User LoadUserIfNeeded()
         {
+            User _user = null;
             var now = DateTime.Now;
             var shouldReload =
                 systemUser == null ||
                 (now - lastCheck) > refreshInterval;
 
-            if (!shouldReload)
-                return;
+            if (!shouldReload) {
+                Log($"LoadUserIfNeeded returning cached user {systemUser.DisplayName}")
+                return systemUser;
+            }
 
             string username = Identity?.Name?.Split('\\').Last();
 
             if (string.IsNullOrWhiteSpace(username))
-                return;
+                return null;
 
             Log(
                 $"LoadUserIfNeeded instance=<{instanceId}> " +
@@ -124,8 +127,16 @@ namespace Tipstaff
                 $"shouldReload=<{shouldReload}>"
             );
 
-            systemUser = Db.GetUserByLoginName(username);
+            try {
+                _user = Db.GetUserByLoginName(username);
+                Log($"Db.GetUserByLoginName returned <{_user.Name}> ");
+            } catch (Exception ex) {
+                logger.LogError(ex, $"Failed to load user {username}");
+                return null;
+            }
+
             lastCheck = now;
+            return _user;
         }
 
         private static void Log(string message)

@@ -5,10 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using Tipstaff;
+using TPLibrary.Logger;
 
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
+    private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
+
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
     [ValidateAntiForgeryTokenOnAllPosts]
@@ -29,6 +32,10 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Index()
         {
             Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
+
+            var type = User.GetType().FullName;
+            logger.LogInfo($"in UsersController  with User type {type}")
+
             IEnumerable<User> allUsers = db.GetAllUsers();
             if (thisUser.AccessLevel == AccessLevel.SystemAdmin)
             {
