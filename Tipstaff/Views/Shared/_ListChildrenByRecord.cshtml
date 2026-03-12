@@ -29,10 +29,6 @@ else
 
     <tr>
         <td>@User.GetType().FullName</td>
-        @if (User is CPrincipal cp && cp.IsInRole("Admin"))
-        {
-            <td>CPrincipal ADMIN TEST</td>
-        }
         @if (User.IsInRole("Admin"))
         {
             <td>Original ADMIN TEST</td>
