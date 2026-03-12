@@ -29,7 +29,7 @@ else
 
     <tr>
         <td>@User.GetType().FullName</td>
-        @if (((CPrincipal)User).IsInRole("Admin"))
+        @if (User is CPrincipal cp && cp.IsInRole("Admin"))
         {
             <td>CPrincipal ADMIN TEST</td>
         }
