@@ -95,7 +95,7 @@ namespace Tipstaff
 
         public bool IsInRole(string role)
         {
-            Log($"IsInRole for User {this.User.Name} Role {this.User.Role.Detail} {role}");
+            Log($"IsInRole for User <{this.User.Name}> Role <{this.User.Role.Detail}> == <{role}> ?");
             return (this.User.Role.Detail == role);
         }
 
