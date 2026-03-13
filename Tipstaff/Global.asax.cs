@@ -17,6 +17,7 @@ using Castle.MicroKernel.Registration;
 using TPLibrary.Logger;
 using Microsoft.IdentityModel.Protocols;
 using System.Net;
+using System.Threading;
 
 namespace Tipstaff
 {
@@ -228,6 +229,26 @@ namespace Tipstaff
             {
                 Server.ClearError();
                 Response.Redirect(Request.RawUrl);
+            }
+        }
+
+        protected void Application_PostAuthenticateRequest()
+        {
+            var identity = HttpContext.Current.User?.Identity;
+
+            _cloudWatchLogger.LogInfo("Application_PostAuthenticateRequest <" + identity + ">");
+
+            if (identity != null && identity.IsAuthenticated)
+            {
+                _cloudWatchLogger.LogInfo("Application_PostAuthenticateRequest: Authenticated>");
+
+                var principal = new Tipstaff.CPrincipal(identity);
+
+                HttpContext.Current.User = principal;
+                Thread.CurrentPrincipal = principal;
+
+            } else {
+            _cloudWatchLogger.LogError(new Exception("Application_PostAuthenticateRequest error"), "Application_PostAuthenticateRequest: Identity null or not authenticated");
             }
         }
     }
