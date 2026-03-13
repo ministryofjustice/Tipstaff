@@ -27,14 +27,6 @@ else
         </th>
     </tr>
 
-    <tr>
-        <td>@User.GetType().FullName</td>
-        @if (User.IsInRole("Admin"))
-        {
-            <td>Original ADMIN TEST</td>
-        }
-    </tr>
-
 @{var isAltRow = false;
   foreach (var item in Model.Children.OrderBy(c => c.dateOfBirth).ThenBy(c => c.childID))
   {
