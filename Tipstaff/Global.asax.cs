@@ -248,7 +248,7 @@ namespace Tipstaff
                 Thread.CurrentPrincipal = principal;
 
             } else {
-            _cloudWatchLogger.LogError("Application_PostAuthenticateRequest: Identity null or not authenticated");
+            _cloudWatchLogger.LogError(new Exception("Application_PostAuthenticateRequest error"), "Application_PostAuthenticateRequest: Identity null or not authenticated");
             }
         }
     }
