@@ -5,15 +5,20 @@ using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
 using Tipstaff;
+using TPLibrary.Logger;
 
 
 namespace Tipstaff.Areas.Admin.Controllers
 {
+
+
     [AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Admin)]
     [Authorize]
     [ValidateAntiForgeryTokenOnAllPosts]
     public class UsersController : Controller
     {
+        private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
+
         TipstaffDB db = new TipstaffDB();
         public UsersController()
             : this(new TipstaffDB())
@@ -28,7 +33,11 @@ namespace Tipstaff.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
+            //Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
+            var thisUser = new CPrincipal(User.Identity);
+
+            logger.LogInfo($"in UsersController.Index with User {thisUser.DisplayName}");
+
             IEnumerable<User> allUsers = db.GetAllUsers();
             if (thisUser.AccessLevel == AccessLevel.SystemAdmin)
             {
@@ -50,7 +59,10 @@ namespace Tipstaff.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
+            //Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
+            var thisUser = new CPrincipal(User.Identity);
+            logger.LogInfo($"in UsersController.Create with User {thisUser.DisplayName}");
+
             UserAdminVM model = new UserAdminVM();
             model.Roles = new SelectList(db.GetAllRoles(), "strength", "Detail");
             return View(model);
@@ -81,7 +93,10 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             UserAdminVM model = new UserAdminVM();
-            Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
+            //Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
+            var thisUser = new CPrincipal(User.Identity);
+            logger.LogInfo($"in UsersController.Edit with User {thisUser.DisplayName}");
+
             model.User = db.GetUserByID(id);
             model.Roles = new SelectList(db.GetAllRoles(), "strength", "Detail", model.User.RoleStrength);
             return View(model);

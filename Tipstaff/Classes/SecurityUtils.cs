@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Security.Principal;
 using Tipstaff.Models;
+using TPLibrary.Logger;
 
 namespace Tipstaff
 {
@@ -21,60 +22,144 @@ namespace Tipstaff
 
     public class CPrincipal : IPrincipal
     {
-        //private UserDAL userDAL = new UserDAL();
-        public User User { get; private set; }
-        public IIdentity Identity { get; private set; }
-        public AccessLevel AccessLevel { get; private set; }
-        public int UserID { get; private set; }
-        private TipstaffDB db { get; set; }
+        private DateTime lastCheck;
+        private User systemUser;
 
-        #region Constructors
+        public int UserID { get; private set; }
+        private readonly TimeSpan refreshInterval = TimeSpan.FromMinutes(10);
+
+        public IIdentity Identity { get; private set; }
+        private TipstaffDB Db { get; }
+
+        private readonly Guid instanceId = Guid.NewGuid();
+        private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
+
+        // --- Constructors ---------------------------------------------------
         public CPrincipal(TipstaffDB repository)
         {
-            db = repository;
-        }
-        public CPrincipal(IIdentity identity): this(new TipstaffDB())
-        {
-            this.Identity = identity;
-            User = db.GetUserByLoginName(Identity.Name.Split('\\').Last());
-            this.AccessLevel = (AccessLevel)User.RoleStrength;
-            this.UserID = User.UserID;
+            Log($"CTOR(repo) instance={instanceId}");
+            Db = repository ?? throw new ArgumentNullException(nameof(repository));
+            lastCheck = DateTime.MinValue;
         }
 
-        public CPrincipal(IIdentity identity, TipstaffDB rep)
+        public CPrincipal(IIdentity identity) : this(identity, new TipstaffDB())
         {
-            db = rep;
-            this.Identity = identity;
+            Log($"CTOR(identity only) instance={instanceId}");
         }
-        #endregion Constructors
+
+        public CPrincipal(IIdentity identity, TipstaffDB repository)
+        {
+            Log($"CTOR(identity+repo) instance={instanceId} user={identity.Name}");
+            Identity = identity ?? throw new ArgumentNullException(nameof(identity));
+            Db = repository ?? throw new ArgumentNullException(nameof(repository));
+            lastCheck = DateTime.MinValue;
+            LoadUserIfNeeded();
+        }
+
+        // --- Public Properties ---------------------------------------------------
+        public int UserId
+        {
+            get
+            {
+                systemUser = LoadUserIfNeeded();
+                return systemUser?.UserID ?? 0;
+            }
+        }
+
+        public User User
+        {
+            get
+            {
+                systemUser = LoadUserIfNeeded();
+                return systemUser;
+            }
+        }
+
+        public AccessLevel AccessLevel
+        {
+            get
+            {
+                systemUser = LoadUserIfNeeded();
+                return (AccessLevel)(systemUser?.Role.strength ?? 0);
+            }
+        }
+
+        public string DisplayName
+        {
+            get
+            {
+                systemUser = LoadUserIfNeeded();
+                return systemUser?.DisplayName ?? string.Empty;
+            }
+        }
+
         public bool IsInRole(string role)
         {
             return (this.User.Role.Detail == role);
+        }
+
+        // --- Internal refresh logic ---------------------------------------------
+
+        private User LoadUserIfNeeded()
+        {
+            User _user = null;
+            var now = DateTime.Now;
+            var shouldReload =
+                systemUser == null ||
+                (now - lastCheck) > refreshInterval;
+
+            if (!shouldReload) {
+                Log($"LoadUserIfNeeded returning cached user {systemUser.DisplayName}");
+                return systemUser;
+            }
+
+            string username = Identity?.Name?.Split('\\').Last();
+
+            if (string.IsNullOrWhiteSpace(username))
+                return null;
+
+            Log(
+                $"LoadUserIfNeeded instance=<{instanceId}> " +
+                $"UserName=<{username}>" +
+                $"systemUserNull=<{systemUser == null}> " +
+                $"lastCheck=<{lastCheck:o}> " +
+                $"now=<{now:o}> " +
+                $"shouldReload=<{shouldReload}>"
+            );
+
+            try {
+                _user = Db.GetUserByLoginName(username);
+                Log($"Db.GetUserByLoginName returned <{_user.Name}> ");
+            } catch (Exception ex) {
+                logger.LogError(ex, $"Failed to load user {username}");
+                return null;
+            }
+
+            lastCheck = now;
+            return _user;
+        }
+
+        private static void Log(string message)
+        {
+            logger.LogInfo($"{message}");
         }
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class AuthorizeRedirect : AuthorizeAttribute
     {
-        private bool _isAuthorized;
+        private bool _isAuthorized = false;
         private AccessLevel UserAccessLevel;
         public string RedirectPrivateUrl = "~/Private";
         public string RedirectUnAuthUrl = "~/Error/Unauthorised";
         public string RedirectWrongTeam = "~/Error/WrongTeam";
         public AccessLevel MinimumRequiredAccessLevel { get; set; }
-
+        private static readonly ICloudWatchLogger logger = new CloudWatchLogger();
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
+            base.OnAuthorization(filterContext);
 
-            if (filterContext.HttpContext.User.GetType() != typeof(CPrincipal))
-            {
-                base.OnAuthorization(filterContext);
-            }
-            else
-            {
-                _isAuthorized = (((CPrincipal)filterContext.HttpContext.User).AccessLevel >= MinimumRequiredAccessLevel);
-            }
             if (!_isAuthorized && filterContext.RequestContext.HttpContext.User.Identity.IsAuthenticated && UserAccessLevel == AccessLevel.Denied)
             {
                 filterContext.RequestContext.HttpContext.Response.Redirect(RedirectPrivateUrl);
@@ -83,149 +168,56 @@ namespace Tipstaff
             {
                 filterContext.RequestContext.HttpContext.Response.Redirect(RedirectUnAuthUrl);
             }
-            else // TODO find a way of trapping 'not it right team' issues here
-            {
-                //filterContext.RequestContext.HttpContext.Response.Redirect(RedirectWrongTeam);
-            }
         }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            _isAuthorized = false;
-            UserAccessLevel = AccessLevel.Denied;
-            //check groups (strart with them for a bigger group target!)
+            var identity = httpContext.User?.Identity;
+
+            if (identity == null || !identity.IsAuthenticated)
+            {
+                return false;
+            }
+
+            logger.LogInfo($"User Identity <{identity}> Name <{identity.Name}>");
+
             using (TipstaffDB db = new TipstaffDB())
             {
-                UserAccessLevel = (AccessLevel)db.UserAccessLevel(httpContext.User);
+                var userAccessLevel =
+                    (AccessLevel)db.UserAccessLevel(httpContext.User);
+
+                _isAuthorized = userAccessLevel >= MinimumRequiredAccessLevel;
+                logger.LogInfo($"UserAccessLevel <{userAccessLevel}> MinimumRequiredAccessLevel <{MinimumRequiredAccessLevel}>");
             }
-            _isAuthorized = (UserAccessLevel > AccessLevel.Denied && UserAccessLevel >= MinimumRequiredAccessLevel);
-
-
-            IIdentity user = httpContext.User.Identity;
-            CPrincipal cPrincipal = new CPrincipal(user);
-            httpContext.User = cPrincipal;
             return _isAuthorized;
         }
+
     }
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class AllowAnonymousAttribute : Attribute { }
 
-    //public class SecurityUtils
-    //{
-    //    public const int DefaultPasswordExpiryInDays = 90;
-    //    public static int PasswordExpiryInDays
-    //    {
-    //        get
-    //        {
-    //            string expiry = ConfigurationManager.AppSettings["PasswordExpiryInDays"];
-    //            if (string.IsNullOrEmpty(expiry))
-    //            {
-    //                return DefaultPasswordExpiryInDays;
-    //            }
-    //            else
-    //            {
-    //                return Convert.ToInt32(expiry);
-    //            }
-    //        }
-    //    }
-    //    /// <summary>
-    //    /// Returns an Integer value for the number of days until the 
-    //    /// Users (username) password expires
-    //    /// </summary>
-    //    /// <param name="username"></param>
-    //    /// <returns></returns>
-    //    public static int daysTillPasswordExpires(string username)
-    //    {
-    //        MembershipUser user = Membership.GetUser(username);
-    //        int passwordExpiryInDays = Tipstaff.SecurityUtils.PasswordExpiryInDays;
-    //        int daysSincePwdChange = Convert.ToInt32(DateTime.Now.Subtract(user.LastPasswordChangedDate).TotalDays);
-    //        int daysTillExpiry = (passwordExpiryInDays - daysSincePwdChange);
-    //        return daysTillExpiry;
-    //    }
-    //    /// <summary>
-    //    /// Returns an Integer value for the number of days until the 
-    //    /// current users password expires
-    //    /// </summary>
-    //    /// <returns></returns>
-    //    public static int daysTillPasswordExpires()
-    //    {
-    //        MembershipUser user = Membership.GetUser();
-    //        if (user != null)
-    //        {
-    //            int passwordExpiryInDays = Tipstaff.SecurityUtils.PasswordExpiryInDays;
-    //            int daysSincePwdChange = Convert.ToInt32(DateTime.Now.Subtract(user.LastPasswordChangedDate).TotalDays);
-    //            int daysTillExpiry = (passwordExpiryInDays - daysSincePwdChange);
-    //            return daysTillExpiry;
-    //        }
-    //        else
-    //        {
-    //            return -1;
-    //        }
-    //    }
+    public sealed class LogonAuthorize : AuthorizeAttribute
+    {
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            bool skipAuthorization = filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
+            || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true);
 
-    //}
-
-    //public class EnforcePasswordPolicy : ActionFilterAttribute
-    //{
-    //    public override void OnActionExecuting(ActionExecutingContext filterContext)
-    //    {
-    //        MembershipUser user = Membership.GetUser(filterContext.HttpContext.User.Identity.Name);
-    //        if (user == null)
-    //        {
-    //            filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Error", action = "NotLoggedIn" }));
-    //        }
-    //        else if (user != null && user.IsApproved)
-    //        {
-    //            int daysSincePwdChange = Convert.ToInt32(DateTime.Now.Subtract(user.LastPasswordChangedDate).TotalDays);
-    //            if ((user.CreationDate == user.LastPasswordChangedDate) || (daysSincePwdChange > SecurityUtils.PasswordExpiryInDays))
-    //                filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Account", action = "Changepassword" }));
-    //        }
-    //        else
-    //        {
-    //            filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { controller = "Error", action = "unauthorised" }));
-    //        }
-    //        base.OnActionExecuting(filterContext);
-    //    }
-    //}
-    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    //public class AuthorizeRedirect : AuthorizeAttribute
-    //{
-    //    private bool _isAuthorized;
-
-    //    public string RedirectUrl = "~/Error/unauthorised";
-
-    //    protected override bool AuthorizeCore(System.Web.HttpContextBase httpContext)
-    //    {
-    //        _isAuthorized = base.AuthorizeCore(httpContext);
-    //        return _isAuthorized;
-    //    }
-
-    //    public override void OnAuthorization(AuthorizationContext filterContext)
-    //    {
-    //        base.OnAuthorization(filterContext);
-
-    //        if (!_isAuthorized && filterContext.RequestContext.HttpContext.User.Identity.IsAuthenticated)
-    //        {
-    //            filterContext.RequestContext.HttpContext.Response.Redirect(RedirectUrl);
-    //        }
-    //    }
-    //}
-    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    //public class PermissionRedirect : AuthorizeAttribute { }
-
-
-    //public sealed class LogonAuthorize : AuthorizeAttribute
-    //{
-    //    public override void OnAuthorization(AuthorizationContext filterContext)
-    //    {
-    //        bool skipAuthorization = filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
-    //        || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true);
-    //        if (!skipAuthorization)
-    //        {
-    //            base.OnAuthorization(filterContext);
-    //        }
-    //    }
-    //}
-    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    //public sealed class AllowAnonymousAttribute : Attribute { }
-
+                base.OnAuthorization(filterContext);
+        }
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            try
+            {
+                IIdentity user = httpContext.User.Identity;
+                CPrincipal cPrincipal = new CPrincipal(user);
+                httpContext.User = cPrincipal;
+                return true; // always true as anonymous allowed
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
 }
