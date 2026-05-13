@@ -149,6 +149,7 @@ namespace Tipstaff.Models
             gData.Add("Child Abductions", db.ChildAbductions.Where(c => c.createdOn >= startDate).Count());
             gData.Add("Bankruptcy", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(d => d.division.Detail == "Bankruptcy").Count());
             gData.Add("Chancery", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(e => e.division.Detail == "Chancery").Count());
+            gData.Add("Court of Appeal", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(e => e.division.Detail == "Court of Appeal").Count());
             gData.Add("Family", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Family").Count());
             gData.Add("Insolvency", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "Insolvency").Count()); // null);//
             gData.Add("King's Bench", db.Warrants.Where(c => c.createdOn >= startDate).OrderBy(c => c.division.Detail).Where(c => c.division.Detail == "King's Bench").Count());
@@ -156,6 +157,7 @@ namespace Tipstaff.Models
             if (gData["Child Abductions"] == 0) gData["Child Abductions"] = null;
             if (gData["Bankruptcy"] == 0) gData["Bankruptcy"] = null;
             if (gData["Chancery"] == 0) gData["Chancery"] = null;
+            if (gData["Court of Appeal"] == 0) gData["Court of Appeal"] = null;
             if (gData["Family"] == 0) gData["Family"] = null;
             if (gData["Insolvency"] == 0) gData["Insolvency"] = null;
             if (gData["King's Bench"] == 0) gData["King's Bench"] = null;
