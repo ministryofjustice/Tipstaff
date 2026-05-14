@@ -33,7 +33,6 @@ namespace Tipstaff.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            //Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
             var thisUser = new CPrincipal(User.Identity);
 
             logger.LogInfo($"in UsersController.Index with User {thisUser.DisplayName}");
@@ -59,7 +58,6 @@ namespace Tipstaff.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            //Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
             var thisUser = new CPrincipal(User.Identity);
             logger.LogInfo($"in UsersController.Create with User {thisUser.DisplayName}");
 
@@ -93,7 +91,6 @@ namespace Tipstaff.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             UserAdminVM model = new UserAdminVM();
-            //Tipstaff.CPrincipal thisUser = (User as Tipstaff.CPrincipal);
             var thisUser = new CPrincipal(User.Identity);
             logger.LogInfo($"in UsersController.Edit with User {thisUser.DisplayName}");
 
