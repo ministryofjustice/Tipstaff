@@ -166,7 +166,7 @@ namespace Tipstaff.Controllers
         public ActionResult Create()
         {
             ViewBag.protectiveMarkings = new SelectList(db.ProtectiveMarkings.Where(x => x.active == true), "protectiveMarkingID", "Detail");
-            ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true).OrderBy(x => x.Detail),, "divisionID", "Detail");
+            ViewBag.divisions = new SelectList(db.Divisions.Where(x => x.active == true).OrderBy(x => x.Detail), "divisionID", "Detail");
             ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail");
             ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail");
             Warrant model = new Warrant();
