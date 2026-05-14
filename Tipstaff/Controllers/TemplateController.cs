@@ -372,10 +372,14 @@ namespace Tipstaff.Controllers
         {
             string result = template.templateXML;
             int kids=1;
+
+            var ukTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
+            var ukTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, ukTimeZone);
+
             //merge generic fields
-            result = result.Replace("||DATE||", DateTime.Now.ToShortDateString());
-            result = result.Replace("||TIME||", DateTime.Now.ToShortTimeString());
-            result = result.Replace("||NOW||", DateTime.Now.ToString("dd/MM/yy @ HH:mm"));
+            result = result.Replace("||DATE||", ukTime.ToShortDateString());
+            result = result.Replace("||TIME||", ukTime.ToShortTimeString());
+            result = result.Replace("||NOW||", ukTime.ToString("dd/MM/yy @ HH:mm"));
             result = result.Replace("||UNIQUERECORDID||", tipstaffRecord.UniqueRecordID);
             result = result.Replace("||USERNAME||", User.Identity.Name);
 
