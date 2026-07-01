@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Tipstaff.Models;
+using Tipstaff.Helpers;
 using System.Data;
 using System.IO;
 using System.Xml;
