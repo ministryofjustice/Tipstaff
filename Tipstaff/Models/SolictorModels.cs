@@ -9,6 +9,7 @@ using System.Collections;
 using System.Security;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Tipstaff.Models
 {
@@ -110,12 +111,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                List<string> popLines = new List<string>();
-                foreach (var line in populatedLines)
-                {
-                    popLines.Add(SecurityElement.Escape(line));
-                }
-                return string.Join("<w:br/>", popLines.ToArray());
+                return string.Join("\n", populatedLines.Where(l => l != null));
             }
         }
 
