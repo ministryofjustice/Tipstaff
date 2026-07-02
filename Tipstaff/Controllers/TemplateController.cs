@@ -49,7 +49,8 @@ namespace Tipstaff.Controllers
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
 
                 //Merge Data
-                byte[] fileBytes = BuildPlaceholderFields(template, tipstaffRecord, null, null);
+                var placeholderFields = BuildPlaceholderFields(template, tipstaffRecord, null, null);
+                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
 
                 //Create and add a Document to TipstaffRecord
                 Document doc = CreateDocument(fileOutput, template, fileBytes);
@@ -109,7 +110,7 @@ namespace Tipstaff.Controllers
 
                 //Merge Data
                 var placeholderFields = BuildPlaceholderFields(template, tipstaffRecord, solicitor, null);
-                byte[] fileBytes = GenerateDocument(template.TemplateDOTX, placeholderFields);
+                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
 
                 //Create and add a Document to TipstaffRecord
                 Document doc = CreateDocument(fileOutput, template, fileBytes);
@@ -158,7 +159,8 @@ namespace Tipstaff.Controllers
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
 
                 //Create XML object for Template
-                byte[] fileBytes = BuildPlaceholderFields(template, tipstaffRecord, null, applicant);
+                var placeholderFields = BuildPlaceholderFields(template, tipstaffRecord, null, applicant);
+                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
 
                 //Create and add a Document to TipstaffRecord
                 Document doc = CreateDocument(fileOutput, template, fileBytes);
