@@ -398,9 +398,9 @@ namespace Tipstaff.Controllers
             
         }
 
-        private Document CreateDocument(WordFile fileOutput, Template template, byte[] fileBytes)
+        private Tipstaff.Models.Document CreateDocument(WordFile fileOutput, Template template, byte[] fileBytes)
         {
-            return new Document
+            return new Tipstaff.Models.Document
             {
                 binaryFile = fileBytes,
                 mimeType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
