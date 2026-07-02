@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using Tipstaff.Models;
-using System.Xml;
-using System.IO;
+using System.Collections.Generic;
 using System.Reflection;
-using System.Security;
-using System.Data.Entity.Validation;
+using Tipstaff.Models;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -60,7 +57,6 @@ namespace Tipstaff.Controllers
                 db.SaveChanges();
 
                 //Return saved document
-                //return File(fileOutput.fullName, "application/doc", fileOutput.fileName); // return physical file 
                 return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
             }
             catch (DbEntityValidationException ex)
@@ -106,7 +102,7 @@ namespace Tipstaff.Controllers
                 if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}",templateID));
 
                 //set fileOutput details
-                WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"),template);
+                WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
 
                 //Merge Data
                 var placeholderFields = BuildPlaceholderFields(template, tipstaffRecord, solicitor, null);
@@ -201,17 +197,29 @@ namespace Tipstaff.Controllers
                 { "||NPOREFERENCE||", tipstaffRecord.NPO ?? string.Empty }
             };
 
-            // Possible Addresses (multi-line, each address separated by double line break)
+            // Possible addresses
             if (tipstaffRecord.addresses != null && tipstaffRecord.addresses.Any())
             {
-                var addressLines = tipstaffRecord.addresses.Select(a => a.printAddressMultiLine);
-                placeholderFields.Add("||POSSIBLEADDRESSES||", string.Join("\n\n", addressLines));
+                string addresses = string.Join("\n\n", tipstaffRecord.addresses.Select(a => a.printAddressMultiLine));
+                placeholderFields.Add("||POSSIBLEADDRESSES||", addresses);
             }
             else
             {
                 placeholderFields.Add("||POSSIBLEADDRESSES||", "");
             }
 
+            // Addresses single line list
+            if (tipstaffRecord.addresses != null && tipstaffRecord.addresses.Any())
+            {
+                string addressList = string.Join("\n", tipstaffRecord.addresses.Select(a => a.PrintAddressSingleLine));
+                placeholderFields.Add("||ADDRESSES||", addressList);
+            }
+            else
+            {
+                placeholderFields.Add("||ADDRESSES||", "");
+            }
+
+            // Respondents name
             if (tipstaffRecord.Respondents != null && tipstaffRecord.Respondents.Any())
             {
                 string respNames = string.Join(" | ", tipstaffRecord.Respondents.Select(r => r.PoliceDisplayName));
@@ -222,19 +230,8 @@ namespace Tipstaff.Controllers
                 placeholderFields.Add("||RESPONDENTSNAME||", "<<Please enter respondent's name");
             }
 
-            // Addresses single line list (each on a new line)
-            if (tipstaffRecord.addresses != null && tipstaffRecord.addresses.Any())
-            {
-                var addressesList = tipstaffRecord.addresses
-                    .Select(a => a.PrintAddressSingleLine);
-                placeholderFields.Add("||ADDRESSES||", string.Join("\n", addressesList));
-            }
-            else
-            {
-                placeholderFields.Add("||ADDRESSES||", "");
-            }
-
-            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord)=="ChildAbduction" && template.Discriminator=="ChildAbduction")
+            // ChildAbduction specific
+            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) == "ChildAbduction" && template.Discriminator == "ChildAbduction")
             {
                 ChildAbduction ca = (ChildAbduction)tipstaffRecord;
                 PropertyInfo[] properties = typeof(ChildAbduction).GetProperties();
@@ -282,12 +279,13 @@ namespace Tipstaff.Controllers
                         pncidLines.Add("(Child) " + c.PoliceDisplayName + " \u2013 " + c.PNCID + " \u2013 " + c.DateofBirthDisplay);
                     }
                 }
-                placeholderFields.Add("||PNCIDS||", string.Join("\n", pncidLines));
+                placeholderFields.Add("||PNCIDS||", pncidLines.Any() ? string.Join("\n", pncidLines) : "");
             }
             else if (template.Discriminator == "Warrant")
             {
                 Warrant warrant = tipstaffRecord as Warrant;
                 PropertyInfo[] properties = typeof(Warrant).GetProperties();
+
                 foreach (PropertyInfo property in properties)
                 {
                     var propValue = "";
@@ -337,37 +335,28 @@ namespace Tipstaff.Controllers
                                 System.Diagnostics.Debug.Print(propValue.ToString());
                             }
                         }
-                        string key = string.Format("||{0}||", property.Name.ToUpper());
-                        if (!placeholderFields.ContainsKey(key))
-                        {
-                            placeholderFields[key] = propValue;
-                        }
+                        placeholderFields[string.Format("||{0}||", property.Name.ToUpper())] = propValue;
                     }
-
                     placeholderFields.Add("||GENDER.DETAIL||", resp.gender.detail);
                     placeholderFields.Add("||NATIONALITY.DETAIL||", resp.nationality.Detail);
                     placeholderFields.Add("||COUNTRY.DETAIL||", resp.country.Detail);
                     placeholderFields.Add("||SKINCOLOUR.DETAIL||", resp.SkinColour.Detail);
 
-                    // PNCID for warrant respondent
+                    // PNCID for single respondent warrant
                     string pncid = !string.IsNullOrEmpty(resp.PNCID) ? resp.PNCID : "";
                     placeholderFields.Add("||PNCID||", pncid);
                 }
             }
 
-            // Check PNCIDs for non-Warrant types (when not already handled above in ChildAbduction)
-            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) != "Warrant" && !placeholderFields.ContainsKey("||PNCIDS||"))
+            // Override PNCIDs with children-only format (matches original overloaded mergeData behaviour)
+            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) != "Warrant")
             {
-                string pncids = "";
-                ChildAbduction ca = (ChildAbduction)tipstaffRecord;
-                foreach (Child c in ca.children)
-                {
-                    if (!string.IsNullOrEmpty(c.PNCID))
-                    {
-                        pncids += c.PNCID + "\n";
-                    }
-                }
-                placeholderFields.Add("||PNCIDS||", pncids.TrimEnd('\n'));
+                ChildAbduction ca2 = (ChildAbduction)tipstaffRecord;
+                var childPncids = ca2.children
+                    .Where(c => !string.IsNullOrEmpty(c.PNCID))
+                    .Select(c => c.PNCID)
+                    .ToList();
+                placeholderFields["||PNCIDS||"] = childPncids.Any() ? string.Join("\n", childPncids) : "";
             }
 
             // Solicitor fields
