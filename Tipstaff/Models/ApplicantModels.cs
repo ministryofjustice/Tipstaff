@@ -107,12 +107,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                List<string> popLines = new List<string>();
-                foreach (var line in populatedLines)
-                {
-                    popLines.Add(SecurityElement.Escape(line));
-                }
-                return string.Join(", ", popLines.ToArray());
+                return string.Join(", ", populatedLines.Where(l => l != null));
             }
         }
 
