@@ -53,7 +53,7 @@ namespace Tipstaff.Controllers
                 byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
 
                 //Create and add a Document to TipstaffRecord
-                Document doc = CreateDocument(fileOutput, template, fileBytes);
+                Tipstaff.Models.Document doc = CreateDocument(fileOutput, template, fileBytes);
                 tipstaffRecord.Documents.Add(doc);
 
                 //Save Changes
@@ -113,7 +113,7 @@ namespace Tipstaff.Controllers
                 byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
 
                 //Create and add a Document to TipstaffRecord
-                Document doc = CreateDocument(fileOutput, template, fileBytes);
+                Tipstaff.Models.Document doc = CreateDocument(fileOutput, template, fileBytes);
                 tipstaffRecord.Documents.Add(doc);
 
                 //Save Changes
@@ -163,7 +163,7 @@ namespace Tipstaff.Controllers
                 byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
 
                 //Create and add a Document to TipstaffRecord
-                Document doc = CreateDocument(fileOutput, template, fileBytes);
+                Tipstaff.Models.Document doc = CreateDocument(fileOutput, template, fileBytes);
                 tipstaffRecord.Documents.Add(doc);
 
                 //Save Changes
