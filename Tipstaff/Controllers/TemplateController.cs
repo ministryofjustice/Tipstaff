@@ -30,6 +30,7 @@ namespace Tipstaff.Controllers
         // GET: /Template/
         public ActionResult Create(int tipstaffRecordID, int templateID)
         {
+            _logger.LogInfo($"in TemplateController.Create");
             try
             {
                 //Get TipstaffRecord from warrantID

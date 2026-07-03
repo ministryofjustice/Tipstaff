@@ -37,19 +37,19 @@ namespace Tipstaff
         // --- Constructors ---------------------------------------------------
         public CPrincipal(TipstaffDB repository)
         {
-            Log($"CTOR(repo) instance={instanceId}");
+            // Log($"CTOR(repo) instance={instanceId}");
             Db = repository ?? throw new ArgumentNullException(nameof(repository));
             lastCheck = DateTime.MinValue;
         }
 
         public CPrincipal(IIdentity identity) : this(identity, new TipstaffDB())
         {
-            Log($"CTOR(identity only) instance={instanceId}");
+            // Log($"CTOR(identity only) instance={instanceId}");
         }
 
         public CPrincipal(IIdentity identity, TipstaffDB repository)
         {
-            Log($"CTOR(identity+repo) instance={instanceId} user={identity.Name}");
+            // Log($"CTOR(identity+repo) instance={instanceId} user={identity.Name}");
             Identity = identity ?? throw new ArgumentNullException(nameof(identity));
             Db = repository ?? throw new ArgumentNullException(nameof(repository));
             lastCheck = DateTime.MinValue;
@@ -109,7 +109,7 @@ namespace Tipstaff
                 (now - lastCheck) > refreshInterval;
 
             if (!shouldReload) {
-                Log($"LoadUserIfNeeded returning cached user {systemUser.DisplayName}");
+                // Log($"LoadUserIfNeeded returning cached user {systemUser.DisplayName}");
                 return systemUser;
             }
 
@@ -118,18 +118,18 @@ namespace Tipstaff
             if (string.IsNullOrWhiteSpace(username))
                 return null;
 
-            Log(
-                $"LoadUserIfNeeded instance=<{instanceId}> " +
-                $"UserName=<{username}>" +
-                $"systemUserNull=<{systemUser == null}> " +
-                $"lastCheck=<{lastCheck:o}> " +
-                $"now=<{now:o}> " +
-                $"shouldReload=<{shouldReload}>"
-            );
+            // Log(
+            //     $"LoadUserIfNeeded instance=<{instanceId}> " +
+            //     $"UserName=<{username}>" +
+            //     $"systemUserNull=<{systemUser == null}> " +
+            //     $"lastCheck=<{lastCheck:o}> " +
+            //     $"now=<{now:o}> " +
+            //     $"shouldReload=<{shouldReload}>"
+            // );
 
             try {
                 _user = Db.GetUserByLoginName(username);
-                Log($"Db.GetUserByLoginName returned <{_user.Name}> ");
+                // Log($"Db.GetUserByLoginName returned <{_user.Name}> ");
             } catch (Exception ex) {
                 logger.LogError(ex, $"Failed to load user {username}");
                 return null;
@@ -178,7 +178,7 @@ namespace Tipstaff
                 return false;
             }
 
-            logger.LogInfo($"User Identity <{identity}> Name <{identity.Name}>");
+            // logger.LogInfo($"User Identity <{identity}> Name <{identity.Name}>");
 
             using (TipstaffDB db = new TipstaffDB())
             {
@@ -186,7 +186,7 @@ namespace Tipstaff
                     (AccessLevel)db.UserAccessLevel(httpContext.User);
 
                 _isAuthorized = userAccessLevel >= MinimumRequiredAccessLevel;
-                logger.LogInfo($"UserAccessLevel <{userAccessLevel}> MinimumRequiredAccessLevel <{MinimumRequiredAccessLevel}>");
+                // logger.LogInfo($"UserAccessLevel <{userAccessLevel}> MinimumRequiredAccessLevel <{MinimumRequiredAccessLevel}>");
             }
             return _isAuthorized;
         }
