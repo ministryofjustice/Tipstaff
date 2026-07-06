@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Reflection;
 using Tipstaff.Models;
+using Tipstaff.Helpers;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -47,9 +48,8 @@ namespace Tipstaff.Controllers
                 //set fileOutput details
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
 
-                //Merge Data
                 var placeholderFields = BuildPlaceholderFields(template, tipstaffRecord, null, null);
-                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
+                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields, template, tipstaffRecord);
 
                 //Create and add a Document to TipstaffRecord
                 Tipstaff.Models.Document doc = CreateDocument(fileOutput, template, fileBytes);
@@ -58,8 +58,7 @@ namespace Tipstaff.Controllers
                 //Save Changes
                 db.SaveChanges();
 
-                //Return saved document
-                return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+                return File(doc.binaryFile, doc.mimeType, doc.fileName);
             }
             catch (DbEntityValidationException ex)
             {
@@ -79,8 +78,6 @@ namespace Tipstaff.Controllers
                 model.ErrorMessage = ex.Message;
                 TempData["ErrorModel"] = model;
                 return RedirectToAction("IndexByModel", "Error", model ?? null);
-                //Note: working redirect to view with Model
-                //Note: Working error redirect
             }
         }
 
@@ -106,9 +103,8 @@ namespace Tipstaff.Controllers
                 //set fileOutput details
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
 
-                //Merge Data
                 var placeholderFields = BuildPlaceholderFields(template, tipstaffRecord, solicitor, null);
-                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
+                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields, template, tipstaffRecord);
 
                 //Create and add a Document to TipstaffRecord
                 Tipstaff.Models.Document doc = CreateDocument(fileOutput, template, fileBytes);
@@ -117,9 +113,7 @@ namespace Tipstaff.Controllers
                 //Save Changes
                 db.SaveChanges();
 
-                //Return saved document
-                //return File(fileOutput.fullName, "application/doc", fileOutput.fileName); // return physical file 
-                return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+                return File(doc.binaryFile, doc.mimeType, doc.fileName);
             }
             catch (Exception ex)
             {
@@ -129,8 +123,6 @@ namespace Tipstaff.Controllers
                 model.ErrorMessage = ex.Message;
                 TempData["ErrorModel"] = model;
                 return RedirectToAction("IndexByModel", "Error", model ?? null);
-                //Note: working redirect to view with Model
-                //Note: Working error redirect
             }
         }
 
@@ -156,9 +148,8 @@ namespace Tipstaff.Controllers
                 //set fileOutput details
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
 
-                //Create XML object for Template
                 var placeholderFields = BuildPlaceholderFields(template, tipstaffRecord, null, applicant);
-                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields);
+                byte[] fileBytes = GenerateDocument(template.templateDOTX, placeholderFields, template, tipstaffRecord);
 
                 //Create and add a Document to TipstaffRecord
                 Tipstaff.Models.Document doc = CreateDocument(fileOutput, template, fileBytes);
@@ -167,8 +158,7 @@ namespace Tipstaff.Controllers
                 //Save Changes
                 db.SaveChanges();
 
-                //Return saved document
-                return File(doc.binaryFile, doc.mimeType, doc.fileName); //return byte version
+                return File(doc.binaryFile, doc.mimeType, doc.fileName);
             }
             catch (Exception ex)
             {
@@ -178,8 +168,6 @@ namespace Tipstaff.Controllers
                 model.ErrorMessage = ex.Message;
                 TempData["ErrorModel"] = model;
                 return RedirectToAction("IndexByModel", "Error", model ?? null);
-                //Note: working redirect to view with Model
-                //Note: Working error redirect
             }
         }
 
@@ -201,38 +189,33 @@ namespace Tipstaff.Controllers
 
             // Possible addresses
             if (tipstaffRecord.addresses != null && tipstaffRecord.addresses.Any())
-            {
-                string addresses = string.Join("\n\n", tipstaffRecord.addresses.Select(a => a.printAddressMultiLine));
-                placeholderFields.Add("||POSSIBLEADDRESSES||", addresses);
-            }
+                placeholderFields["||POSSIBLEADDRESSES||"] = string.Join("\n\n",
+                    tipstaffRecord.addresses.Select(a => a.printAddressMultiLine));
             else
-            {
-                placeholderFields.Add("||POSSIBLEADDRESSES||", "");
-            }
+                placeholderFields["||POSSIBLEADDRESSES||"] = string.Empty;
 
-            // Addresses single line list
-            if (tipstaffRecord.addresses != null && tipstaffRecord.addresses.Any())
-            {
-                string addressList = string.Join("\n", tipstaffRecord.addresses.Select(a => a.PrintAddressSingleLine));
-                placeholderFields.Add("||ADDRESSES||", addressList);
-            }
-            else
-            {
-                placeholderFields.Add("||ADDRESSES||", "");
-            }
-
-            // Respondents name
+            // ||RESPONDENTSNAME||
             if (tipstaffRecord.Respondents != null && tipstaffRecord.Respondents.Any())
             {
-                string respNames = string.Join(" | ", tipstaffRecord.Respondents.Select(r => r.PoliceDisplayName));
-                placeholderFields.Add("||RESPONDENTSNAME||", respNames);
+                string respNames = string.Join(" | ",
+                    tipstaffRecord.Respondents.Select(r => r.PoliceDisplayName));
+                if (respNames.EndsWith(" | "))
+                    respNames = respNames.Substring(0, respNames.Length - 3);
+                placeholderFields["||RESPONDENTSNAME||"] = respNames;
             }
             else
             {
-                placeholderFields.Add("||RESPONDENTSNAME||", "<<Please enter respondent's name");
+                placeholderFields["||RESPONDENTSNAME||"] = "<<Please enter respondent's name";
             }
 
-            // ChildAbduction specific
+            // ||ADDRESSES||
+            if (tipstaffRecord.addresses != null && tipstaffRecord.addresses.Any())
+                placeholderFields["||ADDRESSES||"] = string.Join("\n",
+                    tipstaffRecord.addresses.Select(a => a.PrintAddressSingleLine));
+            else
+                placeholderFields["||ADDRESSES||"] = string.Empty;
+
+            // ChildAbduction discriminator block
             if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) == "ChildAbduction" && template.Discriminator == "ChildAbduction")
             {
                 ChildAbduction ca = (ChildAbduction)tipstaffRecord;
@@ -262,26 +245,18 @@ namespace Tipstaff.Controllers
                     placeholderFields[string.Format("||{0}||", property.Name.ToUpper())] = propValue;
                 }
 
-                placeholderFields.Add("||MULTICHILD||", ca.children.Count() > 1 ? "children" : "child");
-                placeholderFields.Add("||MULTIRESP||", ca.Respondents.Count() > 1 ? "people" : "person");
-                
-                // PNCIDs
+                placeholderFields["||MULTICHILD||"] = ca.children.Count() > 1 ? "children" : "child";
+                placeholderFields["||MULTIRESP||"]  = ca.Respondents.Count() > 1 ? "people" : "person";
+
+                // ||PNCIDS|| — respondents AND children combined (base mergeData behaviour)
                 var pncidLines = new List<string>();
                 foreach (Respondent r in ca.Respondents)
-                {
                     if (!string.IsNullOrEmpty(r.PNCID))
-                    {
-                        pncidLines.Add("(Respondent) " + r.PoliceDisplayName + " \u2013 " + r.PNCID + " \u2013 " + r.DateofBirthDisplay);
-                    }
-                }
+                        pncidLines.Add($"(Respondent) {r.PoliceDisplayName} \u2013 {r.PNCID} \u2013 {r.DateofBirthDisplay}");
                 foreach (Child c in ca.children)
-                {
                     if (!string.IsNullOrEmpty(c.PNCID))
-                    {
-                        pncidLines.Add("(Child) " + c.PoliceDisplayName + " \u2013 " + c.PNCID + " \u2013 " + c.DateofBirthDisplay);
-                    }
-                }
-                placeholderFields.Add("||PNCIDS||", pncidLines.Any() ? string.Join("\n", pncidLines) : "");
+                        pncidLines.Add($"(Child) {c.PoliceDisplayName} \u2013 {c.PNCID} \u2013 {c.DateofBirthDisplay}");
+                placeholderFields["||PNCIDS||"] = string.Join("\n", pncidLines);
             }
             else if (template.Discriminator == "Warrant")
             {
@@ -339,56 +314,60 @@ namespace Tipstaff.Controllers
                         }
                         placeholderFields[string.Format("||{0}||", property.Name.ToUpper())] = propValue;
                     }
-                    placeholderFields.Add("||GENDER.DETAIL||", resp.gender.detail);
-                    placeholderFields.Add("||NATIONALITY.DETAIL||", resp.nationality.Detail);
-                    placeholderFields.Add("||COUNTRY.DETAIL||", resp.country.Detail);
-                    placeholderFields.Add("||SKINCOLOUR.DETAIL||", resp.SkinColour.Detail);
 
-                    // PNCID for single respondent warrant
-                    string pncid = !string.IsNullOrEmpty(resp.PNCID) ? resp.PNCID : "";
-                    placeholderFields.Add("||PNCID||", pncid);
+                    placeholderFields["||GENDER.DETAIL||"]      = resp.gender?.detail ?? string.Empty;
+                    placeholderFields["||NATIONALITY.DETAIL||"] = resp.nationality?.Detail ?? string.Empty;
+                    placeholderFields["||COUNTRY.DETAIL||"]     = resp.country?.Detail ?? string.Empty;
+                    placeholderFields["||SKINCOLOUR.DETAIL||"]  = resp.SkinColour?.Detail ?? string.Empty;
+                    placeholderFields["||PNCID||"] = !string.IsNullOrEmpty(resp.PNCID) ? resp.PNCID : string.Empty;
                 }
             }
 
-            // Override PNCIDs with children-only format (matches original overloaded mergeData behaviour)
-            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) != "Warrant")
+            // ---------------------------------------------------------------
+            // Overloaded mergeData logic — overrides ||POSSIBLEADDRESSES|| and
+            // ||PNCIDS|| exactly as the original overloaded methods did
+            // ---------------------------------------------------------------
+
+            if (tipstaffRecord.addresses != null)
             {
-                ChildAbduction ca2 = (ChildAbduction)tipstaffRecord;
-                var childPncids = ca2.children
-                    .Where(c => !string.IsNullOrEmpty(c.PNCID))
-                    .Select(c => c.PNCID)
-                    .ToList();
-                placeholderFields["||PNCIDS||"] = childPncids.Any() ? string.Join("\n", childPncids) : "";
+                string addresses = string.Join("\n\n",
+                    tipstaffRecord.addresses.Select(a => a.printAddressMultiLine));
+                placeholderFields["||POSSIBLEADDRESSES||"] = addresses != string.Empty ? addresses : string.Empty;
             }
 
-            // Solicitor fields
-            if (solicitor == null)
+            if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) != "Warrant")
             {
-                placeholderFields.Add("||ADDRESSEENAME||", "");
-                placeholderFields.Add("||ADDRESS||", "Add Address here");
+                ChildAbduction ca2 = tipstaffRecord as ChildAbduction;
+                if (ca2 != null)
+                {
+                    var childPncids = ca2.children
+                        .Where(c => !string.IsNullOrEmpty(c.PNCID))
+                        .Select(c => c.PNCID)
+                        .ToList();
+                    placeholderFields["||PNCIDS||"] = string.Join("\n", childPncids);
+                }
+            }
+
+            // Addressee and address — solicitor precedence then applicant
+            if (solicitor == null && applicant == null)
+            {
+                placeholderFields["||ADDRESSEENAME||"] = string.Empty;
+                placeholderFields["||ADDRESS||"]       = "Add Address here";
+            }
+            else if (solicitor != null)
+            {
+                placeholderFields["||ADDRESSEENAME||"] = solicitor.AddresseeName ?? string.Empty;
+                placeholderFields["||ADDRESS||"] = solicitor.SolicitorFirm != null
+                    ? solicitor.SolicitorFirm.printAddressMultiLine
+                    : string.Empty;
             }
             else
             {
-                placeholderFields.Add("||ADDRESSEENAME||", solicitor.AddresseeName);
-                if (solicitor.SolicitorFirm != null)
-                {
-                    placeholderFields.Add("||ADDRESS||", solicitor.SolicitorFirm.printAddressMultiLine);
-                }
-                else
-                {
-                    placeholderFields.Add("||ADDRESS||", "");
-                }
-            }
-
-            // Applicant fields (overrides solicitor address if applicant is provided)
-            if (applicant != null)
-            {
-                placeholderFields["||ADDRESSEENAME||"] = applicant.fullname;
-                placeholderFields["||ADDRESS||"] = applicant.printAddressMultiLine ?? "";
+                placeholderFields["||ADDRESSEENAME||"] = applicant.fullname ?? string.Empty;
+                placeholderFields["||ADDRESS||"]       = applicant.printAddressMultiLine ?? string.Empty;
             }
 
             return placeholderFields;
-            
         }
 
         private Tipstaff.Models.Document CreateDocument(WordFile fileOutput, Template template, byte[] fileBytes)
@@ -409,35 +388,7 @@ namespace Tipstaff.Controllers
             };
         }
 
-        private void ReplaceTextWithLineBreaks(Body body, string placeholder, string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                foreach (var text in body.Descendants<Text>().Where(t => t.Text.Contains(placeholder)).ToList())
-                {
-                    text.Text = text.Text.Replace(placeholder, string.Empty);
-                }
-                return;
-            }
-
-            var lines = value.Split(new[] { "\n" }, StringSplitOptions.None);
-
-            foreach (var text in body.Descendants<Text>().Where(t => t.Text.Contains(placeholder)).ToList())
-            {
-                var run = text.Parent as Run;
-                if (run == null) continue;
-
-                text.Text = text.Text.Replace(placeholder, lines[0]);
-
-                for (int i = 1; i < lines.Length; i++)
-                {
-                    run.Append(new Break());
-                    run.Append(new Text(lines[i]));
-                }
-            }
-        }
-
-        private byte[] GenerateDocument(byte[] templateBytes, Dictionary<string, string> replacementFields)
+        private byte[] GenerateDocument(byte[] templateBytes, Dictionary<string, string> replacementFields, Template template, TipstaffRecord tipstaffRecord)
         {
             using (var outputStream = new MemoryStream())
             {
@@ -446,12 +397,23 @@ namespace Tipstaff.Controllers
 
                 using (var wordDoc = WordprocessingDocument.Open(outputStream, true))
                 {
-                    // Convert from template to document
                     wordDoc.ChangeDocumentType(WordprocessingDocumentType.Document);
-
                     var body = wordDoc.MainDocumentPart.Document.Body;
 
-                    // Handle multi-line placeholders with line breaks
+                    ConsolidateRuns(body);
+
+                    // Structural block insertions — before text replacements
+                    InsertAddressBlocks(body, "||ADDRESSBLOCK||", tipstaffRecord.addresses);
+
+                    if (genericFunctions.TypeOfTipstaffRecord(tipstaffRecord) == "ChildAbduction"
+                        && template.Discriminator == "ChildAbduction")
+                    {
+                        ChildAbduction ca = (ChildAbduction)tipstaffRecord;
+                        InsertChildBlocks(body, "||CHILDBLOCK||", ca.children);
+                        InsertRespondentBlocks(body, "||RESPONDENTBLOCK||", tipstaffRecord.Respondents);
+                    }
+
+                    // Multi-line token replacements
                     string[] multiLinePlaceholders = new[]
                     {
                         "||ADDRESS||",
@@ -470,15 +432,13 @@ namespace Tipstaff.Controllers
                         }
                     }
 
-                    // Standard replacements
+                    // Simple single-line token replacements
                     foreach (var text in body.Descendants<Text>())
                     {
                         foreach (var replacement in replacementFields)
                         {
                             if (text.Text.Contains(replacement.Key))
-                            {
                                 text.Text = text.Text.Replace(replacement.Key, replacement.Value);
-                            }
                         }
                     }
 
@@ -489,7 +449,108 @@ namespace Tipstaff.Controllers
             }
         }
 
-   }
+        private void ReplaceTextWithLineBreaks(Body body, string placeholder, string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                foreach (var text in body.Descendants<Text>().Where(t => t.Text.Contains(placeholder)).ToList())
+                    text.Text = text.Text.Replace(placeholder, string.Empty);
+                return;
+            }
 
+            var lines = value.Split(new[] { "\n" }, StringSplitOptions.None);
+
+            foreach (var text in body.Descendants<Text>().Where(t => t.Text.Contains(placeholder)).ToList())
+            {
+                var run = text.Parent as Run;
+                if (run == null) continue;
+
+                text.Text = text.Text.Replace(placeholder, lines[0]);
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    run.Append(new Break());
+                    run.Append(new Text(lines[i]) { Space = SpaceProcessingModeValues.Preserve });
+                }
+            }
+        }
+
+        private void InsertAddressBlocks(Body body, string placeholder, IEnumerable<Address> addresses)
+        {
+            var tokenText = body.Descendants<Text>().FirstOrDefault(t => t.Text.Contains(placeholder));
+            if (tokenText == null) return;
+
+            var tokenParagraph = tokenText.Ancestors<Paragraph>().FirstOrDefault();
+            if (tokenParagraph == null) return;
+
+            if (addresses != null)
+                foreach (var addr in addresses)
+                    tokenParagraph.InsertBeforeSelf(WordTableBuilder.BuildAddressTable(addr.populatedLines));
+
+            tokenParagraph.Remove();
+        }
+
+        private void InsertChildBlocks(Body body, string placeholder, IEnumerable<Child> children)
+        {
+            var tokenText = body.Descendants<Text>().FirstOrDefault(t => t.Text.Contains(placeholder));
+            if (tokenText == null) return;
+
+            var tokenParagraph = tokenText.Ancestors<Paragraph>().FirstOrDefault();
+            if (tokenParagraph == null) return;
+
+            int kidNumber = 1;
+            if (children != null)
+                foreach (var child in children)
+                {
+                    tokenParagraph.InsertBeforeSelf(WordTableBuilder.BuildChildTable(child, kidNumber));
+                    kidNumber++;
+                }
+
+            tokenParagraph.Remove();
+        }
+
+        private void InsertRespondentBlocks(Body body, string placeholder, IEnumerable<Respondent> respondents)
+        {
+            var tokenText = body.Descendants<Text>().FirstOrDefault(t => t.Text.Contains(placeholder));
+            if (tokenText == null) return;
+
+            var tokenParagraph = tokenText.Ancestors<Paragraph>().FirstOrDefault();
+            if (tokenParagraph == null) return;
+
+            if (respondents != null)
+                foreach (var resp in respondents)
+                    foreach (var table in WordTableBuilder.BuildRespondentTables(resp))
+                        tokenParagraph.InsertBeforeSelf(table);
+
+            tokenParagraph.Remove();
+        }
+
+        private void ConsolidateRuns(Body body)
+        {
+            foreach (var para in body.Descendants<Paragraph>())
+            {
+                var runs = para.Elements<Run>().ToList();
+                for (int i = 0; i < runs.Count - 1; i++)
+                {
+                    var current = runs[i];
+                    var next = runs[i + 1];
+
+                    var currentRpr = current.GetFirstChild<RunProperties>()?.OuterXml ?? "";
+                    var nextRpr = next.GetFirstChild<RunProperties>()?.OuterXml ?? "";
+                    if (currentRpr != nextRpr) continue;
+
+                    var currentText = current.GetFirstChild<Text>();
+                    var nextText = next.GetFirstChild<Text>();
+                    if (currentText == null || nextText == null) continue;
+                    if (current.Elements().Any(e => !(e is Text) && !(e is RunProperties))) continue;
+                    if (next.Elements().Any(e => !(e is Text) && !(e is RunProperties))) continue;
+
+                    currentText.Text += nextText.Text;
+                    currentText.Space = SpaceProcessingModeValues.Preserve;
+                    next.Remove();
+                    runs.RemoveAt(i + 1);
+                    i--;
+                }
+            }
+        }
+    }
 }
-
