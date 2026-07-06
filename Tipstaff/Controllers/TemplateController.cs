@@ -400,8 +400,6 @@ namespace Tipstaff.Controllers
                     wordDoc.ChangeDocumentType(WordprocessingDocumentType.Document);
                     var body = wordDoc.MainDocumentPart.Document.Body;
 
-                    ConsolidateRuns(body);
-
                     // Structural block insertions — before text replacements
                     InsertAddressBlocks(body, "||ADDRESSBLOCK||", tipstaffRecord.addresses);
 
@@ -526,33 +524,5 @@ namespace Tipstaff.Controllers
             tokenParagraph.Remove();
         }
 
-        private void ConsolidateRuns(Body body)
-        {
-            foreach (var para in body.Descendants<Paragraph>())
-            {
-                var runs = para.Elements<Run>().ToList();
-                for (int i = 0; i < runs.Count - 1; i++)
-                {
-                    var current = runs[i];
-                    var next = runs[i + 1];
-
-                    var currentRpr = current.GetFirstChild<RunProperties>()?.OuterXml ?? "";
-                    var nextRpr = next.GetFirstChild<RunProperties>()?.OuterXml ?? "";
-                    if (currentRpr != nextRpr) continue;
-
-                    var currentText = current.GetFirstChild<Text>();
-                    var nextText = next.GetFirstChild<Text>();
-                    if (currentText == null || nextText == null) continue;
-                    if (current.Elements().Any(e => !(e is Text) && !(e is RunProperties))) continue;
-                    if (next.Elements().Any(e => !(e is Text) && !(e is RunProperties))) continue;
-
-                    currentText.Text += nextText.Text;
-                    currentText.Space = SpaceProcessingModeValues.Preserve;
-                    next.Remove();
-                    runs.RemoveAt(i + 1);
-                    i--;
-                }
-            }
-        }
     }
 }
