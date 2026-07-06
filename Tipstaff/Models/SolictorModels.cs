@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -177,7 +177,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                return SecurityElement.Escape(string.Format("{0} {1} {2}", salutation.Detail ?? "", firstName, lastName));
+                return string.Format("{0} {1} {2}", salutation.Detail ?? "", firstName, lastName);
             }
         }
 
@@ -185,7 +185,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                return SecurityElement.Escape(string.Format("{0} {1}", salutation.Detail ?? "", lastName));
+                return string.Format("{0} {1}", salutation.Detail ?? "", lastName);
             }
         }
     }
