@@ -8,12 +8,8 @@ namespace Tipstaff.Helpers
 {
     public static class WordTableBuilder
     {
-        // ---------------------------------------------------------------
-        // Public entry points
-        // ---------------------------------------------------------------
 
-        public static Table BuildAddressTable(IEnumerable<string> addressLines,
-            int widthDxa = 8856)
+        public static IEnumerable<OpenXmlElement> BuildAddressTable(IEnumerable<string> addressLines, int widthDxa = 8856)
         {
             var lines = addressLines.Where(l => l != null).ToList();
             var para = new Paragraph(
@@ -32,26 +28,20 @@ namespace Tipstaff.Helpers
             }
 
             var table = new Table();
-            table.AppendChild(new TableProperties(
-                new TableStyle { Val = "TableGrid" },
-                new TableWidth { Width = "0", Type = TableWidthUnitValues.Auto },
-                new TableLook { Val = "01E0" }
-            ));
+            table.AppendChild(StandardTableProps());
             table.AppendChild(new TableGrid(
                 new GridColumn { Width = widthDxa.ToString() }
             ));
             table.AppendChild(Row(Cell(widthDxa.ToString(), para)));
-            return table;
+
+            yield return table;
+            yield return SpacerParagraph();
         }
 
-        public static Table BuildChildTable(Child child, int childNumber)
+        public static IEnumerable<OpenXmlElement> BuildChildTable(Child child, int childNumber)
         {
             var table = new Table();
-            table.AppendChild(new TableProperties(
-                new TableStyle { Val = "TableGrid" },
-                new TableWidth { Width = "0", Type = TableWidthUnitValues.Auto },
-                new TableLook { Val = "01E0" }
-            ));
+            table.AppendChild(StandardTableProps());
             table.AppendChild(new TableGrid(
                 new GridColumn { Width = "1715" },
                 new GridColumn { Width = "1337" },
@@ -60,66 +50,59 @@ namespace Tipstaff.Helpers
                 new GridColumn { Width = "2886" }
             ));
 
-            // Header — "CHILD N" full width shaded bold
             table.AppendChild(Row(
-                SpanCell("8856", $"CHILD {childNumber}", gridSpan: 5,
-                    shaded: true, bold: true)
+                SpanCell("8856", $"CHILD {childNumber}", gridSpan: 5, shaded: true, bold: true)
             ));
-            // Surname | Forenames
             table.AppendChild(Row(
                 LabelCell("1715", "Surname"),
                 Cell("2605", child.nameLast?.ToUpper() ?? string.Empty, gridSpan: 2),
                 LabelCell("1650", "Forenames"),
                 Cell("2886", $"{child.nameFirst} {child.nameMiddle}".Trim())
             ));
-            // DOB | Height
             table.AppendChild(Row(
                 LabelCell("1715", "Date of Birth"),
                 Cell("2605", child.DateofBirthDisplay, gridSpan: 2),
                 LabelCell("1650", "Height"),
                 Cell("2886", child.height ?? string.Empty)
             ));
-            // Age | Build
             table.AppendChild(Row(
                 LabelCell("1715", "Age"),
                 Cell("2605", child.Age, gridSpan: 2),
                 LabelCell("1650", "Build"),
                 Cell("2886", child.build ?? string.Empty)
             ));
-            // Sex | Hair colour
             table.AppendChild(Row(
                 LabelCell("1715", "Sex"),
                 Cell("2605", child.gender?.detail ?? string.Empty, gridSpan: 2),
                 LabelCell("1650", "Hair colour"),
                 Cell("2886", child.hairColour ?? string.Empty)
             ));
-            // Nationality | Eye colour (merged rows in original — simplified to single row)
             table.AppendChild(Row(
                 LabelCell("1715", "Nationality"),
                 Cell("2605", child.country?.Detail ?? string.Empty, gridSpan: 2),
                 LabelCell("1650", "Eye colour"),
                 Cell("2886", child.eyeColour ?? string.Empty)
             ));
-            // Skin colour (second merged row in original)
             table.AppendChild(Row(
                 LabelCell("1715", string.Empty),
                 Cell("2605", string.Empty, gridSpan: 2),
                 LabelCell("1650", "Skin colour"),
                 Cell("2886", child.SkinColour?.Detail ?? string.Empty)
             ));
-            // Special features — different column layout: 3052 (span 2) + 5804 (span 3)
             table.AppendChild(Row(
                 LabelCell("3052", "Special features", gridSpan: 2),
                 Cell("5804", child.specialfeatures ?? string.Empty, gridSpan: 3)
             ));
 
-            return table;
+            yield return table;
+            yield return SpacerParagraph();
         }
 
-        public static IEnumerable<Table> BuildRespondentTables(Respondent resp)
+        public static IEnumerable<OpenXmlElement> BuildRespondentTables(Respondent resp)
         {
             yield return BuildRespondentDetailsTable(resp);
             yield return BuildKnownRisksTable(resp);
+            yield return SpacerParagraph();
         }
 
         // ---------------------------------------------------------------
@@ -129,10 +112,7 @@ namespace Tipstaff.Helpers
         private static Table BuildRespondentDetailsTable(Respondent resp)
         {
             var table = new Table();
-            table.AppendChild(new TableProperties(
-                new TableWidth { Width = "0", Type = TableWidthUnitValues.Auto },
-                new TableLook { Val = "01E0" }
-            ));
+            table.AppendChild(StandardTableProps());
             table.AppendChild(new TableGrid(
                 new GridColumn { Width = "2448" },
                 new GridColumn { Width = "2520" },
@@ -140,45 +120,38 @@ namespace Tipstaff.Helpers
                 new GridColumn { Width = "2214" }
             ));
 
-            // Name
             table.AppendChild(Row(
                 LabelCell("2448", "Name"),
                 Cell("6408", resp.PoliceDisplayName, gridSpan: 3)
             ));
-            // Relationship | DOB
             table.AppendChild(Row(
                 LabelCell("2448", "Relationship to child"),
                 Cell("2520", resp.childRelationship?.Detail ?? string.Empty),
                 LabelCell("1674", "Date of Birth"),
                 Cell("2214", resp.DateofBirthDisplay)
             ));
-            // Age | Hair
             table.AppendChild(Row(
                 LabelCell("2448", "Age"),
                 Cell("2520", resp.Age),
                 LabelCell("1674", "Hair colour"),
                 Cell("2214", resp.hairColour ?? string.Empty)
             ));
-            // Eye | Skin
             table.AppendChild(Row(
                 LabelCell("2448", "Eye Colour"),
                 Cell("2520", resp.eyeColour ?? string.Empty),
                 LabelCell("1674", "Skin colour"),
                 Cell("2214", resp.SkinColour?.Detail ?? string.Empty)
             ));
-            // Height | Build
             table.AppendChild(Row(
                 LabelCell("2448", "Height"),
                 Cell("2520", resp.height ?? string.Empty),
                 LabelCell("1674", "Build"),
                 Cell("2214", resp.build ?? string.Empty)
             ));
-            // Nationality
             table.AppendChild(Row(
                 LabelCell("2448", "Nationality"),
                 Cell("6408", resp.country?.Detail ?? string.Empty, gridSpan: 3)
             ));
-            // Special features
             table.AppendChild(Row(
                 LabelCell("2448", "Special features"),
                 Cell("6408", resp.specialfeatures ?? string.Empty, gridSpan: 3)
@@ -190,10 +163,7 @@ namespace Tipstaff.Helpers
         private static Table BuildKnownRisksTable(Respondent resp)
         {
             var table = new Table();
-            table.AppendChild(new TableProperties(
-                new TableWidth { Width = "0", Type = TableWidthUnitValues.Auto },
-                new TableLook { Val = "01E0" }
-            ));
+            table.AppendChild(StandardTableProps());
             table.AppendChild(new TableGrid(
                 new GridColumn { Width = "2448" },
                 new GridColumn { Width = "2520" },
@@ -201,16 +171,13 @@ namespace Tipstaff.Helpers
                 new GridColumn { Width = "2214" }
             ));
 
-            // "Known Risks" header
             table.AppendChild(Row(
                 SpanCell("8856", "Known Risks", gridSpan: 4, shaded: true)
             ));
-            // Violence
             table.AppendChild(Row(
                 LabelCell("2448", "Violence"),
                 Cell("6408", resp.riskOfViolence ?? string.Empty, gridSpan: 3)
             ));
-            // Drugs
             table.AppendChild(Row(
                 LabelCell("2448", "Drugs"),
                 Cell("6408", resp.riskOfDrugs ?? string.Empty, gridSpan: 3)
@@ -219,9 +186,32 @@ namespace Tipstaff.Helpers
             return table;
         }
 
-        // ---------------------------------------------------------------
-        // Primitives
-        // ---------------------------------------------------------------
+        private static TableProperties StandardTableProps()
+        {
+            return new TableProperties(
+                new TableStyle { Val = "TableGrid" },
+                new TableWidth { Width = "0", Type = TableWidthUnitValues.Auto },
+                new TableBorders(
+                    new TopBorder { Val = BorderValues.Single, Size = 4 },
+                    new LeftBorder { Val = BorderValues.Single, Size = 4 },
+                    new BottomBorder { Val = BorderValues.Single, Size = 4 },
+                    new RightBorder { Val = BorderValues.Single, Size = 4 },
+                    new InsideHorizontalBorder { Val = BorderValues.Single, Size = 4 },
+                    new InsideVerticalBorder { Val = BorderValues.Single, Size = 4 }
+                ),
+                new TableLook { Val = "01E0" }
+            );
+        }
+
+        // Empty paragraph inserted after each table for visual spacing
+        private static Paragraph SpacerParagraph()
+        {
+            return new Paragraph(
+                new ParagraphProperties(
+                    new ParagraphMarkRunProperties(new Languages { Val = "EN-GB" })
+                )
+            );
+        }
 
         private static TableRow Row(params TableCell[] cells)
         {
@@ -248,7 +238,6 @@ namespace Tipstaff.Helpers
             );
         }
 
-        // Overload accepting a pre-built Paragraph (for address with line breaks)
         private static TableCell Cell(string width, Paragraph para, int gridSpan = 1)
         {
             var props = new TableCellProperties(
@@ -275,8 +264,7 @@ namespace Tipstaff.Helpers
 
             var runProps = bold ? new RunProperties(new Bold()) : null;
             var run = runProps != null
-                ? new Run(runProps,
-                    new Text(text) { Space = SpaceProcessingModeValues.Preserve })
+                ? new Run(runProps, new Text(text) { Space = SpaceProcessingModeValues.Preserve })
                 : new Run(new Text(text) { Space = SpaceProcessingModeValues.Preserve });
 
             return new TableCell(props, new Paragraph(run));

@@ -484,7 +484,8 @@ namespace Tipstaff.Controllers
 
             if (addresses != null)
                 foreach (var addr in addresses)
-                    tokenParagraph.InsertBeforeSelf(WordTableBuilder.BuildAddressTable(addr.populatedLines));
+                    foreach (var element in WordTableBuilder.BuildAddressTable(addr.populatedLines))
+                        tokenParagraph.InsertBeforeSelf(element);
 
             tokenParagraph.Remove();
         }
@@ -501,7 +502,8 @@ namespace Tipstaff.Controllers
             if (children != null)
                 foreach (var child in children)
                 {
-                    tokenParagraph.InsertBeforeSelf(WordTableBuilder.BuildChildTable(child, kidNumber));
+                    foreach (var element in WordTableBuilder.BuildChildTable(child, kidNumber))
+                        tokenParagraph.InsertBeforeSelf(element);
                     kidNumber++;
                 }
 
@@ -518,8 +520,8 @@ namespace Tipstaff.Controllers
 
             if (respondents != null)
                 foreach (var resp in respondents)
-                    foreach (var table in WordTableBuilder.BuildRespondentTables(resp))
-                        tokenParagraph.InsertBeforeSelf(table);
+                    foreach (var element in WordTableBuilder.BuildRespondentTables(resp))
+                        tokenParagraph.InsertBeforeSelf(element);
 
             tokenParagraph.Remove();
         }
