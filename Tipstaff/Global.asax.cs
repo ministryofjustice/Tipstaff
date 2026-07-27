@@ -203,7 +203,7 @@ namespace Tipstaff
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<TipstaffDB, Migrations.Configuration>()); 
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<null>()); 
             ServiceLayer.UnitOfWorkHelper.CurrentDataStore = new HttpContextDataStore();
 
             string appYear = ConfigurationManager.AppSettings["AppYear"];
