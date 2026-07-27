@@ -52,7 +52,6 @@ namespace Tipstaff.Models
         public string templateName { get; set; }
         //[Required]
         //public string templateMHT { get; set; }
-        public string templateXML { get; set; }
         public byte[] templateDOTX { get; set; }
         [Display(Name="Is addressee required?")]
         public bool addresseerequired { get; set; }
