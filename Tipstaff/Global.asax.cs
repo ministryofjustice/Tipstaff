@@ -237,12 +237,8 @@ namespace Tipstaff
         {
             var identity = HttpContext.Current.User?.Identity;
 
-            // _cloudWatchLogger.LogInfo("Application_PostAuthenticateRequest <" + identity + ">");
-
             if (identity != null && identity.IsAuthenticated)
             {
-                // _cloudWatchLogger.LogInfo("Application_PostAuthenticateRequest: Authenticated>");
-
                 var principal = new Tipstaff.CPrincipal(identity);
 
                 HttpContext.Current.User = principal;
