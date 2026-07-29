@@ -43,7 +43,7 @@ namespace Tipstaff.Controllers
                 }
                 //Get Template from templateID
                 Template template = db.Templates.Find(templateID);
-                if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}",templateID));
+                ValidateTemplate(template, templateID);
 
                 //set fileOutput details
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
@@ -98,7 +98,7 @@ namespace Tipstaff.Controllers
 
                 //Get Template from templateID
                 Template template = db.Templates.Find(templateID);
-                if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}",templateID));
+                ValidateTemplate(template, templateID);
 
                 //set fileOutput details
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
@@ -143,7 +143,7 @@ namespace Tipstaff.Controllers
 
                 //Get Template from templateID
                 Template template = db.Templates.Find(templateID);
-                if (template == null) throw new FileLoadException(string.Format("No database record found for template reference {0}", templateID));
+                ValidateTemplate(template, templateID);
 
                 //set fileOutput details
                 WordFile fileOutput = new WordFile(tipstaffRecord, Server.MapPath("~/Documents/"), template);
@@ -169,6 +169,14 @@ namespace Tipstaff.Controllers
                 TempData["ErrorModel"] = model;
                 return RedirectToAction("IndexByModel", "Error", model ?? null);
             }
+        }
+
+        private static void ValidateTemplate(Template template, int templateID)
+        {
+            if (template == null)
+                throw new FileLoadException(string.Format("No database record found for template reference {0}", templateID));
+            if (template.templateDOTX == null || template.templateDOTX.Length == 0)
+                throw new FileLoadException(string.Format("Template '{0}' (reference {1}) has no .dotx file uploaded", template.templateName, templateID));
         }
 
         private Dictionary<string, string> BuildPlaceholderFields(Template template, TipstaffRecord tipstaffRecord, Solicitor solicitor, Applicant applicant)
