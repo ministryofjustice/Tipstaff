@@ -24,6 +24,25 @@ namespace Tipstaff
             return new DateTime(dt.Year, 1, 1);
         }
     }
+
+    /// <summary>
+    /// Current UK local time (GMT/BST). The hosting container's clock is UTC, so DateTime.Now and
+    /// DateTime.Today run an hour behind during British Summer Time - use these instead.
+    /// </summary>
+    public static class UkTime
+    {
+        private static readonly TimeZoneInfo UkTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
+
+        public static DateTime Now
+        {
+            get { return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, UkTimeZone); }
+        }
+
+        public static DateTime Today
+        {
+            get { return Now.Date; }
+        }
+    }
 }
 
 namespace Tipstaff.Helpers
