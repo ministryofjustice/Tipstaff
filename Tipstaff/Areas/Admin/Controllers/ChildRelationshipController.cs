@@ -111,7 +111,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         {            
             ChildRelationship childrelationship = db.ChildRelationships.Find(id);
             childrelationship.active = false;
-            childrelationship.deactivated = DateTime.Now;
+            childrelationship.deactivated = UkTime.Now;
             childrelationship.deactivatedBy = User.Identity.Name;
             db.Entry(childrelationship).State = EntityState.Modified;
             db.SaveChanges();

@@ -125,7 +125,7 @@ namespace Tipstaff.Controllers
         {
             User user = db.GetUserByLoginName(User.Identity.Name.Split('\\').Last());
             model.document.createdBy = user.DisplayName;
-            model.document.createdOn = DateTime.Now;
+            model.document.createdOn = UkTime.Now;
             model.document.tipstaffRecordID = model.tipstaffRecordID;
             if (model.uploadFile != null)
             {

@@ -126,7 +126,7 @@ namespace Tipstaff
 
         public override bool IsValid(object value)
         {
-            if (value == null || (DateTime)value > DateTime.Now)
+            if (value == null || (DateTime)value > UkTime.Now)
                 return false;
 
             return true;
@@ -150,7 +150,7 @@ namespace Tipstaff
         {
             DateTime? dateValue = (DateTime?)value;
 
-            if (dateValue.HasValue && (DateTime)dateValue > DateTime.Now) return false;
+            if (dateValue.HasValue && (DateTime)dateValue > UkTime.Now) return false;
 
             return true;
         }
@@ -171,7 +171,7 @@ namespace Tipstaff
 
         public override bool IsValid(object value)
         {
-            if (value == null || (DateTime)value < DateTime.Now)
+            if (value == null || (DateTime)value < UkTime.Now)
                 return false;
 
             return true;

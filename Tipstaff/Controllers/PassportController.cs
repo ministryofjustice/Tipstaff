@@ -48,7 +48,7 @@ namespace Tipstaff.Controllers
         {
             User user = db.GetUserByLoginName(User.Identity.Name.Split('\\').Last());
             model.passport.createdBy = user.DisplayName;
-            model.passport.createdOn = DateTime.Now;
+            model.passport.createdOn = UkTime.Now;
             model.passport.tipstaffRecordID = model.tipstaffRecordID;
             if (model.uploadFile != null)
             {

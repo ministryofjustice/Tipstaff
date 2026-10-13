@@ -25,8 +25,8 @@ namespace Tipstaff.Controllers
                 return RedirectToAction("ClosedFile", "Error");
             }
             model.CaseReview.tipstaffRecordID = id;
-            model.CaseReview.reviewDate = DateTime.Today;
-            model.CaseReview.nextReviewDate = DateTime.Today.AddMonths(1);
+            model.CaseReview.reviewDate = UkTime.Today;
+            model.CaseReview.nextReviewDate = UkTime.Today.AddMonths(1);
             return View(model);
         }
         [HttpPost]
@@ -107,10 +107,11 @@ namespace Tipstaff.Controllers
         public PartialViewResult Outstanding()
         {
             OutstandingCaseReviewViewModel model = new OutstandingCaseReviewViewModel();
-            DateTime WeekAway = DateTime.Today.AddDays(7);
-            model.DueWithinWeekCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate <= WeekAway && w.nextReviewDate > DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
-            model.OverdueCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate < DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y=>y.tipstaffRecordID).ToList();
-            model.DueTodayCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate == DateTime.Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+            DateTime Today = UkTime.Today;
+            DateTime WeekAway = Today.AddDays(7);
+            model.DueWithinWeekCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate <= WeekAway && w.nextReviewDate > Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
+            model.OverdueCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate < Today).OrderBy(w => w.nextReviewDate).ThenBy(y=>y.tipstaffRecordID).ToList();
+            model.DueTodayCaseReviews = db.TipstaffRecord.Where(w => w.result==null && w.nextReviewDate == Today).OrderBy(w => w.nextReviewDate).ThenBy(y => y.tipstaffRecordID).ToList();
             return PartialView("_OutstandingCaseReviews",model);
         }
         public PartialViewResult ListCaseReviewsByRecord(int id, int? page)

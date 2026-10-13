@@ -49,7 +49,7 @@
     Pick a pre-set report:
     <span style="float:left;">
         @Ajax.ActionLink("OPT for Current Week", "OPTReport"
-                , new { period = Tipstaff.Models.GraphPeriod.week, chosenDate = DateTime.Today }
+                , new { period = Tipstaff.Models.GraphPeriod.week, chosenDate = UkTime.Today }
                 , new AjaxOptions
                     {
                         UpdateTargetId = "ShowOPTData"
@@ -58,7 +58,7 @@
                     })
         <div style="padding-top:.5em;">
             @Ajax.ActionLink("OPT for current Month", "OPTReport"
-                    , new { period = Tipstaff.Models.GraphPeriod.month, chosenDate = DateTime.Today }
+                    , new { period = Tipstaff.Models.GraphPeriod.month, chosenDate = UkTime.Today }
                     , new AjaxOptions
                         {
                             UpdateTargetId = "ShowOPTData"
