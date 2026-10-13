@@ -13,7 +13,7 @@ namespace Tipstaff
     {
         public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
         {
-            int diff = startOfWeek - dt.DayOfWeek; return dt.AddDays(diff).Date;
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7; return dt.AddDays(-diff).Date;
         }
         public static DateTime StartOfMonth(this DateTime dt)
         {
