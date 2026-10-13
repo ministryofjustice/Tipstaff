@@ -170,7 +170,7 @@ namespace Tipstaff.Controllers
             ViewBag.resultID = new SelectList(db.Results.Where(x => x.active == true), "resultID", "Detail");
             ViewBag.caseStatusID = new SelectList(db.CaseStatuses.Where(x => x.active == true), "caseStatusID", "Detail");
             Warrant model = new Warrant();
-            model.nextReviewDate = DateTime.Today.AddMonths(1);
+            model.nextReviewDate = UkTime.Today.AddMonths(1);
             System.Security.Principal.IIdentity userIdentity = User.Identity;
             Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
             model.createdBy = thisUser.User.DisplayName;
@@ -195,7 +195,7 @@ namespace Tipstaff.Controllers
             }
             else
             {
-                warrant.createdOn = DateTime.Now;
+                warrant.createdOn = UkTime.Now;
                 if (ModelState.IsValid)
                 {
                     db.Warrants.Add(warrant);
@@ -274,7 +274,7 @@ namespace Tipstaff.Controllers
                 try
                 {
                     model.tipstaffRecord = db.TipstaffRecord.Find(model.tipstaffRecordID);
-                    model.tipstaffRecord.resultDate = DateTime.Now;
+                    model.tipstaffRecord.resultDate = UkTime.Now;
                     model.tipstaffRecord.DateExecuted = model.DateExecuted;
                     model.tipstaffRecord.resultID = model.resultID;
                     model.tipstaffRecord.resultEnteredBy = User.Identity.Name;

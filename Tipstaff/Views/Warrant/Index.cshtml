@@ -138,7 +138,7 @@
         <td style="width:14em";>@Html.DisplayFor(modelItem => item.RespondentName)</td>
         <td>@if (item.resultID == null)
             { 
-            <span class="@((item.nextReviewDate <= DateTime.Today) ? "alert" : "")">@Html.DisplayFor(modelItem => item.nextReviewDate)</span>
+            <span class="@((item.nextReviewDate <= UkTime.Today) ? "alert" : "")">@Html.DisplayFor(modelItem => item.nextReviewDate)</span>
             }
             else
             {

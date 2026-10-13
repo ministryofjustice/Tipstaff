@@ -44,9 +44,7 @@ namespace Tipstaff.Models
         {
             get
             {
-                var ukTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
-                var ukTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, ukTimeZone);
-                return string.Format("{0} by {1}", ukTime.ToString("d MMM yy @ HH:mm"), createdBy);
+                return string.Format("{0} by {1}", createdOn.ToString("d MMM yy @ HH:mm"), createdBy);
             }
         }
     }

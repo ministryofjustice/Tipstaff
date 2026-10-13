@@ -191,8 +191,7 @@ namespace Tipstaff.Controllers
 
         private Dictionary<string, string> BuildPlaceholderFields(Template template, TipstaffRecord tipstaffRecord, Solicitor solicitor, Applicant applicant)
         {
-            var ukTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
-            var ukTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, ukTimeZone);
+            var ukTime = UkTime.Now;
 
             var placeholderFields = new Dictionary<string, string>
             {
@@ -403,7 +402,7 @@ namespace Tipstaff.Controllers
                 documentStatusID = 1, //generated
                 documentReference = template.templateName,
                 templateID = template.templateID,
-                createdOn = DateTime.Now,
+                createdOn = UkTime.Now,
                 createdBy = User.Identity.Name
             };
         }

@@ -93,7 +93,7 @@ namespace Tipstaff.Models
         public override int SaveChanges()
         {
             //int result = -1;
-            DateTime eventDateTime = DateTime.Now;
+            DateTime eventDateTime = UkTime.Now;
             //string eventUser = HttpContext.Current.User.Identity.Name;
             User u = GetUserByLoginName(HttpContext.Current.User.Identity.Name.Split('\\').Last(), false);
             string eventUser = u.DisplayName;
@@ -111,7 +111,7 @@ namespace Tipstaff.Models
             foreach (ObjectStateEntry entry in objectStateEntryList)
             {
                 AuditEvent auditRecord = new AuditEvent();
-                auditRecord.EventDate = DateTime.Now;
+                auditRecord.EventDate = UkTime.Now;
                 auditRecord.UserID = eventUser;
                 if (entry.Entity == null) continue;
                 string objModel = entry.Entity.ToString();
@@ -343,7 +343,7 @@ namespace Tipstaff.Models
                     throw new Exception(string.Format("No users match {0}", loginName));
                 case 1:
                     User usr = users.SingleOrDefault();
-                    usr.LastActive = DateTime.Now;
+                    usr.LastActive = UkTime.Now;
                     if (save)
                        SaveChanges();
                     return usr;

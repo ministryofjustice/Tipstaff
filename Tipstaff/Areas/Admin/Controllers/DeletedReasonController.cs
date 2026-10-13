@@ -119,7 +119,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         {
             DeletedReason model = db.DeletedReasons.Find(id);
             model.active = false;
-            model.deactivated = DateTime.Now;
+            model.deactivated = UkTime.Now;
             model.deactivatedBy = User.Identity.Name;
             db.Entry(model).State = EntityState.Modified;
             db.SaveChanges();
