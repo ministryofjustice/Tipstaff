@@ -216,6 +216,7 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Create(ChildAbduction childabduction)
         {
+            childabduction.createdOn = UkTime.Now;
             if (ModelState.IsValid)
             {
                 db.TipstaffRecord.Add(childabduction);
