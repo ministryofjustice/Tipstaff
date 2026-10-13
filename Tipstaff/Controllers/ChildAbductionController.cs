@@ -203,7 +203,7 @@ namespace Tipstaff.Controllers
             ViewBag.childAbductionCaseStatusList = new SelectList(db.CaseStatuses.Where(x => x.active == true).OrderBy(x => x.sequence), "caseStatusID", "Detail");
             ViewBag.caOrderTypeID = new SelectList(db.CAOrderTypes.Where(x => x.active == true), "caOrderTypeID", "Detail");
             ChildAbduction model = new ChildAbduction();
-            model.nextReviewDate = DateTime.Today.AddMonths(1);
+            model.nextReviewDate = UkTime.Today.AddMonths(1);
             System.Security.Principal.IIdentity userIdentity = User.Identity;
             Tipstaff.CPrincipal thisUser = new CPrincipal(userIdentity);
             model.createdBy = thisUser.User.DisplayName;
@@ -216,6 +216,7 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Create(ChildAbduction childabduction)
         {
+            childabduction.createdOn = UkTime.Now;
             if (ModelState.IsValid)
             {
                 db.TipstaffRecord.Add(childabduction);
@@ -291,8 +292,8 @@ namespace Tipstaff.Controllers
                 try
                 {
                     model.tipstaffRecord = db.TipstaffRecord.Find(model.tipstaffRecordID);
-                    model.tipstaffRecord.nextReviewDate = DateTime.Today.AddDays(1);
-                    model.tipstaffRecord.resultDate = DateTime.Now;
+                    model.tipstaffRecord.nextReviewDate = UkTime.Today.AddDays(1);
+                    model.tipstaffRecord.resultDate = UkTime.Now;
                     model.tipstaffRecord.DateExecuted = model.DateExecuted;
                     model.tipstaffRecord.resultID = model.resultID;
                     model.tipstaffRecord.resultEnteredBy = User.Identity.Name;

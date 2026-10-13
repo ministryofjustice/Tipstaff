@@ -55,7 +55,7 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
     <ul class="recordMenu-tabs">
         <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Case Review", "Add Case Review", "Create", "CaseReview", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
         <li>
-            @if (Model.nextReviewDate >= DateTime.Today)
+            @if (Model.nextReviewDate >= UkTime.Today)
             {
                 @Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend Warrant", "Amend Warrant", "Edit", "Warrant", new { id = Model.tipstaffRecordID }, null, null, "createButton")
             }
@@ -113,7 +113,7 @@ else if (Model.resultID == null && Model.caseStatus.sequence <= 3)
                 @Html.LabelFor(model => model.nextReviewDate)
             }
         </div>
-        <div class="display-field details-wrapround @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
+        <div class="display-field details-wrapround @((Model.nextReviewDate <= UkTime.Today) ? "alert" : "")">
             @Html.DisplayFor(model => model.nextReviewDate)
         </div>
     }

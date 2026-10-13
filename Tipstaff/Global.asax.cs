@@ -209,9 +209,9 @@ namespace Tipstaff
             ServiceLayer.UnitOfWorkHelper.CurrentDataStore = new HttpContextDataStore();
 
             string appYear = ConfigurationManager.AppSettings["AppYear"];
-            if (DateTime.Now.Year.ToString() != appYear.ToString())
+            if (UkTime.Now.Year.ToString() != appYear.ToString())
             {
-                ConfigurationManager.AppSettings["AppYear"] = appYear += " - " + DateTime.Now.Year.ToString();
+                ConfigurationManager.AppSettings["AppYear"] = appYear += " - " + UkTime.Now.Year.ToString();
             }
             BootstrapContainer();
 

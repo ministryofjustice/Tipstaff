@@ -146,7 +146,7 @@ namespace Tipstaff.Models
                 if ((this.dateOfBirth.Equals(new DateTime(1901,1,1))) || (this.dateOfBirth==null)) {
                     return "Unknown";
                 }
-                int now = int.Parse(DateTime.Today.ToString("yyyyMMdd"));
+                int now = int.Parse(UkTime.Today.ToString("yyyyMMdd"));
                 int dob = int.Parse(((DateTime)dateOfBirth).ToString("yyyyMMdd"));
                 string dif = (now - dob).ToString();
                 int age = 0;

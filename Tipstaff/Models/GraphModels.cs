@@ -26,11 +26,11 @@ namespace Tipstaff.Models
 
         public DeletionsForLastYear()
         {
-            startDate = DateTime.Today.StartOfMonth().AddMonths(-11);
+            startDate = UkTime.Today.StartOfMonth().AddMonths(-11);
 
             for (int i = 11; i >= 0; i--)
             {
-                DateTime dLoop = DateTime.Today.AddMonths(-i);
+                DateTime dLoop = UkTime.Today.AddMonths(-i);
                 int? data = db.AuditEvents.Where(a => a.EventDate.Month == dLoop.Month && a.EventDate.Year == dLoop.Year && (a.idAuditEventDescription == 8 || a.idAuditEventDescription == 12)).Count();
                 if (data!=null && data == 0)
                 {
@@ -76,11 +76,11 @@ namespace Tipstaff.Models
         private DateTime startDate;
         public IssuesForLastYear()
         {
-            startDate = DateTime.Today.StartOfMonth().AddMonths(-11);
+            startDate = UkTime.Today.StartOfMonth().AddMonths(-11);
 
             for (int i = 11; i >= 0; i--)
             {
-                DateTime dLoop = DateTime.Today.AddMonths(-i);
+                DateTime dLoop = UkTime.Today.AddMonths(-i);
                 int? data =  db.TipstaffRecord.Where(t => t.createdOn.Month == dLoop.Month && t.createdOn.Year==dLoop.Year).Count();
                 if (data != null && data == 0)
                 {
@@ -129,17 +129,17 @@ namespace Tipstaff.Models
             {
                 case GraphPeriod.week:
                     prefix = "w/c";
-                    startDate = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+                    startDate = UkTime.Now.StartOfWeek(DayOfWeek.Monday);
                     displayDate = startDate.ToString("d MMM yyyy");
                     break;
                 case GraphPeriod.month:
                     prefix = "";
-                    startDate = DateTime.Today.StartOfMonth();
+                    startDate = UkTime.Today.StartOfMonth();
                     displayDate = startDate.ToString("MMMM yyyy");
                     break;
                 case GraphPeriod.year:
                     prefix = "";
-                    startDate = Convert.ToDateTime(string.Format("1/1/{0}", DateTime.Now.Year.ToString()));
+                    startDate = Convert.ToDateTime(string.Format("1/1/{0}", UkTime.Now.Year.ToString()));
                     displayDate = startDate.ToString("yyyy");
                     break;
                 default:

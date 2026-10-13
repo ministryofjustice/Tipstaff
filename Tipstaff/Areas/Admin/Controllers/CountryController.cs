@@ -139,7 +139,7 @@ namespace Tipstaff.Areas.Admin.Controllers
         {            
             Country country = db.IssuingCountries.Find(id);
             country.active = false;
-            country.deactivated = DateTime.Now;
+            country.deactivated = UkTime.Now;
             country.deactivatedBy = User.Identity.Name;
             db.Entry(country).State = EntityState.Modified;
             db.SaveChanges();

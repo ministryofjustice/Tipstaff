@@ -23,7 +23,7 @@ namespace Tipstaff.Controllers
         [HttpGet]
         public ActionResult Create(int id)
         {
-            AttendanceNote AttendanceNote = new AttendanceNote(DateTime.Now);
+            AttendanceNote AttendanceNote = new AttendanceNote(UkTime.Now);
             ViewBag.AttendanceNoteCodes = db.AttendanceNoteCodes.Where(x => x.active == true).ToList();
             AttendanceNote.tipstaffRecord = db.TipstaffRecord.Find(id);
             AttendanceNote.tipstaffRecordID = id;
@@ -39,7 +39,7 @@ namespace Tipstaff.Controllers
         [HttpPost]
         public ActionResult Create(AttendanceNote AttendanceNote)
         {
-            AttendanceNote.callEnded = DateTime.Now;
+            AttendanceNote.callEnded = UkTime.Now;
             if (ModelState.IsValid)
             {
                 db.AttendanceNotes.Add(AttendanceNote);

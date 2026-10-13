@@ -45,7 +45,7 @@
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/phone_add.png"), "Add attendance note", "Add attendance note", "Create", "AttendanceNote", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add solicitor", "Add solictitor", "Select", "Solicitor", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
             <li>
-                @if (Model.nextReviewDate >= DateTime.Today)
+                @if (Model.nextReviewDate >= UkTime.Today)
                 {
                     @Html.ImageAndTextLink(Url.Content("~/Images/child_add.png"), "Add Child", "Add Child", "Create", "Child", new { id = Model.tipstaffRecordID }, null, null, "createButton")
                 }
@@ -63,7 +63,7 @@
         <ul class="recordMenu-tabs">
             <li>@Html.ImageAndTextLink(Url.Content("~/Images/add.png"), "Add Case Review", "Add Case Review", "Create", "CaseReview", new { id = Model.tipstaffRecordID }, null, null, "createButton")</li>
             <li>
-                @if (Model.nextReviewDate >= DateTime.Today)
+                @if (Model.nextReviewDate >= UkTime.Today)
                 {
                     @Html.ImageAndTextLink(Url.Content("~/Images/arrow_refresh.png"), "Amend Child Abduction", "Amend Child Abduction", "Edit", "ChildAbduction", new { id = Model.tipstaffRecordID }, null, null, "createButton")
                 }
@@ -128,7 +128,7 @@
                 @Html.LabelFor(model => model.nextReviewDate)
             }
         </div>
-        <div class="display-field details-wrapround @((Model.nextReviewDate <= DateTime.Today) ? "alert" : "")">
+        <div class="display-field details-wrapround @((Model.nextReviewDate <= UkTime.Today) ? "alert" : "")">
             @Html.DisplayFor(model => model.nextReviewDate)
         </div>
     }
